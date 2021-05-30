@@ -7,6 +7,8 @@ namespace TeethInc.Chantry.Core
 {
     public class Model : INotifyPropertyChanged
     {
+        private int m_resizeThreshold = 4;
+
         public Source Source { get; set; }
 
         public List<Filter> Filters { get; set; }
@@ -23,12 +25,24 @@ namespace TeethInc.Chantry.Core
 
         public Model()
         {
+            Source = new Source();
             Filters = new List<Filter>();
+            Mosaic = new Mosaic();
         }
 
         public Bitmap GetSourceImage()
         {
-            return Source.GetImage();
+            Bitmap sourceImage = Source.GetImage();
+            Size maximumSize = Mosaic.TargetSize * m_resizeThreshold;
+
+            float widthScaleFactor = (float)maximumSize.Width / sourceImage.Width;
+            float heightScaleFactor = (float)maximumSize.Height / sourceImage.Height;
+
+            float scaleFactor = Math.Min(widthScaleFactor, heightScaleFactor);
+
+            Size targetSize = new Size((int)(sourceImage.Width * scaleFactor), (int)(sourceImage.Height * scaleFactor));
+
+            return new Bitmap(sourceImage, targetSize);
         }
 
         public Bitmap GetFilteredImage()

@@ -11,6 +11,11 @@ namespace TeethInc.Chantry.Core
     {
         public bool Enabled { get; set; }
 
+        public Filter()
+        {
+            Enabled = true;
+        }
+
         public string Type
         {
             get { return this.GetType().Name; }
