@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace TeethInc.Chantry.Core
 {
@@ -36,20 +37,30 @@ namespace TeethInc.Chantry.Core
 
             Size targetSize = new Size((int)(sourceImage.Width * scaleFactor), (int)(sourceImage.Height * scaleFactor));
 
-            return new Bitmap(sourceImage, targetSize);
+            Bitmap scaledBitmap = new Bitmap(sourceImage, targetSize);
+
+            Bitmap ret = new Bitmap(targetSize.Width, targetSize.Height, PixelFormat.Format24bppRgb);
+
+            for (int x = 0; x < targetSize.Width; x++)
+            {
+                for (int y = 0; y < targetSize.Height; y++)
+                {
+                    ret.SetPixel(x, y, scaledBitmap.GetPixel(x, y));
+                }
+            }
+
+            return ret;
         }
-
-        public Bitmap GetFilteredImage()
+   
+        public Bitmap GetFilteredImage(Bitmap bitmap)
         {
-            var filteredImage = GetSourceImage();
-
             foreach (Filter filter in Filters)
             {
                 if (filter.Enabled)
-                    filteredImage = filter.GetFilteredImage(filteredImage);
+                    bitmap = filter.GetFilteredImage(bitmap);
             }
 
-            return filteredImage;
+            return bitmap;
         }
     }
 }

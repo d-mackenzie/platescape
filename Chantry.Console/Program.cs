@@ -18,6 +18,8 @@ namespace TeethInc.Chantry.Console
             model.Filters.Add(new GreyscaleFilter());
             model.Mosaic.TargetSize = new Size(32, 32);
 
+            Bitmap bitmap = model.GetSourceImage();
+
             System.Console.WriteLine("Delay...");
             Thread.Sleep(TimeSpan.FromMilliseconds(5000));
 
@@ -29,7 +31,7 @@ namespace TeethInc.Chantry.Console
 
             for (int i = 0; i < 20; i++)
             {
-                filteredImage = model.GetFilteredImage();
+                filteredImage = model.GetFilteredImage(bitmap);
             }
 
             System.Console.WriteLine($"Filtering took {sw.ElapsedMilliseconds}ms.");

@@ -37,7 +37,7 @@ namespace TeethInc.Chantry.Core.Filters
 
         public override Bitmap GetFilteredImage(Bitmap unfilteredImage)
         {
-            var filteredImage = new Bitmap(unfilteredImage);
+            var filteredImage = unfilteredImage.Clone() as Bitmap;
 
             filteredImage.ApplyFilter(GetGreyscalePixel);
 
