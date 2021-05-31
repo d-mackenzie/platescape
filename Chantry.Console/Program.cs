@@ -15,7 +15,10 @@ namespace TeethInc.Chantry.Console
             Model model = new Model();
 
             model.Source.Filename = @"C:\Users\Dave\Pictures\eric-avatar.jpg";
+            
+            model.Filters.Add(new BrightnessContrastFilter() { Brightness = 100 });
             model.Filters.Add(new GreyscaleFilter());
+            
             model.Mosaic.TargetSize = new Size(32, 32);
 
             Bitmap bitmap = model.GetSourceImage();
