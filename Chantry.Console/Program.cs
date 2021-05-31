@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Threading;
 using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Filters;
 
@@ -17,24 +18,26 @@ namespace TeethInc.Chantry.Console
             model.Filters.Add(new GreyscaleFilter());
             model.Mosaic.TargetSize = new Size(32, 32);
 
-            System.Console.WriteLine("Load image.");
-            model.SourceImage = model.GetSourceImage();
-
-            System.Console.ReadKey(true);
+            System.Console.WriteLine("Delay...");
+            Thread.Sleep(TimeSpan.FromMilliseconds(5000));
 
             System.Console.WriteLine("Filter image.");
-            
+
+            Bitmap filteredImage = null;
+
             var sw = Stopwatch.StartNew();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
-                model.FilteredImage = model.GetFilteredImage();
+                filteredImage = model.GetFilteredImage();
             }
 
             System.Console.WriteLine($"Filtering took {sw.ElapsedMilliseconds}ms.");
+            System.Console.WriteLine($"Avg. filter time = {sw.ElapsedMilliseconds / 20}ms.");
 
             System.Console.WriteLine("Save image.");
-            model.FilteredImage.Save(@"c:\temp\eric-avatar-filtered.png", ImageFormat.Png);
+
+            filteredImage.Save(@"c:\temp\eric-avatar-filtered.png", ImageFormat.Png);
 
             System.Console.WriteLine("Saved.");
             

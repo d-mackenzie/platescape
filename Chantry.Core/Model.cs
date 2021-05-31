@@ -7,19 +7,13 @@ namespace TeethInc.Chantry.Core
 {
     public class Model : INotifyPropertyChanged
     {
-        private int m_resizeThreshold = 4;
+        private int m_resizeThreshold = 6;
 
         public Source Source { get; set; }
 
         public List<Filter> Filters { get; set; }
 
         public Mosaic Mosaic { get; set; }
-
-        public Bitmap SourceImage { get; set; }
-
-        public Bitmap FilteredImage { get; set; }
-
-        public MosaicImage MosaicImage { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
