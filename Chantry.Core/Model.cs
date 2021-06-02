@@ -28,7 +28,7 @@ namespace TeethInc.Chantry.Core
         public Bitmap GetSourceImage()
         {
             Bitmap sourceImage = Source.GetImage();
-            Size maximumSize = Mosaic.TargetSize * m_resizeThreshold;
+            Size maximumSize = Mosaic.ElementExtent * m_resizeThreshold;
 
             float widthScaleFactor = (float)maximumSize.Width / sourceImage.Width;
             float heightScaleFactor = (float)maximumSize.Height / sourceImage.Height;

@@ -18,8 +18,10 @@ namespace TeethInc.Chantry.Console
             
             model.Filters.Add(new BrightnessContrastFilter() { Brightness = 100 });
             model.Filters.Add(new GreyscaleFilter());
-            
-            model.Mosaic.TargetSize = new Size(32, 32);
+
+            model.Mosaic.BaseplatePartNumber = 3811;
+            model.Mosaic.ElementPartNumber = 3024;
+            model.Mosaic.BaseplateExtent = new Size(1, 1);
 
             Bitmap bitmap = model.GetSourceImage();
 
