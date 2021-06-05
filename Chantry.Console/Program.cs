@@ -45,7 +45,7 @@ namespace TeethInc.Chantry.Console
             System.Console.WriteLine("Make mosaic.");
 
             sw.Restart();
-            LdrawColor[,] mosaic = mosaicService.GetMosaic(filteredImage, new AverageColor());
+            LdrawColor[,] mosaic = mosaicService.GetMosaic(filteredImage, new MostUsedColor());
             System.Console.WriteLine($"Mosaic took {sw.ElapsedMilliseconds}ms.\n");
 
             System.Console.WriteLine("Output:\n\n");
@@ -59,8 +59,9 @@ namespace TeethInc.Chantry.Console
 
                 System.Console.WriteLine();
             }
-            
-            System.Console.ReadKey(true);
+
+            while (System.Console.ReadKey(true).Key != ConsoleKey.Q)
+            { }
         }
     }
 }
