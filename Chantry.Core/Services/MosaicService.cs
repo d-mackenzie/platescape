@@ -4,11 +4,12 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.MosaicAlgorithms;
 using TeethInc.Chantry.Core.Services;
 
-namespace TeethInc.Chantry.Core
+namespace TeethInc.Chantry.Core.Services
 {
-    public class Mosaic
+    public class MosaicService
     {
         public int BaseplatePartNumber { get; set; }
 
@@ -16,7 +17,7 @@ namespace TeethInc.Chantry.Core
 
         public Size BaseplateExtent { get; set; }
 
-        public int[] LdrawColors { get; set; }
+        public LdrawColor[] AllowedColors { get; set; }
 
         public Size ElementExtent
         {
@@ -33,21 +34,19 @@ namespace TeethInc.Chantry.Core
 
         private LdrawService m_ldrawService;
 
-        public Mosaic()
+        public MosaicService()
         {
             m_ldrawService = new LdrawService();
         }
 
-        public Mosaic(LdrawService ldrawService)
+        public MosaicService(LdrawService ldrawService)
         {
             m_ldrawService = ldrawService;
         }
 
-
-
-        public int[,] GetMosaic(Bitmap sourceImage)
+        public LdrawColor[,] GetMosaic(Bitmap sourceImage, IMosaicAlgorithm mosaicAlgorithm)
         {
-            var ret = new int[ElementExtent.Width, ElementExtent.Height];
+            var ret = new LdrawColor[ElementExtent.Width, ElementExtent.Height];
 
             float scale = sourceImage.Width / ElementExtent.Width;
 
@@ -57,39 +56,7 @@ namespace TeethInc.Chantry.Core
                 {
                     Color[] colors = GetColorsInRegion(sourceImage, scale, new Point(x, y));
 
-                    // average the colors.
-
-                    double avgRed = colors.Average(x => x.R);
-                    double avgGreen = colors.Average(x => x.G);
-                    double avgBlue = colors.Average(x => x.B);
-
-                    Color avgColor = Color.FromArgb((int)avgRed, (int)avgGreen, (int)avgBlue);
-
-                    // find nearest ldraw color.
-
-                    int minDistance = 255;
-                    int closestColor = 0;
-
-                    foreach (int ldrawColor in LdrawColors)
-                    {
-                        // get color value.
-
-                        Color candidateColor = m_ldrawService.GetColor(ldrawColor).Color;
-
-                        // get distance.
-
-                        int distance = Math.Abs(avgColor.R - candidateColor.R) +
-                            Math.Abs(avgColor.G - candidateColor.G) +
-                            Math.Abs(avgColor.B - candidateColor.B);
-
-                        if (distance < minDistance)
-                        {
-                            closestColor = ldrawColor;
-                            minDistance = distance;
-                        }
-                    }
-
-                    ret[x, y] = closestColor;
+                    ret[x, y] = mosaicAlgorithm.GetColor(colors, AllowedColors);
                 }
             }
 

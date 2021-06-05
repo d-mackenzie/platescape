@@ -6,6 +6,9 @@ using System.Drawing.Imaging;
 using System.Threading;
 using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Filters;
+using TeethInc.Chantry.Core.MosaicAlgorithms;
+using TeethInc.Chantry.Core.Services;
+using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.Console
 {
@@ -13,32 +16,37 @@ namespace TeethInc.Chantry.Console
     {
         static void Main(string[] args)
         {
-            Model model = new Model();
+            LdrawService ldrawService = new LdrawService();
 
-            model.Source.Filename = @"C:\Users\Dave\Pictures\eric-avatar.jpg";
-            
-            model.Filters.Add(new GreyscaleFilter());
+            FilterService filterService = new FilterService(new FileSource(@"C:\Users\Dave\Pictures\eric-avatar.jpg"));
+            filterService.Filters.Add(new GreyscaleFilter());
 
-            model.Mosaic.BaseplatePartNumber = 3811;
-            model.Mosaic.ElementPartNumber = 3024;
-            model.Mosaic.BaseplateExtent = new Size(1, 1);
-            model.Mosaic.LdrawColors = new int[] { 0, 15, 71, 72 };
+            MosaicService mosaicService = new MosaicService(ldrawService);
 
-            Bitmap bitmap = model.GetSourceImage();
+            mosaicService.BaseplatePartNumber = 3811;
+            mosaicService.ElementPartNumber = 3024;
+            mosaicService.BaseplateExtent = new Size(1, 1);
+            mosaicService.AllowedColors = ldrawService.GetColors(new int[] { 0, 15, 71, 72 });
 
             System.Console.WriteLine("Filter image.");
-            Bitmap filteredImage = model.GetFilteredImage(bitmap);
+
+            var sw = Stopwatch.StartNew();
+            Bitmap filteredImage = filterService.GetFilteredImage();
+            System.Console.WriteLine($"Filter took {sw.ElapsedMilliseconds}ms.\n");
 
             Dictionary<int, string> map = new Dictionary<int, string>()
             {
-                { 0, "  " },
-                { 15, "%%" },
-                { 71, "//" },
-                { 72, ".." }
+                { 0, " " },
+                { 15, "\u2588" },
+                { 71, "\u2593" },
+                { 72, "\u2592" }
             };
 
             System.Console.WriteLine("Make mosaic.");
-            int[,] mosaic = model.Mosaic.GetMosaic(filteredImage);
+
+            sw.Restart();
+            LdrawColor[,] mosaic = mosaicService.GetMosaic(filteredImage, new AverageColor());
+            System.Console.WriteLine($"Mosaic took {sw.ElapsedMilliseconds}ms.\n");
 
             System.Console.WriteLine("Output:\n\n");
             
@@ -46,7 +54,7 @@ namespace TeethInc.Chantry.Console
             {
                 for (int x = 0; x < mosaic.GetUpperBound(0); x++)
                 {
-                    System.Console.Write(map[mosaic[x, y]]);
+                    System.Console.Write(map[mosaic[x, y].Number] + map[mosaic[x, y].Number]);
                 }
 
                 System.Console.WriteLine();

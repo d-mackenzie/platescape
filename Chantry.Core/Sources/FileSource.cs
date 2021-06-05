@@ -6,11 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeethInc.Chantry.Core
+namespace TeethInc.Chantry.Core.Sources
 {
-    public class Source
+    public class FileSource : ISource
     {
-        public string Filename { get; set; }
+        public string Filename { get; }
+
+        public FileSource(string filename)
+        {
+            Filename = filename;
+        }
 
         public Bitmap GetImage()
         {
