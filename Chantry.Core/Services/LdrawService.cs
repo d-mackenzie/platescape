@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeethInc.Chantry.Core
+namespace TeethInc.Chantry.Core.Services
 {
-    public static class Ldraw
+    public class LdrawService
     {
-        public static List<LdrawColor> Colors { get; }
+        public List<LdrawColor> Colors { get; }
 
-        public static List<LdrawPart> Baseplates { get; }
+        public List<LdrawPart> Baseplates { get; }
 
-        public static List<LdrawPart> Elements { get; }
+        public List<LdrawPart> Elements { get; }
 
-        static Ldraw()
+        public LdrawService()
         {
             Colors = new List<LdrawColor>()
             {
@@ -67,5 +67,11 @@ namespace TeethInc.Chantry.Core
                 new LdrawPart(3004, "Brick 2 x 2", new Size(2, 2))
             };
         }
+
+        public LdrawColor GetColor(int ldrawColorNumber)
+        {
+            return Colors.FirstOrDefault(x => x.Number == ldrawColorNumber);
+        }
+
     }
 }

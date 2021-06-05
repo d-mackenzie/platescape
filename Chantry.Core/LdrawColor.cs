@@ -11,16 +11,15 @@ namespace TeethInc.Chantry.Core
     {
         public int Number { get; }
         public string Name { get; }
-        public System.Drawing.Color Rgb { get; }
+        public System.Drawing.Color Color { get; }
 
         public LdrawColor(int number, string name, string rgbHex)
         {
             Number = number;
             Name = name;
 
-            int rgba = Int32.Parse("0x" + rgbHex);
-            Rgb = System.Drawing.Color.FromArgb(rgba);
+            int rgba = Int32.Parse(rgbHex, System.Globalization.NumberStyles.HexNumber);
+            Color = System.Drawing.Color.FromArgb(rgba);
         }
-
     }
 }

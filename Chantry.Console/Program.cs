@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -16,37 +17,40 @@ namespace TeethInc.Chantry.Console
 
             model.Source.Filename = @"C:\Users\Dave\Pictures\eric-avatar.jpg";
             
-            model.Filters.Add(new BrightnessContrastFilter() { Brightness = 100 });
             model.Filters.Add(new GreyscaleFilter());
 
             model.Mosaic.BaseplatePartNumber = 3811;
             model.Mosaic.ElementPartNumber = 3024;
             model.Mosaic.BaseplateExtent = new Size(1, 1);
+            model.Mosaic.LdrawColors = new int[] { 0, 15, 71, 72 };
 
             Bitmap bitmap = model.GetSourceImage();
 
-            System.Console.WriteLine("Delay...");
-            Thread.Sleep(TimeSpan.FromMilliseconds(5000));
-
             System.Console.WriteLine("Filter image.");
+            Bitmap filteredImage = model.GetFilteredImage(bitmap);
 
-            Bitmap filteredImage = null;
-
-            var sw = Stopwatch.StartNew();
-
-            for (int i = 0; i < 20; i++)
+            Dictionary<int, string> map = new Dictionary<int, string>()
             {
-                filteredImage = model.GetFilteredImage(bitmap);
+                { 0, "  " },
+                { 15, "%%" },
+                { 71, "//" },
+                { 72, ".." }
+            };
+
+            System.Console.WriteLine("Make mosaic.");
+            int[,] mosaic = model.Mosaic.GetMosaic(filteredImage);
+
+            System.Console.WriteLine("Output:\n\n");
+            
+            for (int y = 0; y < mosaic.GetUpperBound(1); y++)
+            {
+                for (int x = 0; x < mosaic.GetUpperBound(0); x++)
+                {
+                    System.Console.Write(map[mosaic[x, y]]);
+                }
+
+                System.Console.WriteLine();
             }
-
-            System.Console.WriteLine($"Filtering took {sw.ElapsedMilliseconds}ms.");
-            System.Console.WriteLine($"Avg. filter time = {sw.ElapsedMilliseconds / 20}ms.");
-
-            System.Console.WriteLine("Save image.");
-
-            filteredImage.Save(@"c:\temp\eric-avatar-filtered.png", ImageFormat.Png);
-
-            System.Console.WriteLine("Saved.");
             
             System.Console.ReadKey(true);
         }
