@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,6 +77,26 @@ namespace TeethInc.Chantry.Core.Services
         public IEnumerable<LdColor> GetColors(int[] ldrawColorNumbers)
         {
             return m_colors.Where(x => ldrawColorNumbers.Contains(x.Number));
+        }
+
+        public IEnumerable<string> GetLdrawFile(Mosaic mosaic)
+        {
+            var ret = new List<string>();
+
+            ret.Add("0 Name: Mosaic");
+            ret.Add("0 Author: Chantry");
+            ret.Add("0 ROTATION CENTER 0 0 0 1 \"Custom\"");
+            ret.Add("0 ROTATION CONFIG 0 0");
+
+            for (int x = 0; x < mosaic.Colors.GetUpperBound(0); x++)
+            {
+                for (int y = 0; y < mosaic.Colors.GetUpperBound(1); y++)
+                {
+                    ret.Add($"1 {mosaic.Colors[x, y].Number} {x * 20} 0 {y * -20} 1 0 0 0 1 0 0 0 1 {mosaic.Part.Number}.dat");
+                }
+            }
+
+            return ret;
         }
     }
 }

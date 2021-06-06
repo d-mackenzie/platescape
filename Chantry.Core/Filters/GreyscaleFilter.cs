@@ -22,7 +22,6 @@ namespace TeethInc.Chantry.Core.Filters
             m_blue = GetCalculatedArray(0.07f);
         }
 
-
         private byte[] GetCalculatedArray(float factor)
         {
             var ret = new byte[256];
@@ -38,9 +37,7 @@ namespace TeethInc.Chantry.Core.Filters
         public override Bitmap GetFilteredImage(Bitmap unfilteredImage)
         {
             var filteredImage = unfilteredImage.Clone() as Bitmap;
-
             filteredImage.ApplyFilter(GetGreyscalePixel);
-
             return filteredImage;
         }
 

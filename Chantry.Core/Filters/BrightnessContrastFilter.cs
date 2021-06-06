@@ -24,10 +24,29 @@ namespace TeethInc.Chantry.Core.Filters
 
         private Color GetAdjustedPixel(Color unfilteredPixel)
         {
+            int red = unfilteredPixel.R;
+            int green = unfilteredPixel.G;
+            int blue = unfilteredPixel.B;
+
+
+            // brightness.
+
+            red += Brightness;
+            green += Brightness;
+            blue += Brightness;
+
+            // contrast.
+
+            float factor = 259f * (Contrast + 255f) / (255f * (259f - Contrast));
+
+            red = (int)(factor * (red - 128) + 128);
+            green = (int)(factor * (green - 128) + 128);
+            blue = (int)(factor * (blue - 128) + 128);
+
             return Color.FromArgb(
-                Math.Clamp(unfilteredPixel.R + Brightness, 0, 255),
-                Math.Clamp(unfilteredPixel.G + Brightness, 0, 255),
-                Math.Clamp(unfilteredPixel.B + Brightness, 0, 255));
+                Math.Clamp(red, 0, 255),
+                Math.Clamp(green, 0, 255),
+                Math.Clamp(blue, 0, 255));
         }
     }
 }
