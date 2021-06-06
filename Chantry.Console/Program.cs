@@ -24,12 +24,12 @@ namespace TeethInc.Chantry.Console
             FilterService filterService = new FilterService(new FileSource(@"C:\Users\Dave\Pictures\eric-avatar.jpg"));
             filterService.TargetElementExtent = new Size(48, 48);
 
-            filterService.Filters.Add(
-                new BrightnessContrastFilter()
-                {
-                    Brightness = 50,
-                    Contrast = 50
-                });
+            //filterService.Filters.Add(
+            //    new BrightnessContrastFilter()
+            //    {
+            //        Brightness = 0,
+            //        Contrast = 0
+            //    });
 
             MosaicService mosaicService = new MosaicService();
 
@@ -59,7 +59,7 @@ namespace TeethInc.Chantry.Console
 
             var sw = Stopwatch.StartNew();
             Bitmap filteredImage = filterService.GetFilteredImage();
-            System.Console.WriteLine($"Filter took {sw.ElapsedMilliseconds}ms.\n");
+            System.Console.WriteLine($"Filter took {sw.ElapsedMilliseconds}ms.");
 
             Dictionary<int, string> map = new Dictionary<int, string>()
             {
@@ -69,15 +69,15 @@ namespace TeethInc.Chantry.Console
                 { 72, "\u2592" }
             };
 
-            System.Console.WriteLine("Save filtered image.");
+            System.Console.WriteLine("\nSave filtered image.");
 
             filteredImage.Save(@"c:\temp\eric-filtered.png", ImageFormat.Png);
 
-            System.Console.WriteLine("Make mosaic.");
+            System.Console.WriteLine("\nMake mosaic.");
 
             sw.Restart();
             Mosaic mosaic = mosaicService.GetMosaic(filteredImage, new FloydSteinberg());
-            System.Console.WriteLine($"Mosaic took {sw.ElapsedMilliseconds}ms.\n");
+            System.Console.WriteLine($"Mosaic took {sw.ElapsedMilliseconds}ms.");
 
             //System.Console.WriteLine("Output:\n\n");
             
@@ -98,9 +98,11 @@ namespace TeethInc.Chantry.Console
             //    System.Console.WriteLine();
             //}
 
-            System.Console.WriteLine("Save ldr.");
+            System.Console.WriteLine("\nSave ldr.");
 
-            File.WriteAllLines(@"c:\temp\eric-mosaic.ldr", ldrawService.GetLdrawFile(mosaic));
+            sw.Restart();
+            File.WriteAllLines(@"c:\temp\eric-mosaic.ldr", ldrawService.GetLdrawFile(mosaic).ToList());
+            System.Console.WriteLine($"Save took {sw.ElapsedMilliseconds}ms.\n");
 
             System.Console.WriteLine("Done.");
 

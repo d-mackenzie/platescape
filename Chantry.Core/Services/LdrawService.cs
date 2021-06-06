@@ -79,24 +79,21 @@ namespace TeethInc.Chantry.Core.Services
             return m_colors.Where(x => ldrawColorNumbers.Contains(x.Number));
         }
 
-        public IEnumerable<string> GetLdrawFile(Mosaic mosaic)
+        public LdFile GetLdrawFile(Mosaic mosaic)
         {
-            var ret = new List<string>();
+            var ldFile = new LdFile();
 
-            ret.Add("0 Name: Mosaic");
-            ret.Add("0 Author: Chantry");
-            ret.Add("0 ROTATION CENTER 0 0 0 1 \"Custom\"");
-            ret.Add("0 ROTATION CONFIG 0 0");
+            ldFile.Author = "Chantry";
 
             for (int x = 0; x < mosaic.Colors.GetUpperBound(0); x++)
             {
                 for (int y = 0; y < mosaic.Colors.GetUpperBound(1); y++)
                 {
-                    ret.Add($"1 {mosaic.Colors[x, y].Number} {x * 20} 0 {y * -20} 1 0 0 0 1 0 0 0 1 {mosaic.Part.Number}.dat");
+                    ldFile.Add(mosaic.Part, mosaic.Colors[x, y], x * 20, 0, y * -20);
                 }
             }
 
-            return ret;
+            return ldFile;
         }
     }
 }

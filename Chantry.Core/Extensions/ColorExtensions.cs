@@ -10,24 +10,24 @@ namespace TeethInc.Chantry.Core.Extensions
 {
     public static class ColorExtensions
     {
-        public static int DistanceFrom(this Color me, Color color)
+        public static double DistanceFrom(this Color me, Color color)
         {
             return
-                (int)(Math.Pow((me.R - color.R) * 0.30, 2) +
+                Math.Pow((me.R - color.R) * 0.30, 2) +
                 Math.Pow((me.G - color.G) * 0.59, 2) +
-                Math.Pow((me.B - color.B) * 0.11, 2));
+                Math.Pow((me.B - color.B) * 0.11, 2);
         }
 
         public static LdColor ClosestLdColor(this Color me, IEnumerable<LdColor> allowedColors)
         {
-            int minDistance = int.MaxValue;
+            double minDistance = double.MaxValue;
             LdColor closestColor = null;
 
             foreach (LdColor ldrawColor in allowedColors)
             {
                 // get distance.
 
-                int distance = me.DistanceFrom(ldrawColor.Color);
+                double distance = me.DistanceFrom(ldrawColor.Color);
 
                 if (distance < minDistance)
                 {
