@@ -12,6 +12,6 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
     {
         public void Reset();
 
-        public LdColor GetColor(Point point, Color[] sourceColors, LdColor[] allowedColors);
+        public LdColor GetColor(Point point, IEnumerable<Color> sourceColors, IEnumerable<LdColor> allowedColors);
     }
 }

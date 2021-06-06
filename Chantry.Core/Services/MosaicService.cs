@@ -14,25 +14,25 @@ namespace TeethInc.Chantry.Core.Services
     {
         public LdPart Baseplate { get; set; }
 
-        public LdPart Element { get; set; }
+        public LdPart Part { get; set; }
 
         public Size BaseplateExtent { get; set; }
 
-        public LdColor[] AllowedColors { get; set; }
+        public List<LdColor> AllowedColors { get; set; }
 
         public Size ElementExtent
         {
             get
             {
                 return new Size(
-                    Baseplate.Size.Width * BaseplateExtent.Width / Element.Size.Width,
-                    Baseplate.Size.Height * BaseplateExtent.Height / Element.Size.Height);
+                    Baseplate.Size.Width * BaseplateExtent.Width / Part.Size.Width,
+                    Baseplate.Size.Height * BaseplateExtent.Height / Part.Size.Height);
             }
         }
 
-        public LdColor[,] GetMosaic(Bitmap sourceImage, IMosaicAlgorithm mosaicAlgorithm)
+        public Mosaic GetMosaic(Bitmap sourceImage, IMosaicAlgorithm mosaicAlgorithm)
         {
-            var ret = new LdColor[ElementExtent.Width, ElementExtent.Height];
+            var colors = new LdColor[ElementExtent.Width, ElementExtent.Height];
 
             float scale = sourceImage.Width / ElementExtent.Width;
 
@@ -42,20 +42,19 @@ namespace TeethInc.Chantry.Core.Services
             {
                 for (int x = 0; x < ElementExtent.Width; x++)
                 {
-                    Color[] colors = GetColorsInRegion(sourceImage, scale, new Point(x, y));
+                    List<Color> sourceColors = GetColorsInRegion(sourceImage, scale, new Point(x, y)).ToList();
 
-                    ret[x, y] = mosaicAlgorithm.GetColor(new Point(x, y), colors, AllowedColors);
+                    colors[x, y] = mosaicAlgorithm.GetColor(new Point(x, y), sourceColors, AllowedColors);
                 }
             }
 
-            return ret;
+            return new Mosaic(Baseplate, Part, colors);
         }
 
-        private Color[] GetColorsInRegion(Bitmap sourceImage, float scale, Point offset)
+        private IEnumerable<Color> GetColorsInRegion(Bitmap sourceImage, float scale, Point offset)
         {
             int intScale = (int)scale;
-            var ret = new Color[intScale * intScale];
-            int index = 0;
+            var ret = new List<Color>();
 
             Point p = new Point((int)(scale * offset.X), (int)(scale * offset.Y));
 
@@ -63,7 +62,7 @@ namespace TeethInc.Chantry.Core.Services
             {
                 for (int y = p.Y; y < p.Y + intScale; y++)
                 {
-                    ret[index++] = sourceImage.GetPixel(x, y);
+                    ret.Add(sourceImage.GetPixel(x, y));
                 }
             }
 

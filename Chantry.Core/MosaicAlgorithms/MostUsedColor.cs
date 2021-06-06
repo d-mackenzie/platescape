@@ -11,9 +11,9 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
     public class MostUsedColor : IMosaicAlgorithm
     {
-        public LdColor GetColor(Point point, Color[] colors, LdColor[] allowedColors)
+        public LdColor GetColor(Point point, IEnumerable<Color> sourceColors, IEnumerable<LdColor> allowedColors)
         {
-            LdColor[] ldrawColors = colors.Select(x => x.ClosestLdColor(allowedColors)).ToArray();
+            List<LdColor> ldrawColors = sourceColors.Select(x => x.ClosestLdColor(allowedColors)).ToList();
 
             var grouping = ldrawColors.GroupBy(k => k.Number);
 

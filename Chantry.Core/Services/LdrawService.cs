@@ -73,9 +73,9 @@ namespace TeethInc.Chantry.Core.Services
             return m_parts.FirstOrDefault(x => x.Number == ldrawElementNumber);
         }
 
-        public LdColor[] GetColors(int[] ldrawColorNumbers)
+        public IEnumerable<LdColor> GetColors(int[] ldrawColorNumbers)
         {
-            return m_colors.Where(x => ldrawColorNumbers.Contains(x.Number)).ToArray();
+            return m_colors.Where(x => ldrawColorNumbers.Contains(x.Number));
         }
     }
 }

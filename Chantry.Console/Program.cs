@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
 using System.Threading;
 using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Filters;
@@ -26,9 +27,9 @@ namespace TeethInc.Chantry.Console
             MosaicService mosaicService = new MosaicService();
 
             mosaicService.Baseplate = ldrawService.GetPart(4186);
-            mosaicService.Element = ldrawService.GetPart(3024);
+            mosaicService.Part = ldrawService.GetPart(3024);
             mosaicService.BaseplateExtent = new Size(1, 1);
-            mosaicService.AllowedColors = ldrawService.GetColors(new int[] { 0, 15, 71, 72 });
+            mosaicService.AllowedColors = ldrawService.GetColors(new int[] { 0, 15, 71, 72 }).ToList();
 
             System.Console.WriteLine("Filter image.");
 
@@ -47,16 +48,16 @@ namespace TeethInc.Chantry.Console
             System.Console.WriteLine("Make mosaic.");
 
             sw.Restart();
-            LdColor[,] mosaic = mosaicService.GetMosaic(filteredImage, new FloydSteinberg());
+            Mosaic mosaic = mosaicService.GetMosaic(filteredImage, new FloydSteinberg());
             System.Console.WriteLine($"Mosaic took {sw.ElapsedMilliseconds}ms.\n");
 
             System.Console.WriteLine("Output:\n\n");
             
-            for (int y = 0; y < mosaic.GetUpperBound(1); y++)
+            for (int y = 0; y < mosaic.Colors.GetUpperBound(1); y++)
             {
-                for (int x = 0; x < mosaic.GetUpperBound(0); x++)
+                for (int x = 0; x < mosaic.Colors.GetUpperBound(0); x++)
                 {
-                    System.Console.Write(map[mosaic[x, y].Number] + map[mosaic[x, y].Number]);
+                    System.Console.Write(map[mosaic.Colors[x, y].Number] + map[mosaic.Colors[x, y].Number]);
                 }
 
                 System.Console.WriteLine();

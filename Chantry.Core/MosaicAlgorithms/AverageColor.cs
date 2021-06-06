@@ -11,7 +11,7 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
     public class AverageColor : IMosaicAlgorithm
     {
-        public LdColor GetColor(Point point, Color[] sourceColors, LdColor[] allowedColors)
+        public LdColor GetColor(Point point, IEnumerable<Color> sourceColors, IEnumerable<LdColor> allowedColors)
         {
             // average the colors.
 

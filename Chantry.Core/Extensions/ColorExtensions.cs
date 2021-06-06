@@ -18,12 +18,12 @@ namespace TeethInc.Chantry.Core.Extensions
                 Math.Abs(me.B - color.B);
         }
 
-        public static LdColor ClosestLdColor(this Color me, LdColor[] ldrawColors)
+        public static LdColor ClosestLdColor(this Color me, IEnumerable<LdColor> allowedColors)
         {
             int minDistance = int.MaxValue;
             LdColor closestColor = null;
 
-            foreach (LdColor ldrawColor in ldrawColors)
+            foreach (LdColor ldrawColor in allowedColors)
             {
                 // get distance.
 

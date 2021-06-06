@@ -18,7 +18,7 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             Reset();
         }
 
-        public LdColor GetColor(Point point, Color[] sourceColors, LdColor[] allowedColors)
+        public LdColor GetColor(Point point, IEnumerable<Color> sourceColors, IEnumerable<LdColor> allowedColors)
         {
             // get average pixel color.
 
