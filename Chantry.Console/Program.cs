@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.Threading;
 using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Filters;
+using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.MosaicAlgorithms;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
@@ -19,12 +20,13 @@ namespace TeethInc.Chantry.Console
             LdrawService ldrawService = new LdrawService();
 
             FilterService filterService = new FilterService(new FileSource(@"C:\Users\Dave\Pictures\eric-avatar.jpg"));
+            filterService.TargetElementExtent = new Size(48, 48);
             filterService.Filters.Add(new GreyscaleFilter());
 
-            MosaicService mosaicService = new MosaicService(ldrawService);
+            MosaicService mosaicService = new MosaicService();
 
-            mosaicService.BaseplatePartNumber = 3811;
-            mosaicService.ElementPartNumber = 3024;
+            mosaicService.Baseplate = ldrawService.GetPart(4186);
+            mosaicService.Element = ldrawService.GetPart(3024);
             mosaicService.BaseplateExtent = new Size(1, 1);
             mosaicService.AllowedColors = ldrawService.GetColors(new int[] { 0, 15, 71, 72 });
 
@@ -45,7 +47,7 @@ namespace TeethInc.Chantry.Console
             System.Console.WriteLine("Make mosaic.");
 
             sw.Restart();
-            LdrawColor[,] mosaic = mosaicService.GetMosaic(filteredImage, new MostUsedColor());
+            LdColor[,] mosaic = mosaicService.GetMosaic(filteredImage, new FloydSteinberg());
             System.Console.WriteLine($"Mosaic took {sw.ElapsedMilliseconds}ms.\n");
 
             System.Console.WriteLine("Output:\n\n");
@@ -60,7 +62,7 @@ namespace TeethInc.Chantry.Console
                 System.Console.WriteLine();
             }
 
-            while (System.Console.ReadKey(true).Key != ConsoleKey.Q)
+            while (System.Console.ReadKey(true).Key != ConsoleKey.Escape)
             { }
         }
     }

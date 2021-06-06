@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Extensions;
+using TeethInc.Chantry.Core.Ldraw;
 
 namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
     public class MostUsedColor : IMosaicAlgorithm
     {
-        public LdrawColor GetColor(Color[] colors, LdrawColor[] allowedColors)
+        public LdColor GetColor(Point point, Color[] colors, LdColor[] allowedColors)
         {
-            LdrawColor[] ldrawColors = colors.Select(x => x.ClosestLdrawColor(allowedColors)).ToArray();
+            LdColor[] ldrawColors = colors.Select(x => x.ClosestLdColor(allowedColors)).ToArray();
 
             var grouping = ldrawColors.GroupBy(k => k.Number);
 
@@ -22,5 +23,9 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
             return allowedColors.FirstOrDefault(x => x.Number == mostUsedColorNumber);
         }
+
+        public void Reset()
+        { }
+
     }
 }

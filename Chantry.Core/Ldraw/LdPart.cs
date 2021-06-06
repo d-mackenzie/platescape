@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeethInc.Chantry.Core
+namespace TeethInc.Chantry.Core.Ldraw
 {
-    public class LdrawPart
+    public class LdPart
     {
         public int Number { get; }
         public string Name { get; }
 
         public Size Size { get; }
 
-        public LdrawPart(int number, string name, Size size)
+        public LdPart(int number, string name, Size size)
         {
             Number = number;
             Name = name;

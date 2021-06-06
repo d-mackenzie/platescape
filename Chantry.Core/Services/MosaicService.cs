@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.MosaicAlgorithms;
 using TeethInc.Chantry.Core.Services;
 
@@ -11,52 +12,39 @@ namespace TeethInc.Chantry.Core.Services
 {
     public class MosaicService
     {
-        public int BaseplatePartNumber { get; set; }
+        public LdPart Baseplate { get; set; }
 
-        public int ElementPartNumber { get; set; }
+        public LdPart Element { get; set; }
 
         public Size BaseplateExtent { get; set; }
 
-        public LdrawColor[] AllowedColors { get; set; }
+        public LdColor[] AllowedColors { get; set; }
 
         public Size ElementExtent
         {
             get
             {
-                Size baseplateSize = m_ldrawService.Baseplates.FirstOrDefault(x => x.Number == BaseplatePartNumber).Size;
-                Size elementSize = m_ldrawService.Elements.FirstOrDefault(x => x.Number == ElementPartNumber).Size;
-
                 return new Size(
-                    baseplateSize.Width * BaseplateExtent.Width / elementSize.Width,
-                    baseplateSize.Height * BaseplateExtent.Height / elementSize.Height);
+                    Baseplate.Size.Width * BaseplateExtent.Width / Element.Size.Width,
+                    Baseplate.Size.Height * BaseplateExtent.Height / Element.Size.Height);
             }
         }
 
-        private LdrawService m_ldrawService;
-
-        public MosaicService()
+        public LdColor[,] GetMosaic(Bitmap sourceImage, IMosaicAlgorithm mosaicAlgorithm)
         {
-            m_ldrawService = new LdrawService();
-        }
-
-        public MosaicService(LdrawService ldrawService)
-        {
-            m_ldrawService = ldrawService;
-        }
-
-        public LdrawColor[,] GetMosaic(Bitmap sourceImage, IMosaicAlgorithm mosaicAlgorithm)
-        {
-            var ret = new LdrawColor[ElementExtent.Width, ElementExtent.Height];
+            var ret = new LdColor[ElementExtent.Width, ElementExtent.Height];
 
             float scale = sourceImage.Width / ElementExtent.Width;
 
-            for (int x = 0; x < ElementExtent.Width; x++)
+            mosaicAlgorithm.Reset();
+
+            for (int y = 0; y < ElementExtent.Height; y++)
             {
-                for (int y = 0; y < ElementExtent.Height; y++)
+                for (int x = 0; x < ElementExtent.Width; x++)
                 {
                     Color[] colors = GetColorsInRegion(sourceImage, scale, new Point(x, y));
 
-                    ret[x, y] = mosaicAlgorithm.GetColor(colors, AllowedColors);
+                    ret[x, y] = mosaicAlgorithm.GetColor(new Point(x, y), colors, AllowedColors);
                 }
             }
 
@@ -81,7 +69,5 @@ namespace TeethInc.Chantry.Core.Services
 
             return ret;
         }
-
-
     }
 }

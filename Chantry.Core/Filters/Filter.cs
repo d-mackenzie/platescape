@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeethInc.Chantry.Core
+namespace TeethInc.Chantry.Core.Filters
 {
     public abstract class Filter
     {

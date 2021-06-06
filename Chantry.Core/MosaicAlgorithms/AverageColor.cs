@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Extensions;
+using TeethInc.Chantry.Core.Ldraw;
 
 namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
     public class AverageColor : IMosaicAlgorithm
     {
-        public LdrawColor GetColor(Color[] sourceColors, LdrawColor[] allowedColors)
+        public LdColor GetColor(Point point, Color[] sourceColors, LdColor[] allowedColors)
         {
             // average the colors.
 
@@ -19,7 +20,10 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             double avgBlue = sourceColors.Average(x => x.B);
 
             Color avgColor = Color.FromArgb((int)avgRed, (int)avgGreen, (int)avgBlue);
-            return avgColor.ClosestLdrawColor(allowedColors);
+            return avgColor.ClosestLdColor(allowedColors);
         }
+
+        public void Reset()
+        { }
     }
 }

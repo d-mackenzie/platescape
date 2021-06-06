@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Ldraw;
 
 namespace TeethInc.Chantry.Core.Extensions
 {
@@ -17,12 +18,12 @@ namespace TeethInc.Chantry.Core.Extensions
                 Math.Abs(me.B - color.B);
         }
 
-        public static LdrawColor ClosestLdrawColor(this Color me, LdrawColor[] ldrawColors)
+        public static LdColor ClosestLdColor(this Color me, LdColor[] ldrawColors)
         {
-            int minDistance = 255;
-            LdrawColor closestColor = null;
+            int minDistance = int.MaxValue;
+            LdColor closestColor = null;
 
-            foreach (LdrawColor ldrawColor in ldrawColors)
+            foreach (LdColor ldrawColor in ldrawColors)
             {
                 // get distance.
 

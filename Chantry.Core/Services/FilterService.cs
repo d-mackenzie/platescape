@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.Core.Services
