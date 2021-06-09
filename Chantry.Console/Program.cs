@@ -17,23 +17,27 @@ namespace TeethInc.Chantry.Console
 {
     class Program
     {
+
+        private const int BASEPLATE_32 = 3811;
+        private const int BASEPLATE_48 = 4186;
+
         static void Main(string[] args)
         {
             LdrawService ldrawService = new LdrawService();
 
             FilterService filterService = new FilterService(new FileSource(@"C:\Users\Dave\Pictures\eric-avatar.jpg"));
-            filterService.TargetElementExtent = new Size(48, 48);
+            filterService.TargetElementExtent = new Size(32, 32);
 
-            //filterService.Filters.Add(
-            //    new BrightnessContrastFilter()
-            //    {
-            //        Brightness = 0,
-            //        Contrast = 0
-            //    });
+            filterService.Filters.Add(
+                new BrightnessContrastFilter()
+                {
+                    Brightness = 0,
+                    Contrast = 0
+                });
 
             MosaicService mosaicService = new MosaicService();
 
-            mosaicService.Baseplate = ldrawService.GetPart(4186);
+            mosaicService.Baseplate = ldrawService.GetPart(BASEPLATE_32);
             mosaicService.Part = ldrawService.GetPart(3024);
             mosaicService.BaseplateExtent = new Size(1, 1);
             mosaicService.AllowedColors = ldrawService.GetColors(

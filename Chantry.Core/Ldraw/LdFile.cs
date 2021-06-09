@@ -28,7 +28,6 @@ namespace TeethInc.Chantry.Core.Ldraw
             m_parts.Add(new LdPartLine(ldPart, ldColor, x, y, z));
         }
 
-
         public IEnumerable<string> ToList()
         {
             var ret = new List<string>();
@@ -48,8 +47,6 @@ namespace TeethInc.Chantry.Core.Ldraw
             return ret;
         }
 
-
-
         private class LdPartLine
         {
             public LdPart LdPart { get; }
@@ -68,8 +65,6 @@ namespace TeethInc.Chantry.Core.Ldraw
                 Y = y;
                 Z = z;
             }
-
-
         }
 
     }

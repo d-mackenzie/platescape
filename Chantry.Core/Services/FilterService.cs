@@ -5,14 +5,16 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Filters;
+using TeethInc.Chantry.Core.Helpers;
 using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.Core.Services
 {
     public class FilterService
     {
-        private const int RESIZE_THRESHOLD = 6;
+        private const int MINIMUM_SIZE = 192;
 
         private Bitmap m_cachedSource;
         
@@ -57,14 +59,7 @@ namespace TeethInc.Chantry.Core.Services
         {
             Bitmap sourceImage = Source.GetImage();
 
-            Size maximumSize = TargetElementExtent * RESIZE_THRESHOLD;
-
-            float widthScaleFactor = (float)maximumSize.Width / sourceImage.Width;
-            float heightScaleFactor = (float)maximumSize.Height / sourceImage.Height;
-
-            float scaleFactor = Math.Min(widthScaleFactor, heightScaleFactor);
-
-            Size targetSize = new Size((int)(sourceImage.Width * scaleFactor), (int)(sourceImage.Height * scaleFactor));
+            Size targetSize = GetTargetImageSize(sourceImage.Size, TargetElementExtent, MINIMUM_SIZE);
 
             Bitmap scaledBitmap = new Bitmap(sourceImage, targetSize);
 
@@ -79,6 +74,21 @@ namespace TeethInc.Chantry.Core.Services
             }
 
             return ret;
+        }
+
+        public Size GetTargetImageSize(Size sourceSize, Size targetSize, int minimumSize)
+        {
+            if (sourceSize.IsSmallerThan(targetSize))
+            {
+                return ScalingHelper.GetBestFitSize(sourceSize, targetSize);
+            }
+
+            if (targetSize.IsSmallerThan(new Size(minimumSize, minimumSize)))
+            {
+                targetSize = ScalingHelper.GetBestFitSize(targetSize, new Size(minimumSize, minimumSize));
+            }
+
+            return ScalingHelper.GetBestFitSize(sourceSize, targetSize);
         }
     }
 }

@@ -15,6 +15,8 @@ namespace TeethInc.Chantry.Core.Filters
 
         public int Contrast { get; set; }
 
+        public TonalRange TonalRange { get; set; } = TonalRange.All;
+
         public override Bitmap GetFilteredImage(Bitmap unfilteredImage)
         {
             var filteredImage = unfilteredImage.Clone() as Bitmap;
@@ -27,7 +29,6 @@ namespace TeethInc.Chantry.Core.Filters
             int red = unfilteredPixel.R;
             int green = unfilteredPixel.G;
             int blue = unfilteredPixel.B;
-
 
             // brightness.
 

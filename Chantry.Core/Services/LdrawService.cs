@@ -85,9 +85,9 @@ namespace TeethInc.Chantry.Core.Services
 
             ldFile.Author = "Chantry";
 
-            for (int x = 0; x < mosaic.Colors.GetUpperBound(0); x++)
+            for (int x = 0; x <= mosaic.Colors.GetUpperBound(0); x++)
             {
-                for (int y = 0; y < mosaic.Colors.GetUpperBound(1); y++)
+                for (int y = 0; y <= mosaic.Colors.GetUpperBound(1); y++)
                 {
                     ldFile.Add(mosaic.Part, mosaic.Colors[x, y], x * 20, 0, y * -20);
                 }
