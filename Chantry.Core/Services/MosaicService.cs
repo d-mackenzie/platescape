@@ -43,9 +43,7 @@ namespace TeethInc.Chantry.Core.Services
             {
                 for (int x = 0; x < ElementExtent.Width; x++)
                 {
-                    List<Color> sourceColors = new List<Color> { image.GetPixel(x, y) };
-
-                    colors[x, y] = mosaicAlgorithm.GetColor(new Point(x, y), sourceColors, AllowedColors);
+                    colors[x, y] = mosaicAlgorithm.GetColor(new Point(x, y), image.GetPixel(x, y), AllowedColors);
                 }
             }
 

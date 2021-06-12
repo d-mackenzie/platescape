@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-namespace Chantry.App
+namespace TeethInc.Chantry.App
 {
     public class App : Application
     {

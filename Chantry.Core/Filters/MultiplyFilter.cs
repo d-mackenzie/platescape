@@ -9,7 +9,7 @@ using TeethInc.Chantry.Core.Extensions;
 
 namespace TeethInc.Chantry.Core.Filters
 {
-    public class PurifyFilter : Filter
+    public class MultiplyFilter : Filter
     {
         public float Factor { get; set; }
 
@@ -22,13 +22,10 @@ namespace TeethInc.Chantry.Core.Filters
 
         private Color GetAdjustedPixel(Color unfilteredPixel)
         {
-            float saturation = unfilteredPixel.GetSaturation();
-            float brightness = unfilteredPixel.GetBrightness();
-
-            saturation = Math.Clamp(saturation + Factor, 0, 1f);
-//            brightness = Math.Clamp(brightness + Factor, 0, 1f);
-
-            return ColorExtensions.FromHsv(unfilteredPixel.GetHue(), saturation, brightness);
+            return Color.FromArgb(
+                Math.Clamp((int)(unfilteredPixel.R * Factor), 0, 255),
+                Math.Clamp((int)(unfilteredPixel.G * Factor), 0, 255),
+                Math.Clamp((int)(unfilteredPixel.B * Factor), 0, 255));
         }
     }
 }

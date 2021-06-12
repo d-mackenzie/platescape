@@ -26,20 +26,19 @@ namespace TeethInc.Chantry.Console
             LdrawService ldrawService = new LdrawService();
 
             FilterService filterService = new FilterService(new FileSource(@"C:\Users\Dave\Pictures\eric-avatar.jpg"));
-            filterService.TargetElementExtent = new Size(32, 32);
+            filterService.TargetElementExtent = new Size(160, 160);
 
-            filterService.Filters.Add(
-                new BrightnessContrastFilter()
-                {
-                    Brightness = 0,
-                    Contrast = 0
-                });
+            //filterService.Filters.Add(
+            //    new MultiplyFilter()
+            //    {
+            //        Factor = 1.5f
+            //    });
 
             MosaicService mosaicService = new MosaicService();
 
             mosaicService.Baseplate = ldrawService.GetPart(BASEPLATE_32);
             mosaicService.Part = ldrawService.GetPart(3024);
-            mosaicService.BaseplateExtent = new Size(1, 1);
+            mosaicService.BaseplateExtent = new Size(5, 5);
             mosaicService.AllowedColors = ldrawService.GetColors(
                 new int[]
                 {

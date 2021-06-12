@@ -3,7 +3,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Chantry.App.MainWindow"
+        x:Class="TeethInc.Chantry.App.MainWindow"
         Title="Chantry.App">
-    Welcome to Avalonia!
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" Text="The Image" Padding="5"/>
+        
+        <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" Background="LightGray" />
+
+        <TabControl Grid.Column="2">
+            <TabItem Header="Source" FontSize="12" Padding="5"/>
+            <TabItem Header="Filter" FontSize="12" Padding="5"/>
+            <TabItem Header="Mosaic" FontSize="12" Padding="5"/>
+            <TabItem Header="Amendments" FontSize="12" Padding="5"/>
+        </TabControl>
+
+    </Grid>
+    
 </Window>

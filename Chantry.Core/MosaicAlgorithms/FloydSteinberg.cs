@@ -18,37 +18,37 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             Reset();
         }
 
-        public LdColor GetColor(Point point, IEnumerable<Color> sourceColors, IEnumerable<LdColor> allowedColors)
+        public LdColor GetColor(Point point, Color sourceColor, IEnumerable<LdColor> allowedColors)
         {
             // get average pixel color.
 
-            double avgRed = sourceColors.Average(x => x.R);
-            double avgGreen = sourceColors.Average(x => x.G);
-            double avgBlue = sourceColors.Average(x => x.B);
+            double red = sourceColor.R;
+            double green = sourceColor.G;
+            double blue = sourceColor.B;
 
             // apply the error.
 
             Error aggregatedError = GetError(point);
 
-            avgRed -= aggregatedError.RedError;
-            avgGreen -= aggregatedError.GreenError;
-            avgBlue -= aggregatedError.BlueError;
+            red -= aggregatedError.RedError;
+            green -= aggregatedError.GreenError;
+            blue -= aggregatedError.BlueError;
 
             // get closest color.
 
             Color avgColor = Color.FromArgb(
-                (int)Math.Clamp(avgRed, 0, 255),
-                (int)Math.Clamp(avgGreen, 0, 255),
-                (int)Math.Clamp(avgBlue, 0, 255));
+                (int)Math.Clamp(red, 0, 255),
+                (int)Math.Clamp(green, 0, 255),
+                (int)Math.Clamp(blue, 0, 255));
 
             LdColor closestLdColor = avgColor.ClosestLdColor(allowedColors);
 
             // calculate the error.
 
             Error calculatederror = new Error(
-                closestLdColor.Color.R - (int)avgRed,
-                closestLdColor.Color.G - (int)avgGreen,
-                closestLdColor.Color.B - (int)avgBlue);
+                closestLdColor.Color.R - (int)red,
+                closestLdColor.Color.G - (int)green,
+                closestLdColor.Color.B - (int)blue);
 
             // propagate the error.
 

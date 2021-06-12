@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using System;
 
-namespace Chantry.App
+namespace TeethInc.Chantry.App
 {
     class Program
     {
