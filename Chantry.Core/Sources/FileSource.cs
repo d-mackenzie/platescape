@@ -10,12 +10,7 @@ namespace TeethInc.Chantry.Core.Sources
 {
     public class FileSource : ISource
     {
-        public string Filename { get; }
-
-        public FileSource(string filename)
-        {
-            Filename = filename;
-        }
+        public string Filename { get; set; }
 
         public Bitmap GetImage()
         {

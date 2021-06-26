@@ -25,8 +25,14 @@ namespace TeethInc.Chantry.Console
         {
             LdrawService ldrawService = new LdrawService();
 
-            FilterService filterService = new FilterService(new FileSource(@"C:\Users\Dave\Pictures\eric-avatar.jpg"));
-            filterService.TargetElementExtent = new Size(160, 160);
+            FilterService filterService = new FilterService(
+                new FileSource
+                {
+                    Filename = @"C:\Users\Dave\Pictures\eric-avatar.jpg"
+                })
+            {
+                TargetElementExtent = new Size(160, 160)
+            };
 
             //filterService.Filters.Add(
             //    new MultiplyFilter()

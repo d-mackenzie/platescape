@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="TeethInc.Chantry.App.MainWindow"
+        xmlns:pages="clr-namespace:TeethInc.Chantry.App.Pages"
         Title="Chantry.App">
 
     <Grid>
@@ -19,9 +20,14 @@
         <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" Background="LightGray" />
 
         <TabControl Grid.Column="2">
-            <TabItem Header="Source" FontSize="12" Padding="5"/>
+            <TabItem Header="Source" FontSize="12" Padding="5">
+                <pages:SourcePage/>
+            </TabItem>
+            
             <TabItem Header="Filter" FontSize="12" Padding="5"/>
+            
             <TabItem Header="Mosaic" FontSize="12" Padding="5"/>
+            
             <TabItem Header="Amendments" FontSize="12" Padding="5"/>
         </TabControl>
 
