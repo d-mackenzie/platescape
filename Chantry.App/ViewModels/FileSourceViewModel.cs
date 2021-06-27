@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Sources;
 
-namespace Chantry.App.ViewModels
+namespace TeethInc.Chantry.App.ViewModels
 {
     public class FileSourceViewModel : INotifyPropertyChanged
     {

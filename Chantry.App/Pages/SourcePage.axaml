@@ -8,7 +8,7 @@
     <StackPanel>
 
         <Label>Filename:</Label>
-        <TextBox></TextBox>
+        <TextBox Text="{Binding Filename}" />
 
     </StackPanel>
     

@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using TeethInc.Chantry.App.ViewModels;
 
 namespace TeethInc.Chantry.App
 {
@@ -16,6 +17,7 @@ namespace TeethInc.Chantry.App
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow();
+                desktop.MainWindow.DataContext = new MainWindowViewModel();
             }
 
             base.OnFrameworkInitializationCompleted();
