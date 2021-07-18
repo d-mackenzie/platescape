@@ -9,6 +9,6 @@ namespace TeethInc.Chantry.Core.Sources
 {
     public interface ISource
     {
-        public Bitmap GetImage();
+        public Bitmap Image { get; }
     }
 }

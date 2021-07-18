@@ -1,23 +1,29 @@
-﻿using System;
+﻿using Avalonia.Media.Imaging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Sources;
+using TeethInc.Chantry.App.Extensions;
+using TeethInc.Chantry.Core;
 
 namespace TeethInc.Chantry.App.ViewModels
 {
-    public class FileSourceViewModel : INotifyPropertyChanged
+    public class FileSourceViewModel : BaseNotifyPropertyChanged
     {
         private FileSource m_source;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public string Filename
         {
             get { return m_source.Filename; }
-            set { m_source.Filename = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Filename))); }
+            set { m_source.Filename = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Image)); }
+        }
+
+        public Bitmap Image
+        {
+            get { return m_source.Image.AsAvaloniaMediaImagingBitmap(); }
         }
 
         public FileSourceViewModel(FileSource source)

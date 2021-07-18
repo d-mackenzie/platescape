@@ -17,8 +17,14 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0" Text="The Image" Padding="5"/>
-        
+        <TabControl Grid.Column="0">
+
+            <TabItem Header="Source" FontSize="12" Padding="5">
+                <pages:SourceImagePage DataContext="{Binding FileSourceViewModel}"/>
+            </TabItem>
+
+        </TabControl>
+
         <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" Background="LightGray" />
 
         <TabControl Grid.Column="2">

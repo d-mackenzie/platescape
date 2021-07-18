@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Ldraw;
 
-namespace TeethInc.Chantry.Core
+namespace TeethInc.Chantry.Core.Services
 {
     public class Mosaic
     {

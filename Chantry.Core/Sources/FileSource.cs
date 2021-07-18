@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -10,16 +11,37 @@ namespace TeethInc.Chantry.Core.Sources
 {
     public class FileSource : ISource
     {
-        public string Filename { get; set; }
+        private Bitmap m_image = null;
+        private string m_filename = "";
 
-        public Bitmap GetImage()
+        public string Filename
         {
-            if (File.Exists(Filename))
+            get { return m_filename; }
+            set
             {
-                return new Bitmap(Filename);
+                m_filename = value;
+                m_image = null;
             }
+        }
 
-            return new Bitmap(100, 100);
+        public Bitmap Image
+        {
+            get
+            {
+                if (m_image == null)
+                {
+                    if (File.Exists(Filename))
+                    {
+                        m_image = new Bitmap(Filename);
+                    }
+                    else
+                    {
+                        m_image = new Bitmap(100, 100);
+                    }
+                }
+
+                return m_image;
+            }
         }
     }
 }

@@ -57,7 +57,7 @@ namespace TeethInc.Chantry.Core.Services
 
         private Bitmap GetResizedImage()
         {
-            Bitmap sourceImage = Source.GetImage();
+            Bitmap sourceImage = Source.Image;
 
             Size targetSize = GetTargetImageSize(sourceImage.Size, TargetElementExtent, MINIMUM_SIZE);
 
