@@ -11,19 +11,14 @@ using TeethInc.Chantry.Core;
 
 namespace TeethInc.Chantry.App.ViewModels
 {
-    public class FileSourceViewModel : BaseNotifyPropertyChanged
+    public class FileSourceViewModel : BaseViewModel
     {
         private FileSource m_source;
 
         public string Filename
         {
             get { return m_source.Filename; }
-            set { m_source.Filename = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Image)); }
-        }
-
-        public Bitmap Image
-        {
-            get { return m_source.Image.AsAvaloniaMediaImagingBitmap(); }
+            set { m_source.Filename = value; RaisePropertyChanged(); }
         }
 
         public FileSourceViewModel(FileSource source)

@@ -20,7 +20,7 @@
         <TabControl Grid.Column="0">
 
             <TabItem Header="Source" FontSize="12" Padding="5">
-                <pages:SourceImagePage DataContext="{Binding FileSourceViewModel}"/>
+                <pages:SourceImagePage DataContext="{Binding}"/>
             </TabItem>
 
         </TabControl>

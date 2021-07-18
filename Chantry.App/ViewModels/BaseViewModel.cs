@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeethInc.Chantry.App
+namespace TeethInc.Chantry.App.ViewModels
 {
-    public abstract class BaseNotifyPropertyChanged : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
