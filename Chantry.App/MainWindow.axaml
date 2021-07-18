@@ -6,8 +6,7 @@
         x:Class="TeethInc.Chantry.App.MainWindow"
         xmlns:pages="clr-namespace:TeethInc.Chantry.App.Pages"
         xmlns:viewmodels="clr-namespace:TeethInc.Chantry.App.ViewModels"
-        Title="Chantry.App"
-        d:DataContext="{x:Static viewmodels:MainWinowViewModel}">
+        Title="Chantry.App">
 
     <Grid>
 
@@ -23,6 +22,15 @@
                 <pages:SourceImagePage DataContext="{Binding}"/>
             </TabItem>
 
+            <TabItem Header="Filtered" FontSize="12" Padding="5">
+            </TabItem>
+
+            <TabItem Header="Mosaic" FontSize="12" Padding="5">
+            </TabItem>
+
+            <TabItem Header="Edits" FontSize="12" Padding="5">
+            </TabItem>
+
         </TabControl>
 
         <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" Background="LightGray" />
@@ -33,13 +41,13 @@
                 <pages:SourcePage DataContext="{Binding FileSourceViewModel}"/>
             </TabItem>
             
-            <TabItem Header="Filter" FontSize="12" Padding="5">
+            <TabItem Header="Filters" FontSize="12" Padding="5">
             </TabItem>
             
             <TabItem Header="Mosaic" FontSize="12" Padding="5">
             </TabItem>
             
-            <TabItem Header="Amendments" FontSize="12" Padding="5">
+            <TabItem Header="Edits" FontSize="12" Padding="5">
             </TabItem>
 
         </TabControl>
