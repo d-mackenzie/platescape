@@ -1,0 +1,10 @@
+{
+	"source" : {
+		"type" : "filesource",
+		"object" : {
+			"filename" : "C:\\Users\\david\\Pictures\\eric-avatar.jpg"	
+		}
+	}	
+}
+
+

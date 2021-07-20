@@ -23,6 +23,20 @@ namespace TeethInc.Chantry.Console
 
         static void Main(string[] args)
         {
+            DeserialiseTest();
+
+            while (System.Console.ReadKey(true).Key != ConsoleKey.Escape)
+            { }
+        }
+
+        private static void DeserialiseTest()
+        {
+            Project project = ProjectService.DeserializeProject(
+                File.ReadAllText(@"C:\Users\david\TeethInc\chantry\project.json"));
+        }
+
+        private static void FullStackTest()
+        {
             LdrawService ldrawService = new LdrawService();
 
             FilterService filterService = new FilterService(
@@ -89,7 +103,7 @@ namespace TeethInc.Chantry.Console
             System.Console.WriteLine($"Mosaic took {sw.ElapsedMilliseconds}ms.");
 
             //System.Console.WriteLine("Output:\n\n");
-            
+
             //for (int y = 0; y < mosaic.Colors.GetUpperBound(1); y++)
             //{
             //    for (int x = 0; x < mosaic.Colors.GetUpperBound(0); x++)
@@ -114,9 +128,6 @@ namespace TeethInc.Chantry.Console
             System.Console.WriteLine($"Save took {sw.ElapsedMilliseconds}ms.\n");
 
             System.Console.WriteLine("Done.");
-
-            while (System.Console.ReadKey(true).Key != ConsoleKey.Escape)
-            { }
         }
     }
 }

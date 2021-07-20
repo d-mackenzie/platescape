@@ -14,6 +14,7 @@ namespace TeethInc.Chantry.Core.Sources
         private Bitmap m_image = null;
         private string m_filename = "";
 
+
         public string Filename
         {
             get { return m_filename; }
