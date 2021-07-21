@@ -10,6 +10,8 @@ namespace TeethInc.Chantry.Core
 {
     public class Project
     {
+        public string Name { get; set; }
+
         public ISource Source { get; set; }
     }
 }

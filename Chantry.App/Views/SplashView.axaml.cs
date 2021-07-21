@@ -2,13 +2,16 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace TeethInc.Chantry.App.Pages
+namespace TeethInc.Chantry.App.Views
 {
-    public partial class SourcePage : UserControl
+    public partial class SplashView : Window
     {
-        public SourcePage()
+        public SplashView()
         {
             InitializeComponent();
+#if DEBUG
+            this.AttachDevTools();
+#endif
         }
 
         private void InitializeComponent()

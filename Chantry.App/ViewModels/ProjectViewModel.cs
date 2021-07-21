@@ -11,19 +11,18 @@ using TeethInc.Chantry.Core;
 
 namespace TeethInc.Chantry.App.ViewModels
 {
-    public class FileSourceViewModel : BaseViewModel
+    public class ProjectViewModel : BaseViewModel
     {
-        private FileSource m_source;
+        private Project m_project;
 
-        public string Filename
+        public FileSource Source
         {
-            get { return m_source.Filename; }
-            set { m_source.Filename = value; RaisePropertyChanged(); }
+            get { return (FileSource)m_project.Source; }
         }
 
-        public FileSourceViewModel(FileSource source)
+        public ProjectViewModel(Project project)
         {
-            m_source = source;
+            m_project = project;
         }
     }
 }

@@ -13,4 +13,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Chantry.Core\Chantry.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Pages\ProjectPage.axaml.cs">
+      <DependentUpon>ProjectPage.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

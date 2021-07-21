@@ -6,13 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeethInc.Chantry.App.Extensions;
+using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.App.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        public FileSourceViewModel FileSourceViewModel { get; set; }
+        public ProjectViewModel ProjectViewModel { get; set; }
 
         private FileSource m_fileSource;
 
@@ -21,15 +22,10 @@ namespace TeethInc.Chantry.App.ViewModels
             get { return m_fileSource.Image.AsAvaloniaMediaImagingBitmap(); }
         }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(Project project)
         {
-            m_fileSource = new FileSource()
-            {
-                Filename = @"C:\Users\david\Pictures\eric-avatar.jpg"
-            };
-
-            FileSourceViewModel = new FileSourceViewModel(m_fileSource);
-            FileSourceViewModel.PropertyChanged += SourceChanged;
+            m_fileSource = (FileSource)project.Source;
+            ProjectViewModel = new ProjectViewModel(project);
         }
 
         private void SourceChanged(object? sender, PropertyChangedEventArgs e)

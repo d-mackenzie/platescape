@@ -18,7 +18,7 @@
 
         <TabControl Grid.Column="0">
 
-            <TabItem Header="Source" FontSize="12" Padding="5">
+            <TabItem Header="Unfiltered" FontSize="12" Padding="5">
                 <pages:SourceImagePage DataContext="{Binding}"/>
             </TabItem>
 
@@ -37,8 +37,8 @@
 
         <TabControl Grid.Column="2">
 
-            <TabItem Header="Source" FontSize="12" Padding="5">
-                <pages:SourcePage DataContext="{Binding FileSourceViewModel}"/>
+            <TabItem Header="Project" FontSize="12" Padding="5">
+                <pages:ProjectPage DataContext="{Binding ProjectViewModel}"/>
             </TabItem>
             
             <TabItem Header="Filters" FontSize="12" Padding="5">

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Chantry.App": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\david\\TeethInc\\chantry\\project.json"
+    }
+  }
+}
