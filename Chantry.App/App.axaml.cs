@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 using System;
 using System.IO;
 using TeethInc.Chantry.App.ViewModels;
+using TeethInc.Chantry.App.Views;
 using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
@@ -29,10 +30,18 @@ namespace TeethInc.Chantry.App
                     string json = File.ReadAllText(args[1]);
 
                     project = ProjectService.DeserializeProject(json);
+
+                    desktop.MainWindow = new MainWindow();
+                    desktop.MainWindow.DataContext = new MainWindowViewModel(project);
+                }
+                else
+                {
+                    desktop.MainWindow = new SplashView()
+                    {
+                        DataContext = new SplashViewModel()
+                    };
                 }
 
-                desktop.MainWindow = new MainWindow();
-                desktop.MainWindow.DataContext = new MainWindowViewModel(project);
             }
 
             base.OnFrameworkInitializationCompleted();
