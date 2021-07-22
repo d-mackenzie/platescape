@@ -24,7 +24,4 @@
   <ItemGroup>
     <AvaloniaResource Remove="Assets\splash.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\splash.jpg" />
-  </ItemGroup>
 </Project>
