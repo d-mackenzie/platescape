@@ -8,8 +8,9 @@
         MinWidth="800"
         MinHeight="400"
         MaxWidth="800"
-        MaxHeight="400">
-    
+        MaxHeight="400"
+        WindowStartupLocation="CenterScreen">
+
     <Window.Background>
         <ImageBrush Source="/Assets/splash.png" Opacity="0.5"/>
     </Window.Background>
@@ -42,7 +43,8 @@
                 <Button Content="Create a new Project"
                         FontSize="24"
                         Margin="5"
-                        HorizontalAlignment="Stretch">
+                        HorizontalAlignment="Stretch"
+                        Command="{Binding CreateANewProject}">
                     <Button.Background>
                         <SolidColorBrush Color="White" Opacity="0.5"/>
                     </Button.Background>
@@ -51,7 +53,8 @@
                 <Button Content="Open an existing Project"
                         FontSize="24"
                         Margin="5"
-                        HorizontalAlignment="Stretch">
+                        HorizontalAlignment="Stretch"
+                        Command="{Binding OpenAnExistingProject}">
                     <Button.Background>
                         <SolidColorBrush Color="White" Opacity="0.5"/>
                     </Button.Background>

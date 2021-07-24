@@ -43,10 +43,8 @@ namespace TeethInc.Chantry.App
 
                 if (project is null)
                 {
-                    desktop.MainWindow = new SplashView()
-                    {
-                        DataContext = new SplashViewModel()
-                    };
+                    desktop.MainWindow = new SplashView();
+                    desktop.MainWindow.DataContext = new SplashViewModel(desktop.MainWindow);
                 }
             }
 
