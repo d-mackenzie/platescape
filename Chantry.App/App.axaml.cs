@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 using System;
 using System.IO;
 using System.Linq;
+using TeethInc.Chantry.App.Helpers;
 using TeethInc.Chantry.App.ViewModels;
 using TeethInc.Chantry.App.Views;
 using TeethInc.Chantry.Core;
@@ -44,7 +45,7 @@ namespace TeethInc.Chantry.App
                 if (project is null)
                 {
                     desktop.MainWindow = new SplashView();
-                    desktop.MainWindow.DataContext = new SplashViewModel(desktop.MainWindow);
+                    desktop.MainWindow.DataContext = new SplashViewModel(new FileDialog(desktop.MainWindow));
                 }
             }
 

@@ -10,33 +10,46 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
+using TeethInc.Chantry.App.Helpers;
+using TeethInc.Chantry.Core;
+using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.App.ViewModels
 {
     public class SplashViewModel : BaseViewModel
     {
-        private Window m_window;
+        private IFileDialog m_fileDialog;
 
-        public SplashViewModel(Window window)
+        public SplashViewModel(IFileDialog fileDialog)
         {
-            m_window = window;
+            m_fileDialog = fileDialog;
         }
 
-        private async Task CreateANewProject()
+        public void CreateANewProject()
         {
-            OpenFileDialog dialog = new OpenFileDialog();
+            m_fileDialog
+                .ShowFileDialog(new string[] { "jpg", "png" })
+                .ContinueWith(x => CreateANewProjectFileSelected(x.Result));
+        }
 
-            dialog.Filters = new List<FileDialogFilter>
+        private void CreateANewProjectFileSelected(string? filename)
+        {
+            if (filename is not null)
             {
-                new FileDialogFilter { Name = "Images", Extensions = new List<string> {"jpg", "png" } },
-                new FileDialogFilter { Name = "All Files", Extensions = new List<string> {"*" } }
-            };
-
-            var result = await dialog.ShowAsync(m_window);
+                Project project = new Project()
+                {
+                    Source = new FileSource()
+                    {
+                        Filename = filename
+                    }
+                };
+            
+            // raise event.
+            
+            }
         }
 
-        public void DoOpenAnExistingProject()
+        public void OpenAnExistingProject()
         {
 
 
