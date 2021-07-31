@@ -8,6 +8,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TeethInc.Chantry.App.Helpers;
@@ -20,44 +21,39 @@ namespace TeethInc.Chantry.App.ViewModels
     {
         private IFileDialog m_fileDialog;
 
+        public event EventHandler<string>? FileSelected;
+        public event EventHandler? CloseApplication;
+
         public SplashViewModel(IFileDialog fileDialog)
         {
             m_fileDialog = fileDialog;
         }
 
-        public void CreateANewProject()
+        public async Task CreateANewProject()
         {
-            m_fileDialog
+            await m_fileDialog
                 .ShowFileDialog(new string[] { "jpg", "png" })
-                .ContinueWith(x => CreateANewProjectFileSelected(x.Result));
+                .ContinueWith(x => FileDialogFileSelectedHandler(x.Result));
+
+            OnCloseApplication();
         }
 
-        private void CreateANewProjectFileSelected(string? filename)
+        private void FileDialogFileSelectedHandler(string? filename)
         {
             if (filename is not null)
-            {
-                Project project = new Project()
-                {
-                    Source = new FileSource()
-                    {
-                        Filename = filename
-                    }
-                };
-            
-            // raise event.
-            
-            }
+                OnFileSelected(filename);
         }
 
-        public void OpenAnExistingProject()
+        protected virtual void OnFileSelected(string filename)
         {
-
-
-
+            if (FileSelected is not null)
+                FileSelected(this, filename);
         }
 
-
-
-
+        protected virtual void OnCloseApplication()
+        {
+            if (CloseApplication is not null)
+                CloseApplication(this, new EventArgs());
+        }
     }
 }

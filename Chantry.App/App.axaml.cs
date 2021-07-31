@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 using System;
 using System.IO;
 using System.Linq;
+using TeethInc.Chantry.App.Extensions;
 using TeethInc.Chantry.App.Helpers;
 using TeethInc.Chantry.App.ViewModels;
 using TeethInc.Chantry.App.Views;
@@ -27,29 +28,57 @@ namespace TeethInc.Chantry.App
                 var args = Environment.GetCommandLineArgs();
                 Project? project = null;
 
-                if (args.Length != 0)
-                {
-                    string? projectFilename = args.FirstOrDefault(x => x.EndsWith(".json", StringComparison.InvariantCultureIgnoreCase));
+                string? filename = GetSupportedFilenameArg(args);
 
-                    if (projectFilename is not null)
-                    {
-                        string json = File.ReadAllText(projectFilename);
-                        project = ProjectService.DeserializeProject(json);
-                        desktop.MainWindow = new MainWindow()
-                        {
-                            DataContext = new MainWindowViewModel(project)
-                        };
-                    }
+                if (filename is null)
+                {
+                    SplashView splashView = new SplashView();
+                    splashView.DataContext = new SplashViewModel(new FileDialog(splashView));
+                    splashView.Initialize();
+                    
+                    desktop.MainWindow = splashView;
                 }
-
-                if (project is null)
+                else
                 {
-                    desktop.MainWindow = new SplashView();
-                    desktop.MainWindow.DataContext = new SplashViewModel(new FileDialog(desktop.MainWindow));
+                    switch (Path.GetExtension(filename))
+                    {
+                        case "json":
+
+                            string json = File.ReadAllText(filename);
+                            project = ProjectService.DeserializeProject(json);
+                            break;
+
+                        default:
+
+                            project = new Project()
+                            {
+                                Source = new FileSource()
+                                {
+                                    Filename = filename
+                                }
+                            };
+
+                            break;
+                    }
+
+                    desktop.MainWindow = new MainWindow()
+                    {
+                        DataContext = new MainWindowViewModel(project)
+                    };
                 }
             }
 
             base.OnFrameworkInitializationCompleted();
+        }
+
+        private string? GetSupportedFilenameArg(string[]? args)
+        {
+            if (args is null)
+                return null;
+
+            string[] supportedFileTypes = new string[] { ".json", ".jpeg", ".jpg", ".png" };
+
+            return args.FirstOrDefault(x => x.EndsWithAny(supportedFileTypes));
         }
     }
 }
