@@ -38,10 +38,6 @@ namespace TeethInc.Chantry.Core.Sources
                     else
                     {
                         m_image = new Bitmap(50, 50);
-
-                        for (int x = 0; x < 50; x++)
-                            for (int y = 0; y < 50; y++)
-                                m_image.SetPixel(x, y, Color.LawnGreen);
                     }
                 }
 

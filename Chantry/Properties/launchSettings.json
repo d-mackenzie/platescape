@@ -2,7 +2,7 @@
   "profiles": {
     "Chantry.App": {
       "commandName": "Project",
-      "commandLineArgs": "c:\\Users\\david\\Pictures\\dan-cropped.jpg"
+      "commandLineArgs": "c:\\Users\\david\\Pictures\\dan-cropped.png"
     }
   }
 }

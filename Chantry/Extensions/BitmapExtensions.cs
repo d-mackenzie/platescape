@@ -5,19 +5,22 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SdBitmap = System.Drawing.Bitmap;
+using AmiBitmap = Avalonia.Media.Imaging.Bitmap;
+using System.Drawing;
 
 namespace TeethInc.Chantry.App.Extensions
 {
     public static class BitmapExtensions
     {
-        public static Avalonia.Media.Imaging.Bitmap AsAvaloniaMediaImagingBitmap(this System.Drawing.Bitmap sdBitmap)
+        public static AmiBitmap AsAvaloniaMediaImagingBitmap(this SdBitmap sdBitmap)
         {
             using (MemoryStream memory = new MemoryStream())
             {
                 sdBitmap.Save(memory, ImageFormat.Png);
                 memory.Position = 0;
 
-                return new Avalonia.Media.Imaging.Bitmap(memory);
+                return new AmiBitmap(memory);
             }
         }
     }
