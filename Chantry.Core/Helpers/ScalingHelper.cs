@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Extensions;
 
 namespace TeethInc.Chantry.Core.Helpers
 {
@@ -11,12 +12,14 @@ namespace TeethInc.Chantry.Core.Helpers
     {
         public static Size GetBestFitSize(Size source, Size target)
         {
-            float widthDivisor = (float)source.Width / target.Width;
-            float heightDivisor = (float)source.Height / target.Height;
+            float scalingFactor = 1f;
 
-            float divisor = Math.Min(widthDivisor, heightDivisor);
+            if (source.AspectRatio() == target.AspectRatio())
+                scalingFactor = (float)source.Height / target.Height;
+            else
+                scalingFactor = (float)source.Width / target.Width;
 
-            return new Size((int)(source.Width / divisor), (int)(source.Height / divisor));
+            return new Size((int)(source.Width * scalingFactor), (int)(source.Height * scalingFactor));
         }
     }
 }
