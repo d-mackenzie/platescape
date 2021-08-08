@@ -14,10 +14,10 @@ namespace TeethInc.Chantry.Core.Helpers
         {
             float scalingFactor = 1f;
 
-            if (source.AspectRatio() == target.AspectRatio())
-                scalingFactor = (float)source.Height / target.Height;
+            if (source.AspectRatio() == AspectRatio.Landscape)
+                scalingFactor = (float)target.Height / source.Height;
             else
-                scalingFactor = (float)source.Width / target.Width;
+                scalingFactor = (float)target.Width / source.Width;
 
             return new Size((int)(source.Width * scalingFactor), (int)(source.Height * scalingFactor));
         }
