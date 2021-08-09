@@ -24,6 +24,8 @@ namespace TeethInc.Chantry.App.ViewModels
 
         public Bitmap FilteredImage => m_project.FilteredImage.AsAvaloniaMediaImagingBitmap();
 
+        public string Name => m_project.Name;
+
         public ProjectViewModel(Project project)
         {
             m_project = project;

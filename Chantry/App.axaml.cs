@@ -53,6 +53,7 @@ namespace TeethInc.Chantry.App
 
                             project = new Project()
                             {
+                                Name = "Flat Eric",
                                 Source = new FileSource()
                                 {
                                     Filename = filename

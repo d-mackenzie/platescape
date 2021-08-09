@@ -21,6 +21,8 @@ namespace TeethInc.Chantry.Core.Filters
             get { return this.GetType().Name; }
         }
 
+        public abstract string DisplayName { get; }
+
         public abstract void ApplyFilter(Bitmap image);
     }
 }

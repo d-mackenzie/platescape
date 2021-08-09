@@ -11,6 +11,8 @@ namespace TeethInc.Chantry.Core.Filters
 {
     public class MultiplyFilter : Filter
     {
+        public override string DisplayName => "Multiply";
+
         public float Factor { get; set; }
 
         public override void ApplyFilter(Bitmap image)

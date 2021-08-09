@@ -7,6 +7,10 @@
 
     <StackPanel>
 
+        <TextBox Text="{Binding Name}"
+                 BorderThickness="0"
+                 FontSize="24" />
+
         <Label>Filename:</Label>
         <Label Content="{Binding Source.Filename}" />
 

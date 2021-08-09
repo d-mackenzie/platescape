@@ -11,6 +11,8 @@ namespace TeethInc.Chantry.Core.Filters
 {
     public class GreyscaleFilter : Filter
     {
+        public override string DisplayName => "Greyscale";
+
         private byte[] m_red;
         private byte[] m_green;
         private byte[] m_blue;
