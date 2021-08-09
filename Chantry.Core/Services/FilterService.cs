@@ -15,17 +15,16 @@ namespace TeethInc.Chantry.Core.Services
     public class FilterService
     {
         private const int MINIMUM_SIZE = 192;
-
-        private Bitmap m_cachedSource;
         
         private ISource m_source;
+        private Bitmap m_unfilteredImage;
 
         public List<Filter> Filters { get; set; }
 
         public ISource Source
         {
             get { return m_source; }
-            set { m_source = value; m_cachedSource = null; }
+            set { m_source = value; m_unfilteredImage = null; }
         }
 
         public Size TargetElementExtent { get; set; }
@@ -39,41 +38,39 @@ namespace TeethInc.Chantry.Core.Services
 
         public Bitmap GetFilteredImage()
         {
-            if (m_cachedSource == null)
-            {
-                m_cachedSource = GetResizedImage();
-            }
-
-            Bitmap image = m_cachedSource.Clone() as Bitmap;
+            Bitmap image = GetUnfilteredImage().Clone() as Bitmap;
 
             foreach (Filter filter in Filters)
             {
                 if (filter.Enabled)
-                    image = filter.GetFilteredImage(image);
+                    filter.ApplyFilter(image);
             }
 
             return image;
         }
 
-        private Bitmap GetResizedImage()
+        public Bitmap GetUnfilteredImage()
         {
-            Bitmap sourceImage = Source.Image;
-
-            Size targetSize = GetTargetImageSize(sourceImage.Size, TargetElementExtent, MINIMUM_SIZE);
-
-            Bitmap scaledBitmap = new Bitmap(sourceImage, targetSize);
-
-            Bitmap ret = new Bitmap(targetSize.Width, targetSize.Height, PixelFormat.Format24bppRgb);
-
-            for (int x = 0; x < targetSize.Width; x++)
+            if (m_unfilteredImage is null)
             {
-                for (int y = 0; y < targetSize.Height; y++)
+                Bitmap sourceImage = Source.Image;
+
+                Size targetSize = GetTargetImageSize(sourceImage.Size, TargetElementExtent, MINIMUM_SIZE);
+
+                Bitmap scaledBitmap = new Bitmap(sourceImage, targetSize);
+
+                m_unfilteredImage = new Bitmap(targetSize.Width, targetSize.Height, PixelFormat.Format24bppRgb);
+
+                for (int x = 0; x < targetSize.Width; x++)
                 {
-                    ret.SetPixel(x, y, scaledBitmap.GetPixel(x, y));
+                    for (int y = 0; y < targetSize.Height; y++)
+                    {
+                        m_unfilteredImage.SetPixel(x, y, scaledBitmap.GetPixel(x, y));
+                    }
                 }
             }
 
-            return ret;
+            return m_unfilteredImage;
         }
 
         public Size GetTargetImageSize(Size sourceSize, Size targetSize, int minimumSize)

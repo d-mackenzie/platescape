@@ -17,11 +17,9 @@ namespace TeethInc.Chantry.Core.Filters
 
         public TonalRange TonalRange { get; set; } = TonalRange.All;
 
-        public override Bitmap GetFilteredImage(Bitmap unfilteredImage)
+        public override void ApplyFilter(Bitmap image)
         {
-            var filteredImage = unfilteredImage.Clone() as Bitmap;
-            filteredImage.ApplyFilter(GetAdjustedPixel);
-            return filteredImage;
+            image.ApplyFilter(GetAdjustedPixel);
         }
 
         private Color GetAdjustedPixel(Color unfilteredPixel)

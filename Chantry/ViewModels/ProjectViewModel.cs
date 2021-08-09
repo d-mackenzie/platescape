@@ -20,6 +20,10 @@ namespace TeethInc.Chantry.App.ViewModels
             get { return (FileSource)m_project.Source; }
         }
 
+        public Bitmap UnfilteredImage => m_project.UnfilteredImage.AsAvaloniaMediaImagingBitmap();
+
+        public Bitmap FilteredImage => m_project.FilteredImage.AsAvaloniaMediaImagingBitmap();
+
         public ProjectViewModel(Project project)
         {
             m_project = project;

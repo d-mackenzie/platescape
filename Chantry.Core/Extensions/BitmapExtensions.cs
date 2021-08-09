@@ -42,7 +42,5 @@ namespace TeethInc.Chantry.Core.Extensions
             // Unlock the bits.
             bitmap.UnlockBits(bitmapData);
         }
-
-
     }
 }

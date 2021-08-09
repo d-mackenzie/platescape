@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace TeethInc.Chantry.App.Pages
 {
-    public partial class SourceImagePage : UserControl
+    public partial class FilteredImagePage : UserControl
     {
-        public SourceImagePage()
+        public FilteredImagePage()
         {
             InitializeComponent();
         }

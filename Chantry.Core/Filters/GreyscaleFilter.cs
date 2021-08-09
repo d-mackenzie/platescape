@@ -34,11 +34,9 @@ namespace TeethInc.Chantry.Core.Filters
             return ret;
         }
 
-        public override Bitmap GetFilteredImage(Bitmap unfilteredImage)
+        public override void ApplyFilter(Bitmap image)
         {
-            var filteredImage = unfilteredImage.Clone() as Bitmap;
-            filteredImage.ApplyFilter(GetGreyscalePixel);
-            return filteredImage;
+            image.ApplyFilter(GetGreyscalePixel);
         }
 
         private Color GetGreyscalePixel(Color unfilteredPixel)

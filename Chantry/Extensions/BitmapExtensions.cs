@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using SdBitmap = System.Drawing.Bitmap;
 using AmiBitmap = Avalonia.Media.Imaging.Bitmap;
 using System.Drawing;
+using Avalonia;
 
 namespace TeethInc.Chantry.App.Extensions
 {
@@ -21,6 +22,8 @@ namespace TeethInc.Chantry.App.Extensions
                 memory.Position = 0;
 
                 return new AmiBitmap(memory);
+
+//                return new AmiBitmap(Avalonia.Platform.PixelFormat.Rgba8888, sdBitmap.GetHbitmap(), PixelSize.Empty, Vector.One, sdBitmap.str
             }
         }
     }

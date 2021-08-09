@@ -9,6 +9,7 @@ using TeethInc.Chantry.App.Helpers;
 using TeethInc.Chantry.App.ViewModels;
 using TeethInc.Chantry.App.Views;
 using TeethInc.Chantry.Core;
+using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
 
@@ -57,6 +58,13 @@ namespace TeethInc.Chantry.App
                                     Filename = filename
                                 }
                             };
+
+                            project.Filters.Add(
+                                new BrightnessContrastFilter()
+                                {
+                                    Brightness = 100,
+                                    Contrast = 0
+                                });
 
                             break;
                     }

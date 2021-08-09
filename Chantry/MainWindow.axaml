@@ -19,10 +19,11 @@
         <TabControl Grid.Column="0">
 
             <TabItem Header="Unfiltered" FontSize="12" Padding="5">
-                <pages:SourceImagePage DataContext="{Binding}"/>
+                <pages:UnfilteredImagePage DataContext="{Binding ProjectViewModel}"/>
             </TabItem>
 
             <TabItem Header="Filtered" FontSize="12" Padding="5">
+                <pages:FilteredImagePage DataContext="{Binding ProjectViewModel}"/>
             </TabItem>
 
             <TabItem Header="Mosaic" FontSize="12" Padding="5">

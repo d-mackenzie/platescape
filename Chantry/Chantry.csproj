@@ -19,6 +19,12 @@
     <Compile Update="Pages\ProjectPage.axaml.cs">
       <DependentUpon>ProjectPage.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Pages\FilteredImagePage.axaml.cs">
+      <DependentUpon>FilteredImagePage.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\UnfilteredImagePage.axaml.cs">
+      <DependentUpon>UnfilteredImagePage.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\*" />

@@ -12,6 +12,10 @@ using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.MosaicAlgorithms;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
+using SdBitmap = System.Drawing.Bitmap;
+using AmiBitmap = Avalonia.Media.Imaging.Bitmap;
+using TeethInc.Chantry.App.Extensions;
+using SConsole = System.Console;
 
 namespace TeethInc.Chantry.Console
 {
@@ -23,10 +27,26 @@ namespace TeethInc.Chantry.Console
 
         static void Main(string[] args)
         {
-            DeserialiseTest();
+            FullStackTest();
 
             while (System.Console.ReadKey(true).Key != ConsoleKey.Escape)
             { }
+        }
+
+        private static void BitmapTest()
+        {
+            SdBitmap sdBitmap = new SdBitmap(@"C:\Users\David\Pictures\eric-avatar.jpg");
+
+            SConsole.WriteLine("Ready...");
+            SConsole.ReadKey(true);
+
+            var sw = Stopwatch.StartNew();
+
+            AmiBitmap amiBitmap = new AmiBitmap(@"C:\Users\David\Pictures\eric-avatar.jpg");
+
+//            AmiBitmap amiBitmap = sdBitmap.AsAvaloniaMediaImagingBitmap();
+
+            SConsole.WriteLine(sw.ElapsedMilliseconds);
         }
 
         private static void DeserialiseTest()
@@ -42,7 +62,7 @@ namespace TeethInc.Chantry.Console
             FilterService filterService = new FilterService(
                 new FileSource
                 {
-                    Filename = @"C:\Users\Dave\Pictures\eric-avatar.jpg"
+                    Filename = @"C:\Users\David\Pictures\eric-avatar.jpg"
                 })
             {
                 TargetElementExtent = new Size(160, 160)
