@@ -40,9 +40,17 @@ namespace TeethInc.Chantry.App.ViewModels
             {
                 if (filter is BrightnessContrastFilter brightnessContrastFilter)
                 {
-                    Filters.Add(new BrightnessContrastViewModel(brightnessContrastFilter));
+                    var brightnessContrastViewModel = new BrightnessContrastViewModel(brightnessContrastFilter);
+                    brightnessContrastViewModel.PropertyChanged += FilterPropertyChanged;
+
+                    Filters.Add(brightnessContrastViewModel);
                 }
             }
+        }
+
+        private void FilterPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            RaisePropertyChanged(nameof(FilteredImage));
         }
     }
 }

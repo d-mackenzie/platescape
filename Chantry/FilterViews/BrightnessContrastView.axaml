@@ -8,10 +8,16 @@
     <StackPanel>
 
         <Label Content="Brightness"/>
-        <TextBox Text="{Binding Brightness}"/>
+        <Slider Minimum="-100"
+                Maximum="100"
+                TickFrequency="10"
+                TickPlacement="TopLeft"
+                Value="{Binding Brightness}"/>
 
         <Label Content="Contrast"/>
-        <TextBox Text="{Binding Contrast}"/>
+        <Slider Minimum="-100"
+                Maximum="100"
+                Value="{Binding Contrast}"/>
 
     </StackPanel>
     
