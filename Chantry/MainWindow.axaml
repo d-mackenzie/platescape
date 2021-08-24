@@ -43,6 +43,7 @@
             </TabItem>
             
             <TabItem Header="Filters" FontSize="12" Padding="5">
+                <pages:FiltersPage DataContext="{Binding ProjectViewModel}"/>
             </TabItem>
             
             <TabItem Header="Mosaic" FontSize="12" Padding="5">

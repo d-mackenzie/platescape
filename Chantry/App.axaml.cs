@@ -53,7 +53,7 @@ namespace TeethInc.Chantry.App
 
                             project = new Project()
                             {
-                                Name = "Flat Eric",
+                                Name = "Dan German",
                                 Source = new FileSource()
                                 {
                                     Filename = filename
@@ -63,8 +63,8 @@ namespace TeethInc.Chantry.App
                             project.Filters.Add(
                                 new BrightnessContrastFilter()
                                 {
-                                    Brightness = 100,
-                                    Contrast = 0
+                                    Brightness = 50,
+                                    Contrast = 25
                                 });
 
                             break;
