@@ -11,6 +11,7 @@ using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Filters;
 using System.Collections.ObjectModel;
 using TeethInc.Chantry.App.FilterViewModels;
+using TeethInc.Chantry.Core.Services;
 
 namespace TeethInc.Chantry.App.ViewModels
 {
@@ -18,17 +19,23 @@ namespace TeethInc.Chantry.App.ViewModels
     {
         private Project m_project;
         private ObservableCollection<BaseViewModel> m_filters = new ObservableCollection<BaseViewModel>();
+        private MosaicService m_mosaicService = new MosaicService();
 
         public FileSource Source
         {
             get { return (FileSource)m_project.Source; }
         }
 
+        // filter properties.
+
         public ObservableCollection<BaseViewModel> Filters => m_filters;
-
         public Bitmap UnfilteredImage => m_project.UnfilteredImage.AsAvaloniaMediaImagingBitmap();
-
         public Bitmap FilteredImage => m_project.FilteredImage.AsAvaloniaMediaImagingBitmap();
+
+        // moasic properties.
+
+        public MosaicService MosaicService => m_mosaicService;
+        public Mosaic Mosaic => m_project.Mosaic;
 
         public string Name => m_project.Name;
 
@@ -51,6 +58,7 @@ namespace TeethInc.Chantry.App.ViewModels
         private void FilterPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             RaisePropertyChanged(nameof(FilteredImage));
+            RaisePropertyChanged(nameof(Mosaic));
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Filters;
+using TeethInc.Chantry.Core.MosaicAlgorithms;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
 
@@ -15,6 +16,7 @@ namespace TeethInc.Chantry.Core
     {
         private ISource m_source;
         private FilterService m_filterService;
+        private MosaicService m_mosaicService;
 
         public string Name { get; set; }
 
@@ -39,7 +41,12 @@ namespace TeethInc.Chantry.Core
             get { return FilterService.GetFilteredImage(); }
         }
 
-        private FilterService FilterService
+        public Mosaic Mosaic
+        {
+            get { return MosaicService.GetMosaic(FilteredImage, new FloydSteinberg()); }
+        }
+
+        public FilterService FilterService
         {
             get
             {
@@ -47,6 +54,17 @@ namespace TeethInc.Chantry.Core
                     m_filterService = new FilterService(Source);
 
                 return m_filterService;
+            }
+        }
+
+        public MosaicService MosaicService
+        {
+            get
+            {
+                if (m_mosaicService is null)
+                    m_mosaicService = new MosaicService();
+
+                return m_mosaicService;
             }
         }
     }

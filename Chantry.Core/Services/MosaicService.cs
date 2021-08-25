@@ -13,6 +13,15 @@ namespace TeethInc.Chantry.Core.Services
 {
     public class MosaicService
     {
+        private const int BASEPLATE_32X32 = 3811;
+        private const int PLATE_1X1 = 3024;
+        
+        private const int LDRAW_BLACK = 0;
+        private const int LDRAW_DARK_BLEY = 72;
+        private const int LDRAW_LIGHT_BLEY = 71;
+        private const int LDRAW_WHITE = 15;
+
+
         public LdPart Baseplate { get; set; }
 
         public LdPart Part { get; set; }
@@ -29,6 +38,16 @@ namespace TeethInc.Chantry.Core.Services
                     Baseplate.Size.Width * BaseplateExtent.Width / Part.Size.Width,
                     Baseplate.Size.Height * BaseplateExtent.Height / Part.Size.Height);
             }
+        }
+
+        public MosaicService()
+        {
+            var ldrawService = new LdrawService();
+
+            Baseplate = ldrawService.GetPart(BASEPLATE_32X32);
+            Part = ldrawService.GetPart(PLATE_1X1);
+            BaseplateExtent = new Size(1, 1);
+            AllowedColors = ldrawService.GetColors(new int[] { LDRAW_BLACK, LDRAW_DARK_BLEY, LDRAW_LIGHT_BLEY, LDRAW_WHITE }).ToList();
         }
 
         public Mosaic GetMosaic(Bitmap sourceImage, IMosaicAlgorithm mosaicAlgorithm)
