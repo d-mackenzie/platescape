@@ -20,33 +20,27 @@ namespace TeethInc.Chantry.Core
 
         public string Name { get; set; }
 
+        // source properties.
+
         public ISource Source
         {
             get { return m_source; }
             set { m_source = value; }
         }
 
-        public List<Filter> Filters
-        {
-            get { return FilterService.Filters; }
-        }
+        // filter properties.
 
-        public Bitmap UnfilteredImage
-        {
-            get { return FilterService.GetUnfilteredImage(); }
-        }
+        public List<Filter> Filters => FilterService.Filters;
+        public Bitmap UnfilteredImage => FilterService.GetUnfilteredImage();
+        public Bitmap FilteredImage => FilterService.GetFilteredImage();
 
-        public Bitmap FilteredImage
-        {
-            get { return FilterService.GetFilteredImage(); }
-        }
+        // mosaic properties.
 
-        public Mosaic Mosaic
-        {
-            get { return MosaicService.GetMosaic(FilteredImage, new FloydSteinberg()); }
-        }
+        public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, new FloydSteinberg());
 
-        public FilterService FilterService
+        // private properties.
+
+        private FilterService FilterService
         {
             get
             {
@@ -57,7 +51,7 @@ namespace TeethInc.Chantry.Core
             }
         }
 
-        public MosaicService MosaicService
+        private MosaicService MosaicService
         {
             get
             {
