@@ -2,11 +2,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace TeethInc.Chantry.App.Pages
+namespace TeethInc.Chantry.App.PropertyPages
 {
-    public partial class ProjectPage : UserControl
+    public partial class FiltersPage : UserControl
     {
-        public ProjectPage()
+        public FiltersPage()
         {
             InitializeComponent();
         }

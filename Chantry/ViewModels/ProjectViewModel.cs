@@ -10,7 +10,7 @@ using TeethInc.Chantry.App.Extensions;
 using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Filters;
 using System.Collections.ObjectModel;
-using TeethInc.Chantry.App.FilterViewModels;
+using TeethInc.Chantry.App.Filters.ViewModels;
 using TeethInc.Chantry.Core.Services;
 
 namespace TeethInc.Chantry.App.ViewModels

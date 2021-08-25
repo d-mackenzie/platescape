@@ -2,11 +2,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace TeethInc.Chantry.App.FilterViews
+namespace TeethInc.Chantry.App.PropertyPages
 {
-    public partial class BrightnessContrastView : UserControl
+    public partial class ProjectPage : UserControl
     {
-        public BrightnessContrastView()
+        public ProjectPage()
         {
             InitializeComponent();
         }

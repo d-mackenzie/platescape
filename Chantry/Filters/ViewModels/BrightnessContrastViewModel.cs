@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TeethInc.Chantry.App.ViewModels;
 using TeethInc.Chantry.Core.Filters;
 
-namespace TeethInc.Chantry.App.FilterViewModels
+namespace TeethInc.Chantry.App.Filters.ViewModels
 {
     public class BrightnessContrastViewModel : BaseViewModel
     {

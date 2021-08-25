@@ -1,18 +1,14 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using TeethInc.Chantry.App.ViewModels;
 
-namespace TeethInc.Chantry.App
+namespace TeethInc.Chantry.App.Filters.Views
 {
-    public partial class MainWindow : Window
+    public partial class BrightnessContrastView : UserControl
     {
-        public MainWindow()
+        public BrightnessContrastView()
         {
             InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         private void InitializeComponent()

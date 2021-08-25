@@ -3,8 +3,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="TeethInc.Chantry.App.MainWindow"
+        x:Class="TeethInc.Chantry.App.Views.MainWindow"
         xmlns:pages="clr-namespace:TeethInc.Chantry.App.Pages"
+        xmlns:propertypages="clr-namespace:TeethInc.Chantry.App.PropertyPages"
         xmlns:viewmodels="clr-namespace:TeethInc.Chantry.App.ViewModels"
         Title="Chantry.App">
 
@@ -39,11 +40,11 @@
         <TabControl Grid.Column="2">
 
             <TabItem Header="Project" FontSize="12" Padding="5">
-                <pages:ProjectPage DataContext="{Binding ProjectViewModel}"/>
+                <propertypages:ProjectPage DataContext="{Binding ProjectViewModel}"/>
             </TabItem>
             
             <TabItem Header="Filters" FontSize="12" Padding="5">
-                <pages:FiltersPage DataContext="{Binding ProjectViewModel}"/>
+                <propertypages:FiltersPage DataContext="{Binding ProjectViewModel}"/>
             </TabItem>
             
             <TabItem Header="Mosaic" FontSize="12" Padding="5">

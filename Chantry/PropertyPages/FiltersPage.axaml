@@ -3,14 +3,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TeethInc.Chantry.App.Pages.FiltersPage"
-             xmlns:viewmodels="clr-namespace:TeethInc.Chantry.App.FilterViewModels"
-             xmlns:filterviews="clr-namespace:TeethInc.Chantry.App.FilterViews">
+             x:Class="TeethInc.Chantry.App.PropertyPages.FiltersPage"
+             xmlns:viewmodels="clr-namespace:TeethInc.Chantry.App.Filters.ViewModels"
+             xmlns:views="clr-namespace:TeethInc.Chantry.App.Filters.Views">
 
     <ItemsControl Items="{Binding Filters}">
         <ItemsControl.ItemTemplate>
             <DataTemplate DataType="{x:Type viewmodels:BrightnessContrastViewModel}">
-                <filterviews:BrightnessContrastView DataContext="{Binding}"/>
+                <views:BrightnessContrastView DataContext="{Binding}"/>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>
