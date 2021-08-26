@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -46,12 +47,14 @@ namespace TeethInc.Chantry.Core.Services
 
             Baseplate = ldrawService.GetPart(BASEPLATE_32X32);
             Part = ldrawService.GetPart(PLATE_1X1);
-            BaseplateExtent = new Size(1, 1);
+            BaseplateExtent = new Size(2, 2);
             AllowedColors = ldrawService.GetColors(new int[] { LDRAW_BLACK, LDRAW_DARK_BLEY, LDRAW_LIGHT_BLEY, LDRAW_WHITE }).ToList();
         }
 
         public Mosaic GetMosaic(Bitmap sourceImage, IMosaicAlgorithm mosaicAlgorithm)
         {
+            var sw = Stopwatch.StartNew();
+
             var colors = new LdColor[ElementExtent.Width, ElementExtent.Height];
 
             Bitmap image = new Bitmap(sourceImage, ScalingHelper.GetBestFitSize(sourceImage.Size, ElementExtent));
@@ -65,6 +68,8 @@ namespace TeethInc.Chantry.Core.Services
                     colors[x, y] = mosaicAlgorithm.GetColor(new Point(x, y), image.GetPixel(x, y), AllowedColors);
                 }
             }
+
+            Debug.WriteLine($"GetMosaic(): {sw.ElapsedMilliseconds}ms");
 
             return new Mosaic(Baseplate, Part, colors);
         }

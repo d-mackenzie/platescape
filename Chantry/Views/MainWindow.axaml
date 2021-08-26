@@ -28,6 +28,7 @@
             </TabItem>
 
             <TabItem Header="Mosaic" FontSize="12" Padding="5">
+                <pages:MosaicPage DataContext="{Binding ProjectViewModel}"/>
             </TabItem>
 
             <TabItem Header="Edits" FontSize="12" Padding="5">
