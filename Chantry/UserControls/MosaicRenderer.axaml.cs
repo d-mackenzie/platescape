@@ -8,13 +8,13 @@ using System.Text;
 using TeethInc.Chantry.Core.Services;
 using SdColor = System.Drawing.Color;
 using AmColor = Avalonia.Media.Color;
+using TeethInc.Chantry.App.Extensions;
 
 namespace TeethInc.Chantry.App.UserControls
 {
     public partial class MosaicRenderer : UserControl
     {
-        private const int RECTANGLE_SIZE = 5;
-
+        private const int RECTANGLE_SIZE = 2;
 
         public static readonly StyledProperty<Mosaic> MosaicProperty =
             AvaloniaProperty.Register<MosaicRenderer, Mosaic>(nameof(Mosaic));
@@ -44,34 +44,37 @@ namespace TeethInc.Chantry.App.UserControls
         {
             var sw = Stopwatch.StartNew();
 
-            var colors = Mosaic.Colors;
-            var colorDict = new Dictionary<SdColor, StringBuilder>();
-            string square = $" l {RECTANGLE_SIZE},0 0,{RECTANGLE_SIZE} {-RECTANGLE_SIZE},0 Z ";
+            context.DrawImage(Mosaic.Image.AsAvaloniaMediaImagingBitmap(), new Rect(0, 0, Mosaic.ElementExtent.Width * RECTANGLE_SIZE, Mosaic.ElementExtent.Height * RECTANGLE_SIZE));
 
-            for (int x = 0; x < colors.GetUpperBound(0); x++)
-            {
-                for (int y = 0; y < colors.GetUpperBound(1); y++)
-                {
-                    if (!colorDict.ContainsKey(colors[x, y].Color))
-                    {
-                        colorDict[colors[x, y].Color] = new StringBuilder();
-                    }
+            //var colors = Mosaic.Colors;
+            //var colorDict = new Dictionary<SdColor, StringBuilder>();
+            //string square = $" l {RECTANGLE_SIZE},0 0,{RECTANGLE_SIZE} {-RECTANGLE_SIZE},0 Z ";
 
-                    colorDict[colors[x, y].Color].Append($"M {x * RECTANGLE_SIZE} {y * RECTANGLE_SIZE}").Append(square);
-                }
-            }
+            //for (int x = 0; x < colors.GetUpperBound(0); x++)
+            //{
+            //    for (int y = 0; y < colors.GetUpperBound(1); y++)
+            //    {
+            //        if (!colorDict.ContainsKey(colors[x, y].Color))
+            //        {
+            //            colorDict[colors[x, y].Color] = new StringBuilder();
+            //        }
 
-            foreach (SdColor key in colorDict.Keys)
-            {
-                AmColor color = AmColor.FromRgb(key.R, key.G, key.B);
+            //        colorDict[colors[x, y].Color].Append($"M {x * RECTANGLE_SIZE} {y * RECTANGLE_SIZE}").Append(square);
+            //    }
+            //}
 
-                GeometryDrawing gd = new GeometryDrawing();
-                gd.Geometry = Geometry.Parse(colorDict[key].ToString());
 
-                gd.Brush = new SolidColorBrush(color);
+            //foreach (SdColor key in colorDict.Keys)
+            //{
+            //    AmColor color = AmColor.FromRgb(key.R, key.G, key.B);
 
-                gd.Draw(context);
-            }
+            //    GeometryDrawing gd = new GeometryDrawing();
+            //    gd.Geometry = Geometry.Parse(colorDict[key].ToString());
+
+            //    gd.Brush = new SolidColorBrush(color);
+
+            //    gd.Draw(context);
+            //}
 
             Debug.WriteLine($"Render(): {sw.ElapsedMilliseconds}ms");
 

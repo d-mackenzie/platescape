@@ -50,7 +50,7 @@ namespace TeethInc.Chantry.Core.Services
 
             Baseplate = ldrawService.GetPart(BASEPLATE_32X32);
             Part = ldrawService.GetPart(PLATE_1X1);
-            BaseplateExtent = new Size(8, 8);
+            BaseplateExtent = new Size(10, 10);
             AllowedColors = ldrawService.GetColors(new int[]
             {
                 LDRAW_BLACK,
@@ -83,12 +83,12 @@ namespace TeethInc.Chantry.Core.Services
                     for (int x = 0; x < ElementExtent.Width; x++)
                     {
                         int index = (y * stride) + (x * 4);
-                        Color color = Color.FromArgb(pixels[index + 1], pixels[index + 2], pixels[index + 3]);
+                        Color color = Color.FromArgb(pixels[index + 2], pixels[index + 1], pixels[index + 0]);
                         LdColor ldColor = mosaicAlgorithm.GetColor(x, y, color, m_colorService);
                         colors[x, y] = ldColor;
-                        pixels[index + 1] = ldColor.Color.R;
-                        pixels[index + 2] = ldColor.Color.G;
-                        pixels[index + 3] = ldColor.Color.B;
+                        pixels[index + 2] = ldColor.Color.R;
+                        pixels[index + 1] = ldColor.Color.G;
+                        pixels[index + 0] = ldColor.Color.B;
                     }
                 }
 

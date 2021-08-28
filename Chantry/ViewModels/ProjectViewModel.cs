@@ -31,6 +31,7 @@ namespace TeethInc.Chantry.App.ViewModels
         public ObservableCollection<BaseViewModel> Filters => m_filters;
         public Bitmap UnfilteredImage => m_project.UnfilteredImage.AsAvaloniaMediaImagingBitmap();
         public Bitmap FilteredImage => m_project.FilteredImage.AsAvaloniaMediaImagingBitmap();
+        public Bitmap MosaicImage => m_project.Mosaic.Image.AsAvaloniaMediaImagingBitmap();
 
         // moasic properties.
 

@@ -32,6 +32,7 @@
             </TabItem>
 
             <TabItem Header="Edits" FontSize="12" Padding="5">
+                <pages:EditsPage DataContext="{Binding ProjectViewModel}"/>
             </TabItem>
 
         </TabControl>

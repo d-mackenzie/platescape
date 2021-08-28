@@ -18,6 +18,8 @@ namespace TeethInc.Chantry.Core.Services
 
         public Bitmap Image { get; }
 
+        public Size ElementExtent => new Size(Colors.GetLength(0), Colors.GetLength(1));
+
         public Mosaic(LdPart baseplate, LdPart part, LdColor[,] colors, Bitmap image)
         {
             Baseplate = baseplate;
