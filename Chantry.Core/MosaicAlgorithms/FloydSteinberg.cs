@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Ldraw;
+using TeethInc.Chantry.Core.Services;
 
 namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
@@ -13,14 +14,13 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
     {
         private Error[,] m_errors;
         private Size m_size;
-        private IEnumerable<LdColor> m_allowedColors;
 
         public FloydSteinberg()
         {
-            Reset(new Size(1,1), new List<LdColor>());
+            Reset(new Size(1,1));
         }
 
-        public LdColor GetColor(int x, int y, Color sourceColor)
+        public LdColor GetColor(int x, int y, Color sourceColor, ColorService colorService)
         {
             // get average pixel color.
 
@@ -39,18 +39,18 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             // get closest color.
 
             Color avgColor = Color.FromArgb(
-                (int)Math.Clamp(red, 0, 255),
-                (int)Math.Clamp(green, 0, 255),
-                (int)Math.Clamp(blue, 0, 255));
+                Math.Clamp((int)red, 0, 255),
+                Math.Clamp((int)green, 0, 255),
+                Math.Clamp((int)blue, 0, 255));
 
-            LdColor closestLdColor = avgColor.ClosestLdColor(m_allowedColors);
+            LdColor closestLdColor = colorService.GetClosestLdColor(avgColor);
 
             // calculate the error.
 
             Error calculatedError = new Error(
-                closestLdColor.Color.R - (int)red,
-                closestLdColor.Color.G - (int)green,
-                closestLdColor.Color.B - (int)blue);
+                closestLdColor.Color.R - red,
+                closestLdColor.Color.G - green,
+                closestLdColor.Color.B - blue);
 
             // propagate the error.
 
@@ -64,7 +64,7 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             return closestLdColor;
         }
 
-        public void Reset(Size size, IEnumerable<LdColor> allowedColors)
+        public void Reset(Size size)
         {
             if (size != m_size)
                 m_errors = new Error[size.Width + 1, size.Height + 1];
@@ -76,11 +76,11 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
         private struct Error
         {
-            public int RedError;
-            public int GreenError;
-            public int BlueError;
+            public double RedError;
+            public double GreenError;
+            public double BlueError;
 
-            public Error(int redError, int greenError, int blueError)
+            public Error(double redError, double greenError, double blueError)
             {
                 RedError = redError;
                 GreenError = greenError;
@@ -97,9 +97,9 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             public Error GetFraction(int fraction)
             {
                 return new Error(
-                    (int)(RedError * fraction / 16f),
-                    (int)(GreenError * fraction / 16f),
-                    (int)(BlueError * fraction / 16f));
+                    RedError * fraction / 16,
+                    GreenError * fraction / 16,
+                    BlueError * fraction / 16);
             }
         }
     }

@@ -13,6 +13,9 @@ namespace TeethInc.Chantry.App.UserControls
 {
     public partial class MosaicRenderer : UserControl
     {
+        private const int RECTANGLE_SIZE = 5;
+
+
         public static readonly StyledProperty<Mosaic> MosaicProperty =
             AvaloniaProperty.Register<MosaicRenderer, Mosaic>(nameof(Mosaic));
 
@@ -43,7 +46,7 @@ namespace TeethInc.Chantry.App.UserControls
 
             var colors = Mosaic.Colors;
             var colorDict = new Dictionary<SdColor, StringBuilder>();
-            string square = " l 10,0 0,10 -10,0 Z ";
+            string square = $" l {RECTANGLE_SIZE},0 0,{RECTANGLE_SIZE} {-RECTANGLE_SIZE},0 Z ";
 
             for (int x = 0; x < colors.GetUpperBound(0); x++)
             {
@@ -54,7 +57,7 @@ namespace TeethInc.Chantry.App.UserControls
                         colorDict[colors[x, y].Color] = new StringBuilder();
                     }
 
-                    colorDict[colors[x, y].Color].Append($"M {x * 10} {y * 10}").Append(square);
+                    colorDict[colors[x, y].Color].Append($"M {x * RECTANGLE_SIZE} {y * RECTANGLE_SIZE}").Append(square);
                 }
             }
 

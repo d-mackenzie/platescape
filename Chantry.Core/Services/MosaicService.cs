@@ -24,6 +24,7 @@ namespace TeethInc.Chantry.Core.Services
         private const int LDRAW_YELLOW = 14;
         private const int LDRAW_WHITE = 15;
 
+        private ColorService m_colorService;
 
         public LdPart Baseplate { get; set; }
 
@@ -59,33 +60,44 @@ namespace TeethInc.Chantry.Core.Services
                 LDRAW_WHITE
             }).ToList();
 
-    }
+            m_colorService = new ColorService(AllowedColors);
+        }
 
-    public Mosaic GetMosaic(Bitmap sourceImage, IMosaicAlgorithm mosaicAlgorithm)
+        public Mosaic GetMosaic(Bitmap sourceImage, IMosaicAlgorithm mosaicAlgorithm)
         {
             var sw = Stopwatch.StartNew();
 
             var colors = new LdColor[ElementExtent.Width, ElementExtent.Height];
 
-            Bitmap image = new Bitmap(sourceImage, ScalingHelper.GetBestFitSize(sourceImage.Size, ElementExtent));
+            Size size = ScalingHelper.GetBestFitSize(sourceImage.Size, ElementExtent);
+            mosaicAlgorithm.Reset(ElementExtent);
 
-            mosaicAlgorithm.Reset(ElementExtent, AllowedColors);
-
-            (int stride, byte[] pixels) = image.ToPixelArray();
-
-            for (int y = 0; y < ElementExtent.Height; y++)
+            using (Bitmap source = new Bitmap(sourceImage, size))
             {
-                for (int x = 0; x < ElementExtent.Width; x++)
+                Bitmap mosaic = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                (int stride, byte[] pixels) = source.ToPixelArray();
+
+                for (int y = 0; y < ElementExtent.Height; y++)
                 {
-                    int index = (y * stride) + (x * 4);
-                    Color color = Color.FromArgb(pixels[index + 1], pixels[index + 2], pixels[index + 3]);
-                    colors[x, y] = mosaicAlgorithm.GetColor(x, y, color);
+                    for (int x = 0; x < ElementExtent.Width; x++)
+                    {
+                        int index = (y * stride) + (x * 4);
+                        Color color = Color.FromArgb(pixels[index + 1], pixels[index + 2], pixels[index + 3]);
+                        LdColor ldColor = mosaicAlgorithm.GetColor(x, y, color, m_colorService);
+                        colors[x, y] = ldColor;
+                        pixels[index + 1] = ldColor.Color.R;
+                        pixels[index + 2] = ldColor.Color.G;
+                        pixels[index + 3] = ldColor.Color.B;
+                    }
                 }
+
+                mosaic.SetPixelArray(pixels);
+
+                Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
+
+                return new Mosaic(Baseplate, Part, colors, mosaic);
             }
-
-            Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
-
-            return new Mosaic(Baseplate, Part, colors);
         }
     }
 }

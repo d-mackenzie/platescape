@@ -82,8 +82,7 @@ namespace TeethInc.Chantry.Console
             System.Console.WriteLine("Go!");
 
             Mosaic mosaic = null;
-            var colorService = new ColorService(mosaicService.AllowedColors.ToArray());
-            var algo = new NearestColor(colorService);
+            var algo = new FloydSteinberg();
 
             sw.Restart();
 

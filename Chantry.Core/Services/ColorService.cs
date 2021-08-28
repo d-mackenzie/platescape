@@ -15,9 +15,9 @@ namespace TeethInc.Chantry.Core.Services
         private LdColor[] m_allowedColors;
         private LdColor[,,] m_closestLdColors = new LdColor[64, 64, 64];
 
-        public ColorService(LdColor[] allowedColors)
+        public ColorService(IEnumerable<LdColor> allowedColors)
         {
-            m_allowedColors = allowedColors;
+            m_allowedColors = allowedColors.ToArray();
             RebuildCache();
         }
 

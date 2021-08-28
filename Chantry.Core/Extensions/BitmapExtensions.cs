@@ -37,6 +37,7 @@ namespace TeethInc.Chantry.Core.Extensions
                 pixels[i + 2] = filteredPixel.B;
             }
 
+            // copy the pixels onto the bitmap.
             System.Runtime.InteropServices.Marshal.Copy(pixels, 0, bitmapData.Scan0, bytes);
 
             // Unlock the bits.
@@ -64,6 +65,20 @@ namespace TeethInc.Chantry.Core.Extensions
             bitmap.UnlockBits(bitmapData);
 
             return (bitmapData.Stride, pixels);
+        }
+
+        public static void SetPixelArray(this Bitmap bitmap, byte[] pixels)
+        {
+            BitmapData bitmapData = bitmap.LockBits(
+                new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                ImageLockMode.ReadWrite,
+                bitmap.PixelFormat);
+
+            // copy the pixels onto the bitmap.
+            System.Runtime.InteropServices.Marshal.Copy(pixels, 0, bitmapData.Scan0, pixels.Length);
+
+            // Unlock the bits.
+            bitmap.UnlockBits(bitmapData);
         }
     }
 }

@@ -17,7 +17,6 @@ namespace TeethInc.Chantry.Core
         private ISource m_source;
         private FilterService m_filterService;
         private MosaicService m_mosaicService;
-        private ColorService m_colorService;
 
         public string Name { get; set; }
 
@@ -37,7 +36,7 @@ namespace TeethInc.Chantry.Core
 
         // mosaic properties.
 
-        public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, new NearestColor(m_colorService));
+        public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, new FloydSteinberg());
 
         // private properties.
 
@@ -57,10 +56,7 @@ namespace TeethInc.Chantry.Core
             get
             {
                 if (m_mosaicService is null)
-                {
                     m_mosaicService = new MosaicService();
-                    m_colorService = new ColorService(m_mosaicService.AllowedColors.ToArray());
-                }
 
                 return m_mosaicService;
             }

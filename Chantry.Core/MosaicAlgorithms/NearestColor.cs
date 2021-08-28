@@ -12,24 +12,12 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
     public class NearestColor : IMosaicAlgorithm
     {
-        private ColorService m_colorService;
-        private IEnumerable<LdColor> m_allowedColors;
-
-        public NearestColor(ColorService colorService)
+        public LdColor GetColor(int x, int y, Color sourceColor, ColorService colorService)
         {
-            m_colorService = colorService;
+            return colorService.GetClosestLdColor(sourceColor);
         }
 
-        public LdColor GetColor(int x, int y, Color sourceColor)
-        {
-            //return sourceColor.ClosestLdColor(m_allowedColors);
-            return m_colorService.GetClosestLdColor(sourceColor);
-        }
-
-        public void Reset(Size size, IEnumerable<LdColor> allowedColors)
-        {
-            m_allowedColors = allowedColors;
-       
-        }
+        public void Reset(Size size)
+        { }
     }
 }
