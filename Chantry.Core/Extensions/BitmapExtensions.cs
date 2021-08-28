@@ -42,5 +42,28 @@ namespace TeethInc.Chantry.Core.Extensions
             // Unlock the bits.
             bitmap.UnlockBits(bitmapData);
         }
+
+        public static (int, byte[]) ToPixelArray(this Bitmap bitmap)
+        {
+            if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
+                throw new ArgumentException("Pixel format must be 32bpp argb.");
+
+            BitmapData bitmapData = bitmap.LockBits(
+                new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                ImageLockMode.ReadWrite,
+                bitmap.PixelFormat);
+
+            // Declare an array to hold the bytes of the bitmap.
+            int bytes = Math.Abs(bitmapData.Stride) * bitmap.Height;
+            byte[] pixels = new byte[bytes];
+
+            // Copy the RGB values into the array.
+            System.Runtime.InteropServices.Marshal.Copy(bitmapData.Scan0, pixels, 0, bytes);
+
+            // Unlock the bits.
+            bitmap.UnlockBits(bitmapData);
+
+            return (bitmapData.Stride, pixels);
+        }
     }
 }

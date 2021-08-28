@@ -11,14 +11,16 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
     public class FloydSteinberg : IMosaicAlgorithm
     {
-        private Dictionary<Point, Error> m_errors;
+        private Error[,] m_errors;
+        private Size m_size;
+        private IEnumerable<LdColor> m_allowedColors;
 
         public FloydSteinberg()
         {
-            Reset();
+            Reset(new Size(1,1), new List<LdColor>());
         }
 
-        public LdColor GetColor(Point point, Color sourceColor, IEnumerable<LdColor> allowedColors)
+        public LdColor GetColor(int x, int y, Color sourceColor)
         {
             // get average pixel color.
 
@@ -28,7 +30,7 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
             // apply the error.
 
-            Error aggregatedError = GetError(point);
+            Error aggregatedError = m_errors[x, y];
 
             red -= aggregatedError.RedError;
             green -= aggregatedError.GreenError;
@@ -41,53 +43,42 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
                 (int)Math.Clamp(green, 0, 255),
                 (int)Math.Clamp(blue, 0, 255));
 
-            LdColor closestLdColor = avgColor.ClosestLdColor(allowedColors);
+            LdColor closestLdColor = avgColor.ClosestLdColor(m_allowedColors);
 
             // calculate the error.
 
-            Error calculatederror = new Error(
+            Error calculatedError = new Error(
                 closestLdColor.Color.R - (int)red,
                 closestLdColor.Color.G - (int)green,
                 closestLdColor.Color.B - (int)blue);
 
             // propagate the error.
 
-            AggregateError(point + new Size(1, 0), calculatederror.GetFraction(7));
-            AggregateError(point + new Size(1, 1), calculatederror.GetFraction(1));
-            AggregateError(point + new Size(0, 1), calculatederror.GetFraction(5));
-            AggregateError(point + new Size(-1, 1), calculatederror.GetFraction(3));
+            m_errors[x + 1, y + 0].Add(calculatedError.GetFraction(7));
+            m_errors[x + 1, y + 1].Add(calculatedError.GetFraction(1));
+            m_errors[x + 0, y + 1].Add(calculatedError.GetFraction(5));
+            
+            if (x != 0)
+                m_errors[x - 1, y + 1].Add(calculatedError.GetFraction(3));
 
             return closestLdColor;
         }
 
-        private void AggregateError(Point point, Error error)
+        public void Reset(Size size, IEnumerable<LdColor> allowedColors)
         {
-            GetError(point).Add(error);
+            if (size != m_size)
+                m_errors = new Error[size.Width + 1, size.Height + 1];
+            else
+                m_errors.Initialize();
+
+            m_size = size;
         }
 
-        private Error GetError(Point point)
+        private struct Error
         {
-            Error error = m_errors.GetValueOrDefault(point);
-
-            if (error == null)
-            {
-                error = new Error(0, 0, 0);
-                m_errors.Add(point, error);
-            }
-
-            return error;
-        }
-
-        public void Reset()
-        {
-            m_errors = new Dictionary<Point, Error>();
-        }
-
-        private class Error
-        {
-            public int RedError { get; set; }
-            public int GreenError { get; set; }
-            public int BlueError { get; set; }
+            public int RedError;
+            public int GreenError;
+            public int BlueError;
 
             public Error(int redError, int greenError, int blueError)
             {

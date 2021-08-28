@@ -68,35 +68,7 @@ namespace TeethInc.Chantry.Console
                 TargetElementExtent = new Size(160, 160)
             };
 
-            //filterService.Filters.Add(
-            //    new MultiplyFilter()
-            //    {
-            //        Factor = 1.5f
-            //    });
-
             MosaicService mosaicService = new MosaicService();
-
-            mosaicService.Baseplate = ldrawService.GetPart(BASEPLATE_32);
-            mosaicService.Part = ldrawService.GetPart(3024);
-            mosaicService.BaseplateExtent = new Size(5, 5);
-            mosaicService.AllowedColors = ldrawService.GetColors(
-                new int[]
-                {
-                    0,
-                    1,
-                    2,
-                    4,
-                    14,
-                    15,
-                    19,
-                    25,
-                    28,
-                    70,
-                    71,
-                    72,
-                    73,
-                    320
-                }).ToList();
 
             System.Console.WriteLine("Filter image.");
 
@@ -104,48 +76,29 @@ namespace TeethInc.Chantry.Console
             Bitmap filteredImage = filterService.GetFilteredImage();
             System.Console.WriteLine($"Filter took {sw.ElapsedMilliseconds}ms.");
 
-            Dictionary<int, string> map = new Dictionary<int, string>()
+            System.Console.WriteLine("Wait 5 seconds...");
+            Thread.Sleep(TimeSpan.FromMilliseconds(5000));
+
+            System.Console.WriteLine("Go!");
+
+            Mosaic mosaic = null;
+            var colorService = new ColorService(mosaicService.AllowedColors.ToArray());
+            var algo = new NearestColor(colorService);
+
+            sw.Restart();
+
+            for (int i = 0; i < 100; i++)
             {
-                { 0, " " },
-                { 15, "\u2588" },
-                { 71, "\u2593" },
-                { 72, "\u2592" }
-            };
+                mosaic = mosaicService.GetMosaic(filteredImage, algo);
+            }
 
-            System.Console.WriteLine("\nSave filtered image.");
+            System.Console.WriteLine($"Average: {sw.ElapsedMilliseconds / 100}ms.");
 
-            filteredImage.Save(@"c:\temp\eric-filtered.png", ImageFormat.Png);
+            //System.Console.WriteLine("\nSave ldr.");
 
-            System.Console.WriteLine("\nMake mosaic.");
-
-            sw.Restart();
-            Mosaic mosaic = mosaicService.GetMosaic(filteredImage, new FloydSteinberg());
-            System.Console.WriteLine($"Mosaic took {sw.ElapsedMilliseconds}ms.");
-
-            //System.Console.WriteLine("Output:\n\n");
-
-            //for (int y = 0; y < mosaic.Colors.GetUpperBound(1); y++)
-            //{
-            //    for (int x = 0; x < mosaic.Colors.GetUpperBound(0); x++)
-            //    {
-            //        if (map.ContainsKey(mosaic.Colors[x, y].Number))
-            //        {
-            //            System.Console.Write(map[mosaic.Colors[x, y].Number] + map[mosaic.Colors[x, y].Number]);
-            //        }
-            //        else
-            //        {
-            //            System.Console.Write("--");
-            //        }
-            //    }
-
-            //    System.Console.WriteLine();
-            //}
-
-            System.Console.WriteLine("\nSave ldr.");
-
-            sw.Restart();
-            File.WriteAllLines(@"c:\temp\eric-mosaic.ldr", ldrawService.GetLdrawFile(mosaic).ToList());
-            System.Console.WriteLine($"Save took {sw.ElapsedMilliseconds}ms.\n");
+            //sw.Restart();
+            //File.WriteAllLines(@"c:\temp\eric-mosaic.ldr", ldrawService.GetLdrawFile(mosaic).ToList());
+            //System.Console.WriteLine($"Save took {sw.ElapsedMilliseconds}ms.\n");
 
             System.Console.WriteLine("Done.");
         }

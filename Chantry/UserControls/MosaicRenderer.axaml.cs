@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using TeethInc.Chantry.Core.Services;
+using SdColor = System.Drawing.Color;
+using AmColor = Avalonia.Media.Color;
 
 namespace TeethInc.Chantry.App.UserControls
 {
@@ -40,38 +42,33 @@ namespace TeethInc.Chantry.App.UserControls
             var sw = Stopwatch.StartNew();
 
             var colors = Mosaic.Colors;
-
-            // var colorDict = new Dictionary<Color, StringBuilder>();
-
-            //for (int x = 0; x < colors.GetUpperBound(0); x++)
-            //{
-            //    for (int y = 0; y < colors.GetUpperBound(1); y++)
-            //    {
-            //        Color color = Color.FromRgb(colors[x, y].Color.R, colors[x, y].Color.G, colors[x, y].Color.B);
-            //        context.DrawRectangle(
-            //            new SolidColorBrush(color),
-            //            new Pen(new SolidColorBrush(color)),
-            //            new Rect(x * 10, y * 10, 10, 10));
-            //    }
-            //}
-
-            var sb = new StringBuilder();
+            var colorDict = new Dictionary<SdColor, StringBuilder>();
+            string square = " l 10,0 0,10 -10,0 Z ";
 
             for (int x = 0; x < colors.GetUpperBound(0); x++)
             {
                 for (int y = 0; y < colors.GetUpperBound(1); y++)
                 {
-                    sb.Append($"M {x * 10} {y * 10} l 10,0 0,10 -10,0 Z ");
+                    if (!colorDict.ContainsKey(colors[x, y].Color))
+                    {
+                        colorDict[colors[x, y].Color] = new StringBuilder();
+                    }
+
+                    colorDict[colors[x, y].Color].Append($"M {x * 10} {y * 10}").Append(square);
                 }
             }
 
-            GeometryDrawing gd = new GeometryDrawing();
-            gd.Geometry = Geometry.Parse(sb.ToString());
+            foreach (SdColor key in colorDict.Keys)
+            {
+                AmColor color = AmColor.FromRgb(key.R, key.G, key.B);
 
-            gd.Pen = new Pen(Brushes.Brown);
-            gd.Brush = Brushes.Brown;
+                GeometryDrawing gd = new GeometryDrawing();
+                gd.Geometry = Geometry.Parse(colorDict[key].ToString());
 
-            gd.Draw(context);
+                gd.Brush = new SolidColorBrush(color);
+
+                gd.Draw(context);
+            }
 
             Debug.WriteLine($"Render(): {sw.ElapsedMilliseconds}ms");
 

@@ -12,10 +12,14 @@ namespace TeethInc.Chantry.Core.Extensions
     {
         public static double DistanceFrom(this Color me, Color color)
         {
+            double deltaR = (double)(me.R - color.R);
+            double deltaG = (double)(me.G - color.G);
+            double deltaB = (double)(me.B - color.B);
+
             return
-                Math.Pow((me.R - color.R) * 0.30, 2) +
-                Math.Pow((me.G - color.G) * 0.59, 2) +
-                Math.Pow((me.B - color.B) * 0.11, 2);
+                (deltaR * 0.30 * deltaR * 0.30) +
+                (deltaG * 0.59 * deltaG * 0.59) +
+                (deltaB * 0.11 * deltaB * 0.11);
         }
 
         public static LdColor ClosestLdColor(this Color me, IEnumerable<LdColor> allowedColors)
