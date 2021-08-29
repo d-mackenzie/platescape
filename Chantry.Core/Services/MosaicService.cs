@@ -53,11 +53,24 @@ namespace TeethInc.Chantry.Core.Services
             BaseplateExtent = new Size(10, 10);
             AllowedColors = ldrawService.GetColors(new int[]
             {
-                LDRAW_BLACK,
-                LDRAW_BLUE,
-                LDRAW_RED,
-                LDRAW_YELLOW,
-                LDRAW_WHITE
+                0,
+                1,
+                2,
+                4,
+                14,
+                15,
+                19,
+                25,
+                27,
+                28,
+                29,
+                70,
+                71,
+                72,
+                272,
+                288,
+                320,
+                322
             }).ToList();
 
             m_colorService = new ColorService(AllowedColors);

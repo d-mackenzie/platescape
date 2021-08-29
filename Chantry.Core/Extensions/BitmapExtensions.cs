@@ -12,7 +12,7 @@ namespace TeethInc.Chantry.Core.Extensions
     {
         public static void ApplyFilter(this Bitmap bitmap, Func<Color, Color> func)
         {
-            if (bitmap.PixelFormat != PixelFormat.Format24bppRgb)
+            if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
                 throw new ArgumentException("Pixel format must be 24bpp rgb.");
 
             BitmapData bitmapData = bitmap.LockBits(
@@ -28,13 +28,17 @@ namespace TeethInc.Chantry.Core.Extensions
             System.Runtime.InteropServices.Marshal.Copy(bitmapData.Scan0, pixels, 0, bytes);
 
             // apply filter to each pixel.
-            for (int i = 0; i < pixels.Length; i += 3)
+            for (int y = 0; y < bitmap.Height; y++)
             {
-                Color unfilteredPixel = Color.FromArgb(pixels[i + 0], pixels[i + 1], pixels[i + 2]);
-                Color filteredPixel = func.Invoke(unfilteredPixel);
-                pixels[i + 0] = filteredPixel.R;
-                pixels[i + 1] = filteredPixel.G;
-                pixels[i + 2] = filteredPixel.B;
+                for (int x = 0; x < bitmap.Width; x++)
+                {
+                    int index = (y * bitmapData.Stride) + (x * 4);
+                    Color unfilteredPixel = Color.FromArgb(pixels[index + 2], pixels[index + 1], pixels[index + 0]);
+                    Color filteredPixel = func.Invoke(unfilteredPixel);
+                    pixels[index + 2] = filteredPixel.R;
+                    pixels[index + 1] = filteredPixel.G;
+                    pixels[index + 0] = filteredPixel.B;
+                }
             }
 
             // copy the pixels onto the bitmap.

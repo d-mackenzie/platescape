@@ -59,7 +59,7 @@ namespace TeethInc.Chantry.Core.Services
 
                 Bitmap scaledBitmap = new Bitmap(sourceImage, targetSize);
 
-                m_unfilteredImage = new Bitmap(targetSize.Width, targetSize.Height, PixelFormat.Format24bppRgb);
+                m_unfilteredImage = new Bitmap(targetSize.Width, targetSize.Height, PixelFormat.Format32bppArgb);
 
                 for (int x = 0; x < targetSize.Width; x++)
                 {
