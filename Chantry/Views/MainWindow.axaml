@@ -50,6 +50,7 @@
             </TabItem>
             
             <TabItem Header="Mosaic" FontSize="12" Padding="5">
+                <propertypages:MosaicPage DataContext="{Binding ProjectViewModel}"/>
             </TabItem>
             
             <TabItem Header="Edits" FontSize="12" Padding="5">

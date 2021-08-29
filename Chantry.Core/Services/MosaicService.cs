@@ -50,7 +50,7 @@ namespace TeethInc.Chantry.Core.Services
 
             Baseplate = ldrawService.GetPart(BASEPLATE_32X32);
             Part = ldrawService.GetPart(PLATE_1X1);
-            BaseplateExtent = new Size(10, 10);
+            BaseplateExtent = new Size(4, 2);
             AllowedColors = ldrawService.GetColors(new int[]
             {
                 0,
@@ -76,36 +76,41 @@ namespace TeethInc.Chantry.Core.Services
             m_colorService = new ColorService(AllowedColors);
         }
 
-        public Mosaic GetMosaic(Bitmap sourceImage, IMosaicAlgorithm mosaicAlgorithm)
+        public Mosaic GetMosaic(Bitmap filteredImage, IMosaicAlgorithm mosaicAlgorithm)
         {
             var sw = Stopwatch.StartNew();
 
             var colors = new LdColor[ElementExtent.Width, ElementExtent.Height];
-
-            Size size = ScalingHelper.GetBestFitSize(sourceImage.Size, ElementExtent);
             mosaicAlgorithm.Reset(ElementExtent);
 
-            using (Bitmap source = new Bitmap(sourceImage, size))
+            using (Bitmap source = new Bitmap(filteredImage, ScalingHelper.GetBestFitSize(filteredImage.Size, ElementExtent)))
             {
-                Bitmap mosaic = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                Bitmap mosaic = new Bitmap(ElementExtent.Width, ElementExtent.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-                (int stride, byte[] pixels) = source.ToPixelArray();
+                Point topLeft = new Point(
+                    (source.Width - mosaic.Width) / 2,
+                    (source.Height - mosaic.Height) / 2);
+
+                (int sourceStride, byte[] sourcePixels) = source.ToPixelArray();
+                (int mosaicStride, byte[] mosaicPixels) = mosaic.ToPixelArray();
 
                 for (int y = 0; y < ElementExtent.Height; y++)
                 {
                     for (int x = 0; x < ElementExtent.Width; x++)
                     {
-                        int index = (y * stride) + (x * 4);
-                        Color color = Color.FromArgb(pixels[index + 2], pixels[index + 1], pixels[index + 0]);
+                        int sourceIndex = ((y + topLeft.Y) * sourceStride) + ((x + topLeft.X) * 4);
+                        int mosaicIndex = (y * mosaicStride) + (x * 4);
+                        Color color = Color.FromArgb(sourcePixels[sourceIndex + 2], sourcePixels[sourceIndex + 1], sourcePixels[sourceIndex + 0]);
                         LdColor ldColor = mosaicAlgorithm.GetColor(x, y, color, m_colorService);
                         colors[x, y] = ldColor;
-                        pixels[index + 2] = ldColor.Color.R;
-                        pixels[index + 1] = ldColor.Color.G;
-                        pixels[index + 0] = ldColor.Color.B;
+                        mosaicPixels[mosaicIndex + 3] = 255; // alpha.
+                        mosaicPixels[mosaicIndex + 2] = ldColor.Color.R;
+                        mosaicPixels[mosaicIndex + 1] = ldColor.Color.G;
+                        mosaicPixels[mosaicIndex + 0] = ldColor.Color.B;
                     }
                 }
 
-                mosaic.SetPixelArray(pixels);
+                mosaic.SetPixelArray(mosaicPixels);
 
                 Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
 
