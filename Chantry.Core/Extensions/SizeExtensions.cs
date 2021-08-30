@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TeethInc.Chantry.Core.Extensions
 {
-    public enum AspectRatio
+    public enum AspectRatioType
     {
         Portrait,
         Landscape
@@ -25,9 +25,36 @@ namespace TeethInc.Chantry.Core.Extensions
             return (me.Width > size.Width || me.Height > size.Height);
         }
 
-        public static AspectRatio AspectRatio(this Size me)
+        public static AspectRatioType AspectRatio(this Size me)
         {
-            return (me.Width > me.Height) ? Extensions.AspectRatio.Landscape : Extensions.AspectRatio.Portrait;
+            return (me.Width > me.Height) ? Extensions.AspectRatioType.Landscape : Extensions.AspectRatioType.Portrait;
+        }
+
+        public static Size GetSizeScaledBy(this Size me, float scale)
+        {
+            return new Size((int)(me.Width * scale), (int)(me.Height * scale));
+        }
+
+        public static Size GetSizeToFill(this Size me, Size target)
+        {
+            Size scaledByWidth = me.GetSizeScaledBy((float)target.Width / me.Width);
+            Size scaledByHeight = me.GetSizeScaledBy((float)target.Height / me.Height);
+
+            if (scaledByWidth.IsLargerThan(target))
+                return scaledByWidth;
+
+            return scaledByHeight;
+        }
+
+        public static Size GetSizeToFit(this Size me, Size target)
+        {
+            Size scaledByWidth = me.GetSizeScaledBy((float)target.Width / me.Width);
+            Size scaledByHeight = me.GetSizeScaledBy((float)target.Height / me.Height);
+
+            if (scaledByWidth.IsSmallerThan(target))
+                return scaledByWidth;
+
+            return scaledByHeight;
         }
     }
 }

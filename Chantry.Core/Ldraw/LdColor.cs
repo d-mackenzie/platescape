@@ -18,8 +18,9 @@ namespace TeethInc.Chantry.Core.Ldraw
             Number = number;
             Name = name;
 
-            int rgba = Int32.Parse(rgbHex, System.Globalization.NumberStyles.HexNumber);
-            Color = Color.FromArgb(rgba);
+            long rgba = Int32.Parse(rgbHex, System.Globalization.NumberStyles.HexNumber);
+            rgba = rgba | 0xFF000000;
+            Color = Color.FromArgb((int)rgba);
         }
     }
 }

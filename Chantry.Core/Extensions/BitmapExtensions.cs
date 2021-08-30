@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Helpers;
 
 namespace TeethInc.Chantry.Core.Extensions
 {
@@ -13,7 +14,7 @@ namespace TeethInc.Chantry.Core.Extensions
         public static void ApplyFilter(this Bitmap bitmap, Func<Color, Color> func)
         {
             if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
-                throw new ArgumentException("Pixel format must be 24bpp rgb.");
+                throw new ArgumentException("Pixel format must be 32bpp argb.");
 
             BitmapData bitmapData = bitmap.LockBits(
                 new Rectangle(0, 0, bitmap.Width, bitmap.Height),
@@ -48,7 +49,7 @@ namespace TeethInc.Chantry.Core.Extensions
             bitmap.UnlockBits(bitmapData);
         }
 
-        public static (int, byte[]) ToPixelArray(this Bitmap bitmap)
+        public static PixelData ToPixelData(this Bitmap bitmap)
         {
             if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
                 throw new ArgumentException("Pixel format must be 32bpp argb.");
@@ -68,7 +69,7 @@ namespace TeethInc.Chantry.Core.Extensions
             // Unlock the bits.
             bitmap.UnlockBits(bitmapData);
 
-            return (bitmapData.Stride, pixels);
+            return new PixelData(bitmapData.Stride, pixels);
         }
 
         public static void SetPixelArray(this Bitmap bitmap, byte[] pixels)

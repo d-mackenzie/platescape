@@ -32,7 +32,7 @@ namespace TeethInc.Chantry.Core.Services
         public FilterService(ISource source)
         {
             Filters = new List<Filter>();
-            TargetElementExtent = new Size(32, 32);
+            TargetElementExtent = new Size(192, 128);
             Source = source;
         }
 
@@ -77,15 +77,15 @@ namespace TeethInc.Chantry.Core.Services
         {
             if (sourceSize.IsSmallerThan(targetSize))
             {
-                return ScalingHelper.GetBestFitSize(sourceSize, targetSize);
+                return sourceSize.GetSizeToFill(targetSize);
             }
 
             if (targetSize.IsSmallerThan(new Size(minimumSize, minimumSize)))
             {
-                targetSize = ScalingHelper.GetBestFitSize(targetSize, new Size(minimumSize, minimumSize));
+                targetSize = targetSize.GetSizeToFill(new Size(minimumSize, minimumSize));
             }
 
-            return ScalingHelper.GetBestFitSize(sourceSize, targetSize);
+            return sourceSize.GetSizeToFill(targetSize);
         }
     }
 }
