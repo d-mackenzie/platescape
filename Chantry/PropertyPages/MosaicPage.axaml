@@ -8,32 +8,32 @@
     <StackPanel>
 
         <Label Content="Baseplate:"/>
-        <DropDown Items="{Binding Baseplates}" SelectedItem="{Binding Baseplate}">
-            <DropDown.ItemTemplate>
+        <ComboBox Items="{Binding Baseplates}" SelectedItem="{Binding Baseplate}">
+            <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Name}"/>
                     </StackPanel>
                 </DataTemplate>
-            </DropDown.ItemTemplate>
-        </DropDown>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
         <Label Content="Element:"/>
-        <DropDown Items="{Binding Elements}" SelectedItem="{Binding Element}">
-            <DropDown.ItemTemplate>
+        <ComboBox Items="{Binding Elements}" SelectedItem="{Binding Element}">
+            <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Name}"/>
                     </StackPanel>
                 </DataTemplate>
-            </DropDown.ItemTemplate>
-        </DropDown>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
         
         <Label Content="Size:"/>
         <StackPanel Orientation="Horizontal">
-            <NumericUpDown Minimum="1" Maximum="20" AllowSpin="True" />
+            <NumericUpDown Minimum="1" Maximum="20" Value="{Binding BaseplateExtentWidth}" />
             <Label Content=" by "/>
-            <NumericUpDown Minimum="1" Maximum="20" AllowSpin="True" />
+            <NumericUpDown Minimum="1" Maximum="20" Value="{Binding BaseplateExtentHeight}" />
         </StackPanel>
        
         <Label Content="Size Info"/>

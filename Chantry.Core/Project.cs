@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Filters;
+using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.MosaicAlgorithms;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
@@ -35,6 +36,24 @@ namespace TeethInc.Chantry.Core
         public Bitmap FilteredImage => FilterService.GetFilteredImage();
 
         // mosaic properties.
+
+        public LdPart Baseplate
+        {
+            get { return MosaicService.Baseplate; }
+            set { MosaicService.Baseplate = value; }
+        }
+
+        public LdPart Element
+        {
+            get { return MosaicService.Element; }
+            set { MosaicService.Element = value; }
+        }
+
+        public Size BaseplateExtent
+        {
+            get { return MosaicService.BaseplateExtent; }
+            set { MosaicService.BaseplateExtent = value; }
+        }
 
         public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, new FloydSteinberg());
 
