@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TeethInc.Chantry.Core.Ldraw
 {
-    public class LdColor
+    public record LdColor
     {
         public int Number { get; }
         public string Name { get; }

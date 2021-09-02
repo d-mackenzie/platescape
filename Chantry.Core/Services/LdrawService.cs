@@ -13,7 +13,11 @@ namespace TeethInc.Chantry.Core.Services
     {
         private List<LdColor> m_colors;
 
-        private List<LdPart> m_parts;
+        private List<LdPart> m_baseplates;
+        private List<LdPart> m_elements;
+
+        public List<LdPart> Baseplates => m_baseplates;
+        public List<LdPart> Elements => m_elements;
 
         public LdrawService()
         {
@@ -52,11 +56,15 @@ namespace TeethInc.Chantry.Core.Services
                 new LdColor(484, "Dark Orange", "A95500")
             };
 
-            m_parts = new List<LdPart>()
+            m_baseplates = new List<LdPart>()
             {
                 new LdPart(4186, "Baseplate 48 x 48", new Size(48, 48)),
                 new LdPart(3811, "Baseplate 32 x 32", new Size(32, 32)),
-                new LdPart(3867, "Baseplate 16 x 16", new Size(16, 16)),
+                new LdPart(3867, "Baseplate 16 x 16", new Size(16, 16))
+            };
+
+            m_elements = new List<LdPart>()
+            {
                 new LdPart(3024, "Plate 1 x 1", new Size(1, 1)),
                 new LdPart(3022, "Plate 2 x 2", new Size(2, 2)),
                 new LdPart(3005, "Brick 1 x 1", new Size(1, 1)),
@@ -71,7 +79,7 @@ namespace TeethInc.Chantry.Core.Services
 
         public LdPart GetPart(int ldrawElementNumber)
         {
-            return m_parts.FirstOrDefault(x => x.Number == ldrawElementNumber);
+            return m_baseplates.Union(m_elements).FirstOrDefault(x => x.Number == ldrawElementNumber);
         }
 
         public IEnumerable<LdColor> GetColors(int[] ldrawColorNumbers)

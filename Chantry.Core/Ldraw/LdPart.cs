@@ -7,18 +7,5 @@ using System.Threading.Tasks;
 
 namespace TeethInc.Chantry.Core.Ldraw
 {
-    public class LdPart
-    {
-        public int Number { get; }
-        public string Name { get; }
-
-        public Size Size { get; }
-
-        public LdPart(int number, string name, Size size)
-        {
-            Number = number;
-            Name = name;
-            Size = size;
-        }
-    }
+    public record LdPart(int Number, string Name, Size Size);
 }

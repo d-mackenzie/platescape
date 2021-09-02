@@ -12,6 +12,7 @@ using TeethInc.Chantry.Core.Filters;
 using System.Collections.ObjectModel;
 using TeethInc.Chantry.App.Filters.ViewModels;
 using TeethInc.Chantry.Core.Services;
+using TeethInc.Chantry.Core.Ldraw;
 
 namespace TeethInc.Chantry.App.ViewModels
 {
@@ -20,6 +21,7 @@ namespace TeethInc.Chantry.App.ViewModels
         private Project m_project;
         private ObservableCollection<BaseViewModel> m_filters = new ObservableCollection<BaseViewModel>();
         private MosaicService m_mosaicService = new MosaicService();
+        private LdrawService m_ldrawService = new LdrawService();
 
         public FileSource Source
         {
@@ -37,6 +39,12 @@ namespace TeethInc.Chantry.App.ViewModels
 
         public MosaicService MosaicService => m_mosaicService;
         public Mosaic Mosaic => m_project.Mosaic;
+
+        public List<LdPart> Baseplates => m_ldrawService.Baseplates;
+        public List<LdPart> Elements => m_ldrawService.Elements;
+
+        public LdPart Baseplate => m_mosaicService.Baseplate;
+        public LdPart Element => m_mosaicService.Part;
 
         public string Name => m_project.Name;
 

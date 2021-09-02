@@ -50,7 +50,7 @@ namespace TeethInc.Chantry.Core.Services
 
             Baseplate = ldrawService.GetPart(BASEPLATE_32X32);
             Part = ldrawService.GetPart(PLATE_1X1);
-            BaseplateExtent = new Size(6, 4);
+            BaseplateExtent = new Size(6, 6);
             AllowedColors = ldrawService.GetColors(new int[]
             {
                 0,

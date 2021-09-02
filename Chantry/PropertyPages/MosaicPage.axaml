@@ -4,5 +4,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TeethInc.Chantry.App.PropertyPages.MosaicPage">
-  Welcome to Avalonia!
+
+    <StackPanel>
+
+        <Label Content="Baseplate:"/>
+        <DropDown Items="{Binding Baseplates}" SelectedItem="{Binding Baseplate}">
+            <DropDown.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </DropDown.ItemTemplate>
+        </DropDown>
+
+        <Label Content="Element:"/>
+        <DropDown Items="{Binding Elements}" SelectedItem="{Binding Element}">
+            <DropDown.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </DropDown.ItemTemplate>
+        </DropDown>
+        
+        <Label Content="Size:"/>
+        <StackPanel Orientation="Horizontal">
+            <NumericUpDown Minimum="1" Maximum="20" AllowSpin="True" />
+            <Label Content=" by "/>
+            <NumericUpDown Minimum="1" Maximum="20" AllowSpin="True" />
+        </StackPanel>
+       
+        <Label Content="Size Info"/>
+
+    </StackPanel>
+    
 </UserControl>
