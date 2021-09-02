@@ -50,13 +50,13 @@ namespace TeethInc.Chantry.App.ViewModels
         public LdPart Baseplate
         {
             get { return m_project.Baseplate; }
-            set { m_project.Baseplate = value; RaisePropertyChanged(nameof(Mosaic)); }
+            set { m_project.Baseplate = value; RaiseMosaicPropertyChanged(); }
         }
 
         public LdPart Element
         {
             get { return m_project.Element; }
-            set { m_project.Element = value; RaisePropertyChanged(nameof(Mosaic)); }
+            set { m_project.Element = value; RaiseMosaicPropertyChanged(); }
         }
 
         public int BaseplateExtentWidth
@@ -65,7 +65,7 @@ namespace TeethInc.Chantry.App.ViewModels
             set
             {
                 m_project.BaseplateExtent = new Size(value, m_project.BaseplateExtent.Height);
-                RaisePropertyChanged(nameof(Mosaic));
+                RaiseMosaicPropertyChanged();
             }
         }
 
@@ -75,12 +75,27 @@ namespace TeethInc.Chantry.App.ViewModels
             set
             {
                 m_project.BaseplateExtent = new Size(m_project.BaseplateExtent.Width, value);
-                RaisePropertyChanged(nameof(Mosaic));
+                RaiseMosaicPropertyChanged();
+            }
+        }
+
+        public string SizeInfo
+        {
+            get
+            {
+                int width = m_project.BaseplateExtent.Width * Baseplate.Size.Width;
+                int height = m_project.BaseplateExtent.Height * Baseplate.Size.Height;
+
+                string ret = $"{m_project.ElementExtent.Width} elements by { m_project.ElementExtent.Height} elements\n";
+                ret += $"{width} studs by {height} studs\n";
+                ret += string.Format("{0:F0}cm by {1:F0}cm\n", width * 0.8, height * 0.8);
+                ret += string.Format("{0} by {1}\n", MmToFeetAndInches(width * 8), MmToFeetAndInches(height * 8));
+
+                return ret;
             }
         }
 
         public Mosaic Mosaic => m_project.Mosaic;
-
 
         // project properties.
 
@@ -106,6 +121,26 @@ namespace TeethInc.Chantry.App.ViewModels
         {
             RaisePropertyChanged(nameof(FilteredImage));
             RaisePropertyChanged(nameof(Mosaic));
+        }
+
+        private void RaiseMosaicPropertyChanged()
+        {
+            RaisePropertyChanged(nameof(Mosaic));
+            RaisePropertyChanged(nameof(SizeInfo));
+        }
+
+        private string MmToFeetAndInches(int mm)
+        {
+            int inches = (int)(mm / 25.4f);
+
+            if (inches < 12)
+                return $"{inches}in";
+
+            if (inches % 12 == 0)
+                return $"{inches / 12}ft";
+
+            return $"{inches / 12}ft {inches % 12}in";
+
         }
     }
 }

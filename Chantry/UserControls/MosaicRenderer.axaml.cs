@@ -14,7 +14,7 @@ namespace TeethInc.Chantry.App.UserControls
 {
     public partial class MosaicRenderer : UserControl
     {
-        private const int RECTANGLE_SIZE = 2;
+        private const int ZOOM_FACTOR = 2;
 
         public static readonly StyledProperty<Mosaic> MosaicProperty =
             AvaloniaProperty.Register<MosaicRenderer, Mosaic>(nameof(Mosaic));
@@ -44,7 +44,7 @@ namespace TeethInc.Chantry.App.UserControls
         {
             var sw = Stopwatch.StartNew();
 
-            context.DrawImage(Mosaic.Image.AsAvaloniaMediaImagingBitmap(), new Rect(0, 0, Mosaic.ElementExtent.Width * RECTANGLE_SIZE, Mosaic.ElementExtent.Height * RECTANGLE_SIZE));
+            context.DrawImage(Mosaic.Image.AsAvaloniaMediaImagingBitmap(), new Rect(0, 0, Mosaic.StudExtent.Width * ZOOM_FACTOR, Mosaic.StudExtent.Height * ZOOM_FACTOR));
 
             //var colors = Mosaic.Colors;
             //var colorDict = new Dictionary<SdColor, StringBuilder>();

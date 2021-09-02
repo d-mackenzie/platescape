@@ -36,7 +36,8 @@
             <NumericUpDown Minimum="1" Maximum="20" Value="{Binding BaseplateExtentHeight}" />
         </StackPanel>
        
-        <Label Content="Size Info"/>
+        <Label Content="Size Info:"/>
+        <TextBlock Text="{Binding SizeInfo}"/>
 
     </StackPanel>
     

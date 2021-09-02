@@ -55,6 +55,8 @@ namespace TeethInc.Chantry.Core
             set { MosaicService.BaseplateExtent = value; }
         }
 
+        public Size ElementExtent => MosaicService.ElementExtent;
+
         public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, new FloydSteinberg());
 
         // private properties.
