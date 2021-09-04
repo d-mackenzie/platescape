@@ -3,14 +3,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TeethInc.Chantry.App.PropertyPages.MosaicPage">
+             x:Class="TeethInc.Chantry.App.PropertyPages.MosaicPage"
+             xmlns:converters="clr-namespace:TeethInc.Chantry.App.Converters">
 
+    <UserControl.Resources>
+        <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+    </UserControl.Resources>
+    
     <ScrollViewer AllowAutoHide="False">
 
         <StackPanel>
 
             <Label Content="Baseplate:"/>
-            <ComboBox Items="{Binding Baseplates}" SelectedItem="{Binding Baseplate}">
+            <ComboBox Items="{Binding Baseplates}"
+                      SelectedItem="{Binding Baseplate}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
@@ -19,7 +25,8 @@
             </ComboBox>
 
             <Label Content="Element:"/>
-            <ComboBox Items="{Binding Elements}" SelectedItem="{Binding Element}">
+            <ComboBox Items="{Binding Elements}"
+                      SelectedItem="{Binding Element}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
@@ -29,19 +36,40 @@
 
             <Label Content="Size:"/>
             <StackPanel Orientation="Horizontal">
-                <NumericUpDown Minimum="1" Maximum="20" Value="{Binding BaseplateExtentWidth}" />
+                <NumericUpDown Minimum="1"
+                               Maximum="20"
+                               Value="{Binding BaseplateExtentWidth}" />
                 <Label Content=" by "/>
-                <NumericUpDown Minimum="1" Maximum="20" Value="{Binding BaseplateExtentHeight}" />
+                <NumericUpDown Minimum="1"
+                               Maximum="20"
+                               Value="{Binding BaseplateExtentHeight}" />
             </StackPanel>
 
             <Label Content="Size Info:"/>
             <TextBlock Text="{Binding SizeInfo}"/>
 
             <Label Content="Colours:"/>
-            <ListBox SelectionMode="Multiple,Toggle" SelectedItems="{Binding AllowedColors}" Items="{Binding Colors}">
+            <ListBox MaxHeight="400"
+                     SelectionMode="Multiple,Toggle"
+                     SelectedItems="{Binding AllowedColors}"
+                     Items="{Binding Colors}">
+                <ListBox.Styles>
+                    <Style Selector="ListBoxItem">
+                        <Setter Property="Padding"
+                                Value="10,1,10,1"/>
+                    </Style>
+                </ListBox.Styles>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Width="12"
+                                       Height="12"
+                                       Stroke="Black"
+                                       StrokeThickness="1"
+                                       Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"/>
+                            <TextBlock Text="{Binding Name}"
+                                       Padding="5,0,0,0"/>
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

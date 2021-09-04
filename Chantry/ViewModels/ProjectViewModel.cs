@@ -47,7 +47,7 @@ namespace TeethInc.Chantry.App.ViewModels
 
         public List<LdPart> Baseplates => m_ldrawService.Baseplates;
         public List<LdPart> Elements => m_ldrawService.Elements;
-        public List<LdColor> Colors => m_ldrawService.Colors;
+        public List<LdColor> Colors => m_ldrawService.Colors.OrderBy(x => x.Name).ToList();
         public ObservableCollection<LdColor> AllowedColors => m_allowedColors;
 
         public LdPart Baseplate
