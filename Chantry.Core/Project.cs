@@ -57,6 +57,12 @@ namespace TeethInc.Chantry.Core
 
         public Size ElementExtent => MosaicService.ElementExtent;
 
+        public List<LdColor> AllowedColors
+        {
+            get { return MosaicService.AllowedColors; }
+            set { MosaicService.AllowedColors = value; }
+        }
+
         public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, new FloydSteinberg());
 
         // private properties.

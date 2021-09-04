@@ -5,40 +5,49 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TeethInc.Chantry.App.PropertyPages.MosaicPage">
 
-    <StackPanel>
+    <ScrollViewer AllowAutoHide="False">
 
-        <Label Content="Baseplate:"/>
-        <ComboBox Items="{Binding Baseplates}" SelectedItem="{Binding Baseplate}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+        <StackPanel>
 
-        <Label Content="Element:"/>
-        <ComboBox Items="{Binding Elements}" SelectedItem="{Binding Element}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+            <Label Content="Baseplate:"/>
+            <ComboBox Items="{Binding Baseplates}" SelectedItem="{Binding Baseplate}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        
-        <Label Content="Size:"/>
-        <StackPanel Orientation="Horizontal">
-            <NumericUpDown Minimum="1" Maximum="20" Value="{Binding BaseplateExtentWidth}" />
-            <Label Content=" by "/>
-            <NumericUpDown Minimum="1" Maximum="20" Value="{Binding BaseplateExtentHeight}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label Content="Element:"/>
+            <ComboBox Items="{Binding Elements}" SelectedItem="{Binding Element}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label Content="Size:"/>
+            <StackPanel Orientation="Horizontal">
+                <NumericUpDown Minimum="1" Maximum="20" Value="{Binding BaseplateExtentWidth}" />
+                <Label Content=" by "/>
+                <NumericUpDown Minimum="1" Maximum="20" Value="{Binding BaseplateExtentHeight}" />
+            </StackPanel>
+
+            <Label Content="Size Info:"/>
+            <TextBlock Text="{Binding SizeInfo}"/>
+
+            <Label Content="Colours:"/>
+            <ListBox SelectionMode="Multiple,Toggle" SelectedItems="{Binding AllowedColors}" Items="{Binding Colors}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
         </StackPanel>
-       
-        <Label Content="Size Info:"/>
-        <TextBlock Text="{Binding SizeInfo}"/>
 
-    </StackPanel>
+    </ScrollViewer>
     
 </UserControl>

@@ -18,6 +18,7 @@ namespace TeethInc.Chantry.Core.Services
 
         public List<LdPart> Baseplates => m_baseplates;
         public List<LdPart> Elements => m_elements;
+        public List<LdColor> Colors => m_colors;
 
         public LdrawService()
         {

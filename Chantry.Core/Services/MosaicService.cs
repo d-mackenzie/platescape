@@ -25,6 +25,7 @@ namespace TeethInc.Chantry.Core.Services
         private const int LDRAW_WHITE = 15;
 
         private ColorService m_colorService;
+        private List<LdColor> m_allowedColors;
 
         public LdPart Baseplate { get; set; }
 
@@ -32,7 +33,11 @@ namespace TeethInc.Chantry.Core.Services
 
         public Size BaseplateExtent { get; set; }
 
-        public List<LdColor> AllowedColors { get; set; }
+        public List<LdColor> AllowedColors
+        {
+            get { return m_allowedColors; }
+            set { m_allowedColors = value; m_colorService = new ColorService(value); }
+        }
 
         public Size ElementExtent
         {
@@ -55,27 +60,12 @@ namespace TeethInc.Chantry.Core.Services
             BaseplateExtent = new Size(6, 6);
             AllowedColors = ldrawService.GetColors(new int[]
             {
-                0,
-                1,
-                2,
-                4,
-                14,
-                15,
-                19,
-                25,
-                27,
-                28,
-                29,
-                70,
-                71,
-                72,
-                272,
-                288,
-                320,
-                322
+                LDRAW_BLACK,
+                LDRAW_BLUE,
+                LDRAW_RED,
+                LDRAW_YELLOW,
+                LDRAW_WHITE,
             }).ToList();
-
-            m_colorService = new ColorService(AllowedColors);
         }
 
         public Mosaic GetMosaic(Bitmap filteredImage, IMosaicAlgorithm mosaicAlgorithm)

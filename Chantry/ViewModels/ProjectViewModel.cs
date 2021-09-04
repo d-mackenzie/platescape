@@ -23,6 +23,7 @@ namespace TeethInc.Chantry.App.ViewModels
         private Project m_project;
         private ObservableCollection<BaseViewModel> m_filters = new ObservableCollection<BaseViewModel>();
         private LdrawService m_ldrawService;
+        private ObservableCollection<LdColor> m_allowedColors = new ObservableCollection<LdColor>();
 
         // project properties.
 
@@ -46,6 +47,8 @@ namespace TeethInc.Chantry.App.ViewModels
 
         public List<LdPart> Baseplates => m_ldrawService.Baseplates;
         public List<LdPart> Elements => m_ldrawService.Elements;
+        public List<LdColor> Colors => m_ldrawService.Colors;
+        public ObservableCollection<LdColor> AllowedColors => m_allowedColors;
 
         public LdPart Baseplate
         {
@@ -115,12 +118,21 @@ namespace TeethInc.Chantry.App.ViewModels
                     Filters.Add(brightnessContrastViewModel);
                 }
             }
+
+            m_project.AllowedColors.ForEach(AllowedColors.Add);
+            AllowedColors.CollectionChanged += AllowedColors_CollectionChanged;
+        }
+
+        private void AllowedColors_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            m_project.AllowedColors = AllowedColors.ToList();
+            RaiseMosaicPropertyChanged();
         }
 
         private void FilterPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             RaisePropertyChanged(nameof(FilteredImage));
-            RaisePropertyChanged(nameof(Mosaic));
+            RaiseMosaicPropertyChanged();
         }
 
         private void RaiseMosaicPropertyChanged()
