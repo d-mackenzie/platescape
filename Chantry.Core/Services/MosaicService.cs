@@ -24,7 +24,7 @@ namespace TeethInc.Chantry.Core.Services
         private const int LDRAW_YELLOW = 14;
         private const int LDRAW_WHITE = 15;
 
-        private ColorService m_colorService;
+        private ColorService m_colorService = new ColorService();
         private List<LdColor> m_allowedColors;
 
         public LdPart Baseplate { get; set; }
@@ -36,7 +36,7 @@ namespace TeethInc.Chantry.Core.Services
         public List<LdColor> AllowedColors
         {
             get { return m_allowedColors; }
-            set { m_allowedColors = value; m_colorService = new ColorService(value); }
+            set { m_allowedColors = value; m_colorService.AllowedColors = value; }
         }
 
         public Size ElementExtent

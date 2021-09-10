@@ -10,16 +10,16 @@ namespace TeethInc.Chantry.Core.Extensions
 {
     public static class ColorExtensions
     {
-        public static double DistanceFrom(this Color me, Color color)
+        public static float DistanceFrom(this Color me, Color color)
         {
-            double deltaR = (double)(me.R - color.R);
-            double deltaG = (double)(me.G - color.G);
-            double deltaB = (double)(me.B - color.B);
+            float deltaR = me.R - color.R;
+            float deltaG = me.G - color.G;
+            float deltaB = me.B - color.B;
 
             return
-                (deltaR * 0.30 * deltaR * 0.30) +
-                (deltaG * 0.59 * deltaG * 0.59) +
-                (deltaB * 0.11 * deltaB * 0.11);
+                (deltaR * 0.30f * deltaR * 0.30f) +
+                (deltaG * 0.59f * deltaG * 0.59f) +
+                (deltaB * 0.11f * deltaB * 0.11f);
         }
 
         public static LdColor ClosestLdColor(this Color me, IEnumerable<LdColor> allowedColors)
@@ -31,7 +31,7 @@ namespace TeethInc.Chantry.Core.Extensions
             {
                 // get distance.
 
-                double distance = me.DistanceFrom(ldrawColor.Color);
+                float distance = me.DistanceFrom(ldrawColor.Color);
 
                 if (distance < minDistance)
                 {

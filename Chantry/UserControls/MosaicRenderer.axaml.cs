@@ -2,12 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using TeethInc.Chantry.Core.Services;
-using SdColor = System.Drawing.Color;
-using AmColor = Avalonia.Media.Color;
 using TeethInc.Chantry.App.Extensions;
 
 namespace TeethInc.Chantry.App.UserControls
@@ -42,8 +37,6 @@ namespace TeethInc.Chantry.App.UserControls
 
         public override void Render(DrawingContext context)
         {
-            var sw = Stopwatch.StartNew();
-
             context.DrawImage(Mosaic.Image.AsAvaloniaMediaImagingBitmap(), new Rect(0, 0, Mosaic.StudExtent.Width * ZOOM_FACTOR, Mosaic.StudExtent.Height * ZOOM_FACTOR));
 
             //var colors = Mosaic.Colors;
@@ -75,8 +68,6 @@ namespace TeethInc.Chantry.App.UserControls
 
             //    gd.Draw(context);
             //}
-
-            Debug.WriteLine($"Render(): {sw.ElapsedMilliseconds}ms");
 
             base.Render(context);
         }
