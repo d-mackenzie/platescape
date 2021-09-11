@@ -30,5 +30,16 @@ namespace TeethInc.Chantry.App.Helpers
 
             return files.FirstOrDefault();
         }
+
+        public async Task<string> ShowSaveDialog(string initialFileName)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+
+            dialog.InitialFileName = initialFileName;
+
+            string filename = await dialog.ShowAsync(m_window);
+
+            return filename;
+        }
     }
 }

@@ -47,10 +47,11 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
             // calculate the error.
 
-            Error calculatedError = new Error(
-                closestLdColor.Color.R - red,
-                closestLdColor.Color.G - green,
-                closestLdColor.Color.B - blue);
+            Error calculatedError = new Error();
+
+            calculatedError.RedError = closestLdColor.Color.R - red;
+            calculatedError.GreenError = closestLdColor.Color.G - green;
+            calculatedError.BlueError = closestLdColor.Color.B - blue;
 
             // propagate the error.
 
@@ -68,9 +69,8 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
         {
             if (size != m_size)
                 m_errors = new Error[size.Width + 1, size.Height + 1];
-            else
-                m_errors.Initialize();
 
+            m_errors.Initialize();
             m_size = size;
         }
 
@@ -79,13 +79,6 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             public double RedError;
             public double GreenError;
             public double BlueError;
-
-            public Error(double redError, double greenError, double blueError)
-            {
-                RedError = redError;
-                GreenError = greenError;
-                BlueError = blueError;
-            }
 
             public void Add(Error error)
             {
@@ -96,10 +89,13 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
             public Error GetFraction(int fraction)
             {
-                return new Error(
-                    RedError * fraction / 16,
-                    GreenError * fraction / 16,
-                    BlueError * fraction / 16);
+                Error ret = new Error();
+
+                ret.RedError = RedError * fraction / 16;
+                ret.GreenError = GreenError * fraction / 16;
+                ret.BlueError = BlueError * fraction / 16;
+
+                return ret;
             }
         }
     }

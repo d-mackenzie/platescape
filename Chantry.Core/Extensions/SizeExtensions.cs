@@ -40,10 +40,10 @@ namespace TeethInc.Chantry.Core.Extensions
             Size scaledByWidth = me.GetSizeScaledBy((float)target.Width / me.Width);
             Size scaledByHeight = me.GetSizeScaledBy((float)target.Height / me.Height);
 
-            if (scaledByWidth.IsLargerThan(target))
-                return scaledByWidth;
+            if (scaledByWidth.IsSmallerThan(target))
+                return scaledByHeight;
 
-            return scaledByHeight;
+            return scaledByWidth;
         }
 
         public static Size GetSizeToFit(this Size me, Size target)
@@ -51,10 +51,10 @@ namespace TeethInc.Chantry.Core.Extensions
             Size scaledByWidth = me.GetSizeScaledBy((float)target.Width / me.Width);
             Size scaledByHeight = me.GetSizeScaledBy((float)target.Height / me.Height);
 
-            if (scaledByWidth.IsSmallerThan(target))
-                return scaledByWidth;
+            if (scaledByWidth.IsLargerThan(target))
+                return scaledByHeight;
 
-            return scaledByHeight;
+            return scaledByWidth;
         }
     }
 }

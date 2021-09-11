@@ -15,6 +15,7 @@ using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Ldraw;
 using System.Drawing;
 using AmiBitmap = Avalonia.Media.Imaging.Bitmap;
+using TeethInc.Chantry.App.Helpers;
 
 namespace TeethInc.Chantry.App.ViewModels
 {
@@ -121,6 +122,21 @@ namespace TeethInc.Chantry.App.ViewModels
 
             m_project.AllowedColors.ForEach(AllowedColors.Add);
             AllowedColors.CollectionChanged += AllowedColors_CollectionChanged;
+        }
+
+        public async void ExportLdraw()
+        {
+            IFileDialog fileDialog = new FileDialog(ApplicationHelper.GetMainWindow());
+
+            await fileDialog
+                .ShowSaveDialog($"{m_project.Name}.ldr")
+                .ContinueWith(x => ExportLdrawHandler(x.Result));
+        }
+
+        private void ExportLdrawHandler(string filename)
+        {
+            if (!string.IsNullOrEmpty(filename))
+                m_project.ExportLdraw(filename);
         }
 
         private void AllowedColors_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

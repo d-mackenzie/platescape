@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace TeethInc.Chantry.Core
         private ISource m_source;
         private FilterService m_filterService;
         private MosaicService m_mosaicService;
+        private IMosaicAlgorithm m_mosaicAlgorithm = new FloydSteinberg();
+        private LdrawService m_ldrawService = new LdrawService();
 
         public string Name { get; set; }
 
@@ -63,7 +66,21 @@ namespace TeethInc.Chantry.Core
             set { MosaicService.AllowedColors = value; }
         }
 
+        public IMosaicAlgorithm MosaicAlgorithm => m_mosaicAlgorithm;
+
         public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, new FloydSteinberg());
+
+        public void ExportLdraw(string filename)
+        {
+            Mosaic mosaic = Mosaic;
+
+            var sw = Stopwatch.StartNew();
+
+            var ldFile = m_ldrawService.GetLdrawFile(mosaic);
+            File.WriteAllLines(filename, ldFile.ToList());
+
+            Debug.WriteLine($"Saved to {filename}: {sw.ElapsedMilliseconds}ms.");
+        }
 
         // private properties.
 

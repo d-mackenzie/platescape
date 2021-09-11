@@ -45,9 +45,11 @@
                                Value="{Binding BaseplateExtentHeight}" />
             </StackPanel>
 
-            <Label Content="Size Info:"/>
-            <TextBlock Text="{Binding SizeInfo}"/>
-
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Size Info:"/>
+                <Label Content="{Binding SizeInfo}"/>
+            </StackPanel>
+            
             <Label Content="Colours:"/>
             <ListBox MaxHeight="400"
                      SelectionMode="Multiple,Toggle"
@@ -73,6 +75,8 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            
+            <Button Content="Export LDRAW" Command="{Binding ExportLdraw}"/>
 
         </StackPanel>
 
