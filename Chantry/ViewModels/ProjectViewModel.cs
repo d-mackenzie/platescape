@@ -126,7 +126,7 @@ namespace TeethInc.Chantry.App.ViewModels
 
         public async void ExportLdraw()
         {
-            IFileDialog fileDialog = new FileDialog(ApplicationHelper.GetMainWindow());
+            IFileDialog fileDialog = new FileDialog();
 
             await fileDialog
                 .ShowSaveDialog($"{m_project.Name}.ldr")

@@ -11,6 +11,11 @@ namespace TeethInc.Chantry.App.Helpers
     {
         private Window m_window;
 
+        public FileDialog()
+        {
+            m_window = ApplicationHelper.GetMainWindow();
+        }
+
         public FileDialog(Window window)
         {
             m_window = window;
