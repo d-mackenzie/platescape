@@ -15,6 +15,11 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
         private Error[,] m_errors;
         private Size m_size;
 
+        private const float EAST_ERROR = 7 / 16f;
+        private const float SOUTHEAST_ERROR = 1 / 16f;
+        private const float SOUTH_ERROR = 5 / 16f;
+        private const float SOUTHWEST_ERROR = 3 / 16f;
+
         public FloydSteinberg()
         {
             Reset(new Size(1,1));
@@ -24,9 +29,9 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
         {
             // get average pixel color.
 
-            double sourceRed = sourceColor.R;
-            double sourceGreen = sourceColor.G;
-            double sourceBlue = sourceColor.B;
+            float sourceRed = sourceColor.R;
+            float sourceGreen = sourceColor.G;
+            float sourceBlue = sourceColor.B;
 
             // apply the error.
 
@@ -54,12 +59,12 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
             // propagate the error.
 
-            m_errors[x + 1, y + 0].Add(calculatedError.GetFraction(7));
-            m_errors[x + 1, y + 1].Add(calculatedError.GetFraction(1));
-            m_errors[x + 0, y + 1].Add(calculatedError.GetFraction(5));
+            m_errors[x + 1, y + 0].AddFraction(calculatedError, EAST_ERROR);
+            m_errors[x + 1, y + 1].AddFraction(calculatedError, SOUTHEAST_ERROR);
+            m_errors[x + 0, y + 1].AddFraction(calculatedError, SOUTH_ERROR);
             
             if (x != 0)
-                m_errors[x - 1, y + 1].Add(calculatedError.GetFraction(3));
+                m_errors[x - 1, y + 1].AddFraction(calculatedError, SOUTHWEST_ERROR);
 
             return newColor;
         }
@@ -67,13 +72,24 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
         public void Reset(Size size)
         {
             if (size != m_size)
-                m_errors = new Error[size.Width + 1, size.Height + 1];
-
-            for (int x = 0; x < size.Width + 1; x++)
             {
-                for (int y = 0; y < size.Height + 1; y++)
+                m_errors = new Error[size.Width + 1, size.Height + 1];
+                for (int x = 0; x < size.Width + 1; x++)
                 {
-                    m_errors[x, y] = new Error();
+                    for (int y = 0; y < size.Height + 1; y++)
+                    {
+                        m_errors[x, y] = new Error();
+                    }
+                }
+            }
+            else
+            {
+                for (int x = 0; x < size.Width + 1; x++)
+                {
+                    for (int y = 0; y < size.Height + 1; y++)
+                    {
+                        m_errors[x, y].Reset();
+                    }
                 }
             }
 
@@ -82,13 +98,13 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
         private class Error
         {
-            public double RedError = 0;
-            public double GreenError = 0;
-            public double BlueError = 0;
+            public float RedError = 0;
+            public float GreenError = 0;
+            public float BlueError = 0;
 
             public Error() { }
 
-            public Error(double redError, double greenError, double blueError)
+            public Error(float redError, float greenError, float blueError)
             {
                 RedError = redError;
                 GreenError = greenError;
@@ -102,19 +118,11 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
                 BlueError = 0;
             }
 
-            public void Add(Error error)
+            public void AddFraction(Error error, float fraction)
             {
-                RedError += error.RedError;
-                GreenError += error.GreenError;
-                BlueError += error.BlueError;
-            }
-
-            public Error GetFraction(int fraction)
-            {
-                return new Error(
-                    RedError * fraction / 16,
-                    GreenError * fraction / 16,
-                    BlueError * fraction / 16);
+                RedError += error.RedError * fraction;
+                GreenError += error.GreenError * fraction;
+                BlueError += error.BlueError * fraction;
             }
         }
     }

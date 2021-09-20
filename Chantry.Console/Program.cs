@@ -65,10 +65,11 @@ namespace TeethInc.Chantry.Console
                     Filename = @"C:\Users\David\Pictures\eric-avatar.jpg"
                 })
             {
-                TargetElementExtent = new Size(160, 160)
+                TargetElementExtent = new Size(320, 320)
             };
 
             MosaicService mosaicService = new MosaicService();
+            mosaicService.BaseplateExtent = new Size(10, 10);
 
             System.Console.WriteLine("Filter image.");
 
