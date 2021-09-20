@@ -24,34 +24,33 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
         {
             // get average pixel color.
 
-            double red = sourceColor.R;
-            double green = sourceColor.G;
-            double blue = sourceColor.B;
+            double sourceRed = sourceColor.R;
+            double sourceGreen = sourceColor.G;
+            double sourceBlue = sourceColor.B;
 
             // apply the error.
 
-            Error aggregatedError = m_errors[x, y];
+            Error error = m_errors[x, y];
 
-            red -= aggregatedError.RedError;
-            green -= aggregatedError.GreenError;
-            blue -= aggregatedError.BlueError;
+            sourceRed += error.RedError;
+            sourceGreen += error.GreenError;
+            sourceBlue += error.BlueError;
 
             // get closest color.
 
-            Color avgColor = Color.FromArgb(
-                Math.Clamp((int)red, 0, 255),
-                Math.Clamp((int)green, 0, 255),
-                Math.Clamp((int)blue, 0, 255));
+            Color colorWithErrorApplied = Color.FromArgb(
+                Math.Clamp((int)sourceRed, 0, 255),
+                Math.Clamp((int)sourceGreen, 0, 255),
+                Math.Clamp((int)sourceBlue, 0, 255));
 
-            LdColor closestLdColor = colorService.GetClosestLdColor(avgColor);
+            LdColor newColor = colorService.GetClosestLdColor(colorWithErrorApplied);
 
             // calculate the error.
 
-            Error calculatedError = new Error();
-
-            calculatedError.RedError = closestLdColor.Color.R - red;
-            calculatedError.GreenError = closestLdColor.Color.G - green;
-            calculatedError.BlueError = closestLdColor.Color.B - blue;
+            Error calculatedError = new Error(
+                colorWithErrorApplied.R - newColor.Color.R,
+                colorWithErrorApplied.G - newColor.Color.G,
+                colorWithErrorApplied.B - newColor.Color.B);
 
             // propagate the error.
 
@@ -62,7 +61,7 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             if (x != 0)
                 m_errors[x - 1, y + 1].Add(calculatedError.GetFraction(3));
 
-            return closestLdColor;
+            return newColor;
         }
 
         public void Reset(Size size)
@@ -70,15 +69,38 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             if (size != m_size)
                 m_errors = new Error[size.Width + 1, size.Height + 1];
 
-            m_errors.Initialize();
+            for (int x = 0; x < size.Width + 1; x++)
+            {
+                for (int y = 0; y < size.Height + 1; y++)
+                {
+                    m_errors[x, y] = new Error();
+                }
+            }
+
             m_size = size;
         }
 
-        private struct Error
+        private class Error
         {
-            public double RedError;
-            public double GreenError;
-            public double BlueError;
+            public double RedError = 0;
+            public double GreenError = 0;
+            public double BlueError = 0;
+
+            public Error() { }
+
+            public Error(double redError, double greenError, double blueError)
+            {
+                RedError = redError;
+                GreenError = greenError;
+                BlueError = blueError;
+            }
+
+            public void Reset()
+            {
+                RedError = 0;
+                GreenError = 0;
+                BlueError = 0;
+            }
 
             public void Add(Error error)
             {
@@ -89,13 +111,10 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
             public Error GetFraction(int fraction)
             {
-                Error ret = new Error();
-
-                ret.RedError = RedError * fraction / 16;
-                ret.GreenError = GreenError * fraction / 16;
-                ret.BlueError = BlueError * fraction / 16;
-
-                return ret;
+                return new Error(
+                    RedError * fraction / 16,
+                    GreenError * fraction / 16,
+                    BlueError * fraction / 16);
             }
         }
     }

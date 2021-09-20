@@ -68,7 +68,7 @@ namespace TeethInc.Chantry.Core
 
         public IMosaicAlgorithm MosaicAlgorithm => m_mosaicAlgorithm;
 
-        public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, new FloydSteinberg());
+        public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, m_mosaicAlgorithm);
 
         public void ExportLdraw(string filename)
         {
