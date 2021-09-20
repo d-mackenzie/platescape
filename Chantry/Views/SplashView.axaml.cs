@@ -47,7 +47,7 @@ namespace TeethInc.Chantry.App.Views
             if (currentExe is not null)
             {
                 System.Diagnostics.Process.Start(
-                    new System.Diagnostics.ProcessStartInfo(currentExe, e));
+                    new System.Diagnostics.ProcessStartInfo(currentExe, $"\"{e}\""));
             }
         }
     }

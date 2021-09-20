@@ -1,8 +1,7 @@
 {
   "profiles": {
     "Chantry.App": {
-      "commandName": "Project",
-      "commandLineArgs": "c:\\users\\david\\pictures\\eric-avatar.jpg"
+      "commandName": "Project"
     }
   }
 }
