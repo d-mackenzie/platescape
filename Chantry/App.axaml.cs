@@ -33,11 +33,16 @@ namespace TeethInc.Chantry.App
 
                 if (filename is null)
                 {
-                    SplashView splashView = new SplashView();
-                    splashView.DataContext = new SplashViewModel(new FileDialog(splashView));
-                    splashView.Initialize();
-                    
-                    desktop.MainWindow = splashView;
+                    //SplashView splashView = new SplashView();
+                    //splashView.DataContext = new SplashViewModel(new FileDialog(splashView));
+                    //splashView.Initialize();
+
+                    //desktop.MainWindow = splashView;
+
+                    desktop.MainWindow = new MainWindow()
+                    {
+                        DataContext = null
+                    };
                 }
                 else
                 {

@@ -6,7 +6,8 @@
         x:Class="TeethInc.Chantry.App.Views.MainWindow"
         xmlns:views="clr-namespace:TeethInc.Chantry.App.Views"
         Title="Chantry.App">
-
-    <views:MainView DataContext="{Binding}"/>
     
+    <views:MainView DataContext="{Binding}"
+                    IsVisible="{Binding $parent.DataContext, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+
 </Window>
