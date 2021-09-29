@@ -4,60 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="TeethInc.Chantry.App.Views.MainWindow"
-        xmlns:pages="clr-namespace:TeethInc.Chantry.App.Pages"
-        xmlns:propertypages="clr-namespace:TeethInc.Chantry.App.PropertyPages"
-        xmlns:viewmodels="clr-namespace:TeethInc.Chantry.App.ViewModels"
+        xmlns:views="clr-namespace:TeethInc.Chantry.App.Views"
         Title="Chantry.App">
 
-    <Grid>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="3"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <TabControl Grid.Column="0">
-
-            <TabItem Header="Unfiltered" FontSize="12" Padding="5">
-                <pages:UnfilteredImagePage DataContext="{Binding ProjectViewModel}"/>
-            </TabItem>
-
-            <TabItem Header="Filtered" FontSize="12" Padding="5">
-                <pages:FilteredImagePage DataContext="{Binding ProjectViewModel}"/>
-            </TabItem>
-
-            <TabItem Header="Mosaic" FontSize="12" Padding="5">
-                <pages:MosaicPage DataContext="{Binding ProjectViewModel}"/>
-            </TabItem>
-
-            <TabItem Header="Edits" FontSize="12" Padding="5">
-                <pages:EditsPage DataContext="{Binding ProjectViewModel}"/>
-            </TabItem>
-
-        </TabControl>
-
-        <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" Background="LightGray" />
-
-        <TabControl Grid.Column="2">
-
-            <TabItem Header="Project" FontSize="12" Padding="5">
-                <propertypages:ProjectPage DataContext="{Binding ProjectViewModel}"/>
-            </TabItem>
-            
-            <TabItem Header="Filters" FontSize="12" Padding="5">
-                <propertypages:FiltersPage DataContext="{Binding ProjectViewModel}"/>
-            </TabItem>
-            
-            <TabItem Header="Mosaic" FontSize="12" Padding="5">
-                <propertypages:MosaicPage DataContext="{Binding ProjectViewModel}"/>
-            </TabItem>
-            
-            <TabItem Header="Edits" FontSize="12" Padding="5">
-            </TabItem>
-
-        </TabControl>
-
-    </Grid>
+    <views:MainView DataContext="{Binding}"/>
     
 </Window>
