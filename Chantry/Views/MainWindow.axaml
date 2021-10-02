@@ -5,16 +5,29 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="TeethInc.Chantry.App.Views.MainWindow"
         xmlns:views="clr-namespace:TeethInc.Chantry.App.Views"
-        Title="Chantry.App">
+        Title="Chantry.App"
+        MinWidth="800"
+        MinHeight="600">
 
-    <Grid>
+    <DockPanel>
+            
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Command="{Binding OpenAnImageCommand}"/>
+                <MenuItem Header="_Close" Command="{Binding CloseCommand}"/>
+            </MenuItem>
+        </Menu>
 
-        <views:MainView DataContext="{Binding ProjectViewModel}"
-                        IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+        <Grid DockPanel.Dock="Bottom">
 
-        <views:SplashView DataContext="{Binding SplashViewModel}"
-                          IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNull}}"/>
+            <views:MainView DataContext="{Binding ProjectViewModel}"
+                                IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+        
+            <views:SplashView DataContext="{Binding SplashViewModel}"
+                                IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNull}}"/>
+        
+        </Grid>
 
-    </Grid>
+    </DockPanel>
     
 </Window>

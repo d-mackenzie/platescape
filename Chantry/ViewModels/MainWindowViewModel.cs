@@ -3,11 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeethInc.Chantry.App.Extensions;
+using TeethInc.Chantry.App.Helpers;
 using TeethInc.Chantry.Core;
+using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.App.ViewModels
@@ -15,6 +18,7 @@ namespace TeethInc.Chantry.App.ViewModels
     public class MainWindowViewModel : BaseViewModel
     {
         private ProjectViewModel? m_projectViewModel;
+        private IFileDialog m_fileDialog;
 
         public ProjectViewModel? ProjectViewModel
         {
@@ -29,14 +33,62 @@ namespace TeethInc.Chantry.App.ViewModels
             ProjectViewModel = projectViewModel;
             SplashViewModel = splashViewModel;
 
-            SplashViewModel.FileSelected += SplashViewModel_FileSelected;
+            SplashViewModel.OpenAnImage += SplashViewModel_OpenAnImage; ;
+            SplashViewModel.OpenAProject += SplashViewModel_OpenAProject; ;
 
-
+            m_fileDialog = new FileDialog();
         }
 
-        private void SplashViewModel_FileSelected(object? sender, string e)
+        public void OpenAnImageCommand()
         {
-            ProjectViewModel = new ProjectViewModel(Project.CreateSimpleProject(e));
+            m_fileDialog
+                .ShowFileDialog(new string[] { "jpg", "png" })
+                .ContinueWith(x => Open(x.Result));
+        }
+
+        public void OpenAProjectCommand()
+        {
+            m_fileDialog
+                .ShowFileDialog(new string[] { "json" })
+                .ContinueWith(x => Open(x.Result));
+        }
+
+        public void CloseCommand()
+        {
+            Close();
+        }
+
+        private void SplashViewModel_OpenAProject(object? sender, EventArgs e)
+        {
+            OpenAProjectCommand();
+        }
+
+        private void SplashViewModel_OpenAnImage(object? sender, EventArgs e)
+        {
+            OpenAnImageCommand();
+        }
+
+        private void Open(string? filename)
+        {
+            if (filename is not null)
+            {
+                if (Path.GetExtension(filename) == "json")
+                {
+                    string json = File.ReadAllText(filename);
+                    ProjectViewModel = new ProjectViewModel(ProjectService.DeserializeProject(json));
+                    return;
+                }
+                else
+                {
+                    ProjectViewModel = new ProjectViewModel(Project.CreateSimpleProject(filename));
+                    return;
+                }
+            }
+        }
+
+        private void Close()
+        {
+            ProjectViewModel = null;
         }
     }
 }

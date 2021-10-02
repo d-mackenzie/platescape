@@ -6,7 +6,7 @@
              x:Class="TeethInc.Chantry.App.Views.SplashView">
 
     <UserControl.Background>
-        <ImageBrush Stretch="UniformToFill" Source="/Assets/splash.jpg" Opacity="0.5"/>
+        <ImageBrush Stretch="UniformToFill" Source="/Assets/splash.jpg" Opacity="0.66"/>
     </UserControl.Background>
 
     <Grid>
@@ -37,12 +37,12 @@
                             FontSize="24"
                             Margin="0 0 0 10"
                             HorizontalAlignment="Stretch"
-                            Command="{Binding OpenAnImage}"/>
+                            Command="{Binding OpenAnImageCommand}"/>
 
                     <Button Content="Open an existing Project"
                             FontSize="24"
                             HorizontalAlignment="Stretch"
-                            Command="{Binding OpenAnExistingProject}"/>
+                            Command="{Binding OpenAProjectCommand}"/>
 
                 </StackPanel>
 

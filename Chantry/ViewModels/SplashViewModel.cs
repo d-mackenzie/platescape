@@ -8,7 +8,8 @@ namespace TeethInc.Chantry.App.ViewModels
     {
         private IFileDialog m_fileDialog;
 
-        public event EventHandler<string>? FileSelected;
+        public event EventHandler? OpenAnImage;
+        public event EventHandler? OpenAProject;
 
         public SplashViewModel()
         {
@@ -20,23 +21,16 @@ namespace TeethInc.Chantry.App.ViewModels
             m_fileDialog = fileDialog;
         }
 
-        public async Task OpenAnImage()
+        public void OpenAnImageCommand()
         {
-            await m_fileDialog
-                .ShowFileDialog(new string[] { "jpg", "png" })
-                .ContinueWith(x => FileDialogFileSelectedHandler(x.Result));
+            if (OpenAnImage is not null)
+                OpenAnImage(this, new EventArgs());
         }
 
-        private void FileDialogFileSelectedHandler(string? filename)
+        public void OpenAProjectCommand()
         {
-            if (filename is not null)
-                OnFileSelected(filename);
-        }
-
-        protected virtual void OnFileSelected(string filename)
-        {
-            if (FileSelected is not null)
-                FileSelected(this, filename);
+            if (OpenAProject is not null)
+                OpenAProject(this, new EventArgs());
         }
     }
 }
