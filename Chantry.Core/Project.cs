@@ -70,6 +70,27 @@ namespace TeethInc.Chantry.Core
 
         public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, m_mosaicAlgorithm);
 
+        public static Project CreateSimpleProject(string filename)
+        {
+            var project = new Project()
+            {
+                Name = Path.GetFileNameWithoutExtension(filename),
+                Source = new FileSource()
+                {
+                    Filename = filename
+                }
+            };
+
+            project.Filters.Add(
+                new BrightnessContrastFilter()
+                {
+                    Brightness = 0,
+                    Contrast = 0
+                });
+
+            return project;
+        }
+
         public void ExportLdraw(string filename)
         {
             Mosaic mosaic = Mosaic;

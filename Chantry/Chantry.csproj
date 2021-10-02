@@ -30,6 +30,12 @@
     <AvaloniaResource Include="Assets\*" />
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Remove="Assets\splash.jpg" />
+    <AvaloniaXaml Remove="SplashView.axaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="SplashView.axaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\splash.jpg" />
   </ItemGroup>
 </Project>

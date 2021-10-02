@@ -14,11 +14,29 @@ namespace TeethInc.Chantry.App.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        public ProjectViewModel ProjectViewModel { get; set; }
+        private ProjectViewModel? m_projectViewModel;
 
-        public MainWindowViewModel(Project project)
+        public ProjectViewModel? ProjectViewModel
         {
-            ProjectViewModel = new ProjectViewModel(project);
+            get { return m_projectViewModel; }
+            set { m_projectViewModel = value; RaisePropertyChanged(); }
+        }
+
+        public SplashViewModel SplashViewModel { get; set; }
+
+        public MainWindowViewModel(ProjectViewModel? projectViewModel, SplashViewModel splashViewModel)
+        {
+            ProjectViewModel = projectViewModel;
+            SplashViewModel = splashViewModel;
+
+            SplashViewModel.FileSelected += SplashViewModel_FileSelected;
+
+
+        }
+
+        private void SplashViewModel_FileSelected(object? sender, string e)
+        {
+            ProjectViewModel = new ProjectViewModel(Project.CreateSimpleProject(e));
         }
     }
 }

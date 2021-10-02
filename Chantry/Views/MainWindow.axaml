@@ -6,8 +6,15 @@
         x:Class="TeethInc.Chantry.App.Views.MainWindow"
         xmlns:views="clr-namespace:TeethInc.Chantry.App.Views"
         Title="Chantry.App">
-    
-    <views:MainView DataContext="{Binding}"
-                    IsVisible="{Binding $parent.DataContext, Converter={x:Static ObjectConverters.IsNotNull}}"/>
 
+    <Grid>
+
+        <views:MainView DataContext="{Binding ProjectViewModel}"
+                        IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+
+        <views:SplashView DataContext="{Binding SplashViewModel}"
+                          IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNull}}"/>
+
+    </Grid>
+    
 </Window>

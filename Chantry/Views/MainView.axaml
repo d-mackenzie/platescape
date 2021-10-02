@@ -18,19 +18,19 @@
         <TabControl Grid.Column="0">
 
             <TabItem Header="Unfiltered" FontSize="12" Padding="5">
-                <pages:UnfilteredImagePage DataContext="{Binding ProjectViewModel}"/>
+                <pages:UnfilteredImagePage DataContext="{Binding}"/>
             </TabItem>
 
             <TabItem Header="Filtered" FontSize="12" Padding="5">
-                <pages:FilteredImagePage DataContext="{Binding ProjectViewModel}"/>
+                <pages:FilteredImagePage DataContext="{Binding}"/>
             </TabItem>
 
             <TabItem Header="Mosaic" FontSize="12" Padding="5">
-                <pages:MosaicPage DataContext="{Binding ProjectViewModel}"/>
+                <pages:MosaicPage DataContext="{Binding}"/>
             </TabItem>
 
             <TabItem Header="Edits" FontSize="12" Padding="5">
-                <pages:EditsPage DataContext="{Binding ProjectViewModel}"/>
+                <pages:EditsPage DataContext="{Binding}"/>
             </TabItem>
 
         </TabControl>
@@ -40,15 +40,15 @@
         <TabControl Grid.Column="2">
 
             <TabItem Header="Project" FontSize="12" Padding="5">
-                <propertypages:ProjectPage DataContext="{Binding ProjectViewModel}"/>
+                <propertypages:ProjectPage DataContext="{Binding}"/>
             </TabItem>
 
             <TabItem Header="Filters" FontSize="12" Padding="5">
-                <propertypages:FiltersPage DataContext="{Binding ProjectViewModel}"/>
+                <propertypages:FiltersPage DataContext="{Binding}"/>
             </TabItem>
 
             <TabItem Header="Mosaic" FontSize="12" Padding="5">
-                <propertypages:MosaicPage DataContext="{Binding ProjectViewModel}"/>
+                <propertypages:MosaicPage DataContext="{Binding}"/>
             </TabItem>
 
             <TabItem Header="Edits" FontSize="12" Padding="5">

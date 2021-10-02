@@ -1,19 +1,6 @@
-﻿using Avalonia.Controls;
-using Avalonia.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
+﻿using System;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using TeethInc.Chantry.App.Helpers;
-using TeethInc.Chantry.Core;
-using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.App.ViewModels
 {
@@ -22,20 +9,22 @@ namespace TeethInc.Chantry.App.ViewModels
         private IFileDialog m_fileDialog;
 
         public event EventHandler<string>? FileSelected;
-        public event EventHandler? CloseApplication;
+
+        public SplashViewModel()
+        {
+            m_fileDialog = new FileDialog();
+        }
 
         public SplashViewModel(IFileDialog fileDialog)
         {
             m_fileDialog = fileDialog;
         }
 
-        public async Task CreateANewProject()
+        public async Task OpenAnImage()
         {
             await m_fileDialog
                 .ShowFileDialog(new string[] { "jpg", "png" })
                 .ContinueWith(x => FileDialogFileSelectedHandler(x.Result));
-
-            OnCloseApplication();
         }
 
         private void FileDialogFileSelectedHandler(string? filename)
@@ -48,12 +37,6 @@ namespace TeethInc.Chantry.App.ViewModels
         {
             if (FileSelected is not null)
                 FileSelected(this, filename);
-        }
-
-        protected virtual void OnCloseApplication()
-        {
-            if (CloseApplication is not null)
-                CloseApplication(this, new EventArgs());
         }
     }
 }

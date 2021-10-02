@@ -9,18 +9,6 @@ namespace TeethInc.Chantry.App.Helpers
 {
     public class FileDialog : IFileDialog
     {
-        private Window m_window;
-
-        public FileDialog()
-        {
-            m_window = ApplicationHelper.GetMainWindow();
-        }
-
-        public FileDialog(Window window)
-        {
-            m_window = window;
-        }
-
         public async Task<string?> ShowFileDialog(string[] extensions)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -31,7 +19,7 @@ namespace TeethInc.Chantry.App.Helpers
                 new FileDialogFilter { Name = "All Files", Extensions = new List<string> {"*" } }
             };
 
-            string[]? files = await dialog.ShowAsync(m_window);
+            string[]? files = await dialog.ShowAsync(ApplicationHelper.GetMainWindow());
 
             return files.FirstOrDefault();
         }
@@ -42,7 +30,7 @@ namespace TeethInc.Chantry.App.Helpers
 
             dialog.InitialFileName = initialFileName;
 
-            string filename = await dialog.ShowAsync(m_window);
+            string filename = await dialog.ShowAsync(ApplicationHelper.GetMainWindow());
 
             return filename;
         }

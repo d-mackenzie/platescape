@@ -27,59 +27,32 @@ namespace TeethInc.Chantry.App
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 var args = Environment.GetCommandLineArgs();
-                Project? project = null;
+                ProjectViewModel? projectViewModel = null;
 
                 string? filename = GetSupportedFilenameArg(args);
 
-                if (filename is null)
-                {
-                    //SplashView splashView = new SplashView();
-                    //splashView.DataContext = new SplashViewModel(new FileDialog(splashView));
-                    //splashView.Initialize();
-
-                    //desktop.MainWindow = splashView;
-
-                    desktop.MainWindow = new MainWindow()
-                    {
-                        DataContext = null
-                    };
-                }
-                else
+                if (filename is not null)
                 {
                     switch (Path.GetExtension(filename))
                     {
                         case "json":
 
                             string json = File.ReadAllText(filename);
-                            project = ProjectService.DeserializeProject(json);
+                            projectViewModel = new ProjectViewModel(ProjectService.DeserializeProject(json));
                             break;
 
                         default:
 
-                            project = new Project()
-                            {
-                                Name = Path.GetFileNameWithoutExtension(filename),
-                                Source = new FileSource()
-                                {
-                                    Filename = filename
-                                }
-                            };
-
-                            project.Filters.Add(
-                                new BrightnessContrastFilter()
-                                {
-                                    Brightness = 0,
-                                    Contrast = 0
-                                });
-
+                            projectViewModel = new ProjectViewModel(Project.CreateSimpleProject(filename));
                             break;
                     }
-
-                    desktop.MainWindow = new MainWindow()
-                    {
-                        DataContext = new MainWindowViewModel(project)
-                    };
                 }
+
+                desktop.MainWindow = new MainWindow()
+                {
+                    DataContext = new MainWindowViewModel(projectViewModel, new SplashViewModel())
+                };
+
             }
 
             base.OnFrameworkInitializationCompleted();
