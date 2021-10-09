@@ -9,7 +9,7 @@ namespace TeethInc.Chantry.App.UserControls
 {
     public partial class MosaicRenderer : UserControl
     {
-        private const int ZOOM_FACTOR = 2;
+        private const int ZOOM_FACTOR = 4;
 
         public static readonly StyledProperty<Mosaic> MosaicProperty =
             AvaloniaProperty.Register<MosaicRenderer, Mosaic>(nameof(Mosaic));

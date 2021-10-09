@@ -19,11 +19,18 @@ namespace TeethInc.Chantry.App.ViewModels
     {
         private ProjectViewModel? m_projectViewModel;
         private IFileDialog m_fileDialog;
+        private bool m_isLoading = false;
 
         public ProjectViewModel? ProjectViewModel
         {
             get { return m_projectViewModel; }
             set { m_projectViewModel = value; RaisePropertyChanged(); }
+        }
+
+        public bool IsLoading
+        {
+            get { return m_isLoading; }
+            set { m_isLoading = value; RaisePropertyChanged(); }
         }
 
         public SplashViewModel SplashViewModel { get; set; }
@@ -72,18 +79,20 @@ namespace TeethInc.Chantry.App.ViewModels
         {
             if (filename is not null)
             {
+                IsLoading = true;
+
                 if (Path.GetExtension(filename) == "json")
                 {
                     string json = File.ReadAllText(filename);
                     ProjectViewModel = new ProjectViewModel(ProjectService.DeserializeProject(json));
-                    return;
                 }
                 else
                 {
                     ProjectViewModel = new ProjectViewModel(Project.CreateSimpleProject(filename));
-                    return;
                 }
             }
+
+            IsLoading = false;
         }
 
         private void Close()

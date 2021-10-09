@@ -18,7 +18,8 @@
             </MenuItem>
         </Menu>
 
-        <Grid DockPanel.Dock="Bottom">
+        <Grid DockPanel.Dock="Bottom"
+              IsVisible="{Binding !IsLoading}">
 
             <views:MainView DataContext="{Binding ProjectViewModel}"
                                 IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
