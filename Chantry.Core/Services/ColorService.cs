@@ -12,30 +12,35 @@ namespace TeethInc.Chantry.Core.Services
 {
     public class ColorService
     {
-        private LdrawService m_ldrawService = new LdrawService();
-        private LdColor[] m_allowedColors;
+        private LdrawService m_ldrawService;
+        private int[] m_allowedColors;
+        private LdColor[] m_allowedLdColors;
         private LdColor[,,] m_closestLdColorCache = new LdColor[64, 64, 64];
         private float[,,,] m_distanceCache;
         private int[] m_ldColorIndex;
 
-        public IEnumerable<LdColor> AllowedColors
+        public int[] AllowedColors
         {
             get { return m_allowedColors; }
             set
             {
-                m_allowedColors = value.ToArray();
+                m_allowedColors = value;
 
                 if (m_allowedColors.Length == 0)
-                    m_allowedColors = new LdColor[] { m_ldrawService.GetColor(0) };
+                    m_allowedColors = new int[] { 0 };
+
+                m_allowedLdColors = m_ldrawService.GetColors(m_allowedColors).ToArray();
 
                 BuildClosestLdColorCache();
             }
         }
 
-        public ColorService()
+        public ColorService(LdrawService ldrawService)
         {
+            m_ldrawService = ldrawService;
             BuildDistanceCache();
-            AllowedColors = new LdColor[0];
+
+            AllowedColors = new int[0];
         }
 
         public LdColor GetClosestLdColor(Color color)
@@ -99,7 +104,7 @@ namespace TeethInc.Chantry.Core.Services
             float minDistance = float.MaxValue;
             LdColor closestColor = null;
 
-            foreach (LdColor ldColor in m_allowedColors)
+            foreach (LdColor ldColor in m_allowedLdColors)
             {
                 // get distance.
 

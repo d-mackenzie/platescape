@@ -1,10 +1,22 @@
 {
-	"source" : {
-		"type" : "filesource",
-		"object" : {
-			"filename" : "C:\\Users\\david\\Pictures\\eric-avatar.jpg"	
-		}
-	}	
+  "Name": "eric",
+  "Source": {},
+  "Filters": [
+    {
+      "Enabled": true
+    }
+  ],
+  "BaseplatePartNumber": "3811",
+  "ElementPartNumber": "3024",
+  "BaseplateExtent": {
+    "Width": 6,
+    "Height": 6
+  },
+  "AllowedColors": [
+    0,
+    1,
+    4,
+    14,
+    15
+  ]
 }
-
-

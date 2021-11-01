@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.Ldraw;
@@ -21,12 +22,13 @@ namespace TeethInc.Chantry.Core
         private MosaicService m_mosaicService;
 //        private IMosaicAlgorithm m_mosaicAlgorithm = new FloydSteinberg();
         private IMosaicAlgorithm m_mosaicAlgorithm = new BayerMatrixDither();
-        private LdrawService m_ldrawService = new LdrawService();
+        private LdrawService m_ldrawService;
 
         public string Name { get; set; }
 
         // source properties.
 
+        [JsonInclude]
         public ISource Source
         {
             get { return m_source; }
@@ -41,13 +43,13 @@ namespace TeethInc.Chantry.Core
 
         // mosaic properties.
 
-        public LdPart Baseplate
+        public string BaseplatePartNumber
         {
             get { return MosaicService.Baseplate; }
             set { MosaicService.Baseplate = value; }
         }
 
-        public LdPart Element
+        public string ElementPartNumber
         {
             get { return MosaicService.Element; }
             set { MosaicService.Element = value; }
@@ -59,9 +61,10 @@ namespace TeethInc.Chantry.Core
             set { MosaicService.BaseplateExtent = value; }
         }
 
+        [JsonIgnore]
         public Size ElementExtent => MosaicService.ElementExtent;
 
-        public List<LdColor> AllowedColors
+        public int[] AllowedColors
         {
             get { return MosaicService.AllowedColors; }
             set { MosaicService.AllowedColors = value; }
@@ -69,7 +72,18 @@ namespace TeethInc.Chantry.Core
 
         public IMosaicAlgorithm MosaicAlgorithm => m_mosaicAlgorithm;
 
+        [JsonIgnore]
         public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, m_mosaicAlgorithm);
+
+        public Project()
+        {
+            m_ldrawService = new LdrawService();
+        }
+
+        public Project(LdrawService ldrawService)
+        {
+            m_ldrawService = ldrawService;
+        }
 
         public static Project CreateSimpleProject(string filename)
         {
@@ -122,7 +136,7 @@ namespace TeethInc.Chantry.Core
             get
             {
                 if (m_mosaicService is null)
-                    m_mosaicService = new MosaicService();
+                    m_mosaicService = new MosaicService(m_ldrawService);
 
                 return m_mosaicService;
             }

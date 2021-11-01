@@ -53,14 +53,14 @@ namespace TeethInc.Chantry.App.ViewModels
 
         public LdPart Baseplate
         {
-            get { return m_project.Baseplate; }
-            set { m_project.Baseplate = value; RaiseMosaicPropertyChanged(); }
+            get { return m_ldrawService.GetPart(m_project.BaseplatePartNumber); }
+            set { m_project.BaseplatePartNumber = value.Number; RaiseMosaicPropertyChanged(); }
         }
 
         public LdPart Element
         {
-            get { return m_project.Element; }
-            set { m_project.Element = value; RaiseMosaicPropertyChanged(); }
+            get { return m_ldrawService.GetPart(m_project.ElementPartNumber); }
+            set { m_project.ElementPartNumber = value.Number; RaiseMosaicPropertyChanged(); }
         }
 
         public int BaseplateExtentWidth
@@ -120,7 +120,7 @@ namespace TeethInc.Chantry.App.ViewModels
                 }
             }
 
-            m_project.AllowedColors.ForEach(AllowedColors.Add);
+            m_project.AllowedColors.ToList().ForEach(x => AllowedColors.Add(m_ldrawService.GetColor(x)));
             AllowedColors.CollectionChanged += AllowedColors_CollectionChanged;
         }
 
@@ -141,7 +141,7 @@ namespace TeethInc.Chantry.App.ViewModels
 
         private void AllowedColors_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            m_project.AllowedColors = AllowedColors.ToList();
+            m_project.AllowedColors = AllowedColors.Select(x => x.Number).ToArray();
             RaiseMosaicPropertyChanged();
         }
 

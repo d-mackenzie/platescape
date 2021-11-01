@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace TeethInc.Chantry.Core.Ldraw
 {
-    public record LdPart(int Number, string Name, Size Size);
+    public record LdPart(string Number, string Name, Size Size);
 }

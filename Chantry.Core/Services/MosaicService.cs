@@ -15,8 +15,8 @@ namespace TeethInc.Chantry.Core.Services
 {
     public class MosaicService
     {
-        private const int BASEPLATE_32X32 = 3811;
-        private const int PLATE_1X1 = 3024;
+        private const string BASEPLATE_32X32 = "3811";
+        private const string PLATE_1X1 = "3024";
         
         private const int LDRAW_BLACK = 0;
         private const int LDRAW_BLUE = 1;
@@ -24,19 +24,30 @@ namespace TeethInc.Chantry.Core.Services
         private const int LDRAW_YELLOW = 14;
         private const int LDRAW_WHITE = 15;
 
-        private ColorService m_colorService = new ColorService();
-        private List<LdColor> m_allowedColors;
+        private ColorService m_colorService;
+        private LdrawService m_ldrawService;
 
-        public LdPart Baseplate { get; set; }
+        private LdPart m_baseplate;
+        private LdPart m_element;
 
-        public LdPart Element { get; set; }
+        public string Baseplate
+        {
+            get { return m_baseplate.Number; }
+            set { m_baseplate = m_ldrawService.GetPart(value); }
+        }
+
+        public string Element
+        {
+            get { return m_element.Number; }
+            set { m_element = m_ldrawService.GetPart(value); }
+        }
 
         public Size BaseplateExtent { get; set; }
 
-        public List<LdColor> AllowedColors
+        public int[] AllowedColors
         {
-            get { return m_allowedColors; }
-            set { m_allowedColors = value; m_colorService.AllowedColors = value; }
+            get { return m_colorService.AllowedColors; }
+            set { m_colorService.AllowedColors = value; }
         }
 
         public Size ElementExtent
@@ -44,28 +55,29 @@ namespace TeethInc.Chantry.Core.Services
             get
             {
                 return new Size(
-                    Baseplate.Size.Width * BaseplateExtent.Width / Element.Size.Width,
-                    Baseplate.Size.Height * BaseplateExtent.Height / Element.Size.Height);
+                    m_baseplate.Size.Width * BaseplateExtent.Width / m_element.Size.Width,
+                    m_baseplate.Size.Height * BaseplateExtent.Height / m_element.Size.Height);
             }
         }
 
-        public MosaicService()
+        public MosaicService(LdrawService ldrawService)
         {
             Debug.WriteLine("MosaicService c'tor.");
 
-            var ldrawService = new LdrawService();
+            m_ldrawService = ldrawService;
+            m_colorService = new ColorService(m_ldrawService);
 
-            Baseplate = ldrawService.GetPart(BASEPLATE_32X32);
-            Element = ldrawService.GetPart(PLATE_1X1);
+            Baseplate = BASEPLATE_32X32;
+            Element = PLATE_1X1;
             BaseplateExtent = new Size(6, 6);
-            AllowedColors = ldrawService.GetColors(new int[]
+            AllowedColors = new int[]
             {
                 LDRAW_BLACK,
                 LDRAW_BLUE,
                 LDRAW_RED,
                 LDRAW_YELLOW,
                 LDRAW_WHITE,
-            }).ToList();
+            };
         }
 
         public Mosaic GetMosaic(Bitmap filteredImage, IMosaicAlgorithm mosaicAlgorithm)
@@ -101,7 +113,7 @@ namespace TeethInc.Chantry.Core.Services
 
                 Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
 
-                return new Mosaic(Baseplate, Element, colors, mosaic);
+                return new Mosaic(m_baseplate, m_element, colors, mosaic);
             }
         }
     }

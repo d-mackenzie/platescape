@@ -16,6 +16,7 @@ using SdBitmap = System.Drawing.Bitmap;
 using AmiBitmap = Avalonia.Media.Imaging.Bitmap;
 using TeethInc.Chantry.App.Extensions;
 using SConsole = System.Console;
+using System.Xml;
 
 namespace TeethInc.Chantry.Console
 {
@@ -27,8 +28,9 @@ namespace TeethInc.Chantry.Console
 
         static void Main(string[] args)
         {
-            FullStackTest();
+            SerializeTest();
 
+            SConsole.WriteLine("Done.");
             while (System.Console.ReadKey(true).Key != ConsoleKey.Escape)
             { }
         }
@@ -47,6 +49,14 @@ namespace TeethInc.Chantry.Console
 //            AmiBitmap amiBitmap = sdBitmap.AsAvaloniaMediaImagingBitmap();
 
             SConsole.WriteLine(sw.ElapsedMilliseconds);
+        }
+
+        private static void SerializeTest()
+        {
+            Project project = Project.CreateSimpleProject(@"c:\temp\eric.jpg");
+            string json = ProjectService.SerializeProject(project);
+
+            File.WriteAllText(@"C:\Users\david\TeethInc\chantry\project.json", json);
         }
 
         private static void DeserialiseTest()
@@ -68,7 +78,7 @@ namespace TeethInc.Chantry.Console
                 TargetElementExtent = new Size(320, 320)
             };
 
-            MosaicService mosaicService = new MosaicService();
+            MosaicService mosaicService = new MosaicService(ldrawService);
             mosaicService.BaseplateExtent = new Size(10, 10);
 
             System.Console.WriteLine("Filter image.");

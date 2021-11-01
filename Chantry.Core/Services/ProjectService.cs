@@ -16,6 +16,17 @@ namespace TeethInc.Chantry.Core.Services
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
+        public static string SerializeProject(Project project)
+        {
+            var jsonSerializerOptions = new JsonSerializerOptions()
+            {
+                IgnoreReadOnlyProperties = true,
+                WriteIndented = true
+            };
+
+            return JsonSerializer.Serialize(project, jsonSerializerOptions);
+        }
+
         public static Project DeserializeProject(string json)
         {
             JsonDocument jsonDocument = JsonDocument.Parse(json);

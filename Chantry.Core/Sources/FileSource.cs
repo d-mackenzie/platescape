@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TeethInc.Chantry.Core.Extensions;
+using System.Text.Json.Serialization;
 
 namespace TeethInc.Chantry.Core.Sources
 {
@@ -15,6 +9,7 @@ namespace TeethInc.Chantry.Core.Sources
         private Bitmap m_image = null;
         private string m_filename = "";
 
+        [JsonInclude]
         public string Filename
         {
             get { return m_filename; }
