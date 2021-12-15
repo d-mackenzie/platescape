@@ -1,22 +1,28 @@
 {
   "Name": "eric",
-  "Source": {},
+  "Source": {
+    "Filename": "c:\\temp\\eric.jpg"
+  },
   "Filters": [
     {
-      "Enabled": true
+      "Brightness": 0,
+      "Contrast": 0,
+      "TonalRange": 3,
+      "Enabled": true,
+      "Type": "BrightnessContrastFilter"
     }
   ],
   "BaseplatePartNumber": "3811",
   "ElementPartNumber": "3024",
-  "BaseplateExtent": {
-    "Width": 6,
-    "Height": 6
-  },
+  "BaseplateExtent": "6, 6",
   "AllowedColors": [
     0,
     1,
     4,
     14,
     15
-  ]
+  ],
+  "MosaicAlgorithm": {
+    "Type": "BayerMatrix"
+  }
 }

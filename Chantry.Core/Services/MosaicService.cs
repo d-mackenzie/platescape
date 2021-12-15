@@ -80,7 +80,7 @@ namespace TeethInc.Chantry.Core.Services
             };
         }
 
-        public Mosaic GetMosaic(Bitmap filteredImage, IMosaicAlgorithm mosaicAlgorithm)
+        public Mosaic GetMosaic(Bitmap filteredImage, MosaicAlgorithm mosaicAlgorithm)
         {
             var sw = Stopwatch.StartNew();
 

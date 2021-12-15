@@ -1,6 +1,6 @@
-﻿using System.Drawing;
+﻿using Newtonsoft.Json;
+using System.Drawing;
 using System.IO;
-using System.Text.Json.Serialization;
 
 namespace TeethInc.Chantry.Core.Sources
 {
@@ -9,7 +9,6 @@ namespace TeethInc.Chantry.Core.Sources
         private Bitmap m_image = null;
         private string m_filename = "";
 
-        [JsonInclude]
         public string Filename
         {
             get { return m_filename; }
@@ -20,6 +19,7 @@ namespace TeethInc.Chantry.Core.Sources
             }
         }
 
+        [JsonIgnore]
         public Bitmap Image
         {
             get

@@ -10,14 +10,14 @@ using TeethInc.Chantry.Core.Services;
 
 namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
-    public class NearestColor : IMosaicAlgorithm
+    public class NearestColor : MosaicAlgorithm
     {
-        public LdColor GetColor(int x, int y, Color sourceColor, ColorService colorService)
+        public override LdColor GetColor(int x, int y, Color sourceColor, ColorService colorService)
         {
             return colorService.GetClosestLdColor(sourceColor);
         }
 
-        public void Reset(Size size)
+        public override void Reset(Size size)
         { }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace TeethInc.Chantry.Core.Filters
             get { return this.GetType().Name; }
         }
 
+        [JsonIgnore]
         public abstract string DisplayName { get; }
 
         public abstract void ApplyFilter(Bitmap image);

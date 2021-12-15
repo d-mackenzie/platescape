@@ -10,7 +10,7 @@ using TeethInc.Chantry.Core.Services;
 
 namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
-    public class FloydSteinberg : IMosaicAlgorithm
+    public class FloydSteinberg : MosaicAlgorithm
     {
         private Error[,] m_errors;
         private Size m_size;
@@ -25,7 +25,7 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             Reset(new Size(1,1));
         }
 
-        public LdColor GetColor(int x, int y, Color sourceColor, ColorService colorService)
+        public override LdColor GetColor(int x, int y, Color sourceColor, ColorService colorService)
         {
             // get average pixel color.
 
@@ -69,7 +69,7 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             return newColor;
         }
 
-        public void Reset(Size size)
+        public override void Reset(Size size)
         {
             if (size != m_size)
             {

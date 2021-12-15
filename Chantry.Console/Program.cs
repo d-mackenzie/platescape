@@ -28,11 +28,18 @@ namespace TeethInc.Chantry.Console
 
         static void Main(string[] args)
         {
-            SerializeTest();
+            string filename = @"C:\Users\david\TeethInc\chantry\project.json";
 
-            SConsole.WriteLine("Done.");
-            while (System.Console.ReadKey(true).Key != ConsoleKey.Escape)
-            { }
+            SerializeTest(filename);
+            SConsole.WriteLine(File.ReadAllText(filename));
+        }
+
+        private static void SerializeTest(string filename)
+        {
+            Project project = Project.CreateSimpleProject(@"c:\temp\eric.jpg");
+            string json = ProjectService.SerializeProject(project);
+
+            File.WriteAllText(filename, json);
         }
 
         private static void BitmapTest()
@@ -49,14 +56,6 @@ namespace TeethInc.Chantry.Console
 //            AmiBitmap amiBitmap = sdBitmap.AsAvaloniaMediaImagingBitmap();
 
             SConsole.WriteLine(sw.ElapsedMilliseconds);
-        }
-
-        private static void SerializeTest()
-        {
-            Project project = Project.CreateSimpleProject(@"c:\temp\eric.jpg");
-            string json = ProjectService.SerializeProject(project);
-
-            File.WriteAllText(@"C:\Users\david\TeethInc\chantry\project.json", json);
         }
 
         private static void DeserialiseTest()

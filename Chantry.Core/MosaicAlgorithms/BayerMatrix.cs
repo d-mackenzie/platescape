@@ -10,13 +10,13 @@ using TeethInc.Chantry.Core.Services;
 
 namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
-    public class BayerMatrixDither : IMosaicAlgorithm
+    public class BayerMatrix : MosaicAlgorithm
     {
         private int m_matrixSize = 2;
 
         private float[,] m_matrix;
 
-        public LdColor GetColor(int x, int y, Color sourceColor, ColorService colorService)
+        public override LdColor GetColor(int x, int y, Color sourceColor, ColorService colorService)
         {
             float spread = 255f / colorService.AllowedColors.ToList().Count();
             float matrixValue = m_matrix[x % m_matrixSize, y % m_matrixSize];
@@ -31,7 +31,7 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
                 Math.Clamp((int)(blue), 0, 255)));
         }
 
-        public void Reset(Size size)
+        public override void Reset(Size size)
         {
             m_matrix = new float[2, 2]
                 {

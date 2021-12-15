@@ -1,14 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Filters;
-using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.MosaicAlgorithms;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
@@ -21,14 +17,13 @@ namespace TeethInc.Chantry.Core
         private FilterService m_filterService;
         private MosaicService m_mosaicService;
 //        private IMosaicAlgorithm m_mosaicAlgorithm = new FloydSteinberg();
-        private IMosaicAlgorithm m_mosaicAlgorithm = new BayerMatrixDither();
+        private MosaicAlgorithm m_mosaicAlgorithm = new BayerMatrix();
         private LdrawService m_ldrawService;
 
         public string Name { get; set; }
 
         // source properties.
 
-        [JsonInclude]
         public ISource Source
         {
             get { return m_source; }
@@ -38,7 +33,11 @@ namespace TeethInc.Chantry.Core
         // filter properties.
 
         public List<Filter> Filters => FilterService.Filters;
+
+        [JsonIgnore]
         public Bitmap UnfilteredImage => FilterService.GetUnfilteredImage();
+
+        [JsonIgnore]
         public Bitmap FilteredImage => FilterService.GetFilteredImage();
 
         // mosaic properties.
@@ -70,7 +69,7 @@ namespace TeethInc.Chantry.Core
             set { MosaicService.AllowedColors = value; }
         }
 
-        public IMosaicAlgorithm MosaicAlgorithm => m_mosaicAlgorithm;
+        public MosaicAlgorithm MosaicAlgorithm => m_mosaicAlgorithm;
 
         [JsonIgnore]
         public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, m_mosaicAlgorithm);
