@@ -30,16 +30,24 @@ namespace TeethInc.Chantry.Console
         {
             string filename = @"C:\Users\david\TeethInc\chantry\project.json";
 
-            SerializeTest(filename);
-            SConsole.WriteLine(File.ReadAllText(filename));
+            Project project = Project.CreateSimpleProject(@"c:\temp\eric.jpg");
+
+            SerializeTest(project, filename);
+
+            Project project2 = DeserialiseTest(filename);
         }
 
-        private static void SerializeTest(string filename)
+        private static void SerializeTest(Project project, string filename)
         {
-            Project project = Project.CreateSimpleProject(@"c:\temp\eric.jpg");
             string json = ProjectService.SerializeProject(project);
 
             File.WriteAllText(filename, json);
+        }
+
+        private static Project DeserialiseTest(string filename)
+        {
+            return ProjectService.DeserializeProject(
+                File.ReadAllText(filename));
         }
 
         private static void BitmapTest()
@@ -58,11 +66,6 @@ namespace TeethInc.Chantry.Console
             SConsole.WriteLine(sw.ElapsedMilliseconds);
         }
 
-        private static void DeserialiseTest()
-        {
-            Project project = ProjectService.DeserializeProject(
-                File.ReadAllText(@"C:\Users\david\TeethInc\chantry\project.json"));
-        }
 
         private static void FullStackTest()
         {

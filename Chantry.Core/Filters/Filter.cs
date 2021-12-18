@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Converters;
 
 namespace TeethInc.Chantry.Core.Filters
 {
@@ -15,11 +16,6 @@ namespace TeethInc.Chantry.Core.Filters
         public Filter()
         {
             Enabled = true;
-        }
-
-        public string Type
-        {
-            get { return this.GetType().Name; }
         }
 
         [JsonIgnore]

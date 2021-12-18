@@ -1,15 +1,16 @@
 {
   "Name": "eric",
   "Source": {
+    "$type": "TeethInc.Chantry.Core.Sources.FileSource, Chantry.Core",
     "Filename": "c:\\temp\\eric.jpg"
   },
   "Filters": [
     {
+      "$type": "TeethInc.Chantry.Core.Filters.BrightnessContrastFilter, Chantry.Core",
       "Brightness": 0,
       "Contrast": 0,
       "TonalRange": 3,
-      "Enabled": true,
-      "Type": "BrightnessContrastFilter"
+      "Enabled": true
     }
   ],
   "BaseplatePartNumber": "3811",
@@ -23,6 +24,6 @@
     15
   ],
   "MosaicAlgorithm": {
-    "Type": "BayerMatrix"
+    "$type": "TeethInc.Chantry.Core.MosaicAlgorithms.BayerMatrix, Chantry.Core"
   }
 }

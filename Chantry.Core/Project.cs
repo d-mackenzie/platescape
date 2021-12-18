@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using TeethInc.Chantry.Core.Converters;
 using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.MosaicAlgorithms;
 using TeethInc.Chantry.Core.Services;
@@ -54,6 +55,7 @@ namespace TeethInc.Chantry.Core
             set { MosaicService.Element = value; }
         }
 
+        [JsonConverter(typeof(JsonSizeConverter))]
         public Size BaseplateExtent
         {
             get { return MosaicService.BaseplateExtent; }

@@ -14,10 +14,5 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
         public abstract void Reset(Size size);
 
         public abstract LdColor GetColor(int x, int y, Color sourceColor, ColorService colorService);
-
-        public string Type
-        {
-            get { return this.GetType().Name; }
-        }
     }
 }
