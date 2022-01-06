@@ -16,6 +16,7 @@ using TeethInc.Chantry.Core.Ldraw;
 using System.Drawing;
 using AmiBitmap = Avalonia.Media.Imaging.Bitmap;
 using TeethInc.Chantry.App.Helpers;
+using System.IO;
 
 namespace TeethInc.Chantry.App.ViewModels
 {
@@ -131,6 +132,12 @@ namespace TeethInc.Chantry.App.ViewModels
             await fileDialog
                 .ShowSaveDialog($"{m_project.Name}.ldr")
                 .ContinueWith(x => ExportLdrawHandler(x.Result));
+        }
+
+        public void SerializeProject(string filename)
+        {
+            string json = ProjectService.SerializeProject(m_project);
+            File.WriteAllText(filename, json);
         }
 
         private void ExportLdrawHandler(string filename)

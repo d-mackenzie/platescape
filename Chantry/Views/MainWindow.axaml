@@ -13,19 +13,27 @@
             
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open" Command="{Binding OpenAnImageCommand}"/>
-                <MenuItem Header="_Close" Command="{Binding CloseCommand}"/>
-            </MenuItem>
+                <MenuItem Header="_Open"
+						  Command="{Binding OpenAnImageCommand}"/>
+
+				<MenuItem Header="_Save Project"
+						  Command="{Binding SaveProjectCommand}"
+						  IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+
+				<MenuItem Header="_Close"
+		                  Command="{Binding CloseCommand}"
+		                  IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+			</MenuItem>
         </Menu>
 
         <Grid DockPanel.Dock="Bottom"
               IsVisible="{Binding !IsLoading}">
 
             <views:MainView DataContext="{Binding ProjectViewModel}"
-                                IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                            IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
         
             <views:SplashView DataContext="{Binding SplashViewModel}"
-                                IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNull}}"/>
+                              IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNull}}"/>
         
         </Grid>
 

@@ -41,7 +41,7 @@ namespace TeethInc.Chantry.App.ViewModels
             SplashViewModel = splashViewModel;
 
             SplashViewModel.OpenAnImage += SplashViewModel_OpenAnImage; ;
-            SplashViewModel.OpenAProject += SplashViewModel_OpenAProject; ;
+            SplashViewModel.OpenAProject += SplashViewModel_OpenAProject;
 
             m_fileDialog = new FileDialog();
         }
@@ -58,6 +58,13 @@ namespace TeethInc.Chantry.App.ViewModels
             m_fileDialog
                 .ShowFileDialog(new string[] { "json" })
                 .ContinueWith(x => Open(x.Result));
+        }
+
+        public void SaveProjectCommand()
+        {
+            m_fileDialog
+                .ShowSaveDialog($"{m_projectViewModel.Name}.json")
+                .ContinueWith(x => SaveProject(x.Result));
         }
 
         public void CloseCommand()
@@ -93,6 +100,11 @@ namespace TeethInc.Chantry.App.ViewModels
             }
 
             IsLoading = false;
+        }
+
+        private void SaveProject(string filename)
+        {
+            m_projectViewModel.SerializeProject(filename);
         }
 
         private void Close()
