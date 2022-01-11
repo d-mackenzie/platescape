@@ -50,23 +50,6 @@ namespace TeethInc.Chantry.Console
                 File.ReadAllText(filename));
         }
 
-        private static void BitmapTest()
-        {
-            SdBitmap sdBitmap = new SdBitmap(@"C:\Users\David\Pictures\eric-avatar.jpg");
-
-            SConsole.WriteLine("Ready...");
-            SConsole.ReadKey(true);
-
-            var sw = Stopwatch.StartNew();
-
-            AmiBitmap amiBitmap = new AmiBitmap(@"C:\Users\David\Pictures\eric-avatar.jpg");
-
-//            AmiBitmap amiBitmap = sdBitmap.AsAvaloniaMediaImagingBitmap();
-
-            SConsole.WriteLine(sw.ElapsedMilliseconds);
-        }
-
-
         private static void FullStackTest()
         {
             LdrawService ldrawService = new LdrawService();

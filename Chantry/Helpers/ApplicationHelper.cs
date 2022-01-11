@@ -21,5 +21,11 @@ namespace TeethInc.Chantry.App.Helpers
             return null;
 #pragma warning restore CS8603 // Possible null reference return.
         }
+
+        public static void SetSettingStringArray(string key, string[] value)
+        {
+
+
+        }
     }
 }
