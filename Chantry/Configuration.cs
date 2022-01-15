@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace TeethInc.Chantry.App
 {
-    internal class Configuration
+    public class Configuration
     {
+        public IEnumerable<string> Mru { get; set; }
+
+        public Configuration()
+        {
+            Mru = new List<string>();
+        }
     }
 }

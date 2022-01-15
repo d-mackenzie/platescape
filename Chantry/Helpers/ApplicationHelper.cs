@@ -1,7 +1,9 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,20 +14,36 @@ namespace TeethInc.Chantry.App.Helpers
     {
         public static Window GetMainWindow()
         {
-            if (Avalonia.Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            if (Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 return desktop.MainWindow;
             }
 
-#pragma warning disable CS8603 // Possible null reference return.
-            return null;
-#pragma warning restore CS8603 // Possible null reference return.
+            throw new Exception("No Application Window found.");
         }
 
-        public static void SetSettingStringArray(string key, string[] value)
+        public static void SaveConfiguration(Configuration configuration)
         {
+            string json = JsonConvert.SerializeObject(configuration, Formatting.Indented);
+            File.WriteAllText(ConfigurationFilename, json);
+        }
 
+        public static Configuration LoadConfiguration()
+        {
+            string json = "";
 
+            if (File.Exists(ConfigurationFilename))
+                json = File.ReadAllText(ConfigurationFilename);
+
+            if (JsonConvert.DeserializeObject<Configuration>(json) is Configuration configuration)
+                return configuration;
+
+            return new Configuration();
+        }
+
+        public static string ConfigurationFilename
+        {
+            get { return Path.Join(AppDomain.CurrentDomain.BaseDirectory, "config.json"); }
         }
     }
 }

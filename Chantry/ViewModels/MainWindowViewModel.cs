@@ -106,7 +106,9 @@ namespace TeethInc.Chantry.App.ViewModels
         {
             m_projectViewModel.SerializeProject(filename);
 
-            ApplicationHelper.SetSettingStringArray("mru", new string[] { filename });
+            var config = ApplicationHelper.LoadConfiguration();
+            config.Mru = new string[] { filename };
+            ApplicationHelper.SaveConfiguration(config);
         }
 
         private void Close()
