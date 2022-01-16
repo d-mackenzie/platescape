@@ -50,7 +50,7 @@ namespace TeethInc.Chantry.ViewModels
         {
             m_fileDialog
                 .ShowFileDialog(new string[] { "jpg", "png" })
-                .ContinueWith(x => Open(x.Result));
+                .ContinueWith(x => Open(x?.Result));
         }
 
         public void OpenAProjectCommand()
@@ -62,9 +62,10 @@ namespace TeethInc.Chantry.ViewModels
 
         public void SaveProjectCommand()
         {
-            m_fileDialog
-                .ShowSaveDialog($"{m_projectViewModel.Name}.json")
-                .ContinueWith(x => SaveProject(x.Result));
+            if (m_projectViewModel is not null)
+                m_fileDialog
+                    .ShowSaveDialog($"{m_projectViewModel.Name}.json")
+                    .ContinueWith(x => SaveProject(x.Result));
         }
 
         public void CloseCommand()
@@ -84,26 +85,29 @@ namespace TeethInc.Chantry.ViewModels
 
         private void Open(string? filename)
         {
-            if (filename is not null)
-            {
-                IsLoading = true;
+            if (filename is null)
+                return;
 
-                if (Path.GetExtension(filename) == "json")
-                {
-                    string json = File.ReadAllText(filename);
-                    ProjectViewModel = new ProjectViewModel(ProjectService.DeserializeProject(json));
-                }
-                else
-                {
-                    ProjectViewModel = new ProjectViewModel(Project.CreateSimpleProject(filename));
-                }
+            IsLoading = true;
+
+            if (Path.GetExtension(filename) == "json")
+            {
+                string json = File.ReadAllText(filename);
+                ProjectViewModel = new ProjectViewModel(ProjectService.DeserializeProject(json));
+            }
+            else
+            {
+                ProjectViewModel = new ProjectViewModel(Project.CreateSimpleProject(filename));
             }
 
             IsLoading = false;
         }
 
-        private void SaveProject(string filename)
+        private void SaveProject(string? filename)
         {
+            if (filename is null || m_projectViewModel is null)
+                return;
+
             m_projectViewModel.SerializeProject(filename);
 
             var config = ApplicationHelper.LoadConfiguration();

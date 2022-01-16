@@ -20,6 +20,15 @@
 						  Command="{Binding SaveProjectCommand}"
 						  IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
 
+				<MenuItem Header="Export"
+						  IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}">
+                
+					<MenuItem Header="LDRAW"/>
+					<MenuItem Header="PNG"/>
+					<MenuItem Header="SVG"/>
+
+				</MenuItem>
+
 				<MenuItem Header="_Close"
 		                  Command="{Binding CloseCommand}"
 		                  IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>

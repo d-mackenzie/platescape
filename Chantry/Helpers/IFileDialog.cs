@@ -10,6 +10,6 @@ namespace TeethInc.Chantry.Helpers
     {
         public Task<string?> ShowFileDialog(string[] extensions);
 
-        public Task<string> ShowSaveDialog(string initialFilename);
+        public Task<string?> ShowSaveDialog(string initialFilename);
     }
 }

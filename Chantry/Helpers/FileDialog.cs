@@ -21,16 +21,16 @@ namespace TeethInc.Chantry.Helpers
 
             string[]? files = await dialog.ShowAsync(ApplicationHelper.GetMainWindow());
 
-            return files.FirstOrDefault();
+            return files?.FirstOrDefault();
         }
 
-        public async Task<string> ShowSaveDialog(string initialFileName)
+        public async Task<string?> ShowSaveDialog(string initialFileName)
         {
             SaveFileDialog dialog = new SaveFileDialog();
 
             dialog.InitialFileName = initialFileName;
 
-            string filename = await dialog.ShowAsync(ApplicationHelper.GetMainWindow());
+            string? filename = await dialog.ShowAsync(ApplicationHelper.GetMainWindow());
 
             return filename;
         }

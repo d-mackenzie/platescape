@@ -134,7 +134,7 @@ namespace TeethInc.Chantry.ViewModels
 
             await fileDialog
                 .ShowSaveDialog($"{m_project.Name}.ldr")
-                .ContinueWith(x => ExportLdrawHandler(x.Result));
+                .ContinueWith(x => ExportLdrawHandler(x?.Result));
         }
 
         public void SerializeProject(string filename)
@@ -143,10 +143,12 @@ namespace TeethInc.Chantry.ViewModels
             File.WriteAllText(filename, json);
         }
 
-        private void ExportLdrawHandler(string filename)
+        private void ExportLdrawHandler(string? filename)
         {
-            if (!string.IsNullOrEmpty(filename))
-                m_project.ExportLdraw(filename);
+            if (string.IsNullOrEmpty(filename))
+                return;
+
+            m_project.ExportLdraw(filename);
         }
 
         private void AllowedColors_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
