@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,18 +10,18 @@ using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.Core.Converters
 {
-    public class JsonSizeConverter : JsonConverter<Size>
+    public class JsonSizeConverter : JsonConverter<SKSizeI>
     {
-        public override Size ReadJson(JsonReader reader, Type objectType, Size existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override SKSizeI ReadJson(JsonReader reader, Type objectType, SKSizeI existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             string[] values = reader.Value.ToString().Split(',');
 
-            return new Size(
+            return new SKSizeI(
                 Int32.Parse(values[0]),
                 Int32.Parse(values[1]));
         }
 
-        public override void WriteJson(JsonWriter writer, Size value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, SKSizeI value, JsonSerializer serializer)
         {
             writer.WriteValue($"{value.Width}, {value.Height}");
         }

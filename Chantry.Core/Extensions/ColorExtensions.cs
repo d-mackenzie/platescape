@@ -1,20 +1,17 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Ldraw;
 
 namespace TeethInc.Chantry.Core.Extensions
 {
     public static class ColorExtensions
     {
-        public static float DistanceFrom(this Color me, Color color)
+        public static float DistanceFrom(this SKColor me, SKColor color)
         {
-            float deltaR = me.R - color.R;
-            float deltaG = me.G - color.G;
-            float deltaB = me.B - color.B;
+            float deltaR = me.Red - color.Red;
+            float deltaG = me.Green - color.Green;
+            float deltaB = me.Blue - color.Blue;
 
             return
                 (deltaR * 0.30f * deltaR * 0.30f) +
@@ -22,7 +19,7 @@ namespace TeethInc.Chantry.Core.Extensions
                 (deltaB * 0.11f * deltaB * 0.11f);
         }
 
-        public static LdColor ClosestLdColor(this Color me, IEnumerable<LdColor> allowedColors)
+        public static LdColor ClosestLdColor(this SKColor me, IEnumerable<LdColor> allowedColors)
         {
             double minDistance = double.MaxValue;
             LdColor closestColor = null;
@@ -43,7 +40,7 @@ namespace TeethInc.Chantry.Core.Extensions
             return closestColor;
         }
 
-        public static Color FromHsv(float h, float s, float v)
+        public static SKColor FromHsv(float h, float s, float v)
         {
             // ######################################################################
             // T. Nathan Mundhenk
@@ -138,10 +135,10 @@ namespace TeethInc.Chantry.Core.Extensions
                 }
             }
 
-            return Color.FromArgb(
-                Math.Clamp((int)(r * 255.0), 0, 255),
-                Math.Clamp((int)(g * 255.0), 0, 255),
-                Math.Clamp((int)(b * 255.0), 0, 255));
+            return new SKColor(
+                (byte)Math.Clamp((int)(r * 255.0), 0, 255),
+                (byte)Math.Clamp((int)(g * 255.0), 0, 255),
+                (byte)Math.Clamp((int)(b * 255.0), 0, 255));
         }
     }
 }

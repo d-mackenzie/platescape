@@ -1,10 +1,6 @@
-﻿using Avalonia.Media.Imaging;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Sources;
 using TeethInc.Chantry.App.Extensions;
 using TeethInc.Chantry.Core;
@@ -13,10 +9,10 @@ using System.Collections.ObjectModel;
 using TeethInc.Chantry.App.Filters.ViewModels;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Ldraw;
-using System.Drawing;
 using AmiBitmap = Avalonia.Media.Imaging.Bitmap;
 using TeethInc.Chantry.App.Helpers;
 using System.IO;
+using SkiaSharp;
 
 namespace TeethInc.Chantry.App.ViewModels
 {
@@ -69,7 +65,7 @@ namespace TeethInc.Chantry.App.ViewModels
             get { return m_project.BaseplateExtent.Width; }
             set
             {
-                m_project.BaseplateExtent = new Size(value, m_project.BaseplateExtent.Height);
+                m_project.BaseplateExtent = new SKSizeI(value, m_project.BaseplateExtent.Height);
                 RaiseMosaicPropertyChanged();
             }
         }
@@ -79,7 +75,7 @@ namespace TeethInc.Chantry.App.ViewModels
             get { return m_project.BaseplateExtent.Height; }
             set
             {
-                m_project.BaseplateExtent = new Size(m_project.BaseplateExtent.Width, value);
+                m_project.BaseplateExtent = new SKSizeI(m_project.BaseplateExtent.Width, value);
                 RaiseMosaicPropertyChanged();
             }
         }
@@ -121,7 +117,14 @@ namespace TeethInc.Chantry.App.ViewModels
                 }
             }
 
-            m_project.AllowedColors.ToList().ForEach(x => AllowedColors.Add(m_ldrawService.GetColor(x)));
+            var allowedColors = m_project.AllowedColors;
+
+            foreach (var allowedColor in allowedColors)
+            {
+                AllowedColors.Add(m_ldrawService.GetColor(allowedColor));
+            }
+
+//            m_project.AllowedColors.ToList().ForEach(x => AllowedColors.Add(m_ldrawService.GetColor(x)));
             AllowedColors.CollectionChanged += AllowedColors_CollectionChanged;
         }
 
@@ -175,7 +178,6 @@ namespace TeethInc.Chantry.App.ViewModels
                 return $"{inches / 12}ft";
 
             return $"{inches / 12}ft {inches % 12}in";
-
         }
     }
 }

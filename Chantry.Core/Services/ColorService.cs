@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SkiaSharp;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Ldraw;
 
@@ -43,9 +39,9 @@ namespace TeethInc.Chantry.Core.Services
             AllowedColors = new int[0];
         }
 
-        public LdColor GetClosestLdColor(Color color)
+        public LdColor GetClosestLdColor(SKColor color)
         {
-            return m_closestLdColorCache[color.R >> 2, color.G >> 2, color.B >> 2];
+            return m_closestLdColorCache[color.Red >> 2, color.Green >> 2, color.Blue >> 2];
         }
 
         private void BuildDistanceCache()
@@ -71,7 +67,7 @@ namespace TeethInc.Chantry.Core.Services
                     {
                         for (int b = 0; b < 256; b += 4)
                         {
-                            Color color = Color.FromArgb(r, g, b);
+                            SKColor color = new SKColor((byte)r, (byte)g, (byte)b);
                             m_distanceCache[r >> 2, g >> 2, b >> 2, ldColorIndex] = color.DistanceFrom(ldColor.Color);
                         }
                     }
@@ -91,7 +87,7 @@ namespace TeethInc.Chantry.Core.Services
                 {
                     for (int b = 0; b < 256; b += 4)
                     {
-                        m_closestLdColorCache[r >> 2, g >> 2, b >> 2] = CalculateClosestLdColor(Color.FromArgb(r, g, b));
+                        m_closestLdColorCache[r >> 2, g >> 2, b >> 2] = CalculateClosestLdColor(new SKColor((byte)r, (byte)g, (byte)b));
                     }
                 }
             }
@@ -99,7 +95,7 @@ namespace TeethInc.Chantry.Core.Services
             Debug.WriteLine($"BuildClosestLdColorCache(): {sw.ElapsedMilliseconds}ms.");
         }
 
-        private LdColor CalculateClosestLdColor(Color color)
+        private LdColor CalculateClosestLdColor(SKColor color)
         {
             float minDistance = float.MaxValue;
             LdColor closestColor = null;
@@ -108,7 +104,7 @@ namespace TeethInc.Chantry.Core.Services
             {
                 // get distance.
 
-                float distance = m_distanceCache[color.R >> 2, color.G >> 2, color.B >> 2, m_ldColorIndex[ldColor.Number]];
+                float distance = m_distanceCache[color.Red >> 2, color.Green >> 2, color.Blue >> 2, m_ldColorIndex[ldColor.Number]];
 
                 if (distance < minDistance)
                 {

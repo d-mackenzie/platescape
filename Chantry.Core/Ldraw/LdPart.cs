@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SkiaSharp;
 
 namespace TeethInc.Chantry.Core.Ldraw
 {
-    public record LdPart(string Number, string Name, Size Size);
+    public record LdPart(string Number, string Name, SKSizeI Size);
 }

@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
+using SkiaSharp;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using TeethInc.Chantry.Core.Converters;
 using TeethInc.Chantry.Core.Filters;
@@ -17,8 +16,8 @@ namespace TeethInc.Chantry.Core
         private ISource m_source;
         private FilterService m_filterService;
         private MosaicService m_mosaicService;
-//        private IMosaicAlgorithm m_mosaicAlgorithm = new FloydSteinberg();
-        private MosaicAlgorithm m_mosaicAlgorithm = new BayerMatrix();
+        private MosaicAlgorithm m_mosaicAlgorithm = new FloydSteinberg();
+//        private MosaicAlgorithm m_mosaicAlgorithm = new BayerMatrix();
         private LdrawService m_ldrawService;
 
         public string Name { get; set; }
@@ -36,10 +35,10 @@ namespace TeethInc.Chantry.Core
         public List<Filter> Filters => FilterService.Filters;
 
         [JsonIgnore]
-        public Bitmap UnfilteredImage => FilterService.GetUnfilteredImage();
+        public SKBitmap UnfilteredImage => FilterService.GetUnfilteredImage();
 
         [JsonIgnore]
-        public Bitmap FilteredImage => FilterService.GetFilteredImage();
+        public SKBitmap FilteredImage => FilterService.GetFilteredImage();
 
         // mosaic properties.
 
@@ -56,14 +55,14 @@ namespace TeethInc.Chantry.Core
         }
 
         [JsonConverter(typeof(JsonSizeConverter))]
-        public Size BaseplateExtent
+        public SKSizeI BaseplateExtent
         {
             get { return MosaicService.BaseplateExtent; }
             set { MosaicService.BaseplateExtent = value; }
         }
 
         [JsonIgnore]
-        public Size ElementExtent => MosaicService.ElementExtent;
+        public SKSizeI ElementExtent => MosaicService.ElementExtent;
 
         public int[] AllowedColors
         {

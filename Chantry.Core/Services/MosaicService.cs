@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SkiaSharp;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Extensions;
-using TeethInc.Chantry.Core.Helpers;
 using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.MosaicAlgorithms;
-using TeethInc.Chantry.Core.Services;
 
 namespace TeethInc.Chantry.Core.Services
 {
@@ -42,7 +35,7 @@ namespace TeethInc.Chantry.Core.Services
             set { m_element = m_ldrawService.GetPart(value); }
         }
 
-        public Size BaseplateExtent { get; set; }
+        public SKSizeI BaseplateExtent { get; set; }
 
         public int[] AllowedColors
         {
@@ -50,11 +43,11 @@ namespace TeethInc.Chantry.Core.Services
             set { m_colorService.AllowedColors = value; }
         }
 
-        public Size ElementExtent
+        public SKSizeI ElementExtent
         {
             get
             {
-                return new Size(
+                return new SKSizeI(
                     m_baseplate.Size.Width * BaseplateExtent.Width / m_element.Size.Width,
                     m_baseplate.Size.Height * BaseplateExtent.Height / m_element.Size.Height);
             }
@@ -69,7 +62,7 @@ namespace TeethInc.Chantry.Core.Services
 
             Baseplate = BASEPLATE_32X32;
             Element = PLATE_1X1;
-            BaseplateExtent = new Size(6, 6);
+            BaseplateExtent = new SKSizeI(6, 6);
             AllowedColors = new int[]
             {
                 LDRAW_BLACK,
@@ -80,36 +73,38 @@ namespace TeethInc.Chantry.Core.Services
             };
         }
 
-        public Mosaic GetMosaic(Bitmap filteredImage, MosaicAlgorithm mosaicAlgorithm)
+        public Mosaic GetMosaic(SKBitmap filteredImage, MosaicAlgorithm mosaicAlgorithm)
         {
             var sw = Stopwatch.StartNew();
 
             var colors = new LdColor[ElementExtent.Width, ElementExtent.Height];
             mosaicAlgorithm.Reset(ElementExtent);
 
-            using (Bitmap source = new Bitmap(filteredImage, filteredImage.Size.GetSizeToFill(ElementExtent)))
+            using (SKBitmap source = filteredImage.Resize(filteredImage.Info.Size.GetSizeToFill(ElementExtent), SKFilterQuality.High))
             {
-                Bitmap mosaic = new Bitmap(ElementExtent.Width, ElementExtent.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                SKBitmap mosaic = new SKBitmap(ElementExtent.Width, ElementExtent.Height);
 
-                Point topLeft = new Point(
+                SKPointI topLeft = new SKPointI(
                     (source.Width - mosaic.Width) / 2,
                     (source.Height - mosaic.Height) / 2);
 
-                var sourcePixels = source.ToPixelData();
-                var mosaicPixels = mosaic.ToPixelData();
+                var sourcePixels = source.Pixels;
+                var mosaicPixels = mosaic.Pixels;
 
                 for (int y = 0; y < ElementExtent.Height; y++)
                 {
                     for (int x = 0; x < ElementExtent.Width; x++)
                     {
-                        Color color = sourcePixels[x + topLeft.X, y + topLeft.Y];
+                        int pixelIndex = ((y + topLeft.Y) * source.Width) + x + topLeft.X;
+
+                        SKColor color = sourcePixels[pixelIndex];
                         LdColor ldColor = mosaicAlgorithm.GetColor(x, y, color, m_colorService);
                         colors[x, y] = ldColor;
-                        mosaicPixels[x, y] = ldColor.Color;
+                        mosaicPixels[pixelIndex] = ldColor.Color;
                     }
                 }
 
-                mosaic.SetPixelArray(mosaicPixels.PixelArray);
+                mosaic.Pixels = mosaicPixels;
 
                 Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
 

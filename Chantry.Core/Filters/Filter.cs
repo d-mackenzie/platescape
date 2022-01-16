@@ -1,11 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TeethInc.Chantry.Core.Converters;
+using SkiaSharp;
 
 namespace TeethInc.Chantry.Core.Filters
 {
@@ -21,6 +15,6 @@ namespace TeethInc.Chantry.Core.Filters
         [JsonIgnore]
         public abstract string DisplayName { get; }
 
-        public abstract void ApplyFilter(Bitmap image);
+        public abstract void ApplyFilter(SKBitmap image);
     }
 }

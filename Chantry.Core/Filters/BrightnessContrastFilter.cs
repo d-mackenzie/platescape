@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SkiaSharp;
+using System;
 using TeethInc.Chantry.Core.Extensions;
 
 namespace TeethInc.Chantry.Core.Filters
@@ -19,16 +14,16 @@ namespace TeethInc.Chantry.Core.Filters
 
         public TonalRange TonalRange { get; set; } = TonalRange.All;
 
-        public override void ApplyFilter(Bitmap image)
+        public override void ApplyFilter(SKBitmap image)
         {
             image.ApplyFilter(GetAdjustedPixel);
         }
 
-        private Color GetAdjustedPixel(Color unfilteredPixel)
+        private SKColor GetAdjustedPixel(SKColor unfilteredPixel)
         {
-            int red = unfilteredPixel.R;
-            int green = unfilteredPixel.G;
-            int blue = unfilteredPixel.B;
+            int red = unfilteredPixel.Red;
+            int green = unfilteredPixel.Green;
+            int blue = unfilteredPixel.Blue;
 
             // brightness.
 
@@ -40,14 +35,14 @@ namespace TeethInc.Chantry.Core.Filters
 
             float factor = 259f * (Contrast + 255f) / (255f * (259f - Contrast));
 
-            red = (int)(factor * (red - 128) + 128);
-            green = (int)(factor * (green - 128) + 128);
-            blue = (int)(factor * (blue - 128) + 128);
+            red = Math.Clamp((int)(factor * (red - 128) + 128), 0, 255);
+            green = Math.Clamp((int)(factor * (green - 128) + 128), 0, 255);
+            blue = Math.Clamp((int)(factor * (blue - 128) + 128), 0, 255);
 
-            return Color.FromArgb(
-                Math.Clamp(red, 0, 255),
-                Math.Clamp(green, 0, 255),
-                Math.Clamp(blue, 0, 255));
+            return new SKColor(
+                (byte)red,
+                (byte)green,
+                (byte)blue);
         }
     }
 }

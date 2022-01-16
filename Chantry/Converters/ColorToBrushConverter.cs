@@ -1,14 +1,9 @@
 ﻿using Avalonia.Data.Converters;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AmSolidColorBrush = Avalonia.Media.SolidColorBrush;
-using SdColor = System.Drawing.Color;
 using AmColor = Avalonia.Media.Color;
+using SkiaSharp;
 
 namespace TeethInc.Chantry.App.Converters
 {
@@ -16,8 +11,8 @@ namespace TeethInc.Chantry.App.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            SdColor sdColor = (SdColor)value;
-            return new AmSolidColorBrush(new AmColor(sdColor.A, sdColor.R, sdColor.G, sdColor.B));
+            SKColor skColor = (SKColor)value;
+            return new AmSolidColorBrush(new AmColor(skColor.Alpha, skColor.Red, skColor.Green, skColor.Blue));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

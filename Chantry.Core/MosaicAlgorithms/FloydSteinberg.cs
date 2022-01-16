@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TeethInc.Chantry.Core.Extensions;
+﻿using SkiaSharp;
+using System;
 using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.Services;
 
@@ -13,7 +8,7 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
     public class FloydSteinberg : MosaicAlgorithm
     {
         private Error[,] m_errors;
-        private Size m_size;
+        private SKSizeI m_size;
 
         private const float EAST_ERROR = 7 / 16f;
         private const float SOUTHEAST_ERROR = 1 / 16f;
@@ -22,16 +17,16 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
         public FloydSteinberg()
         {
-            Reset(new Size(1,1));
+            Reset(new SKSizeI(1,1));
         }
 
-        public override LdColor GetColor(int x, int y, Color sourceColor, ColorService colorService)
+        public override LdColor GetColor(int x, int y, SKColor sourceColor, ColorService colorService)
         {
             // get average pixel color.
 
-            float sourceRed = sourceColor.R;
-            float sourceGreen = sourceColor.G;
-            float sourceBlue = sourceColor.B;
+            float sourceRed = sourceColor.Red;
+            float sourceGreen = sourceColor.Green;
+            float sourceBlue = sourceColor.Blue;
 
             // apply the error.
 
@@ -43,19 +38,19 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
             // get closest color.
 
-            Color colorWithErrorApplied = Color.FromArgb(
-                Math.Clamp((int)sourceRed, 0, 255),
-                Math.Clamp((int)sourceGreen, 0, 255),
-                Math.Clamp((int)sourceBlue, 0, 255));
+            SKColor colorWithErrorApplied = new SKColor(
+                (byte)Math.Clamp((int)sourceRed, 0, 255),
+                (byte)Math.Clamp((int)sourceGreen, 0, 255),
+                (byte)Math.Clamp((int)sourceBlue, 0, 255));
 
             LdColor newColor = colorService.GetClosestLdColor(colorWithErrorApplied);
 
             // calculate the error.
 
             Error calculatedError = new Error(
-                colorWithErrorApplied.R - newColor.Color.R,
-                colorWithErrorApplied.G - newColor.Color.G,
-                colorWithErrorApplied.B - newColor.Color.B);
+                colorWithErrorApplied.Red - newColor.Color.Red,
+                colorWithErrorApplied.Green - newColor.Color.Green,
+                colorWithErrorApplied.Blue - newColor.Color.Blue);
 
             // propagate the error.
 
@@ -69,7 +64,7 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             return newColor;
         }
 
-        public override void Reset(Size size)
+        public override void Reset(SKSizeI size)
         {
             if (size != m_size)
             {

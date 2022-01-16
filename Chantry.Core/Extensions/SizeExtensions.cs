@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SkiaSharp;
 
 namespace TeethInc.Chantry.Core.Extensions
 {
@@ -15,30 +10,30 @@ namespace TeethInc.Chantry.Core.Extensions
 
     public static class SizeExtensions
     {
-        public static bool IsSmallerThan(this Size me, Size size)
+        public static bool IsSmallerThan(this SKSizeI me, SKSizeI size)
         {
             return (me.Width < size.Width || me.Height < size.Height);
         }
 
-        public static bool IsLargerThan(this Size me, Size size)
+        public static bool IsLargerThan(this SKSizeI me, SKSizeI size)
         {
             return (me.Width > size.Width || me.Height > size.Height);
         }
 
-        public static AspectRatioType AspectRatio(this Size me)
+        public static AspectRatioType AspectRatio(this SKSizeI me)
         {
             return (me.Width > me.Height) ? Extensions.AspectRatioType.Landscape : Extensions.AspectRatioType.Portrait;
         }
 
-        public static Size GetSizeScaledBy(this Size me, float scale)
+        public static SKSizeI GetSizeScaledBy(this SKSizeI me, float scale)
         {
-            return new Size((int)(me.Width * scale), (int)(me.Height * scale));
+            return new SKSizeI((int)(me.Width * scale), (int)(me.Height * scale));
         }
 
-        public static Size GetSizeToFill(this Size me, Size target)
+        public static SKSizeI GetSizeToFill(this SKSizeI me, SKSizeI target)
         {
-            Size scaledByWidth = me.GetSizeScaledBy((float)target.Width / me.Width);
-            Size scaledByHeight = me.GetSizeScaledBy((float)target.Height / me.Height);
+            SKSizeI scaledByWidth = me.GetSizeScaledBy((float)target.Width / me.Width);
+            SKSizeI scaledByHeight = me.GetSizeScaledBy((float)target.Height / me.Height);
 
             if (scaledByWidth.IsSmallerThan(target))
                 return scaledByHeight;
@@ -46,10 +41,10 @@ namespace TeethInc.Chantry.Core.Extensions
             return scaledByWidth;
         }
 
-        public static Size GetSizeToFit(this Size me, Size target)
+        public static SKSizeI GetSizeToFit(this SKSizeI me, SKSizeI target)
         {
-            Size scaledByWidth = me.GetSizeScaledBy((float)target.Width / me.Width);
-            Size scaledByHeight = me.GetSizeScaledBy((float)target.Height / me.Height);
+            SKSizeI scaledByWidth = me.GetSizeScaledBy((float)target.Width / me.Width);
+            SKSizeI scaledByHeight = me.GetSizeScaledBy((float)target.Height / me.Height);
 
             if (scaledByWidth.IsLargerThan(target))
                 return scaledByHeight;

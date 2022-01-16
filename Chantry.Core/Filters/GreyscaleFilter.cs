@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SkiaSharp;
 using TeethInc.Chantry.Core.Extensions;
 
 namespace TeethInc.Chantry.Core.Filters
@@ -36,19 +30,16 @@ namespace TeethInc.Chantry.Core.Filters
             return ret;
         }
 
-        public override void ApplyFilter(Bitmap image)
+        public override void ApplyFilter(SKBitmap image)
         {
             image.ApplyFilter(GetGreyscalePixel);
         }
 
-        private Color GetGreyscalePixel(Color unfilteredPixel)
+        private SKColor GetGreyscalePixel(SKColor unfilteredPixel)
         {
-            byte luminosity = (byte)(m_red[unfilteredPixel.R] + m_green[unfilteredPixel.G] + m_blue[unfilteredPixel.B]);
+            byte luminosity = (byte)(m_red[unfilteredPixel.Red] + m_green[unfilteredPixel.Green] + m_blue[unfilteredPixel.Blue]);
 
-            return Color.FromArgb(
-                luminosity,
-                luminosity,
-                luminosity);
+            return new SKColor(luminosity, luminosity, luminosity);
         }
     }
 }

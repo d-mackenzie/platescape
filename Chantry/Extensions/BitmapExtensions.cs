@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SdBitmap = System.Drawing.Bitmap;
+﻿using System.IO;
 using AmiBitmap = Avalonia.Media.Imaging.Bitmap;
-using System.Drawing;
-using Avalonia;
+using SkiaSharp;
 
 namespace TeethInc.Chantry.App.Extensions
 {
     public static class BitmapExtensions
     {
-        public static AmiBitmap AsAvaloniaMediaImagingBitmap(this SdBitmap sdBitmap)
+        public static AmiBitmap AsAvaloniaMediaImagingBitmap(this SKBitmap skBitmap)
         {
             using (MemoryStream memory = new MemoryStream())
             {
-                sdBitmap.Save(memory, ImageFormat.Png);
+                skBitmap.Encode(memory, SKEncodedImageFormat.Png, 100);
                 memory.Position = 0;
 
                 return new AmiBitmap(memory);

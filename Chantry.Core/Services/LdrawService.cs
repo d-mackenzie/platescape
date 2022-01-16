@@ -1,6 +1,6 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -59,17 +59,17 @@ namespace TeethInc.Chantry.Core.Services
 
             m_baseplates = new List<LdPart>()
             {
-                new LdPart("4186", "Baseplate 48 x 48", new Size(48, 48)),
-                new LdPart("3811", "Baseplate 32 x 32", new Size(32, 32)),
-                new LdPart("3867", "Baseplate 16 x 16", new Size(16, 16))
+                new LdPart("4186", "Baseplate 48 x 48", new SKSizeI(48, 48)),
+                new LdPart("3811", "Baseplate 32 x 32", new SKSizeI(32, 32)),
+                new LdPart("3867", "Baseplate 16 x 16", new SKSizeI(16, 16))
             };
 
             m_elements = new List<LdPart>()
             {
-                new LdPart("3024", "Plate 1 x 1", new Size(1, 1)),
-                new LdPart("3022", "Plate 2 x 2", new Size(2, 2)),
-                new LdPart("3005", "Brick 1 x 1", new Size(1, 1)),
-                new LdPart("3004", "Brick 2 x 2", new Size(2, 2))
+                new LdPart("3024", "Plate 1 x 1", new SKSizeI(1, 1)),
+                new LdPart("3022", "Plate 2 x 2", new SKSizeI(2, 2)),
+                new LdPart("3005", "Brick 1 x 1", new SKSizeI(1, 1)),
+                new LdPart("3004", "Brick 2 x 2", new SKSizeI(2, 2))
             };
         }
 

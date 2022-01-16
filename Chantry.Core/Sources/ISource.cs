@@ -1,9 +1,9 @@
-﻿using System.Drawing;
+﻿using SkiaSharp;
 
 namespace TeethInc.Chantry.Core.Sources
 {
     public interface ISource
     {
-        public Bitmap Image { get; }
+        public SKBitmap Image { get; }
     }
 }

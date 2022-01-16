@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
-using System.Drawing;
+using SkiaSharp;
 using System.IO;
 
 namespace TeethInc.Chantry.Core.Sources
 {
     public class FileSource : ISource
     {
-        private Bitmap m_image = null;
+        private SKBitmap m_image = null;
         private string m_filename = "";
 
         public string Filename
@@ -20,7 +20,7 @@ namespace TeethInc.Chantry.Core.Sources
         }
 
         [JsonIgnore]
-        public Bitmap Image
+        public SKBitmap Image
         {
             get
             {
@@ -28,11 +28,11 @@ namespace TeethInc.Chantry.Core.Sources
                 {
                     if (File.Exists(Filename))
                     {
-                        m_image = new Bitmap(Filename);
+                        m_image = SKBitmap.Decode(Filename);
                     }
                     else
                     {
-                        m_image = new Bitmap(50, 50);
+                        m_image = new SKBitmap(50, 50);
                     }
                 }
 

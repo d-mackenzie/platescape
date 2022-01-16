@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -12,11 +10,8 @@ using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.MosaicAlgorithms;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
-using SdBitmap = System.Drawing.Bitmap;
-using AmiBitmap = Avalonia.Media.Imaging.Bitmap;
-using TeethInc.Chantry.App.Extensions;
-using SConsole = System.Console;
-using System.Xml;
+using SkiaSharp;
+using TeethInc.Chantry.App.ViewModels;
 
 namespace TeethInc.Chantry.Console
 {
@@ -28,13 +23,8 @@ namespace TeethInc.Chantry.Console
 
         static void Main(string[] args)
         {
-            string filename = @"C:\Users\david\TeethInc\chantry\project.json";
-
             Project project = Project.CreateSimpleProject(@"c:\temp\eric.jpg");
-
-            SerializeTest(project, filename);
-
-            Project project2 = DeserialiseTest(filename);
+            var projectViewModel = new ProjectViewModel(project);
         }
 
         private static void SerializeTest(Project project, string filename)
@@ -60,16 +50,16 @@ namespace TeethInc.Chantry.Console
                     Filename = @"C:\Users\David\Pictures\eric-avatar.jpg"
                 })
             {
-                TargetElementExtent = new Size(320, 320)
+                TargetElementExtent = new SKSizeI(320, 320)
             };
 
             MosaicService mosaicService = new MosaicService(ldrawService);
-            mosaicService.BaseplateExtent = new Size(10, 10);
+            mosaicService.BaseplateExtent = new SKSizeI(10, 10);
 
             System.Console.WriteLine("Filter image.");
 
             var sw = Stopwatch.StartNew();
-            Bitmap filteredImage = filterService.GetFilteredImage();
+            SKBitmap filteredImage = filterService.GetFilteredImage();
             System.Console.WriteLine($"Filter took {sw.ElapsedMilliseconds}ms.");
 
             System.Console.WriteLine("Wait 5 seconds...");

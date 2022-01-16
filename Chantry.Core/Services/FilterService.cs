@@ -1,13 +1,8 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Filters;
-using TeethInc.Chantry.Core.Helpers;
 using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.Core.Services
@@ -17,7 +12,7 @@ namespace TeethInc.Chantry.Core.Services
         private const int MINIMUM_SIZE = 192;
         
         private ISource m_source;
-        private Bitmap m_unfilteredImage;
+        private SKBitmap m_unfilteredImage;
 
         public List<Filter> Filters { get; set; }
 
@@ -27,18 +22,18 @@ namespace TeethInc.Chantry.Core.Services
             set { m_source = value; m_unfilteredImage = null; }
         }
 
-        public Size TargetElementExtent { get; set; }
+        public SKSizeI TargetElementExtent { get; set; }
 
         public FilterService(ISource source)
         {
             Filters = new List<Filter>();
-            TargetElementExtent = new Size(192, 128);
+            TargetElementExtent = new SKSizeI(192, 128);
             Source = source;
         }
 
-        public Bitmap GetFilteredImage()
+        public SKBitmap GetFilteredImage()
         {
-            Bitmap image = GetUnfilteredImage().Clone() as Bitmap;
+            SKBitmap image = GetUnfilteredImage().Copy();
 
             foreach (Filter filter in Filters)
             {
@@ -49,17 +44,17 @@ namespace TeethInc.Chantry.Core.Services
             return image;
         }
 
-        public Bitmap GetUnfilteredImage()
+        public SKBitmap GetUnfilteredImage()
         {
             if (m_unfilteredImage is null)
             {
-                Bitmap sourceImage = Source.Image;
+                SKBitmap sourceImage = Source.Image;
 
-                Size targetSize = GetTargetImageSize(sourceImage.Size, TargetElementExtent, MINIMUM_SIZE);
+                SKSizeI targetSize = GetTargetImageSize(sourceImage.Info.Size, TargetElementExtent, MINIMUM_SIZE);
 
-                Bitmap scaledBitmap = new Bitmap(sourceImage, targetSize);
+                SKBitmap scaledBitmap = sourceImage.Resize(targetSize, SKFilterQuality.High);
 
-                m_unfilteredImage = new Bitmap(targetSize.Width, targetSize.Height, PixelFormat.Format32bppArgb);
+                m_unfilteredImage = new SKBitmap(targetSize.Width, targetSize.Height);
 
                 for (int x = 0; x < targetSize.Width; x++)
                 {
@@ -73,16 +68,16 @@ namespace TeethInc.Chantry.Core.Services
             return m_unfilteredImage;
         }
 
-        public Size GetTargetImageSize(Size sourceSize, Size targetSize, int minimumSize)
+        public SKSizeI GetTargetImageSize(SKSizeI sourceSize, SKSizeI targetSize, int minimumSize)
         {
             if (sourceSize.IsSmallerThan(targetSize))
             {
                 return sourceSize.GetSizeToFill(targetSize);
             }
 
-            if (targetSize.IsSmallerThan(new Size(minimumSize, minimumSize)))
+            if (targetSize.IsSmallerThan(new SKSizeI(minimumSize, minimumSize)))
             {
-                targetSize = targetSize.GetSizeToFill(new Size(minimumSize, minimumSize));
+                targetSize = targetSize.GetSizeToFill(new SKSizeI(minimumSize, minimumSize));
             }
 
             return sourceSize.GetSizeToFill(targetSize);

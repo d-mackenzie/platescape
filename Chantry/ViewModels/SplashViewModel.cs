@@ -28,6 +28,7 @@ namespace TeethInc.Chantry.App.ViewModels
         public SplashViewModel(IFileDialog fileDialog)
         {
             m_fileDialog = fileDialog;
+            m_mru = ApplicationHelper.LoadConfiguration().Mru.ToList();
         }
 
         public void OpenAnImageCommand()
