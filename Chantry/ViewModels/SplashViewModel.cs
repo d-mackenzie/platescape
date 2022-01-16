@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TeethInc.Chantry.App.Helpers;
+using TeethInc.Chantry.Helpers;
 
-namespace TeethInc.Chantry.App.ViewModels
+namespace TeethInc.Chantry.ViewModels
 {
     public class SplashViewModel : BaseViewModel
     {

@@ -3,7 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <RootNamespace>TeethInc.Chantry.App</RootNamespace>
+    <RootNamespace>TeethInc.Chantry</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.11" />

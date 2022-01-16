@@ -5,7 +5,7 @@ using AmSolidColorBrush = Avalonia.Media.SolidColorBrush;
 using AmColor = Avalonia.Media.Color;
 using SkiaSharp;
 
-namespace TeethInc.Chantry.App.Converters
+namespace TeethInc.Chantry.Converters
 {
     public class ColorToBrushConverter : IValueConverter
     {

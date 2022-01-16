@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeethInc.Chantry.App
+namespace TeethInc.Chantry
 {
     public class Configuration
     {

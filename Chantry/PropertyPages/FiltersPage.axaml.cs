@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace TeethInc.Chantry.App.PropertyPages
+namespace TeethInc.Chantry.PropertyPages
 {
     public partial class FiltersPage : UserControl
     {

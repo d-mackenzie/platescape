@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TeethInc.Chantry.App.PropertyPages.FiltersPage"
-             xmlns:viewmodels="clr-namespace:TeethInc.Chantry.App.Filters.ViewModels"
-             xmlns:views="clr-namespace:TeethInc.Chantry.App.Filters.Views">
+             x:Class="TeethInc.Chantry.PropertyPages.FiltersPage"
+             xmlns:viewmodels="clr-namespace:TeethInc.Chantry.Filters.ViewModels"
+             xmlns:views="clr-namespace:TeethInc.Chantry.Filters.Views">
 
     <ItemsControl Items="{Binding Filters}">
         <ItemsControl.ItemTemplate>

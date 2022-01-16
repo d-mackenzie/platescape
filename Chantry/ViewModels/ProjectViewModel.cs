@@ -2,19 +2,19 @@
 using System.ComponentModel;
 using System.Linq;
 using TeethInc.Chantry.Core.Sources;
-using TeethInc.Chantry.App.Extensions;
+using TeethInc.Chantry.Extensions;
 using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Filters;
 using System.Collections.ObjectModel;
-using TeethInc.Chantry.App.Filters.ViewModels;
+using TeethInc.Chantry.Filters.ViewModels;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Ldraw;
 using AmiBitmap = Avalonia.Media.Imaging.Bitmap;
-using TeethInc.Chantry.App.Helpers;
+using TeethInc.Chantry.Helpers;
 using System.IO;
 using SkiaSharp;
 
-namespace TeethInc.Chantry.App.ViewModels
+namespace TeethInc.Chantry.ViewModels
 {
     public class ProjectViewModel : BaseViewModel
     {

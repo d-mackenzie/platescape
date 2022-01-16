@@ -3,9 +3,9 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using TeethInc.Chantry.Core.Services;
-using TeethInc.Chantry.App.Extensions;
+using TeethInc.Chantry.Extensions;
 
-namespace TeethInc.Chantry.App.UserControls
+namespace TeethInc.Chantry.UserControls
 {
     public partial class MosaicRenderer : UserControl
     {

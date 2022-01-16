@@ -4,16 +4,16 @@ using Avalonia.Markup.Xaml;
 using System;
 using System.IO;
 using System.Linq;
-using TeethInc.Chantry.App.Extensions;
-using TeethInc.Chantry.App.Helpers;
-using TeethInc.Chantry.App.ViewModels;
-using TeethInc.Chantry.App.Views;
+using TeethInc.Chantry.Extensions;
+using TeethInc.Chantry.Helpers;
+using TeethInc.Chantry.ViewModels;
+using TeethInc.Chantry.Views;
 using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
 
-namespace TeethInc.Chantry.App
+namespace TeethInc.Chantry
 {
     public class App : Application
     {

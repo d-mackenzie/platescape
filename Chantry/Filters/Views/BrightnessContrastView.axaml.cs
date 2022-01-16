@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace TeethInc.Chantry.App.Filters.Views
+namespace TeethInc.Chantry.Filters.Views
 {
     public partial class BrightnessContrastView : UserControl
     {

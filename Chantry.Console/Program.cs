@@ -11,7 +11,7 @@ using TeethInc.Chantry.Core.MosaicAlgorithms;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
 using SkiaSharp;
-using TeethInc.Chantry.App.ViewModels;
+using TeethInc.Chantry.ViewModels;
 
 namespace TeethInc.Chantry.Console
 {

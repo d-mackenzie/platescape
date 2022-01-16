@@ -1,9 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using TeethInc.Chantry.App.ViewModels;
+using TeethInc.Chantry.ViewModels;
 
-namespace TeethInc.Chantry.App.Views
+namespace TeethInc.Chantry.Views
 {
     public partial class MainWindow : Window
     {

@@ -7,13 +7,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TeethInc.Chantry.App.Extensions;
-using TeethInc.Chantry.App.Helpers;
+using TeethInc.Chantry.Extensions;
+using TeethInc.Chantry.Helpers;
 using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
 
-namespace TeethInc.Chantry.App.ViewModels
+namespace TeethInc.Chantry.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {

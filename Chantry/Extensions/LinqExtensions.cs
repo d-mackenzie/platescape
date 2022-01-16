@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeethInc.Chantry.App.Extensions
+namespace TeethInc.Chantry.Extensions
 {
     public static class LinqExtensions
     {

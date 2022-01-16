@@ -2,7 +2,7 @@
 using AmiBitmap = Avalonia.Media.Imaging.Bitmap;
 using SkiaSharp;
 
-namespace TeethInc.Chantry.App.Extensions
+namespace TeethInc.Chantry.Extensions
 {
     public static class BitmapExtensions
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TeethInc.Chantry.App.ViewModels;
+using TeethInc.Chantry.ViewModels;
 using TeethInc.Chantry.Core.Filters;
 
-namespace TeethInc.Chantry.App.Filters.ViewModels
+namespace TeethInc.Chantry.Filters.ViewModels
 {
     public class BrightnessContrastViewModel : BaseViewModel
     {

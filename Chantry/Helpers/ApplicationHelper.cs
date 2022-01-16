@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeethInc.Chantry.App.Helpers
+namespace TeethInc.Chantry.Helpers
 {
     public static class ApplicationHelper
     {
