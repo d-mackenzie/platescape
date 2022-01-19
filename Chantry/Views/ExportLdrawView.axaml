@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="300"
+        x:Class="TeethInc.Chantry.Views.ExportLdrawView"
+        Title="Export LDRAW"
+		Width="600"
+		MinHeight="450"
+		MaxHeight="450">
+
+	<Grid Margin="20">
+		
+		<Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>	
+            <RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<Label Grid.Row="0"
+			   Content="Export LDRAW"
+			   FontSize="36"/>
+		
+		<StackPanel Grid.Row="1">
+			
+			<RadioButton Content="Export as a single file:"/>
+
+				<Label Content="Filename:"/>
+				<TextBox/>
+			
+			<RadioButton Content="Export one file per baseplate:"/>
+
+				<Label Content="Select Folder:"/>
+				<TextBox/>
+
+				<Label Content="Filename Format:"/>
+				<TextBox/>
+			
+			<CheckBox Content="Include baseplate"/>
+
+		</StackPanel>
+
+		<Button Content="Export"
+				Grid.Row="2"/>
+
+	</Grid>
+
+</Window>

@@ -95,12 +95,13 @@ namespace TeethInc.Chantry.Core.Services
                 {
                     for (int x = 0; x < ElementExtent.Width; x++)
                     {
-                        int pixelIndex = ((y + topLeft.Y) * source.Width) + x + topLeft.X;
+                        int sourcePixelIndex = ((y + topLeft.Y) * source.Width) + x + topLeft.X;
+                        int mosaicPixelIndex = (y * mosaic.Width) + x;
 
-                        SKColor color = sourcePixels[pixelIndex];
+                        SKColor color = sourcePixels[sourcePixelIndex];
                         LdColor ldColor = mosaicAlgorithm.GetColor(x, y, color, m_colorService);
                         colors[x, y] = ldColor;
-                        mosaicPixels[pixelIndex] = ldColor.Color;
+                        mosaicPixels[mosaicPixelIndex] = ldColor.Color;
                     }
                 }
 

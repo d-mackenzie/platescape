@@ -17,11 +17,5 @@ namespace TeethInc.Chantry.ViewModels
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        //protected void RaisePropertyChanged(object sender, PropertyChangedEventArgs args)
-        //{
-        //    if (PropertyChanged != null)
-        //        PropertyChanged(sender, args);
-        //}
     }
 }

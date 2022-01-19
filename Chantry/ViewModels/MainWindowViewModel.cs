@@ -1,17 +1,9 @@
-﻿using Avalonia.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TeethInc.Chantry.Extensions;
 using TeethInc.Chantry.Helpers;
 using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Services;
-using TeethInc.Chantry.Core.Sources;
+using TeethInc.Chantry.Views;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -66,6 +58,13 @@ namespace TeethInc.Chantry.ViewModels
                 m_fileDialog
                     .ShowSaveDialog($"{m_projectViewModel.Name}.json")
                     .ContinueWith(x => SaveProject(x.Result));
+        }
+
+        public void ExportLdrawCommand()
+        {
+            var exportLdrawView = new ExportLdrawView() { DataContext = new ExportLdrawViewModel() };
+
+            exportLdrawView.ShowDialog(ApplicationHelper.GetMainWindow());
         }
 
         public void CloseCommand()

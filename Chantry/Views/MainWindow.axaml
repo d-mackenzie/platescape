@@ -23,7 +23,8 @@
 				<MenuItem Header="Export"
 						  IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}">
                 
-					<MenuItem Header="LDRAW"/>
+					<MenuItem Header="LDRAW"
+					          Command="{Binding ExportLdrawCommand}"/>
 					<MenuItem Header="PNG"/>
 					<MenuItem Header="SVG"/>
 
