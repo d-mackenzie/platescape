@@ -2,6 +2,10 @@
   "profiles": {
     "Chantry.App": {
       "commandName": "Project"
+    },
+    "OpenEric": {
+      "commandName": "Project",
+      "commandLineArgs": "c:\\temp\\eric-avatar.jpg"
     }
   }
 }

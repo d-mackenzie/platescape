@@ -1,0 +1,73 @@
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using System;
+
+namespace TeethInc.Chantry.UserControls
+{
+    public partial class ImageViewer : UserControl
+    {
+        public static readonly StyledProperty<Bitmap> SourceProperty =
+            AvaloniaProperty.Register<MosaicRenderer, Bitmap>(nameof(Source));
+
+        public static readonly StyledProperty<double> ZoomProperty =
+            AvaloniaProperty.Register<MosaicRenderer, double>(nameof(Zoom));
+
+        public static readonly StyledProperty<Point> PanProperty =
+            AvaloniaProperty.Register<MosaicRenderer, Point>(nameof(Pan));
+
+        public Bitmap Source
+        {
+            get { return GetValue(SourceProperty); }
+            set { SetValue(SourceProperty, value); }
+        }
+
+        public double Zoom
+        {
+            get { return GetValue(ZoomProperty); }
+            set { SetValue(ZoomProperty, value); }
+        }
+
+        public Point Pan
+        {
+            get { return GetValue(PanProperty); }
+            set { SetValue(PanProperty, value); }
+        }
+
+        static ImageViewer()
+        {
+            AffectsRender<ImageViewer>(SourceProperty);
+            AffectsRender<ImageViewer>(ZoomProperty);
+        }
+
+        public ImageViewer()
+        {
+            Zoom = 0d;
+            Pan = new Point(0, 0);
+            this.PointerWheelChanged += ImageViewer_PointerWheelChanged;
+
+            InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
+            AvaloniaXamlLoader.Load(this);
+        }
+
+        public override void Render(DrawingContext context)
+        {
+            Size renderSize = Source.Size * Math.Pow(1.25d, Zoom);
+            Point origin = Bounds.Center + Pan;
+
+            context.DrawImage(Source, new Rect(new Point(origin.X - renderSize.Width / 2, origin.Y - renderSize.Height / 2), renderSize));
+            base.Render(context);
+        }
+        private void ImageViewer_PointerWheelChanged(object? sender, Avalonia.Input.PointerWheelEventArgs e)
+        {
+            Zoom = Math.Clamp(Zoom + e.Delta.Y, 0, 10);
+            e.Handled = true;
+        }
+    }
+}
