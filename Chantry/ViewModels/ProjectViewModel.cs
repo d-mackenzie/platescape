@@ -13,6 +13,7 @@ using AmiBitmap = Avalonia.Media.Imaging.Bitmap;
 using TeethInc.Chantry.Helpers;
 using System.IO;
 using SkiaSharp;
+using Avalonia;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -22,6 +23,9 @@ namespace TeethInc.Chantry.ViewModels
         private ObservableCollection<BaseViewModel> m_filters = new ObservableCollection<BaseViewModel>();
         private LdrawService m_ldrawService;
         private ObservableCollection<LdColor> m_allowedColors = new ObservableCollection<LdColor>();
+
+        private Point m_pan;
+        private double m_zoom = 0d;
 
         // project properties.
 
@@ -99,6 +103,20 @@ namespace TeethInc.Chantry.ViewModels
         public Mosaic Mosaic => m_project.Mosaic;
 
         // project properties.
+
+        // view properties.
+
+        public double Zoom
+        {
+            get { return m_zoom; }
+            set { m_zoom = value; RaisePropertyChanged(); }
+        }
+
+        public Point Pan
+        {
+            get { return m_pan; }
+            set { m_pan = value; RaisePropertyChanged(); }
+        }
 
         public ProjectViewModel(Project project)
         {

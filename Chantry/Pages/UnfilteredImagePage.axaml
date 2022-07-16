@@ -6,6 +6,8 @@
              x:Class="TeethInc.Chantry.Pages.UnfilteredImagePage"
 			 xmlns:usercontrols="clr-namespace:TeethInc.Chantry.UserControls">
 
-	<usercontrols:ImageViewer Source="{Binding UnfilteredImage}" />
-    
+	<usercontrols:ImageViewer Source="{Binding UnfilteredImage}"
+  							  Zoom="{Binding Path=Zoom, Mode=TwoWay}"
+							  Pan="{Binding Path=Pan, Mode=TwoWay}" />
+
 </UserControl>
