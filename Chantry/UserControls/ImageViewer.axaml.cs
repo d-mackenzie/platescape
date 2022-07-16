@@ -73,12 +73,26 @@ namespace TeethInc.Chantry.UserControls
 
         public override void Render(DrawingContext context)
         {
+            RenderImage(context);
+            base.Render(context);
+        }
+
+        protected virtual void RenderImage(DrawingContext context)
+        {
+            if (Source is null)
+                return;
+
+            context.DrawImage(Source, GetRenderedImageBounds());
+        }
+
+        protected Rect GetRenderedImageBounds()
+        {
             Size renderSize = Source.Size * Math.Pow(1.25d, Zoom);
             Point origin = Bounds.Center + Pan;
 
-            context.DrawImage(Source, new Rect(new Point(origin.X - renderSize.Width / 2, origin.Y - renderSize.Height / 2), renderSize));
-            base.Render(context);
+            return new Rect(new Point(origin.X - renderSize.Width / 2, origin.Y - renderSize.Height / 2), renderSize);
         }
+
         private void ImageViewer_PointerWheelChanged(object? sender, Avalonia.Input.PointerWheelEventArgs e)
         {
             Zoom = Math.Clamp(Zoom + e.Delta.Y, 0, 10);

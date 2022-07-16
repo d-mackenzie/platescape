@@ -7,7 +7,7 @@
  			 xmlns:usercontrols="clr-namespace:TeethInc.Chantry.UserControls">
 	
     <usercontrols:ImageViewer Source="{Binding FilteredImage}"
-							  Zoom="{Binding Path=Zoom, Mode=TwoWay}"
-							  Pan="{Binding Path=Pan, Mode=TwoWay}" />
-    
+							  Pan="{Binding Path=Pan, Mode=TwoWay}"
+                              Zoom="{Binding Path=Zoom, Mode=TwoWay}" />
+
 </UserControl>
