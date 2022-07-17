@@ -26,6 +26,13 @@ namespace TeethInc.Chantry.UserControls
 
         private int[] m_zoomLevels = { 1, 1, 2, 3, 5, 8, 13, 21, 34 };
 
+        private BoxShadows m_boxShadows = new BoxShadows(
+            new BoxShadow()
+            {
+                Color = Colors.Black,
+                Blur = 10
+            });
+
         public Bitmap Source
         {
             get { return GetValue(SourceProperty); }
@@ -94,10 +101,10 @@ namespace TeethInc.Chantry.UserControls
             if (Source is null)
                 return;
 
-            context.DrawImage(Source, GetRenderedImageBounds());
+            var renderedImageBounds = GetRenderedImageBounds();
 
-            if (m_isPanning)
-                context.DrawImage(Source, new Rect(100, 100, 100, 100));
+            context.DrawRectangle(Brushes.Black, null, renderedImageBounds, 0, 0, m_boxShadows);
+            context.DrawImage(Source, renderedImageBounds);
         }
 
         protected Rect GetRenderedImageBounds()

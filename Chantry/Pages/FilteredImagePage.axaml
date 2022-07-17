@@ -5,9 +5,10 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TeethInc.Chantry.Pages.FilteredImagePage"
  			 xmlns:usercontrols="clr-namespace:TeethInc.Chantry.UserControls">
+		
+	<usercontrols:ImageViewer Source="{Binding FilteredImage}"
+								Pan="{Binding Path=Pan, Mode=TwoWay}"
+								Zoom="{Binding Path=Zoom, Mode=TwoWay}"
+								ZoomMultiplier = "{Binding ZoomMultiplier}"/>
 	
-    <usercontrols:ImageViewer Source="{Binding FilteredImage}"
-							  Pan="{Binding Path=Pan, Mode=TwoWay}"
-                              Zoom="{Binding Path=Zoom, Mode=TwoWay}"
-							  ZoomMultiplier = "{Binding ZoomMultiplier}" />
 </UserControl>
