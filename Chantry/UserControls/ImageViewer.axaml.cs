@@ -12,14 +12,19 @@ namespace TeethInc.Chantry.UserControls
         public static readonly StyledProperty<Bitmap> SourceProperty =
             AvaloniaProperty.Register<ImageViewer, Bitmap>(nameof(Source));
 
-        public static readonly StyledProperty<double> ZoomProperty =
-            AvaloniaProperty.Register<ImageViewer, double>(nameof(Zoom));
+        public static readonly StyledProperty<int> ZoomProperty =
+            AvaloniaProperty.Register<ImageViewer, int>(nameof(Zoom));
 
         public static readonly StyledProperty<Point> PanProperty =
             AvaloniaProperty.Register<ImageViewer, Point>(nameof(Pan));
 
-        private Point m_oldPoint;
+        public static readonly StyledProperty<double> ZoomMultiplierProperty =
+            AvaloniaProperty.Register<ImageViewer, double>(nameof(ZoomMultiplier));
+
+        private Point m_oldPanPoint;
         private bool m_isPanning;
+
+        private int[] m_zoomLevels = { 1, 1, 2, 3, 5, 8, 13, 21, 34 };
 
         public Bitmap Source
         {
@@ -27,7 +32,7 @@ namespace TeethInc.Chantry.UserControls
             set { SetValue(SourceProperty, value); }
         }
 
-        public double Zoom
+        public int Zoom
         {
             get { return GetValue(ZoomProperty); }
             set { SetValue(ZoomProperty, value); }
@@ -39,11 +44,18 @@ namespace TeethInc.Chantry.UserControls
             set { SetValue(PanProperty, value); }
         }
 
+        public double ZoomMultiplier
+        {
+            get { return GetValue(ZoomMultiplierProperty); }
+            set { SetValue(ZoomMultiplierProperty, value); }
+        }
+
         static ImageViewer()
         {
             AffectsRender<ImageViewer>(SourceProperty);
             AffectsRender<ImageViewer>(ZoomProperty);
             AffectsRender<ImageViewer>(PanProperty);
+            AffectsRender<ImageViewer>(ZoomMultiplierProperty);
         }
 
         public ImageViewer()
@@ -58,7 +70,7 @@ namespace TeethInc.Chantry.UserControls
 
         private void InitializeComponent()
         {
-            Zoom = 0d;
+            Zoom = 1;
             Pan = new Point(0, 0);
             AvaloniaXamlLoader.Load(this);
         }
@@ -73,21 +85,24 @@ namespace TeethInc.Chantry.UserControls
 
         public override void Render(DrawingContext context)
         {
-            RenderImage(context);
+            DrawImage(context);
             base.Render(context);
         }
 
-        protected virtual void RenderImage(DrawingContext context)
+        protected virtual void DrawImage(DrawingContext context)
         {
             if (Source is null)
                 return;
 
             context.DrawImage(Source, GetRenderedImageBounds());
+
+            if (m_isPanning)
+                context.DrawImage(Source, new Rect(100, 100, 100, 100));
         }
 
         protected Rect GetRenderedImageBounds()
         {
-            Size renderSize = Source.Size * Math.Pow(1.25d, Zoom);
+            Size renderSize = Source.Size * ZoomMultiplier * m_zoomLevels[Zoom];
             Point origin = Bounds.Center + Pan;
 
             return new Rect(new Point(origin.X - renderSize.Width / 2, origin.Y - renderSize.Height / 2), renderSize);
@@ -95,13 +110,13 @@ namespace TeethInc.Chantry.UserControls
 
         private void ImageViewer_PointerWheelChanged(object? sender, Avalonia.Input.PointerWheelEventArgs e)
         {
-            Zoom = Math.Clamp(Zoom + e.Delta.Y, 0, 10);
+            Zoom = Math.Clamp(Zoom + (int)e.Delta.Y, 1, 8);
             e.Handled = true;
         }
 
         private void ImageViewer_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
         {
-            m_oldPoint = e.GetPosition(this);
+            m_oldPanPoint = e.GetPosition(this);
             m_isPanning = true;
         }
 
@@ -109,8 +124,8 @@ namespace TeethInc.Chantry.UserControls
         {
             if (m_isPanning)
             {
-                Pan += e.GetPosition(this) - m_oldPoint;
-                m_oldPoint = e.GetPosition(this);
+                Pan += e.GetPosition(this) - m_oldPanPoint;
+                m_oldPanPoint = e.GetPosition(this);
             }
         }
         private void ImageViewer_PointerReleased(object? sender, Avalonia.Input.PointerReleasedEventArgs e)

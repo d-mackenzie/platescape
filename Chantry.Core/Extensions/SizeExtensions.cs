@@ -25,15 +25,15 @@ namespace TeethInc.Chantry.Core.Extensions
             return (me.Width > me.Height) ? Extensions.AspectRatioType.Landscape : Extensions.AspectRatioType.Portrait;
         }
 
-        public static SKSizeI GetSizeScaledBy(this SKSizeI me, float scale)
+        public static SKSizeI GetSizeScaledBy(this SKSizeI me, double scale)
         {
             return new SKSizeI((int)(me.Width * scale), (int)(me.Height * scale));
         }
 
         public static SKSizeI GetSizeToFill(this SKSizeI me, SKSizeI target)
         {
-            SKSizeI scaledByWidth = me.GetSizeScaledBy((float)target.Width / me.Width);
-            SKSizeI scaledByHeight = me.GetSizeScaledBy((float)target.Height / me.Height);
+            SKSizeI scaledByWidth = me.GetSizeScaledBy((double)target.Width / me.Width);
+            SKSizeI scaledByHeight = me.GetSizeScaledBy((double)target.Height / me.Height);
 
             if (scaledByWidth.IsSmallerThan(target))
                 return scaledByHeight;
@@ -41,10 +41,21 @@ namespace TeethInc.Chantry.Core.Extensions
             return scaledByWidth;
         }
 
+        public static double GetScaleToFill(this SKSizeI me, SKSizeI target)
+        {
+            double widthScale = (double)target.Width / me.Width;
+            double heightScale = (double)target.Height / me.Height;
+
+            if (me.GetSizeScaledBy(widthScale).IsSmallerThan(target))
+                return heightScale;
+
+            return widthScale;
+        }
+
         public static SKSizeI GetSizeToFit(this SKSizeI me, SKSizeI target)
         {
-            SKSizeI scaledByWidth = me.GetSizeScaledBy((float)target.Width / me.Width);
-            SKSizeI scaledByHeight = me.GetSizeScaledBy((float)target.Height / me.Height);
+            SKSizeI scaledByWidth = me.GetSizeScaledBy((double)target.Width / me.Width);
+            SKSizeI scaledByHeight = me.GetSizeScaledBy((double)target.Height / me.Height);
 
             if (scaledByWidth.IsLargerThan(target))
                 return scaledByHeight;

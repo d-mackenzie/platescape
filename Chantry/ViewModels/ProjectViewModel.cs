@@ -5,6 +5,7 @@ using TeethInc.Chantry.Core.Sources;
 using TeethInc.Chantry.Extensions;
 using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Filters;
+using TeethInc.Chantry.Core.Extensions;
 using System.Collections.ObjectModel;
 using TeethInc.Chantry.Filters.ViewModels;
 using TeethInc.Chantry.Core.Services;
@@ -25,7 +26,7 @@ namespace TeethInc.Chantry.ViewModels
         private ObservableCollection<LdColor> m_allowedColors = new ObservableCollection<LdColor>();
 
         private Point m_pan;
-        private double m_zoom = 0d;
+        private double m_zoom = 1d;
 
         // project properties.
 
@@ -118,6 +119,11 @@ namespace TeethInc.Chantry.ViewModels
             set { m_pan = value; RaisePropertyChanged(); }
         }
 
+        public double ZoomMultiplier
+        {
+            get { return m_project.FilteredImage.Info.Size.GetScaleToFill(Mosaic.Image.Info.Size); }
+        }
+
         public ProjectViewModel(Project project)
         {
             m_ldrawService = new LdrawService();
@@ -183,6 +189,7 @@ namespace TeethInc.Chantry.ViewModels
 
         private void RaiseMosaicPropertyChanged()
         {
+            RaisePropertyChanged(nameof(MosaicImage));
             RaisePropertyChanged(nameof(Mosaic));
             RaisePropertyChanged(nameof(SizeInfo));
         }
