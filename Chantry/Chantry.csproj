@@ -24,6 +24,9 @@
     <Compile Update="Pages\UnfilteredImagePage.axaml.cs">
       <DependentUpon>UnfilteredImagePage.axaml</DependentUpon>
     </Compile>
+    <Compile Update="UserControls\MosaicViewer.axaml.cs">
+      <DependentUpon>MosaicViewer.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\*" />

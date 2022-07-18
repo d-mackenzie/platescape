@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using System;
+using System.Collections.Generic;
 
 namespace TeethInc.Chantry.UserControls
 {
@@ -24,7 +25,9 @@ namespace TeethInc.Chantry.UserControls
         private Point m_oldPanPoint;
         private bool m_isPanning;
 
-        private int[] m_zoomLevels = { 1, 1, 2, 3, 5, 8, 13, 21, 34 };
+        private List<Action<DrawingContext>> m_layers = new List<Action<DrawingContext>>();
+
+        private int[] m_zoomScales = { 1, 1, 2, 3, 5, 8, 13, 21, 34 };
 
         private BoxShadows m_boxShadows = new BoxShadows(
             new BoxShadow()
@@ -57,6 +60,16 @@ namespace TeethInc.Chantry.UserControls
             set { SetValue(ZoomMultiplierProperty, value); }
         }
 
+        protected List<Action<DrawingContext>> Layers
+        {
+            get { return m_layers; }
+        }
+
+        protected int ZoomScale
+        {
+            get { return m_zoomScales[Zoom]; }
+        }
+
         static ImageViewer()
         {
             AffectsRender<ImageViewer>(SourceProperty);
@@ -71,6 +84,8 @@ namespace TeethInc.Chantry.UserControls
             this.PointerPressed += ImageViewer_PointerPressed;
             this.PointerMoved += ImageViewer_PointerMoved;
             this.PointerReleased += ImageViewer_PointerReleased;
+
+            this.Layers.Add(DrawImage);
 
             InitializeComponent();
         }
@@ -92,11 +107,11 @@ namespace TeethInc.Chantry.UserControls
 
         public override void Render(DrawingContext context)
         {
-            DrawImage(context);
+            Layers.ForEach(x => x.Invoke(context));
             base.Render(context);
         }
 
-        protected virtual void DrawImage(DrawingContext context)
+        private void DrawImage(DrawingContext context)
         {
             if (Source is null)
                 return;
@@ -109,7 +124,7 @@ namespace TeethInc.Chantry.UserControls
 
         protected Rect GetRenderedImageBounds()
         {
-            Size renderSize = Source.Size * ZoomMultiplier * m_zoomLevels[Zoom];
+            Size renderSize = Source.Size * ZoomMultiplier * ZoomScale;
             Point origin = Bounds.Center + Pan;
 
             return new Rect(new Point(origin.X - renderSize.Width / 2, origin.Y - renderSize.Height / 2), renderSize);

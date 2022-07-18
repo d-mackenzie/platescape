@@ -6,9 +6,10 @@
              x:Class="TeethInc.Chantry.Pages.MosaicPage"
              xmlns:usercontrols="clr-namespace:TeethInc.Chantry.UserControls">
 
-    <usercontrols:MosaicRenderer Source="{Binding MosaicImage}"
-							     Pan="{Binding Path=Pan, Mode=TwoWay}"
-                                 Zoom="{Binding Path=Zoom, Mode=TwoWay}"
-                                 ZoomMultiplier = "1" />
+    <usercontrols:MosaicViewer Source="{Binding MosaicImage}"
+							   Mosaic="{Binding Mosaic}"
+							   Pan="{Binding Path=Pan, Mode=TwoWay}"
+                               Zoom="{Binding Path=Zoom, Mode=TwoWay}"
+                               ZoomMultiplier = "1" />
 
 </UserControl>

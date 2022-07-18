@@ -17,6 +17,8 @@ namespace TeethInc.Chantry.Core.Services
 
         public SKSizeI StudExtent => new SKSizeI(ElementExtent.Width * Part.Size.Width, ElementExtent.Height * Part.Size.Height);
 
+        public SKSizeI BaseplateExtent => new SKSizeI(StudExtent.Width / Baseplate.Size.Width, StudExtent.Height / Baseplate.Size.Height);
+
         public Mosaic(LdPart baseplate, LdPart part, LdColor[,] colors, SKBitmap image)
         {
             Baseplate = baseplate;
