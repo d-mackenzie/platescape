@@ -16,5 +16,10 @@ namespace TeethInc.Chantry.Core.Extensions
 
             bitmap.Pixels = pixels;
         }
+
+        public static int GetPixelIndex(this SKBitmap bitmap, int x, int y)
+        {
+            return (y * bitmap.Width) + x;
+        }
     }
 }
