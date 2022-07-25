@@ -5,6 +5,8 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using TeethInc.Chantry.Extensions;
 
 namespace TeethInc.Chantry.UserControls
 {
@@ -24,6 +26,7 @@ namespace TeethInc.Chantry.UserControls
 
         private Point m_oldPanPoint;
         private bool m_isPanning;
+        private Rect m_panBounds;
 
         private List<Action<DrawingContext>> m_layers = new List<Action<DrawingContext>>();
 
@@ -45,19 +48,31 @@ namespace TeethInc.Chantry.UserControls
         public int Zoom
         {
             get { return GetValue(ZoomProperty); }
-            set { SetValue(ZoomProperty, value); }
+            set
+            {
+                SetValue(ZoomProperty, value);
+                UpdatePanBounds();
+            }
         }
 
         public Point Pan
         {
             get { return GetValue(PanProperty); }
-            set { SetValue(PanProperty, value); }
+            set
+            {
+                if (m_panBounds.Contains(value))
+                    SetValue(PanProperty, value);
+            }
         }
 
         public double ZoomMultiplier
         {
             get { return GetValue(ZoomMultiplierProperty); }
-            set { SetValue(ZoomMultiplierProperty, value); }
+            set
+            {
+                SetValue(ZoomMultiplierProperty, value);
+                UpdatePanBounds();
+            }
         }
 
         protected List<Action<DrawingContext>> Layers
@@ -70,6 +85,24 @@ namespace TeethInc.Chantry.UserControls
             get { return m_zoomScales[Zoom]; }
         }
 
+        protected Rect ImageRenderBounds
+        {
+            get
+            {
+                if (Source == null)
+                    return Rect.Empty;
+
+                Point origin = Bounds.Center + Pan;
+
+                return new Rect(new Point(origin.X - RenderedImageSize.Width / 2, origin.Y - RenderedImageSize.Height / 2), RenderedImageSize);
+            }
+        }
+
+        public Size RenderedImageSize
+        {
+            get { return Source.Size * ZoomMultiplier * ZoomScale; }
+        }
+
         static ImageViewer()
         {
             AffectsRender<ImageViewer>(SourceProperty);
@@ -80,6 +113,7 @@ namespace TeethInc.Chantry.UserControls
 
         public ImageViewer()
         {
+            this.Background = Brushes.Transparent;
             this.PointerWheelChanged += ImageViewer_PointerWheelChanged;
             this.PointerPressed += ImageViewer_PointerPressed;
             this.PointerMoved += ImageViewer_PointerMoved;
@@ -116,18 +150,8 @@ namespace TeethInc.Chantry.UserControls
             if (Source is null)
                 return;
 
-            var renderedImageBounds = GetRenderedImageBounds();
-
-            context.DrawRectangle(Brushes.Black, null, renderedImageBounds, 0, 0, m_boxShadows);
-            context.DrawImage(Source, renderedImageBounds);
-        }
-
-        protected Rect GetRenderedImageBounds()
-        {
-            Size renderSize = Source.Size * ZoomMultiplier * ZoomScale;
-            Point origin = Bounds.Center + Pan;
-
-            return new Rect(new Point(origin.X - renderSize.Width / 2, origin.Y - renderSize.Height / 2), renderSize);
+            context.DrawRectangle(Brushes.Black, null, ImageRenderBounds, 0, 0, m_boxShadows);
+            context.DrawImage(Source, ImageRenderBounds);
         }
 
         private void ImageViewer_PointerWheelChanged(object? sender, Avalonia.Input.PointerWheelEventArgs e)
@@ -140,6 +164,7 @@ namespace TeethInc.Chantry.UserControls
         {
             m_oldPanPoint = e.GetPosition(this);
             m_isPanning = true;
+            e.Handled = true;
         }
 
         private void ImageViewer_PointerMoved(object? sender, Avalonia.Input.PointerEventArgs e)
@@ -149,10 +174,28 @@ namespace TeethInc.Chantry.UserControls
                 Pan += e.GetPosition(this) - m_oldPanPoint;
                 m_oldPanPoint = e.GetPosition(this);
             }
+            e.Handled = true;
         }
         private void ImageViewer_PointerReleased(object? sender, Avalonia.Input.PointerReleasedEventArgs e)
         {
             m_isPanning = false;
+            e.Handled = true;
+        }
+
+        private void UpdatePanBounds()
+        {
+            if (ImageRenderBounds.IsEntirelyWithin(Bounds))
+            {
+                m_panBounds = Rect.Empty;
+                return;
+            }
+
+            double horizontal = RenderedImageSize.Width - Bounds.Width;
+            double vertical = RenderedImageSize.Height - Bounds.Height;
+
+            m_panBounds = new Rect(
+                new Point(-horizontal, -vertical),
+                new Point(horizontal, vertical));
         }
     }
 }

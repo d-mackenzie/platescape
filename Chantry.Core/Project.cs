@@ -16,8 +16,8 @@ namespace TeethInc.Chantry.Core
         private ISource m_source;
         private FilterService m_filterService;
         private MosaicService m_mosaicService;
-        private MosaicAlgorithm m_mosaicAlgorithm = new FloydSteinberg();
-//        private MosaicAlgorithm m_mosaicAlgorithm = new BayerMatrix();
+//        private MosaicAlgorithm m_mosaicAlgorithm = new FloydSteinberg();
+        private MosaicAlgorithm m_mosaicAlgorithm = new BayerMatrix();
         private LdrawService m_ldrawService;
 
         public string Name { get; set; }

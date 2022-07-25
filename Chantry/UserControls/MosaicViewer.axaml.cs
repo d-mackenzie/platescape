@@ -46,9 +46,9 @@ namespace TeethInc.Chantry.UserControls
             if (!m_studOverlays.ContainsKey(Zoom))
                 m_studOverlays[Zoom] = GetStudOverlayImage();
 
-            for (int x = (int)(GetRenderedImageBounds().Left); x < (int)(GetRenderedImageBounds().Right); x += (int)(m_studOverlays[Zoom].Size.Width))
+            for (int x = (int)(ImageRenderBounds.Left); x < (int)(ImageRenderBounds.Right); x += (int)(m_studOverlays[Zoom].Size.Width))
             {
-                for (int y = (int)(GetRenderedImageBounds().Top); y < (int)(GetRenderedImageBounds().Bottom); y += (int)(m_studOverlays[Zoom].Size.Height))
+                for (int y = (int)(ImageRenderBounds.Top); y < (int)(ImageRenderBounds.Bottom); y += (int)(m_studOverlays[Zoom].Size.Height))
                 {
                     context.DrawImage(m_studOverlays[Zoom], new Rect(x, y, m_studOverlays[Zoom].Size.Width, m_studOverlays[Zoom].Size.Height));
                 }
