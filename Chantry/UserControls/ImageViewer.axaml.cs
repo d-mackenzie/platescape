@@ -26,7 +26,6 @@ namespace TeethInc.Chantry.UserControls
 
         private Point m_oldPanPoint;
         private bool m_isPanning;
-        private Rect m_panBounds;
 
         private List<Action<DrawingContext>> m_layers = new List<Action<DrawingContext>>();
 
@@ -51,7 +50,7 @@ namespace TeethInc.Chantry.UserControls
             set
             {
                 SetValue(ZoomProperty, value);
-                UpdatePanBounds();
+                SetValue(PanProperty, Pan);
             }
         }
 
@@ -60,8 +59,14 @@ namespace TeethInc.Chantry.UserControls
             get { return GetValue(PanProperty); }
             set
             {
-                if (m_panBounds.Contains(value))
-                    SetValue(PanProperty, value);
+                double horizontalConstraint = (RenderedImageSize.Width - Bounds.Width) / 2;
+                double verticalConstraint = (RenderedImageSize.Height - Bounds.Height) / 2;
+
+                Point pan = new Point(
+                    Math.Clamp(value.X, Math.Min(-horizontalConstraint, 0), Math.Max(0, horizontalConstraint)),
+                    Math.Clamp(value.Y, Math.Min(-verticalConstraint, 0), Math.Max(0, verticalConstraint)));
+
+                SetValue(PanProperty, pan);
             }
         }
 
@@ -71,7 +76,7 @@ namespace TeethInc.Chantry.UserControls
             set
             {
                 SetValue(ZoomMultiplierProperty, value);
-                UpdatePanBounds();
+                SetValue(PanProperty, Pan);
             }
         }
 
@@ -100,7 +105,13 @@ namespace TeethInc.Chantry.UserControls
 
         public Size RenderedImageSize
         {
-            get { return Source.Size * ZoomMultiplier * ZoomScale; }
+            get
+            {
+                if (Source == null)
+                    return Size.Empty;
+
+                return Source.Size * ZoomMultiplier * ZoomScale;
+            }
         }
 
         static ImageViewer()
@@ -180,22 +191,6 @@ namespace TeethInc.Chantry.UserControls
         {
             m_isPanning = false;
             e.Handled = true;
-        }
-
-        private void UpdatePanBounds()
-        {
-            if (ImageRenderBounds.IsEntirelyWithin(Bounds))
-            {
-                m_panBounds = Rect.Empty;
-                return;
-            }
-
-            double horizontal = RenderedImageSize.Width - Bounds.Width;
-            double vertical = RenderedImageSize.Height - Bounds.Height;
-
-            m_panBounds = new Rect(
-                new Point(-horizontal, -vertical),
-                new Point(horizontal, vertical));
         }
     }
 }
