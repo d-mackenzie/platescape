@@ -8,25 +8,21 @@ using TeethInc.Chantry.Core.Filters;
 
 namespace TeethInc.Chantry.Filters.ViewModels
 {
-    public class BrightnessContrastViewModel : BaseViewModel
+    public class BrightnessContrastViewModel : BaseFilterViewModel<BrightnessContrastFilter>
     {
-        private BrightnessContrastFilter m_brightnessContrastFilter;
-
         public int Brightness
         {
-            get { return m_brightnessContrastFilter.Brightness; }
-            set { m_brightnessContrastFilter.Brightness = value; RaisePropertyChanged(); }
+            get { return Filter.Brightness; }
+            set { Filter.Brightness = value; RaisePropertyChanged(); }
         }
 
         public int Contrast
         {
-            get { return m_brightnessContrastFilter.Contrast; }
-            set { m_brightnessContrastFilter.Contrast = value; RaisePropertyChanged(); }
+            get { return Filter.Contrast; }
+            set { Filter.Contrast = value; RaisePropertyChanged(); }
         }
 
-        public BrightnessContrastViewModel(BrightnessContrastFilter brightnessContrastFilter)
-        {
-            m_brightnessContrastFilter = brightnessContrastFilter;
-        }
+        public BrightnessContrastViewModel(BrightnessContrastFilter filter) : base(filter)
+        { }
     }
 }

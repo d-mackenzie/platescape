@@ -8,17 +8,31 @@
              xmlns:views="clr-namespace:TeethInc.Chantry.Filters.Views">
 
     <ItemsControl Items="{Binding Filters}">
-        <ItemsControl.DataTemplates>
-			<DataTemplate DataType="{x:Type viewmodels:BrightnessContrastViewModel}">
-				<views:BrightnessContrastView DataContext="{Binding}"/>
-            </DataTemplate>
-			<DataTemplate DataType="{x:Type viewmodels:SaturationViewModel}">
-				<views:SaturationView DataContext="{Binding}"/>
+		<ItemsControl.ItemTemplate>
+			<DataTemplate>
+				<StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<CheckBox IsChecked="{Binding Enabled}"/>
+						<Label Content="{Binding DisplayName}"/>
+					</StackPanel>
+					<ContentControl Content="{Binding}">
+						<ContentControl.DataTemplates>
+							<DataTemplate DataType="{x:Type viewmodels:BrightnessContrastViewModel}">
+								<views:BrightnessContrastView DataContext="{Binding}"/>
+							</DataTemplate>
+							<DataTemplate DataType="{x:Type viewmodels:SaturationViewModel}">
+								<views:SaturationView DataContext="{Binding}"/>
+							</DataTemplate>
+							<DataTemplate DataType="{x:Type viewmodels:MultiplyViewModel}">
+								<views:MultiplyView DataContext="{Binding}"/>
+							</DataTemplate>
+						</ContentControl.DataTemplates>
+					</ContentControl>
+				</StackPanel>
 			</DataTemplate>
-			<DataTemplate DataType="{x:Type viewmodels:MultiplyViewModel}">
-				<views:MultiplyView DataContext="{Binding}"/>
-			</DataTemplate>
-		</ItemsControl.DataTemplates>
-    </ItemsControl>
+		</ItemsControl.ItemTemplate>
+		
+
+	</ItemsControl>
         
 </UserControl>

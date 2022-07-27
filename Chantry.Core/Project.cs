@@ -106,7 +106,8 @@ namespace TeethInc.Chantry.Core
             project.Filters.Add(
                 new SaturationFilter()
                 {
-                    Saturation = 1
+                    Saturation = 0,
+                    Enabled = false
                 });
 
             project.Filters.Add(
