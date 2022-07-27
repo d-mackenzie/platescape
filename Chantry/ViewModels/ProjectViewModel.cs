@@ -136,15 +136,21 @@ namespace TeethInc.Chantry.ViewModels
                 {
                     var brightnessContrastViewModel = new BrightnessContrastViewModel(brightnessContrastFilter);
                     brightnessContrastViewModel.PropertyChanged += FilterPropertyChanged;
-
                     Filters.Add(brightnessContrastViewModel);
                 }
+
                 if (filter is SaturationFilter saturationFilter)
                 {
                     var saturationViewModel = new SaturationViewModel(saturationFilter);
                     saturationViewModel.PropertyChanged += FilterPropertyChanged;
-
                     Filters.Add(saturationViewModel);
+                }
+
+                if (filter is MultiplyFilter multiplyFilter)
+                {
+                    var multiplyViewModel = new MultiplyViewModel(multiplyFilter);
+                    multiplyViewModel.PropertyChanged += FilterPropertyChanged;
+                    Filters.Add(multiplyViewModel);
                 }
             }
 

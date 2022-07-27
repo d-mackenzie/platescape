@@ -43,9 +43,9 @@ namespace TeethInc.Chantry.Core.Filters
         {
             byte luminosity = (byte)(m_red[unfilteredPixel.Red] + m_green[unfilteredPixel.Green] + m_blue[unfilteredPixel.Blue]);
 
-            byte red = MathHelper.Lerp(unfilteredPixel.Red, luminosity, Saturation);
-            byte green = MathHelper.Lerp(unfilteredPixel.Green, luminosity, Saturation);
-            byte blue = MathHelper.Lerp(unfilteredPixel.Blue, luminosity, Saturation);
+            byte red = MathHelper.Lerp(luminosity, unfilteredPixel.Red, Saturation);
+            byte green = MathHelper.Lerp(luminosity, unfilteredPixel.Green, Saturation);
+            byte blue = MathHelper.Lerp(luminosity, unfilteredPixel.Blue, Saturation);
 
             return new SKColor(red, green, blue);
         }

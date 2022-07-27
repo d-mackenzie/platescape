@@ -8,7 +8,7 @@ namespace TeethInc.Chantry.Core.Filters
     {
         public override string DisplayName => "Multiply";
 
-        public float Factor { get; set; }
+        public double Factor { get; set; }
 
         public override void ApplyFilter(SKBitmap image)
         {

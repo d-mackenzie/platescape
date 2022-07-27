@@ -15,6 +15,9 @@
 			<DataTemplate DataType="{x:Type viewmodels:SaturationViewModel}">
 				<views:SaturationView DataContext="{Binding}"/>
 			</DataTemplate>
+			<DataTemplate DataType="{x:Type viewmodels:MultiplyViewModel}">
+				<views:MultiplyView DataContext="{Binding}"/>
+			</DataTemplate>
 		</ItemsControl.DataTemplates>
     </ItemsControl>
         

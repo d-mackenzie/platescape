@@ -106,8 +106,15 @@ namespace TeethInc.Chantry.Core
             project.Filters.Add(
                 new SaturationFilter()
                 {
-                    Saturation = 0
+                    Saturation = 1
                 });
+
+            project.Filters.Add(
+                new MultiplyFilter()
+                {
+                    Factor = 1
+                });
+
 
             return project;
         }
