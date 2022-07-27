@@ -139,6 +139,13 @@ namespace TeethInc.Chantry.ViewModels
 
                     Filters.Add(brightnessContrastViewModel);
                 }
+                if (filter is SaturationFilter saturationFilter)
+                {
+                    var saturationViewModel = new SaturationViewModel(saturationFilter);
+                    saturationViewModel.PropertyChanged += FilterPropertyChanged;
+
+                    Filters.Add(saturationViewModel);
+                }
             }
 
             var allowedColors = m_project.AllowedColors;

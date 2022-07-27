@@ -103,6 +103,12 @@ namespace TeethInc.Chantry.Core
                     Contrast = 0
                 });
 
+            project.Filters.Add(
+                new SaturationFilter()
+                {
+                    Saturation = 0
+                });
+
             return project;
         }
 

@@ -8,11 +8,14 @@
              xmlns:views="clr-namespace:TeethInc.Chantry.Filters.Views">
 
     <ItemsControl Items="{Binding Filters}">
-        <ItemsControl.ItemTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:BrightnessContrastViewModel}">
-                <views:BrightnessContrastView DataContext="{Binding}"/>
+        <ItemsControl.DataTemplates>
+			<DataTemplate DataType="{x:Type viewmodels:BrightnessContrastViewModel}">
+				<views:BrightnessContrastView DataContext="{Binding}"/>
             </DataTemplate>
-        </ItemsControl.ItemTemplate>
+			<DataTemplate DataType="{x:Type viewmodels:SaturationViewModel}">
+				<views:SaturationView DataContext="{Binding}"/>
+			</DataTemplate>
+		</ItemsControl.DataTemplates>
     </ItemsControl>
         
 </UserControl>
