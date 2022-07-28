@@ -6,7 +6,7 @@ namespace TeethInc.Chantry.Core.Filters
 {
     public class BrightnessContrastFilter : Filter
     {
-        public override string DisplayName => "Brightness/Contrast";
+        public override string DisplayName => "Brightness and Contrast";
 
         public int Brightness { get; set; }
 

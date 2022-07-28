@@ -11,10 +11,16 @@
 		<ItemsControl.ItemTemplate>
 			<DataTemplate>
 				<StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<CheckBox IsChecked="{Binding Enabled}"/>
-						<Label Content="{Binding DisplayName}"/>
-					</StackPanel>
+					<Border Background="CornflowerBlue"
+							Padding="5,0,0,0">
+						<StackPanel Orientation="Horizontal">
+							<CheckBox IsChecked="{Binding Enabled}"/>
+							<Label Content="{Binding DisplayName}"
+								   VerticalContentAlignment="Center"
+								   Foreground="White"
+								   FontWeight="Bold"/>
+						</StackPanel>
+					</Border>
 					<ContentControl Content="{Binding}">
 						<ContentControl.DataTemplates>
 							<DataTemplate DataType="{x:Type viewmodels:BrightnessContrastViewModel}">

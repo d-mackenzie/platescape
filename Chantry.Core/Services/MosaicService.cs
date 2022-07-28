@@ -66,14 +66,12 @@ namespace TeethInc.Chantry.Core.Services
 
         public MosaicService(LdrawService ldrawService)
         {
-            Debug.WriteLine("MosaicService c'tor.");
-
             m_ldrawService = ldrawService;
             m_colorService = new ColorService(m_ldrawService);
 
             Baseplate = BASEPLATE_32X32;
             Element = PLATE_1X1;
-            BaseplateExtent = new SKSizeI(6, 6);
+            BaseplateExtent = new SKSizeI(4, 4);
             AllowedColors = new int[]
             {
                 LDRAW_BLACK,

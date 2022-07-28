@@ -5,20 +5,34 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TeethInc.Chantry.Filters.Views.BrightnessContrastView">
 
-    <StackPanel>
+    <Grid ColumnDefinitions="25,*" RowDefinitions="*,*">
 
-        <Label Content="Brightness"/>
-        <Slider Minimum="-100"
+        <Label Grid.Column="0"
+			   Grid.Row="0"
+			   VerticalContentAlignment="Center"
+               Content="B"/>
+
+		<Slider Grid.Column="1"
+				Grid.Row="0"
+    			Minimum="-100"
                 Maximum="100"
                 TickFrequency="10"
                 TickPlacement="TopLeft"
                 Value="{Binding Brightness}"/>
 
-        <Label Content="Contrast"/>
-        <Slider Minimum="-100"
+		<Label Grid.Column="0"
+			   Grid.Row="1"
+			   VerticalContentAlignment="Center"
+			   Content="C"/>
+
+		<Slider Grid.Column="1"
+				Grid.Row="1"
+    			Minimum="-100"
                 Maximum="100"
+                TickFrequency="10"
+                TickPlacement="TopLeft"
                 Value="{Binding Contrast}"/>
 
-    </StackPanel>
+    </Grid>
     
 </UserControl>
