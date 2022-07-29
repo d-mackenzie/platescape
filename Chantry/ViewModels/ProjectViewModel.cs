@@ -15,6 +15,8 @@ using TeethInc.Chantry.Helpers;
 using System.IO;
 using SkiaSharp;
 using Avalonia;
+using System.Diagnostics;
+using System;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -24,6 +26,13 @@ namespace TeethInc.Chantry.ViewModels
         private ObservableCollection<BaseViewModel> m_filters = new ObservableCollection<BaseViewModel>();
         private LdrawService m_ldrawService;
         private ObservableCollection<LdColor> m_allowedColors = new ObservableCollection<LdColor>();
+
+        private Dictionary<Type, Func<Filter, BaseViewModel>> m_filterViewModelDictionary = new Dictionary<Type, Func<Filter, BaseViewModel>>()
+        {
+            [typeof(BrightnessContrastFilter)] = x => new BrightnessContrastViewModel((BrightnessContrastFilter)x),
+            [typeof(SaturationFilter)] = x => new SaturationViewModel((SaturationFilter)x),
+            [typeof(MultiplyFilter)] = x => new MultiplyViewModel((MultiplyFilter)x)
+        };
 
         private Point m_pan;
         private double m_zoom = 1d;
@@ -129,30 +138,7 @@ namespace TeethInc.Chantry.ViewModels
             m_ldrawService = new LdrawService();
 
             m_project = project;
-
-            foreach (var filter in m_project.Filters)
-            {
-                if (filter is BrightnessContrastFilter brightnessContrastFilter)
-                {
-                    var brightnessContrastViewModel = new BrightnessContrastViewModel(brightnessContrastFilter);
-                    brightnessContrastViewModel.PropertyChanged += FilterPropertyChanged;
-                    Filters.Add(brightnessContrastViewModel);
-                }
-
-                if (filter is SaturationFilter saturationFilter)
-                {
-                    var saturationViewModel = new SaturationViewModel(saturationFilter);
-                    saturationViewModel.PropertyChanged += FilterPropertyChanged;
-                    Filters.Add(saturationViewModel);
-                }
-
-                if (filter is MultiplyFilter multiplyFilter)
-                {
-                    var multiplyViewModel = new MultiplyViewModel(multiplyFilter);
-                    multiplyViewModel.PropertyChanged += FilterPropertyChanged;
-                    Filters.Add(multiplyViewModel);
-                }
-            }
+            m_project.Filters.ForEach(AddFilterViewModel);
 
             var allowedColors = m_project.AllowedColors;
 
@@ -163,6 +149,27 @@ namespace TeethInc.Chantry.ViewModels
 
 //            m_project.AllowedColors.ToList().ForEach(x => AllowedColors.Add(m_ldrawService.GetColor(x)));
             AllowedColors.CollectionChanged += AllowedColors_CollectionChanged;
+        }
+
+        public void AddBrightnessContrastFilterCommand()
+        {
+            var filter = new BrightnessContrastFilter();
+            m_project.Filters.Add(filter);
+            AddFilterViewModel(filter);
+        }
+
+        public void AddSaturationFilterCommand()
+        {
+            var filter = new SaturationFilter();
+            m_project.Filters.Add(filter);
+            AddFilterViewModel(filter);
+        }
+
+        public void AddMultiplyFilterCommand()
+        {
+            var filter = new MultiplyFilter();
+            m_project.Filters.Add(filter);
+            AddFilterViewModel(filter);
         }
 
         public async void ExportLdraw()
@@ -178,6 +185,13 @@ namespace TeethInc.Chantry.ViewModels
         {
             string json = ProjectService.SerializeProject(m_project);
             File.WriteAllText(filename, json);
+        }
+
+        private void AddFilterViewModel(Filter filter)
+        {
+            var viewModel = m_filterViewModelDictionary[filter.GetType()].Invoke(filter);
+            viewModel.PropertyChanged += FilterPropertyChanged;
+            Filters.Add(viewModel);
         }
 
         private void ExportLdrawHandler(string? filename)

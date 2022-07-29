@@ -13,20 +13,13 @@ namespace TeethInc.Chantry.PropertyPages
 
         private void Border_PointerReleased(object? sender, Avalonia.Input.PointerReleasedEventArgs e)
         {
-            if (sender is null || !(sender is Border))
+            if (!(sender is Border border))
                 return;
 
-            ContextMenu? contextMenu = ((sender as Border)?.ContextMenu) ?? null;
-
-            if (contextMenu is null)
+            if (!(border.ContextMenu is ContextMenu contextMenu))
                 return;
 
-            contextMenu.PlacementRect = new Rect(
-                e.GetCurrentPoint((Avalonia.VisualTree.IVisual?)sender).Position.X,
-                e.GetCurrentPoint((Avalonia.VisualTree.IVisual?)sender).Position.Y,
-                1,
-                1);
-
+            contextMenu.PlacementRect = new Rect(e.GetCurrentPoint(border).Position.X, e.GetCurrentPoint(border).Position.Y, 1, 1);
             contextMenu.Open();
         }
 

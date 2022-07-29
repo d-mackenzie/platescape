@@ -14,6 +14,12 @@ namespace TeethInc.Chantry.Core.Filters
 
         public TonalRange TonalRange { get; set; } = TonalRange.All;
 
+        public BrightnessContrastFilter()
+        {
+            Brightness = 0;
+            Contrast = 0;
+        }
+
         public override void ApplyFilter(SKBitmap image)
         {
             image.ApplyFilter(GetAdjustedPixel);

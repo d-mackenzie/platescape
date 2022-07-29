@@ -17,6 +17,8 @@ namespace TeethInc.Chantry.Core.Filters
 
         public SaturationFilter() : base()
         {
+            Saturation = 1d;
+
             m_red = GetCalculatedArray(0.21f);
             m_green = GetCalculatedArray(0.71f);
             m_blue = GetCalculatedArray(0.07f);

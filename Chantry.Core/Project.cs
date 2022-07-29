@@ -97,26 +97,7 @@ namespace TeethInc.Chantry.Core
                 }
             };
 
-            project.Filters.Add(
-                new BrightnessContrastFilter()
-                {
-                    Brightness = 0,
-                    Contrast = 0
-                });
-
-            project.Filters.Add(
-                new SaturationFilter()
-                {
-                    Saturation = 0,
-                    Enabled = false
-                });
-
-            project.Filters.Add(
-                new MultiplyFilter()
-                {
-                    Factor = 1
-                });
-
+            project.Filters.Add(new BrightnessContrastFilter());
 
             return project;
         }

@@ -10,6 +10,11 @@ namespace TeethInc.Chantry.Core.Filters
 
         public double Factor { get; set; }
 
+        public MultiplyFilter()
+        {
+            Factor = 1;
+        }
+
         public override void ApplyFilter(SKBitmap image)
         {
             image.ApplyFilter(GetAdjustedPixel);

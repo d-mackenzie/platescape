@@ -26,6 +26,5 @@ namespace TeethInc.Chantry.Filters.ViewModels
         {
             m_filter = filter;
         }
-
     }
 }
