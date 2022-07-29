@@ -59,8 +59,8 @@ namespace TeethInc.Chantry.UserControls
             get { return GetValue(PanProperty); }
             set
             {
-                double horizontalConstraint = (RenderedImageSize.Width - Bounds.Width) / 2;
-                double verticalConstraint = (RenderedImageSize.Height - Bounds.Height) / 2;
+                double horizontalConstraint = (RenderedImageSize.Width + 25 - Bounds.Width) / 2;
+                double verticalConstraint = (RenderedImageSize.Height + 25 - Bounds.Height) / 2;
 
                 Point pan = new Point(
                     Math.Clamp(value.X, Math.Min(-horizontalConstraint, 0), Math.Max(0, horizontalConstraint)),
@@ -161,7 +161,7 @@ namespace TeethInc.Chantry.UserControls
             if (Source is null)
                 return;
 
-            context.DrawRectangle(Brushes.Black, null, ImageRenderBounds, 0, 0, m_boxShadows);
+            context.DrawRectangle(Brushes.Black, null, ImageRenderBounds.Deflate(1), 0, 0, m_boxShadows);
             context.DrawImage(Source, ImageRenderBounds);
         }
 

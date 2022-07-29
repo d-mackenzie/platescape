@@ -6,39 +6,64 @@
              x:Class="TeethInc.Chantry.PropertyPages.FiltersPage"
              xmlns:viewmodels="clr-namespace:TeethInc.Chantry.Filters.ViewModels"
              xmlns:views="clr-namespace:TeethInc.Chantry.Filters.Views">
+	
+	<StackPanel>
 
-    <ItemsControl Items="{Binding Filters}">
-		<ItemsControl.ItemTemplate>
-			<DataTemplate>
-				<StackPanel>
-					<Border Background="CornflowerBlue"
-							Padding="5,0,0,0">
-						<StackPanel Orientation="Horizontal">
-							<CheckBox IsChecked="{Binding Enabled}"/>
-							<Label Content="{Binding DisplayName}"
-								   VerticalContentAlignment="Center"
-								   Foreground="White"
-								   FontWeight="Bold"/>
-						</StackPanel>
-					</Border>
-					<ContentControl Content="{Binding}">
-						<ContentControl.DataTemplates>
-							<DataTemplate DataType="{x:Type viewmodels:BrightnessContrastViewModel}">
-								<views:BrightnessContrastView DataContext="{Binding}"/>
-							</DataTemplate>
-							<DataTemplate DataType="{x:Type viewmodels:SaturationViewModel}">
-								<views:SaturationView DataContext="{Binding}"/>
-							</DataTemplate>
-							<DataTemplate DataType="{x:Type viewmodels:MultiplyViewModel}">
-								<views:MultiplyView DataContext="{Binding}"/>
-							</DataTemplate>
-						</ContentControl.DataTemplates>
-					</ContentControl>
-				</StackPanel>
-			</DataTemplate>
-		</ItemsControl.ItemTemplate>
-		
+		<ItemsControl Items="{Binding Filters}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<StackPanel>
+						<Border Background="CornflowerBlue"
+								Padding="5,0,0,0">
+							<StackPanel Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding Enabled}"/>
+								<Label Content="{Binding DisplayName}"
+									   VerticalContentAlignment="Center"
+									   Foreground="White"
+									   FontWeight="Bold"/>
+							</StackPanel>
+						</Border>
+						<ContentControl Content="{Binding}">
+							<ContentControl.DataTemplates>
+								<DataTemplate DataType="{x:Type viewmodels:BrightnessContrastViewModel}">
+									<views:BrightnessContrastView DataContext="{Binding}"/>
+								</DataTemplate>
+								<DataTemplate DataType="{x:Type viewmodels:SaturationViewModel}">
+									<views:SaturationView DataContext="{Binding}"/>
+								</DataTemplate>
+								<DataTemplate DataType="{x:Type viewmodels:MultiplyViewModel}">
+									<views:MultiplyView DataContext="{Binding}"/>
+								</DataTemplate>
+							</ContentControl.DataTemplates>
+						</ContentControl>
+					</StackPanel>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
 
-	</ItemsControl>
+		<Border BorderBrush="LightGray"
+				BorderDashArray="2,2"
+				CornerRadius="5"
+				BorderThickness="2"
+				Background="Transparent"
+				Padding="10"
+				PointerReleased="Border_PointerReleased">
+
+			<Border.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Hello"/>
+				</ContextMenu>
+			</Border.ContextMenu>
+
+			<Label Content="Add another filter..."
+				   Foreground="DarkGray"
+				   HorizontalAlignment="Stretch"
+				   HorizontalContentAlignment="Center">
+
+			</Label>
+
+		</Border>
+
+	</StackPanel>
         
 </UserControl>
