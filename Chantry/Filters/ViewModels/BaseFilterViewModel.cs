@@ -8,7 +8,7 @@ using TeethInc.Chantry.ViewModels;
 
 namespace TeethInc.Chantry.Filters.ViewModels
 {
-    public class BaseFilterViewModel<T> : BaseViewModel where T : Filter
+    public class BaseFilterViewModel<T> : BaseViewModel, IFilterViewModel where T : Filter
     {
         private T m_filter;
 

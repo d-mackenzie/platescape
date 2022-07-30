@@ -6,7 +6,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TeethInc.Chantry.PropertyPages.FiltersPage"
              xmlns:viewmodels="clr-namespace:TeethInc.Chantry.Filters.ViewModels"
-             xmlns:views="clr-namespace:TeethInc.Chantry.Filters.Views">
+             xmlns:views="clr-namespace:TeethInc.Chantry.Filters.Views"
+			 xmlns:filters="clr-namespace:TeethInc.Chantry.Core.Filters;assembly=Chantry.Core">
 
 	<ScrollViewer AllowAutoHide="False">
 
@@ -55,11 +56,14 @@
 				<Border.ContextMenu>
 					<ContextMenu>
 						<MenuItem Header="Brightness and Contrast"
-								  Command="{Binding AddBrightnessContrastFilterCommand}"/>
+								  Command="{Binding AddNewFilterCommand}"
+								  CommandParameter="{x:Type filters:BrightnessContrastFilter}"/>
 						<MenuItem Header="Multiply"
-								  Command="{Binding AddMultiplyFilterCommand}"/>
+								  Command="{Binding AddNewFilterCommand}"
+								  CommandParameter="{x:Type filters:MultiplyFilter}"/>
 						<MenuItem Header="Saturation"
-								  Command="{Binding AddSaturationFilterCommand}"/>
+								  Command="{Binding AddNewFilterCommand}"
+								  CommandParameter="{x:Type filters:SaturationFilter}"/>
 					</ContextMenu>
 				</Border.ContextMenu>
 

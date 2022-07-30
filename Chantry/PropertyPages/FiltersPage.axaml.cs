@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using TeethInc.Chantry.Core.Filters;
 
 namespace TeethInc.Chantry.PropertyPages
 {

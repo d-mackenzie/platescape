@@ -12,6 +12,9 @@ using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
+using TeethInc.Chantry.Services;
+using TeethInc.Chantry.Filters.ViewModels;
+using TeethInc.Chantry.Filters.Views;
 
 namespace TeethInc.Chantry
 {
@@ -26,6 +29,10 @@ namespace TeethInc.Chantry
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
+                FilterViewResolver.Register<BrightnessContrastFilter, BrightnessContrastViewModel, BrightnessContrastView>();
+                FilterViewResolver.Register<SaturationFilter, SaturationViewModel, SaturationView>();
+                FilterViewResolver.Register<MultiplyFilter, MultiplyViewModel, MultiplyView>();
+
                 var args = Environment.GetCommandLineArgs();
                 ProjectViewModel? projectViewModel = null;
 

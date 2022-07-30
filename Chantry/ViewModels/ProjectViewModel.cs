@@ -17,22 +17,16 @@ using SkiaSharp;
 using Avalonia;
 using System.Diagnostics;
 using System;
+using TeethInc.Chantry.Services;
 
 namespace TeethInc.Chantry.ViewModels
 {
     public class ProjectViewModel : BaseViewModel
     {
         private Project m_project;
-        private ObservableCollection<BaseViewModel> m_filters = new ObservableCollection<BaseViewModel>();
+        private ObservableCollection<IFilterViewModel> m_filters = new ObservableCollection<IFilterViewModel>();
         private LdrawService m_ldrawService;
         private ObservableCollection<LdColor> m_allowedColors = new ObservableCollection<LdColor>();
-
-        private Dictionary<Type, Func<Filter, BaseViewModel>> m_filterViewModelDictionary = new Dictionary<Type, Func<Filter, BaseViewModel>>()
-        {
-            [typeof(BrightnessContrastFilter)] = x => new BrightnessContrastViewModel((BrightnessContrastFilter)x),
-            [typeof(SaturationFilter)] = x => new SaturationViewModel((SaturationFilter)x),
-            [typeof(MultiplyFilter)] = x => new MultiplyViewModel((MultiplyFilter)x)
-        };
 
         private Point m_pan;
         private double m_zoom = 1d;
@@ -50,7 +44,7 @@ namespace TeethInc.Chantry.ViewModels
 
         // filter properties.
 
-        public ObservableCollection<BaseViewModel> Filters => m_filters;
+        public ObservableCollection<IFilterViewModel> Filters => m_filters;
         public AmiBitmap UnfilteredImage => m_project.UnfilteredImage.AsAvaloniaMediaImagingBitmap();
         public AmiBitmap FilteredImage => m_project.FilteredImage.AsAvaloniaMediaImagingBitmap();
         public AmiBitmap MosaicImage => m_project.Mosaic.Image.AsAvaloniaMediaImagingBitmap();
@@ -151,23 +145,13 @@ namespace TeethInc.Chantry.ViewModels
             AllowedColors.CollectionChanged += AllowedColors_CollectionChanged;
         }
 
-        public void AddBrightnessContrastFilterCommand()
+        public void AddNewFilterCommand(Type filterType)
         {
-            var filter = new BrightnessContrastFilter();
-            m_project.Filters.Add(filter);
-            AddFilterViewModel(filter);
-        }
+            Filter? filter = Activator.CreateInstance(filterType) as Filter;
 
-        public void AddSaturationFilterCommand()
-        {
-            var filter = new SaturationFilter();
-            m_project.Filters.Add(filter);
-            AddFilterViewModel(filter);
-        }
+            if (filter is null)
+                throw new ArgumentException($"Could not create filter of type {filterType}");
 
-        public void AddMultiplyFilterCommand()
-        {
-            var filter = new MultiplyFilter();
             m_project.Filters.Add(filter);
             AddFilterViewModel(filter);
         }
@@ -189,7 +173,7 @@ namespace TeethInc.Chantry.ViewModels
 
         private void AddFilterViewModel(Filter filter)
         {
-            var viewModel = m_filterViewModelDictionary[filter.GetType()].Invoke(filter);
+            IFilterViewModel viewModel = FilterViewResolver.ConstructFilterViewModel(filter);
             viewModel.PropertyChanged += FilterPropertyChanged;
             Filters.Add(viewModel);
         }
