@@ -156,6 +156,17 @@ namespace TeethInc.Chantry.ViewModels
             AddFilterViewModel(filter);
         }
 
+        public void RemoveFilterCommand(IFilterViewModel filterViewModel)
+        {
+            filterViewModel.PropertyChanged -= FilterPropertyChanged;
+
+            int index = Filters.IndexOf(filterViewModel);
+            Filters.RemoveAt(index);
+            m_project.Filters.RemoveAt(index);
+
+            RaiseFilterPropertyChanged();
+        }
+
         public async void ExportLdraw()
         {
             IFileDialog fileDialog = new FileDialog();
@@ -192,10 +203,15 @@ namespace TeethInc.Chantry.ViewModels
             RaiseMosaicPropertyChanged();
         }
 
-        private void FilterPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        private void RaiseFilterPropertyChanged()
         {
             RaisePropertyChanged(nameof(FilteredImage));
             RaiseMosaicPropertyChanged();
+        }
+
+        private void FilterPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            RaiseFilterPropertyChanged();
         }
 
         private void RaiseMosaicPropertyChanged()

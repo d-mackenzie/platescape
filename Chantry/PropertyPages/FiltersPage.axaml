@@ -19,13 +19,19 @@
 						<StackPanel>
 							<Border Background="CornflowerBlue"
 									Padding="5,0,0,0">
-								<StackPanel Orientation="Horizontal">
-									<CheckBox IsChecked="{Binding Enabled}"/>
+								<Grid ColumnDefinitions="Auto,*,Auto">
+									<CheckBox IsChecked="{Binding Enabled}"
+											  Grid.Column="0"/>
 									<Label Content="{Binding DisplayName}"
 										   VerticalContentAlignment="Center"
 										   Foreground="White"
-										   FontWeight="Bold"/>
-								</StackPanel>
+										   FontWeight="Bold"
+										   Grid.Column="1"/>
+									<Button Content="X"
+											Grid.Column="2"
+											Command="{Binding $parent[ItemsControl].DataContext.RemoveFilterCommand}"
+											CommandParameter="{Binding}"/>
+								</Grid>
 							</Border>
 							<ContentControl Content="{Binding}">
 								<ContentControl.DataTemplates>
