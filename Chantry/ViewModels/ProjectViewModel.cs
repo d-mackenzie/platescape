@@ -141,6 +141,8 @@ namespace TeethInc.Chantry.ViewModels
                 AllowedColors.Add(m_ldrawService.GetColor(allowedColor));
             }
 
+            Zoom = 4;
+
 //            m_project.AllowedColors.ToList().ForEach(x => AllowedColors.Add(m_ldrawService.GetColor(x)));
             AllowedColors.CollectionChanged += AllowedColors_CollectionChanged;
         }

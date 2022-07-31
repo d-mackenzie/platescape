@@ -17,41 +17,61 @@
 
         <TabControl Grid.Column="0">
 
-            <TabItem Header="Unfiltered" FontSize="12" Padding="5">
+            <TabItem Header="Unfiltered"
+					 FontSize="12"
+					 Padding="5">
                 <pages:UnfilteredImagePage DataContext="{Binding}"/>
             </TabItem>
 
-            <TabItem Header="Filtered" FontSize="12" Padding="5">
+            <TabItem Header="Filtered"
+					 FontSize="12"
+					 Padding="5">
                 <pages:FilteredImagePage DataContext="{Binding}"/>
             </TabItem>
 
-            <TabItem Header="Mosaic" FontSize="12" Padding="5">
+            <TabItem Header="Mosaic"
+					 FontSize="12"
+					 Padding="5"
+					 IsSelected="True">
                 <pages:MosaicPage DataContext="{Binding}"/>
             </TabItem>
 
-            <TabItem Header="Edits" FontSize="12" Padding="5">
+            <TabItem Header="Edits"
+					 FontSize="12"
+					 Padding="5">
                 <pages:EditsPage DataContext="{Binding}"/>
             </TabItem>
 
         </TabControl>
 
-        <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" Background="LightGray" />
+        <GridSplitter Grid.Column="1"
+					  Width="3"
+					  HorizontalAlignment="Stretch"
+					  Background="LightGray" />
 
         <TabControl Grid.Column="2">
 
-            <TabItem Header="Project" FontSize="12" Padding="5">
+            <TabItem Header="Project"
+					 FontSize="12"
+					 Padding="5">
                 <propertypages:ProjectPage DataContext="{Binding}"/>
             </TabItem>
 
-            <TabItem Header="Filters" FontSize="12" Padding="5">
+            <TabItem Header="Filters"
+					 FontSize="12" Padding="5"
+					 IsSelected="True">
                 <propertypages:FiltersPage DataContext="{Binding}"/>
             </TabItem>
 
-            <TabItem Header="Mosaic" FontSize="12" Padding="5">
+            <TabItem Header="Mosaic"
+					 FontSize="12"
+					 Padding="5">
                 <propertypages:MosaicPage DataContext="{Binding}"/>
             </TabItem>
 
-            <TabItem Header="Edits" FontSize="12" Padding="5">
+            <TabItem Header="Edits"
+					 FontSize="12"
+					 Padding="5">
             </TabItem>
 
         </TabControl>

@@ -14,9 +14,14 @@ namespace TeethInc.Chantry.Core.Services
         
         private const int LDRAW_BLACK = 0;
         private const int LDRAW_BLUE = 1;
+        private const int LDRAW_GREEN = 2;
         private const int LDRAW_RED = 4;
         private const int LDRAW_YELLOW = 14;
         private const int LDRAW_WHITE = 15;
+        private const int LDRAW_TAN = 19;
+        private const int LDRAW_DARK_TAN = 28;
+        private const int LDRAW_LIGHT_BLUISH_GREY = 71;
+        private const int LDRAW_DARK_BLUISH_GREY = 72;
 
         private ColorService m_colorService;
         private LdrawService m_ldrawService;
@@ -76,9 +81,15 @@ namespace TeethInc.Chantry.Core.Services
             {
                 LDRAW_BLACK,
                 LDRAW_BLUE,
+                LDRAW_GREEN,
                 LDRAW_RED,
                 LDRAW_YELLOW,
                 LDRAW_WHITE,
+                LDRAW_TAN,
+                LDRAW_DARK_TAN,
+                LDRAW_LIGHT_BLUISH_GREY,
+                LDRAW_DARK_BLUISH_GREY
+
             };
         }
 
