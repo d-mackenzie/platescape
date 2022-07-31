@@ -14,43 +14,72 @@
 
         <StackPanel>
 
-            <Label Content="Baseplate:"/>
-            <ComboBox Items="{Binding Baseplates}"
-                      SelectedItem="{Binding Baseplate}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+			<Grid ColumnDefinitions="Auto,*"
+				  RowDefinitions="Auto,Auto,Auto,Auto">
 
-            <Label Content="Element:"/>
-            <ComboBox Items="{Binding Elements}"
-                      SelectedItem="{Binding Element}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+				<Label Content="Baseplate:"
+					   Grid.Row="0"
+					   Grid.Column="0"
+					   VerticalAlignment="Center"/>
+				
+				<ComboBox Items="{Binding Baseplates}"
+						  SelectedItem="{Binding Baseplate}"
+						  Grid.Row="0"
+						  Grid.Column="1"
+						  Margin="5">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}"/>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
 
-            <Label Content="Size:"/>
-            <StackPanel Orientation="Horizontal">
-                <NumericUpDown Minimum="1"
-                               Maximum="20"
-                               Value="{Binding BaseplateExtentWidth}" />
-                <Label Content=" by "/>
-                <NumericUpDown Minimum="1"
-                               Maximum="20"
-                               Value="{Binding BaseplateExtentHeight}" />
-            </StackPanel>
+				<Label Content="Element:"
+					   Grid.Row="1"
+					   Grid.Column="0"
+					   VerticalAlignment="Center"/>
+				
+				<ComboBox Items="{Binding Elements}"
+						  SelectedItem="{Binding Element}"
+						  Grid.Row="1"
+						  Grid.Column="1"
+						  Margin="5">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}"/>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
 
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Size Info:"/>
-                <Label Content="{Binding SizeInfo}"/>
-            </StackPanel>
-            
-            <Label Content="Colours:"/>
+				<Label Content="Size:"
+					   Grid.Row="2"
+					   Grid.Column="0"
+					   VerticalAlignment="Center"/>
+				
+				<StackPanel Orientation="Horizontal"
+							Grid.Row="2"
+							Grid.Column="1"
+							Margin="5">
+					<NumericUpDown Minimum="1"
+								   Maximum="20"
+								   Value="{Binding BaseplateExtentWidth}" />
+					<Label Content=" by "
+						   VerticalAlignment="Center"/>
+					<NumericUpDown Minimum="1"
+								   Maximum="20"
+								   Value="{Binding BaseplateExtentHeight}" />
+				</StackPanel>
+
+				<Label Content="Measurements:"
+					   Grid.Row="3"
+					   Grid.Column="0"/>
+				<Label Content="{Binding SizeInfo}"
+					   Grid.Row="3"
+					   Grid.Column="1"/>
+
+			</Grid>
+
+			<Label Content="Colours:"/>
             <ListBox MaxHeight="400"
                      SelectionMode="Multiple,Toggle"
                      SelectedItems="{Binding AllowedColors}"
