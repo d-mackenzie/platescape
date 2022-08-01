@@ -104,8 +104,8 @@ namespace TeethInc.Chantry.ViewModels
 
                 string ret = $"{m_project.ElementExtent.Width} elements by { m_project.ElementExtent.Height} elements\n";
                 ret += $"{width} studs by {height} studs\n";
-                ret += string.Format("{0:F0}cm by {1:F0}cm\n", width * 0.8, height * 0.8);
-                ret += string.Format("{0} by {1}\n", MmToFeetAndInches(width * 8), MmToFeetAndInches(height * 8));
+                ret += $"{MmToCentimetersOrMeters(width * 8)} by {MmToCentimetersOrMeters(height * 8)}\n";
+                ret += $"{MmToFeetAndInches(width * 8)} by {MmToFeetAndInches(height * 8)}\n";
 
                 return ret;
             }
@@ -242,6 +242,14 @@ namespace TeethInc.Chantry.ViewModels
                 return $"{inches / 12}ft";
 
             return $"{inches / 12}ft {inches % 12}in";
+        }
+
+        private string MmToCentimetersOrMeters(int mm)
+        {
+            if (mm >= 1000)
+                return string.Format("{0:F1}m", mm / 1000d);
+
+            return string.Format("{0:F0}cm", mm / 10d);
         }
     }
 }
