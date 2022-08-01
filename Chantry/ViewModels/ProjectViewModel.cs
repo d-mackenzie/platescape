@@ -18,6 +18,7 @@ using Avalonia;
 using System.Diagnostics;
 using System;
 using TeethInc.Chantry.Services;
+using TeethInc.Chantry.Core.MosaicAlgorithms;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -25,8 +26,14 @@ namespace TeethInc.Chantry.ViewModels
     {
         private Project m_project;
         private ObservableCollection<IFilterViewModel> m_filters = new ObservableCollection<IFilterViewModel>();
+        private List<MosaicAlgorithm> m_mosaicAlgorithms = new List<MosaicAlgorithm>()
+        {
+            new BayerMatrix(),
+            new FloydSteinberg(),
+            new NearestColor()
+        };
+
         private LdrawService m_ldrawService;
-        private ObservableCollection<LdColor> m_allowedColors = new ObservableCollection<LdColor>();
 
         private Point m_pan;
         private double m_zoom = 1d;
@@ -53,19 +60,19 @@ namespace TeethInc.Chantry.ViewModels
 
         public List<LdPart> Baseplates => m_ldrawService.Baseplates;
         public List<LdPart> Elements => m_ldrawService.Elements;
-        public List<LdColor> Colors => m_ldrawService.Colors.OrderBy(x => x.Name).ToList();
-        public ObservableCollection<LdColor> AllowedColors => m_allowedColors;
+        public List<LdColor> AvailableColors => m_ldrawService.Colors.OrderBy(x => x.Name).Where(x => !m_project.AllowedColors.Contains(x.Number)).ToList();
+        public List<LdColor> AllowedColors => m_ldrawService.Colors.OrderBy(x => x.Name).Where(x => m_project.AllowedColors.Contains(x.Number)).ToList();
 
         public LdPart Baseplate
         {
             get { return m_ldrawService.GetPart(m_project.BaseplatePartNumber); }
-            set { m_project.BaseplatePartNumber = value.Number; RaiseMosaicPropertyChanged(); }
+            set { m_project.BaseplatePartNumber = value.Number; RaiseMosaicPropertiesChanged(); }
         }
 
         public LdPart Element
         {
             get { return m_ldrawService.GetPart(m_project.ElementPartNumber); }
-            set { m_project.ElementPartNumber = value.Number; RaiseMosaicPropertyChanged(); }
+            set { m_project.ElementPartNumber = value.Number; RaiseMosaicPropertiesChanged(); }
         }
 
         public int BaseplateExtentWidth
@@ -74,7 +81,7 @@ namespace TeethInc.Chantry.ViewModels
             set
             {
                 m_project.BaseplateExtent = new SKSizeI(value, m_project.BaseplateExtent.Height);
-                RaiseMosaicPropertyChanged();
+                RaiseMosaicPropertiesChanged();
             }
         }
 
@@ -84,7 +91,7 @@ namespace TeethInc.Chantry.ViewModels
             set
             {
                 m_project.BaseplateExtent = new SKSizeI(m_project.BaseplateExtent.Width, value);
-                RaiseMosaicPropertyChanged();
+                RaiseMosaicPropertiesChanged();
             }
         }
 
@@ -105,6 +112,14 @@ namespace TeethInc.Chantry.ViewModels
         }
 
         public Mosaic Mosaic => m_project.Mosaic;
+
+        public MosaicAlgorithm MosaicAlgorithm
+        {
+            get { return m_project.MosaicAlgorithm; }
+            set { m_project.MosaicAlgorithm = value; RaiseMosaicPropertiesChanged(); }
+        }
+
+        public List<MosaicAlgorithm> MosaicAlgorithms => m_mosaicAlgorithms;
 
         // project properties.
 
@@ -133,18 +148,9 @@ namespace TeethInc.Chantry.ViewModels
 
             m_project = project;
             m_project.Filters.ForEach(AddFilterViewModel);
-
-            var allowedColors = m_project.AllowedColors;
-
-            foreach (var allowedColor in allowedColors)
-            {
-                AllowedColors.Add(m_ldrawService.GetColor(allowedColor));
-            }
+            m_project.MosaicAlgorithm = m_mosaicAlgorithms.FirstOrDefault(x => x.DisplayName == m_project.MosaicAlgorithm.DisplayName);
 
             Zoom = 4;
-
-//            m_project.AllowedColors.ToList().ForEach(x => AllowedColors.Add(m_ldrawService.GetColor(x)));
-            AllowedColors.CollectionChanged += AllowedColors_CollectionChanged;
         }
 
         public void AddNewFilterCommand(Type filterType)
@@ -167,6 +173,14 @@ namespace TeethInc.Chantry.ViewModels
             m_project.Filters.RemoveAt(index);
 
             RaiseFilterPropertyChanged();
+        }
+
+        public void AddAllowedColorCommand(int ldColorNumber)
+        {
+            m_project.AllowedColors = m_project.AllowedColors.Concat(new int[] { ldColorNumber }).ToArray();
+            RaisePropertyChanged(nameof(AvailableColors));
+            RaisePropertyChanged(nameof(AllowedColors));
+            RaiseMosaicPropertiesChanged();
         }
 
         public async void ExportLdraw()
@@ -199,16 +213,10 @@ namespace TeethInc.Chantry.ViewModels
             m_project.ExportLdraw(filename);
         }
 
-        private void AllowedColors_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            m_project.AllowedColors = AllowedColors.Select(x => x.Number).ToArray();
-            RaiseMosaicPropertyChanged();
-        }
-
         private void RaiseFilterPropertyChanged()
         {
             RaisePropertyChanged(nameof(FilteredImage));
-            RaiseMosaicPropertyChanged();
+            RaiseMosaicPropertiesChanged();
         }
 
         private void FilterPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -216,7 +224,7 @@ namespace TeethInc.Chantry.ViewModels
             RaiseFilterPropertyChanged();
         }
 
-        private void RaiseMosaicPropertyChanged()
+        private void RaiseMosaicPropertiesChanged()
         {
             RaisePropertyChanged(nameof(MosaicImage));
             RaisePropertyChanged(nameof(Mosaic));

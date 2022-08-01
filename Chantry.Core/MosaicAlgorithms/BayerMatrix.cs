@@ -12,6 +12,8 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
         private float[,] m_matrix;
 
+        public override string DisplayName => "Bayer Matrix";
+
         public override LdColor GetColor(int x, int y, SKColor sourceColor, ColorService colorService)
         {
             float spread = 255f / colorService.AllowedColors.ToList().Count();

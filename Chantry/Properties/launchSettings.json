@@ -3,13 +3,13 @@
     "Chantry.App": {
       "commandName": "Project"
     },
-    "OpenEric": {
-      "commandName": "Project",
-      "commandLineArgs": "c:\\temp\\eric-avatar.jpg"
-    },
     "Open Dan": {
       "commandName": "Project",
       "commandLineArgs": "c:\\temp\\dan-cropped.png"
+    },
+    "Open Eric": {
+      "commandName": "Project",
+      "commandLineArgs": "c:\\temp\\eric-avatar.jpg"
     }
   }
 }

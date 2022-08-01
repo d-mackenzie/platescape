@@ -6,6 +6,8 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
     public class NearestColor : MosaicAlgorithm
     {
+        public override string DisplayName => "Nearest Colour";
+
         public override LdColor GetColor(int x, int y, SKColor sourceColor, ColorService colorService)
         {
             return colorService.GetClosestLdColor(sourceColor);

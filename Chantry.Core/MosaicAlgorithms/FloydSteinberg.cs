@@ -20,6 +20,8 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
             Reset(new SKSizeI(1,1));
         }
 
+        public override string DisplayName => "Floyd Steinberg";
+
         public override LdColor GetColor(int x, int y, SKColor sourceColor, ColorService colorService)
         {
             // get average pixel color.

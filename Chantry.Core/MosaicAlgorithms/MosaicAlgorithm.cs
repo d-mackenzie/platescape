@@ -6,6 +6,8 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
     public abstract class MosaicAlgorithm
     {
+        public abstract string DisplayName { get; }
+
         public abstract void Reset(SKSizeI size);
 
         public abstract LdColor GetColor(int x, int y, SKColor sourceColor, ColorService colorService);

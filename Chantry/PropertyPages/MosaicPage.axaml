@@ -14,17 +14,56 @@
 
         <StackPanel>
 
-			<Grid ColumnDefinitions="Auto,*"
-				  RowDefinitions="Auto,Auto,Auto,Auto">
+			<Grid RowDefinitions="Auto,Auto,Auto,Auto, Auto"
+				  ColumnDefinitions="Auto,*">
+
+				<Label Content="Algorithm:"
+					   Grid.Row="0"
+					   Grid.Column="0"
+					   VerticalAlignment="Center"/>
+
+				<ComboBox Items="{Binding MosaicAlgorithms}"
+						  SelectedItem="{Binding MosaicAlgorithm}"
+						  Grid.Row="0"
+						  Grid.Column="1"
+						  Margin="5">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding DisplayName}"/>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+
+				<Label Content="Size:"
+					   Grid.Row="1"
+					   Grid.Column="0"
+					   VerticalAlignment="Center"/>
+
+				<StackPanel Orientation="Horizontal"
+							Grid.Row="1"
+							Grid.Column="1"
+							Margin="5">
+
+					<NumericUpDown Minimum="1"
+								   Maximum="20"
+								   Value="{Binding BaseplateExtentWidth}" />
+
+					<Label Content=" by "
+						   VerticalAlignment="Center"/>
+
+					<NumericUpDown Minimum="1"
+								   Maximum="20"
+								   Value="{Binding BaseplateExtentHeight}" />
+				</StackPanel>
 
 				<Label Content="Baseplate:"
-					   Grid.Row="0"
+					   Grid.Row="2"
 					   Grid.Column="0"
 					   VerticalAlignment="Center"/>
 				
 				<ComboBox Items="{Binding Baseplates}"
 						  SelectedItem="{Binding Baseplate}"
-						  Grid.Row="0"
+						  Grid.Row="2"
 						  Grid.Column="1"
 						  Margin="5">
 					<ComboBox.ItemTemplate>
@@ -35,13 +74,13 @@
 				</ComboBox>
 
 				<Label Content="Element:"
-					   Grid.Row="1"
+					   Grid.Row="3"
 					   Grid.Column="0"
 					   VerticalAlignment="Center"/>
 				
 				<ComboBox Items="{Binding Elements}"
 						  SelectedItem="{Binding Element}"
-						  Grid.Row="1"
+						  Grid.Row="3"
 						  Grid.Column="1"
 						  Margin="5">
 					<ComboBox.ItemTemplate>
@@ -50,61 +89,82 @@
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
-
-				<Label Content="Size:"
-					   Grid.Row="2"
-					   Grid.Column="0"
-					   VerticalAlignment="Center"/>
 				
-				<StackPanel Orientation="Horizontal"
-							Grid.Row="2"
-							Grid.Column="1"
-							Margin="5">
-					<NumericUpDown Minimum="1"
-								   Maximum="20"
-								   Value="{Binding BaseplateExtentWidth}" />
-					<Label Content=" by "
-						   VerticalAlignment="Center"/>
-					<NumericUpDown Minimum="1"
-								   Maximum="20"
-								   Value="{Binding BaseplateExtentHeight}" />
-				</StackPanel>
-
 				<Label Content="Measurements:"
-					   Grid.Row="3"
+					   Grid.Row="4"
 					   Grid.Column="0"/>
-				<Label Content="{Binding SizeInfo}"
-					   Grid.Row="3"
-					   Grid.Column="1"/>
 
+				<Label Content="{Binding SizeInfo}"
+					   Grid.Row="4"
+					   Grid.Column="1"/>
+				
 			</Grid>
 
-			<Label Content="Colours:"/>
-            <ListBox MaxHeight="400"
-                     SelectionMode="Multiple,Toggle"
-                     SelectedItems="{Binding AllowedColors}"
-                     Items="{Binding Colors}">
-                <ListBox.Styles>
-                    <Style Selector="ListBoxItem">
-                        <Setter Property="Padding"
-                                Value="10,1,10,1"/>
-                    </Style>
-                </ListBox.Styles>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Rectangle Width="12"
-                                       Height="12"
-                                       Stroke="Black"
-                                       StrokeThickness="1"
-                                       Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"/>
-                            <TextBlock Text="{Binding Name}"
-                                       Padding="5,0,0,0"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            
+			<Grid RowDefinitions="Auto,*"
+				  ColumnDefinitions="1*,1*">
+
+				<Label Content="Colours:"
+					   Grid.Row="0"
+					   Grid.Column="0"/>
+
+				<ListBox MaxHeight="400"
+						 Items="{Binding AvailableColors}"
+						 Grid.Row="1"
+						 Grid.Column="0"
+						 Margin="0,0,5,0">
+					<ListBox.Styles>
+						<Style Selector="ListBoxItem">
+							<Setter Property="Padding"
+									Value="10,1,10,1"/>
+						</Style>
+					</ListBox.Styles>
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Rectangle Width="12"
+										   Height="12"
+										   Stroke="Black"
+										   StrokeThickness="1"
+										   Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"/>
+								<TextBlock Text="{Binding Name}"
+										   Padding="5,0,0,0"/>
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+
+				<Label Content="Mosaic Palette:"
+					   Grid.Row="0"
+					   Grid.Column="1"/>
+
+				<ListBox MaxHeight="400"
+						 Items="{Binding AllowedColors}"
+						 Grid.Row="1"
+						 Grid.Column="1"
+						 Margin="5,0,0,0">
+					<ListBox.Styles>
+						<Style Selector="ListBoxItem">
+							<Setter Property="Padding"
+									Value="10,1,10,1"/>
+						</Style>
+					</ListBox.Styles>
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Rectangle Width="12"
+										   Height="12"
+										   Stroke="Black"
+										   StrokeThickness="1"
+										   Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"/>
+								<TextBlock Text="{Binding Name}"
+										   Padding="5,0,0,0"/>
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+
+			</Grid>
+				
             <Button Content="Export LDRAW" Command="{Binding ExportLdraw}"/>
 
         </StackPanel>

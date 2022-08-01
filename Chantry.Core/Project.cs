@@ -16,9 +16,7 @@ namespace TeethInc.Chantry.Core
         private ISource m_source;
         private FilterService m_filterService;
         private MosaicService m_mosaicService;
-//        private MosaicAlgorithm m_mosaicAlgorithm = new FloydSteinberg();
-        private MosaicAlgorithm m_mosaicAlgorithm = new BayerMatrix();
-//        private MosaicAlgorithm m_mosaicAlgorithm = new NearestColor();
+        private MosaicAlgorithm m_mosaicAlgorithm = new FloydSteinberg();
         private LdrawService m_ldrawService;
 
         public string Name { get; set; }
@@ -71,7 +69,11 @@ namespace TeethInc.Chantry.Core
             set { MosaicService.AllowedColors = value; }
         }
 
-        public MosaicAlgorithm MosaicAlgorithm => m_mosaicAlgorithm;
+        public MosaicAlgorithm MosaicAlgorithm
+        {
+            get { return m_mosaicAlgorithm; }
+            set { m_mosaicAlgorithm = value; }
+        }
 
         [JsonIgnore]
         public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, m_mosaicAlgorithm);
