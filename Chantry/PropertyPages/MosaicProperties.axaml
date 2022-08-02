@@ -123,7 +123,8 @@
 					</ListBox.Styles>
 					<ListBox.ItemTemplate>
 						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
+							<StackPanel Orientation="Horizontal"
+										Background="Transparent">
 								<i:Interaction.Behaviors>
 									<ia:EventTriggerBehavior EventName="DoubleTapped">
 										<ia:InvokeCommandAction Command="{Binding $parent[ListBox].DataContext.AddAllowedColorCommand}"
@@ -159,7 +160,8 @@
 					</ListBox.Styles>
 					<ListBox.ItemTemplate>
 						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
+							<StackPanel Orientation="Horizontal"
+										Background="Transparent">
 								<i:Interaction.Behaviors>
 									<ia:EventTriggerBehavior EventName="DoubleTapped">
 										<ia:InvokeCommandAction Command="{Binding $parent[ListBox].DataContext.RemoveAllowedColorCommand}"
