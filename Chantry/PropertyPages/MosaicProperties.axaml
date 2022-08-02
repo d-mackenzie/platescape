@@ -2,8 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TeethInc.Chantry.PropertyPages.MosaicPage"
+			 xmlns:i="using:Avalonia.Xaml.Interactivity"		
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TeethInc.Chantry.PropertyPages.MosaicProperties"
+			 xmlns:local="clr-namespace:TeethInc.Chantry"
              xmlns:converters="clr-namespace:TeethInc.Chantry.Converters">
 
     <UserControl.Resources>
@@ -121,6 +124,12 @@
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
+								<i:Interaction.Behaviors>
+									<ia:EventTriggerBehavior EventName="DoubleTapped">
+										<ia:InvokeCommandAction Command="{Binding $parent[ListBox].DataContext.AddAllowedColorCommand}"
+																CommandParameter="{Binding}"/>
+									</ia:EventTriggerBehavior>
+								</i:Interaction.Behaviors>
 								<Rectangle Width="12"
 										   Height="12"
 										   Stroke="Black"
@@ -151,6 +160,12 @@
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
+								<i:Interaction.Behaviors>
+									<ia:EventTriggerBehavior EventName="DoubleTapped">
+										<ia:InvokeCommandAction Command="{Binding $parent[ListBox].DataContext.RemoveAllowedColorCommand}"
+																CommandParameter="{Binding}"/>
+									</ia:EventTriggerBehavior>
+								</i:Interaction.Behaviors>										
 								<Rectangle Width="12"
 										   Height="12"
 										   Stroke="Black"

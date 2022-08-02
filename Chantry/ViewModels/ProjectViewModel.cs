@@ -175,9 +175,17 @@ namespace TeethInc.Chantry.ViewModels
             RaiseFilterPropertyChanged();
         }
 
-        public void AddAllowedColorCommand(int ldColorNumber)
+        public void AddAllowedColorCommand(LdColor ldColor)
         {
-            m_project.AllowedColors = m_project.AllowedColors.Concat(new int[] { ldColorNumber }).ToArray();
+            m_project.AllowedColors = m_project.AllowedColors.Concat(new int[] { ldColor.Number }).ToArray();
+            RaisePropertyChanged(nameof(AvailableColors));
+            RaisePropertyChanged(nameof(AllowedColors));
+            RaiseMosaicPropertiesChanged();
+        }
+
+        public void RemoveAllowedColorCommand(LdColor ldColor)
+        {
+            m_project.AllowedColors = m_project.AllowedColors.ToList().Where(x => x != ldColor.Number).ToArray();
             RaisePropertyChanged(nameof(AvailableColors));
             RaisePropertyChanged(nameof(AllowedColors));
             RaiseMosaicPropertiesChanged();

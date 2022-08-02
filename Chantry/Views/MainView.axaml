@@ -66,7 +66,7 @@
             <TabItem Header="Mosaic"
 					 FontSize="12"
 					 Padding="5">
-                <propertypages:MosaicPage DataContext="{Binding}"/>
+                <propertypages:MosaicProperties DataContext="{Binding}"/>
             </TabItem>
 
             <TabItem Header="Edits"

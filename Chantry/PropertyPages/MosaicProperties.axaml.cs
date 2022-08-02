@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace TeethInc.Chantry.PropertyPages
 {
-    public partial class MosaicPage : UserControl
+    public partial class MosaicProperties : UserControl
     {
-        public MosaicPage()
+        public MosaicProperties()
         {
             InitializeComponent();
         }
