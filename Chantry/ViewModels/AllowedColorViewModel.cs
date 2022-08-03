@@ -9,13 +9,13 @@ namespace TeethInc.Chantry.ViewModels
 {
     public class AllowedColorViewModel
     {
-        public bool IsAllowed { get; set; }
         public LdColor LdColor { get; set; }
+        public bool IsAllowed { get; set; }
 
-        public AllowedColorViewModel(bool isAllowed, LdColor ldColor)
+        public AllowedColorViewModel(LdColor ldColor, bool isAllowed)
         {
-            IsAllowed = isAllowed;
             LdColor = ldColor;
+            IsAllowed = isAllowed;
         }
     }
 }

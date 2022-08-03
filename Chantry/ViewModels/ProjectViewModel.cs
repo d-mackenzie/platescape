@@ -60,8 +60,9 @@ namespace TeethInc.Chantry.ViewModels
 
         public List<LdPart> Baseplates => m_ldrawService.Baseplates;
         public List<LdPart> Elements => m_ldrawService.Elements;
-        public List<LdColor> AvailableColors => m_ldrawService.Colors.OrderBy(x => x.Name).Where(x => !m_project.AllowedColors.Contains(x.Number)).ToList();
-        public List<LdColor> AllowedColors => m_ldrawService.Colors.OrderBy(x => x.Name).Where(x => m_project.AllowedColors.Contains(x.Number)).ToList();
+        public List<AllowedColorViewModel> Colors =>
+            m_ldrawService.Colors.Select(x =>
+                new AllowedColorViewModel(x, m_project.AllowedColors.Contains(x.Number))).OrderBy(x => x.LdColor.Name).ToList();
 
         public LdPart Baseplate
         {
@@ -175,19 +176,22 @@ namespace TeethInc.Chantry.ViewModels
             RaiseFilterPropertyChanged();
         }
 
-        public void AddAllowedColorCommand(LdColor ldColor)
+        public void ToggleColorCommand(AllowedColorViewModel color)
         {
-            m_project.AllowedColors = m_project.AllowedColors.Concat(new int[] { ldColor.Number }).ToArray();
-            RaisePropertyChanged(nameof(AvailableColors));
-            RaisePropertyChanged(nameof(AllowedColors));
-            RaiseMosaicPropertiesChanged();
-        }
+            int number = color.LdColor.Number;
 
-        public void RemoveAllowedColorCommand(LdColor ldColor)
-        {
-            m_project.AllowedColors = m_project.AllowedColors.ToList().Where(x => x != ldColor.Number).ToArray();
-            RaisePropertyChanged(nameof(AvailableColors));
-            RaisePropertyChanged(nameof(AllowedColors));
+            if (m_project.AllowedColors.Contains(number))
+            {
+                Debug.WriteLine("remove color");
+                m_project.AllowedColors = m_project.AllowedColors.Where(x => x != number).ToArray();
+            }
+            else
+            {
+                Debug.WriteLine("add color");
+                m_project.AllowedColors = m_project.AllowedColors.Concat(new int[] { number }).ToArray();
+            }
+            
+            RaisePropertyChanged(nameof(Colors));
             RaiseMosaicPropertiesChanged();
         }
 
