@@ -140,7 +140,7 @@ namespace TeethInc.Chantry.ViewModels
 
         public double ZoomMultiplier
         {
-            get { return m_project.FilteredImage.Info.Size.GetScaleToFill(Mosaic.Image.Info.Size); }
+            get { return m_project.FilteredImage.Info.Size.GetScaleToFill(m_project.Mosaic.Image.Info.Size); }
         }
 
         public ProjectViewModel(Project project)

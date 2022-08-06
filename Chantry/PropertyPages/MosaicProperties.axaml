@@ -123,41 +123,25 @@
 				</ListBox.ItemsPanel>
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<Grid ColumnDefinitions="25"
-							  RowDefinitions="25"
-							  Background="Transparent">
-
-							<i:Interaction.Behaviors>
-								<ia:EventTriggerBehavior EventName="PointerReleased">
-									<ia:InvokeCommandAction Command="{Binding $parent[ListBox].DataContext.ToggleColorCommand}"
-															CommandParameter="{Binding}"/>
-								</ia:EventTriggerBehavior>
-							</i:Interaction.Behaviors>
-
-							<Rectangle Width="25"
-										Height="25"
-										Stroke="Black"
-										StrokeThickness="1"
-										Fill="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"
-									    Grid.Column="0"
-									    Grid.Row="0"
-									    VerticalAlignment="Center">
-							</Rectangle>
-							
-							<Path Data="M 5 8 L 10 13 L 21 0"
-								  Stroke="{Binding TickColor, Converter={StaticResource ColorToBrushConverter}}"
-								  StrokeThickness="3"
-								  Grid.Column="0"
-								  Grid.Row="0"
-								  VerticalAlignment="Center"
-								  IsVisible="{Binding IsAllowed}"/>
-							
-							<!--<TextBlock Text="{Binding LdColor.Name}"
-									   Grid.Column="1"
-									   Grid.Row="0"
-									   Padding="5,0,0,0"
-									   FontWeight="{Binding IsAllowed, Converter={StaticResource BoolToBoldConverter}}"/>-->
-						</Grid>
+						<Button Width="25"
+								Height="25"
+								Background="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"
+								Grid.Column="0"
+								Grid.Row="0"
+								Padding="0"
+								Command="{Binding DataContext.ToggleColorCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+								CommandParameter="{Binding}"
+								ToolTip.Tip="{Binding LdColor.Name}">
+							<Button.Content>
+								<Path Data="M 5 8 L 10 13 L 20 0"
+										Stroke="{Binding TickColor, Converter={StaticResource ColorToBrushConverter}}"
+										StrokeThickness="3"
+										Grid.Column="0"
+										Grid.Row="0"
+										VerticalAlignment="Center"
+										IsVisible="{Binding IsAllowed}"/>
+							</Button.Content>
+						</Button>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
