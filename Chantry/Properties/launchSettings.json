@@ -5,11 +5,15 @@
     },
     "Open Dan": {
       "commandName": "Project",
-      "commandLineArgs": "c:\\temp\\dan-cropped.png"
+      "commandLineArgs": "c:\\dev\\chantry\\samples\\dan-cropped.png"
     },
     "Open Eric": {
       "commandName": "Project",
-      "commandLineArgs": "c:\\temp\\eric-avatar.jpg"
+      "commandLineArgs": "c:\\dev\\chantry\\samples\\eric-avatar.jpg"
+    },
+    "Open Village": {
+      "commandName": "Project",
+      "commandLineArgs": "c:\\dev\\chantry\\samples\\village.jpg"
     }
   }
 }

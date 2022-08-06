@@ -9,6 +9,24 @@ namespace TeethInc.Chantry.Core.Ldraw
         public string Name { get; }
         public SKColor Color { get; }
 
+        public bool IsDarkColor
+        {
+            get
+            {
+                Color.ToHsl(out float h, out float s, out float l);
+                return l <= 50;
+            }
+        }
+
+        public float Hue
+        {
+            get
+            {
+                Color.ToHsl(out float h, out float s, out float l);
+                return h;
+            }
+        }
+
         public LdColor(int number, string name, string rgbHex)
         {
             Number = number;

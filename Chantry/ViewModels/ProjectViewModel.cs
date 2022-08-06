@@ -62,7 +62,7 @@ namespace TeethInc.Chantry.ViewModels
         public List<LdPart> Elements => m_ldrawService.Elements;
         public List<AllowedColorViewModel> Colors =>
             m_ldrawService.Colors.Select(x =>
-                new AllowedColorViewModel(x, m_project.AllowedColors.Contains(x.Number))).OrderBy(x => x.LdColor.Name).ToList();
+                new AllowedColorViewModel(x, m_project.AllowedColors.Contains(x.Number))).OrderBy(x => x.LdColor.Hue).ToList();
 
         public LdPart Baseplate
         {
@@ -182,12 +182,10 @@ namespace TeethInc.Chantry.ViewModels
 
             if (m_project.AllowedColors.Contains(number))
             {
-                Debug.WriteLine("remove color");
                 m_project.AllowedColors = m_project.AllowedColors.Where(x => x != number).ToArray();
             }
             else
             {
-                Debug.WriteLine("add color");
                 m_project.AllowedColors = m_project.AllowedColors.Concat(new int[] { number }).ToArray();
             }
             
@@ -239,7 +237,7 @@ namespace TeethInc.Chantry.ViewModels
         private void RaiseMosaicPropertiesChanged()
         {
             RaisePropertyChanged(nameof(MosaicImage));
-            RaisePropertyChanged(nameof(Mosaic));
+//            RaisePropertyChanged(nameof(Mosaic));
             RaisePropertyChanged(nameof(SizeInfo));
         }
 

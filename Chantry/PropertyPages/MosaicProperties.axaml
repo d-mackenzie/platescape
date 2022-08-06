@@ -11,7 +11,8 @@
 
     <UserControl.Resources>
         <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
-    </UserControl.Resources>
+		<converters:BoolToBoldConverter x:Key="BoolToBoldConverter"/>
+	</UserControl.Resources>
     
     <ScrollViewer AllowAutoHide="False">
 
@@ -107,17 +108,23 @@
 
 			<ListBox MaxHeight="400"
 						Items="{Binding Colors}"
-						Margin="0,0,5,0">
+						Margin="0,0,5,0"
+						Background="Transparent">
 				<ListBox.Styles>
 					<Style Selector="ListBoxItem">
 						<Setter Property="Padding"
-								Value="5,1,10,1"/>
+								Value="2"/>
 					</Style>
 				</ListBox.Styles>
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel />
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<Grid ColumnDefinitions="19,*"
-							  RowDefinitions="Auto"
+						<Grid ColumnDefinitions="25"
+							  RowDefinitions="25"
 							  Background="Transparent">
 
 							<i:Interaction.Behaviors>
@@ -127,8 +134,8 @@
 								</ia:EventTriggerBehavior>
 							</i:Interaction.Behaviors>
 
-							<Rectangle Width="15"
-										Height="15"
+							<Rectangle Width="25"
+										Height="25"
 										Stroke="Black"
 										StrokeThickness="1"
 										Fill="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"
@@ -137,17 +144,19 @@
 									    VerticalAlignment="Center">
 							</Rectangle>
 							
-							<Path Data="M 5 5 L 8 8 L 14 0"
-								  Stroke="Black"
-								  StrokeThickness="2"
+							<Path Data="M 5 8 L 10 13 L 21 0"
+								  Stroke="{Binding TickColor, Converter={StaticResource ColorToBrushConverter}}"
+								  StrokeThickness="3"
 								  Grid.Column="0"
 								  Grid.Row="0"
 								  VerticalAlignment="Center"
 								  IsVisible="{Binding IsAllowed}"/>
 							
-							<TextBlock Text="{Binding LdColor.Name}"
+							<!--<TextBlock Text="{Binding LdColor.Name}"
 									   Grid.Column="1"
-									   Grid.Row="0"/>
+									   Grid.Row="0"
+									   Padding="5,0,0,0"
+									   FontWeight="{Binding IsAllowed, Converter={StaticResource BoolToBoldConverter}}"/>-->
 						</Grid>
 					</DataTemplate>
 				</ListBox.ItemTemplate>

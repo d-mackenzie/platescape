@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Avalonia.Media;
+using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,8 @@ namespace TeethInc.Chantry.ViewModels
     {
         public LdColor LdColor { get; set; }
         public bool IsAllowed { get; set; }
+
+        public SKColor TickColor => LdColor.IsDarkColor ? SKColors.White : SKColors.Black;
 
         public AllowedColorViewModel(LdColor ldColor, bool isAllowed)
         {
