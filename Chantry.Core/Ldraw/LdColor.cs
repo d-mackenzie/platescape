@@ -9,6 +9,8 @@ namespace TeethInc.Chantry.Core.Ldraw
         public string Name { get; }
         public SKColor Color { get; }
 
+        public string DisplayName => $"{Name} ({Number})";
+
         public bool IsDarkColor
         {
             get
