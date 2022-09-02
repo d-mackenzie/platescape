@@ -18,5 +18,4 @@ pipelines:
             script:
               - REPORTS_PATH=./build_${BITBUCKET_BUILD_NUMBER}
               - dotnet restore
-              - dotnet publish -c Release -r osx-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -p:PublishTrimmed=true
               - dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true
