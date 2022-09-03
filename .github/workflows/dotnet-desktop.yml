@@ -18,12 +18,10 @@ jobs:
       with:
         fetch-depth: 0
 
-    # Install the .NET Core workload
     - name: Install .NET Core
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
 
-    # Create the app package by building and packaging the Windows Application Packaging project
     - name: Create the app package
-      run: dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true --self-contained
+      run: dotnet publish $GITHUB_WORKSPACE/Chantry/Chantry.csproj -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true --self-contained
