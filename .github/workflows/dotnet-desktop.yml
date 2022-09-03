@@ -24,4 +24,4 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Create the app package
-      run: dotnet publish Chantry.sln -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true --self-contained true --output ./publish
+      run: dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true --self-contained true --output ./publish
