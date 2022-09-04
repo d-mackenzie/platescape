@@ -26,9 +26,16 @@ jobs:
 
     - name: Create the app package
       run: dotnet publish Chantry/Chantry.csproj -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -p:PublishTrimmed=true --self-contained true --output ./publish
+      run: dotnet publish Chantry/Chantry.csproj -c Release -r osx-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -p:PublishTrimmed=true --self-contained true --output ./publish
       
-    - name: Upload Chantry.exe
+    - name: Upload Windows artifact
       uses: actions/upload-artifact@v3
       with:
         name: chantry-win-x64
         path: ./publish/Chantry.exe
+
+    - name: Upload MacOS artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: chantry-osx-x64
+        path: ./publish/Chantry
