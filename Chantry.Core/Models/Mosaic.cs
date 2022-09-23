@@ -1,7 +1,7 @@
 ﻿using SkiaSharp;
 using TeethInc.Chantry.Core.Ldraw;
 
-namespace TeethInc.Chantry.Core.Services
+namespace TeethInc.Chantry.Core.Models
 {
     public class Mosaic
     {

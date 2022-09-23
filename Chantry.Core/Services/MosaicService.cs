@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Ldraw;
+using TeethInc.Chantry.Core.Models;
 using TeethInc.Chantry.Core.MosaicAlgorithms;
 
 namespace TeethInc.Chantry.Core.Services
@@ -104,23 +105,23 @@ namespace TeethInc.Chantry.Core.Services
             {
                 SKBitmap mosaic = new SKBitmap(ElementExtent.Width, ElementExtent.Height);
 
-                    SKPointI topLeft = new SKPointI(
-                        (source.Width - mosaic.Width) / 2,
-                        (source.Height - mosaic.Height) / 2);
+                SKPointI topLeft = new SKPointI(
+                    (source.Width - mosaic.Width) / 2,
+                    (source.Height - mosaic.Height) / 2);
 
-                    var sourcePixels = source.Pixels;
-                    var mosaicPixels = mosaic.Pixels;
+                var sourcePixels = source.Pixels;
+                var mosaicPixels = mosaic.Pixels;
 
-                    for (int y = 0; y < ElementExtent.Height; y++)
+                for (int y = 0; y < ElementExtent.Height; y++)
+                {
+                    for (int x = 0; x < ElementExtent.Width; x++)
                     {
-                        for (int x = 0; x < ElementExtent.Width; x++)
-                        {
-                            SKColor color = sourcePixels[source.GetPixelIndex(topLeft.X + x, topLeft.Y + y)];
-                            LdColor ldColor = mosaicAlgorithm.GetColor(x, y, color, m_colorService);
-                            colors[x, y] = ldColor;
-                            mosaicPixels[mosaic.GetPixelIndex(x, y)] = ldColor.Color;
-                        }
+                        SKColor color = sourcePixels[source.GetPixelIndex(topLeft.X + x, topLeft.Y + y)];
+                        LdColor ldColor = mosaicAlgorithm.GetColor(x, y, color, m_colorService);
+                        colors[x, y] = ldColor;
+                        mosaicPixels[mosaic.GetPixelIndex(x, y)] = ldColor.Color;
                     }
+                }
 
                 mosaic.Pixels = mosaicPixels;
                 mosaic = mosaic.Resize(StudExtent, SKFilterQuality.None);

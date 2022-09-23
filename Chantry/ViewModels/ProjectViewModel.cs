@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Linq;
 using TeethInc.Chantry.Core.Sources;
 using TeethInc.Chantry.Extensions;
-using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.Extensions;
 using System.Collections.ObjectModel;
@@ -19,6 +18,7 @@ using System.Diagnostics;
 using System;
 using TeethInc.Chantry.Services;
 using TeethInc.Chantry.Core.MosaicAlgorithms;
+using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.ViewModels
 {

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,7 +30,7 @@ namespace TeethInc.Chantry.Core.Ldraw
             m_parts.Add(new LdPartLine(ldPart, ldColor, x, y, z));
         }
 
-        public IEnumerable<string> ToList()
+        public IEnumerable<string> AsEnumerable()
         {
             List<string> headers = new List<string>
             {
@@ -45,9 +47,9 @@ namespace TeethInc.Chantry.Core.Ldraw
 
             public LdColor LdColor { get; }
 
-            public int X { get; }
-            public int Y { get; }
-            public int Z { get; }
+            public int X { get; private set; }
+            public int Y { get; private set; }
+            public int Z { get; private set; }
 
             public LdPartLine(LdPart ldPart, LdColor ldColor, int x, int y, int z)
             {

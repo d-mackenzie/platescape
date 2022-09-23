@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using TeethInc.Chantry.Core.Converters;
+using TeethInc.Chantry.Core.Exporters;
 using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.MosaicAlgorithms;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
 
-namespace TeethInc.Chantry.Core
+namespace TeethInc.Chantry.Core.Models
 {
     public class Project
     {
@@ -106,13 +107,15 @@ namespace TeethInc.Chantry.Core
 
         public void ExportLdraw(string filename)
         {
-            Mosaic mosaic = Mosaic;
-
             var sw = Stopwatch.StartNew();
 
-            var ldFile = m_ldrawService.GetLdrawFile(mosaic);
-            File.WriteAllLines(filename, ldFile.ToList());
+            var exportService = new ExportService();
 
+            exportService.Export(
+                Mosaic,
+                new ExportSettings() { Filename = filename },
+                new LdrawExporter());
+                
             Debug.WriteLine($"Saved to {filename}: {sw.ElapsedMilliseconds}ms.");
         }
 

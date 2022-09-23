@@ -2,5 +2,5 @@
 
 namespace TeethInc.Chantry.Core.Ldraw
 {
-    public record LdPart(string Number, string Name, SKSizeI Size);
+    public record LdPart(string Number, string Name, SKSizeI Size, int Depth);
 }

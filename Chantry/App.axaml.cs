@@ -8,13 +8,13 @@ using TeethInc.Chantry.Extensions;
 using TeethInc.Chantry.Helpers;
 using TeethInc.Chantry.ViewModels;
 using TeethInc.Chantry.Views;
-using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
 using TeethInc.Chantry.Services;
 using TeethInc.Chantry.Filters.ViewModels;
 using TeethInc.Chantry.Filters.Views;
+using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry
 {

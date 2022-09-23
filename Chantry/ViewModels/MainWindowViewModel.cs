@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using TeethInc.Chantry.Helpers;
-using TeethInc.Chantry.Core;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Views;
+using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.ViewModels
 {

@@ -5,7 +5,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using SkiaSharp;
 using System.Collections.Generic;
-using TeethInc.Chantry.Core.Services;
+using TeethInc.Chantry.Core.Models;
 using TeethInc.Chantry.Extensions;
 
 namespace TeethInc.Chantry.UserControls
