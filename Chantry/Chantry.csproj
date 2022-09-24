@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace>TeethInc.Chantry</RootNamespace>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.17" />
@@ -43,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\splash.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\app.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
