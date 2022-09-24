@@ -17,15 +17,27 @@ namespace TeethInc.Chantry.Console
 {
     class Program
     {
-
-        private const int BASEPLATE_32 = 3811;
-        private const int BASEPLATE_48 = 4186;
-
         static void Main(string[] args)
         {
             Project project = Project.CreateSimpleProject(@"c:\temp\eric-avatar.jpg");
-            project.BaseplateExtent = new SKSizeI(1, 1);
-            project.ExportLdraw(@"c:\temp\eric.ldr");
+            project.BaseplateExtent = new SKSizeI(2, 2);
+
+            ExportSettings settings = new ExportSettings()
+            {
+                ExportFolder = @"c:\temp",
+                FilenamePattern = "eric_row_{row}_col_{col}.ldr",
+                OneFilePerBaseplate = true
+            };
+
+            project.ExportLdraw(settings);
+
+            settings = new ExportSettings()
+            {
+                Filename = @"c:\temp\eric.ldr",
+                OneFilePerBaseplate = false
+            };
+
+            project.ExportLdraw(settings);
         }
     }
 }

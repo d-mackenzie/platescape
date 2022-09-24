@@ -1,5 +1,6 @@
 ﻿using SkiaSharp;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace TeethInc.Chantry.Core.Extensions
 {
@@ -20,6 +21,14 @@ namespace TeethInc.Chantry.Core.Extensions
         public static int GetPixelIndex(this SKBitmap bitmap, int x, int y)
         {
             return (y * bitmap.Width) + x;
+        }
+
+        public static SKBitmap GetRect(this SKBitmap bitmap, SKRectI rect)
+        {
+            using var ret = new SKBitmap(rect.Width, rect.Height);
+            bitmap.ExtractSubset(ret, rect);
+
+            return ret;
         }
     }
 }

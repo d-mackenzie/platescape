@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TeethInc.Chantry.Core.Helpers
 {
-    public class MathHelper
+    public static class MathHelper
     {
         public static byte Lerp(byte first, byte second, double by)
         {

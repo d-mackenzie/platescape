@@ -105,18 +105,14 @@ namespace TeethInc.Chantry.Core.Models
             return project;
         }
 
-        public void ExportLdraw(string filename)
+        public void ExportLdraw(ExportSettings settings)
         {
-            var sw = Stopwatch.StartNew();
-
             var exportService = new ExportService();
 
             exportService.Export(
                 Mosaic,
-                new ExportSettings() { Filename = filename },
+                settings,
                 new LdrawExporter());
-                
-            Debug.WriteLine($"Saved to {filename}: {sw.ElapsedMilliseconds}ms.");
         }
 
         // private properties.

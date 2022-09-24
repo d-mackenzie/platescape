@@ -220,7 +220,7 @@ namespace TeethInc.Chantry.ViewModels
             if (string.IsNullOrEmpty(filename))
                 return;
 
-            m_project.ExportLdraw(filename);
+            m_project.ExportLdraw(null);
         }
 
         private void RaiseFilterPropertyChanged()
