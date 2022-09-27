@@ -10,6 +10,6 @@
 							   Mosaic="{Binding Mosaic}"
 							   Pan="{Binding Path=Pan, Mode=TwoWay}"
                                Zoom="{Binding Path=Zoom, Mode=TwoWay}"
-                               ZoomMultiplier = "1" />
+                               ZoomMultiplier="1" />
 
 </UserControl>

@@ -9,6 +9,6 @@
 	<usercontrols:ImageViewer Source="{Binding UnfilteredImage}"
 							  Pan="{Binding Path=Pan, Mode=TwoWay}"
                               Zoom="{Binding Path=Zoom, Mode=TwoWay}"
-						      ZoomMultiplier = "{Binding ZoomMultiplier}" />
+						      ZoomMultiplier="{Binding ZoomMultiplier}" />
 
 </UserControl>

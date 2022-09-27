@@ -53,4 +53,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="UserControls\ExportSettingsControl.axaml" />
+  </ItemGroup>
 </Project>

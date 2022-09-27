@@ -3,13 +3,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="300"
-        x:Class="TeethInc.Chantry.Views.ExportLdrawView"
+		xmlns:usercontrols="clr-namespace:TeethInc.Chantry.UserControls"
+		x:Class="TeethInc.Chantry.Views.ExportLdrawView"
         Title="Export LDRAW"
+		Icon="/Assets/app.ico"
 		Width="600"
 		MinHeight="450"
 		MaxHeight="450">
 
-	<Grid Margin="20">
+	<Grid Margin="20 0 20 20">
 		
 		<Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -19,28 +21,19 @@
 
 		<Label Grid.Row="0"
 			   Content="Export LDRAW"
-			   FontSize="36"/>
+			   FontSize="24"/>
 		
 		<StackPanel Grid.Row="1">
+		
+			<usercontrols:ExportSettingsControl DataContext="{Binding ExportSettingsViewModel}"/>
 			
-			<RadioButton Content="Export as a single file:"/>
-
-				<Label Content="Filename:"/>
-				<TextBox/>
-			
-			<RadioButton Content="Export one file per baseplate:"/>
-
-				<Label Content="Select Folder:"/>
-				<TextBox/>
-
-				<Label Content="Filename Format:"/>
-				<TextBox/>
-			
-			<CheckBox Content="Include baseplate"/>
+			<CheckBox Content="Include baseplate"
+					  IsChecked="{Binding IncludeBaseplate}"/>
 
 		</StackPanel>
 
 		<Button Content="Export"
+				IsEnabled="{Binding ExportSettingsViewModel.IsValid}"
 				Grid.Row="2"/>
 
 	</Grid>
