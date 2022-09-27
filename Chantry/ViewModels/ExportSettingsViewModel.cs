@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Helpers;
 using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.ViewModels
 {
     internal class ExportSettingsViewModel : BaseViewModel
     {
-        private ExportSettings m_exportSettings = new ExportSettings();
+        private ExportSettings m_exportSettings = new ExportSettings()
+        {
+            FilenamePattern = "R{row}-C{col}.ldr"
+        };
 
         public string Filename
         {
@@ -32,7 +36,40 @@ namespace TeethInc.Chantry.ViewModels
         public string FilenamePattern
         {
             get { return m_exportSettings.FilenamePattern; }
-            set { m_exportSettings.FilenamePattern = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
+            set
+            { 
+               m_exportSettings.FilenamePattern = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(IsValid));
+                RaisePropertyChanged(nameof(ExampleFilenames));
+            }
+        }
+
+        public string ExampleFilenames
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(FilenamePattern))
+                    return "";
+
+                var sb = new StringBuilder();
+
+                sb.Append(FilenamePatternHelper.BuildFilename(FilenamePattern, 1, 1));
+                sb.Append(Environment.NewLine);
+                sb.Append(FilenamePatternHelper.BuildFilename(FilenamePattern, 1, 2));
+                sb.Append(Environment.NewLine);
+                sb.Append(FilenamePatternHelper.BuildFilename(FilenamePattern, 1, 3));
+                sb.Append(Environment.NewLine);
+                sb.Append("...");
+                sb.Append(Environment.NewLine);
+                sb.Append(FilenamePatternHelper.BuildFilename(FilenamePattern, 6, 4));
+                sb.Append(Environment.NewLine);
+                sb.Append(FilenamePatternHelper.BuildFilename(FilenamePattern, 6, 5));
+                sb.Append(Environment.NewLine);
+                sb.Append(FilenamePatternHelper.BuildFilename(FilenamePattern, 6, 6));
+
+                return sb.ToString();
+            }
         }
 
         public bool IsValid

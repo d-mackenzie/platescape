@@ -12,8 +12,8 @@ namespace TeethInc.Chantry.Core.Helpers
     {
         public static string BuildFilename(string filenamePattern, int row, int column)
         {
-            string filename = filenamePattern.Replace("{row}", row.ToString(), true, CultureInfo.InvariantCulture);
-            filename = filename.Replace("{col}", column.ToString(), true, CultureInfo.InvariantCulture);
+            string filename = filenamePattern.Replace("{row}", row.ToString("00"), true, CultureInfo.InvariantCulture);
+            filename = filename.Replace("{col}", column.ToString("00"), true, CultureInfo.InvariantCulture);
 
             return filename;
         }
