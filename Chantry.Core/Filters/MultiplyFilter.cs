@@ -15,7 +15,7 @@ namespace TeethInc.Chantry.Core.Filters
             Factor = 1;
         }
 
-        public override void ApplyFilter(SKBitmap image)
+        protected override void ApplyFilter(SKBitmap image)
         {
             image.ApplyFilter(GetAdjustedPixel);
         }

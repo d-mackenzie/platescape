@@ -15,6 +15,14 @@ namespace TeethInc.Chantry.Core.Filters
         [JsonIgnore]
         public abstract string DisplayName { get; }
 
-        public abstract void ApplyFilter(SKBitmap image);
+        protected abstract void ApplyFilter(SKBitmap image);
+
+        public void ApplyTo(SKBitmap image)
+        {
+            if (Enabled)
+            {
+                ApplyFilter(image);
+            }
+        }
     }
 }

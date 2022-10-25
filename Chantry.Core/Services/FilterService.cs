@@ -37,8 +37,7 @@ namespace TeethInc.Chantry.Core.Services
 
             foreach (Filter filter in Filters)
             {
-                if (filter.Enabled)
-                    filter.ApplyFilter(image);
+                filter.ApplyTo(image);
             }
 
             return image;

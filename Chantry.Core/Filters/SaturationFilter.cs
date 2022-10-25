@@ -36,7 +36,7 @@ namespace TeethInc.Chantry.Core.Filters
             return ret;
         }
 
-        public override void ApplyFilter(SKBitmap image)
+        protected override void ApplyFilter(SKBitmap image)
         {
             image.ApplyFilter(GetSaturationPixel);
         }
