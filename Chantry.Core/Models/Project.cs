@@ -83,7 +83,7 @@ namespace TeethInc.Chantry.Core.Models
         {
             get
             {
-                m_exportLdrawSettings = m_exportLdrawSettings ?? GetDefaultExportFileSettings<ExportLdrawSettings>("ldr");
+                m_exportLdrawSettings = m_exportLdrawSettings ?? GetDefaultExportFileSettings<ExportLdrawSettings>();
                 return m_exportLdrawSettings;
             }
         }
@@ -138,7 +138,7 @@ namespace TeethInc.Chantry.Core.Models
             }
         }
 
-        private T GetDefaultExportFileSettings<T>(string extension) where T : IExportSettings
+        private T GetDefaultExportFileSettings<T>() where T : IExportSettings
         {
             T ret = (T)Activator.CreateInstance(typeof(T));
 
@@ -146,8 +146,9 @@ namespace TeethInc.Chantry.Core.Models
             {
                 case FileSource fileSource:
 
-                    string filename = Path.ChangeExtension(fileSource.Filename, extension);
-                    ret.Filename = filename;
+                    ret.Filename = Path.ChangeExtension(fileSource.Filename, "ldr");
+                    ret.ExportFolder = Path.GetDirectoryName(fileSource.Filename);
+                    ret.FilenamePattern = Path.GetFileNameWithoutExtension(fileSource.Filename) + "_row{row}_col{col}.ldr";
                     break;
             }
 
