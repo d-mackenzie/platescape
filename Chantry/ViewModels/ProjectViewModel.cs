@@ -143,6 +143,8 @@ namespace TeethInc.Chantry.ViewModels
             get { return m_project.FilteredImage.Info.Size.GetScaleToFill(m_project.Mosaic.Image.Info.Size); }
         }
 
+        public Project Project => m_project;
+
         public ProjectViewModel(Project project)
         {
             m_ldrawService = new LdrawService();
@@ -193,15 +195,6 @@ namespace TeethInc.Chantry.ViewModels
             RaiseMosaicPropertiesChanged();
         }
 
-        public async void ExportLdraw()
-        {
-            IFileDialog fileDialog = new FileDialog();
-
-            await fileDialog
-                .ShowSaveDialog($"{m_project.Name}.ldr")
-                .ContinueWith(x => ExportLdrawHandler(x?.Result));
-        }
-
         public void SerializeProject(string filename)
         {
             string json = ProjectService.SerializeProject(m_project);
@@ -213,14 +206,6 @@ namespace TeethInc.Chantry.ViewModels
             IFilterViewModel viewModel = FilterViewResolver.ConstructFilterViewModel(filter);
             viewModel.PropertyChanged += FilterPropertyChanged;
             Filters.Add(viewModel);
-        }
-
-        private void ExportLdrawHandler(string? filename)
-        {
-            if (string.IsNullOrEmpty(filename))
-                return;
-
-            m_project.ExportLdraw(null);
         }
 
         private void RaiseFilterPropertyChanged()

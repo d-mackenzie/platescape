@@ -22,22 +22,22 @@ namespace TeethInc.Chantry.Console
             Project project = Project.CreateSimpleProject(@"c:\temp\eric-avatar.jpg");
             project.BaseplateExtent = new SKSizeI(2, 2);
 
-            ExportSettings settings = new ExportSettings()
+            ExportSettings settings = new ExportLdrawSettings()
             {
                 ExportFolder = @"c:\temp",
                 FilenamePattern = "eric_row_{row}_col_{col}.ldr",
                 OneFilePerBaseplate = true
             };
 
-            project.ExportLdraw(settings);
+            project.Export(settings);
 
-            settings = new ExportSettings()
+            settings = new ExportLdrawSettings()
             {
                 Filename = @"c:\temp\eric.ldr",
                 OneFilePerBaseplate = false
             };
 
-            project.ExportLdraw(settings);
+            project.Export(settings);
         }
     }
 }

@@ -23,17 +23,13 @@
 			   Content="Export LDRAW"
 			   FontSize="24"/>
 		
-		<StackPanel Grid.Row="1">
-		
+		<StackPanel Grid.Row="1">		
 			<usercontrols:ExportSettingsControl DataContext="{Binding ExportSettingsViewModel}"/>
-			
-			<CheckBox Content="Include baseplate"
-					  IsChecked="{Binding IncludeBaseplate}"/>
-
 		</StackPanel>
 
 		<Button Content="Export"
 				IsEnabled="{Binding ExportSettingsViewModel.IsValid}"
+				Command="{Binding ExportCommand}"
 				Grid.Row="2"/>
 
 	</Grid>

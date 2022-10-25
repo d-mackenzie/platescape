@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TeethInc.Chantry.Core.Models
 {
-    public class ExportSettings
+    public abstract class ExportSettings : IExportSettings
     {
         public string Filename { get; set; }
 
@@ -21,7 +21,15 @@ namespace TeethInc.Chantry.Core.Models
             OneFilePerBaseplate = false;
         }
 
-        public bool IsValid()
+        public virtual bool IsValid
+        {
+            get
+            {
+                return IsFilenameSettingsValid() && IsSettingsValid();
+            }
+        }
+
+        private bool IsFilenameSettingsValid()
         {
             if (OneFilePerBaseplate)
             {
@@ -32,6 +40,11 @@ namespace TeethInc.Chantry.Core.Models
             {
                 return !string.IsNullOrWhiteSpace(Filename);
             }
+        }
+
+        protected virtual bool IsSettingsValid()
+        {
+            return true;
         }
     }
 }

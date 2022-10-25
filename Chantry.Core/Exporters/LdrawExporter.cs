@@ -11,7 +11,12 @@ namespace TeethInc.Chantry.Core.Exporters
 {
     public class LdrawExporter : IExporter
     {
-        public bool IncludeBaseplate { get; set; }
+        private readonly ExportLdrawSettings m_exportLdrawSettings;
+
+        public LdrawExporter(ExportLdrawSettings exportLdrawSettings)
+        {
+            m_exportLdrawSettings = exportLdrawSettings;
+        }
 
         public void Export(Mosaic mosaic, Stream stream)
         {

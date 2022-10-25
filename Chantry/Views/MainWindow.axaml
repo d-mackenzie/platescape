@@ -26,8 +26,6 @@
                 
 					<MenuItem Header="LDRAW"
 					          Command="{Binding ExportLdrawCommand}"/>
-					<MenuItem Header="PNG"/>
-					<MenuItem Header="SVG"/>
 
 				</MenuItem>
 

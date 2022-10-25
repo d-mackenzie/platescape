@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -17,8 +18,9 @@ namespace TeethInc.Chantry.Core.Models
         private ISource m_source;
         private FilterService m_filterService;
         private MosaicService m_mosaicService;
-        private MosaicAlgorithm m_mosaicAlgorithm = new FloydSteinberg();
         private LdrawService m_ldrawService;
+
+        private ExportLdrawSettings m_exportLdrawSettings;
 
         public string Name { get; set; }
 
@@ -70,23 +72,25 @@ namespace TeethInc.Chantry.Core.Models
             set { MosaicService.AllowedColors = value; }
         }
 
-        public MosaicAlgorithm MosaicAlgorithm
-        {
-            get { return m_mosaicAlgorithm; }
-            set { m_mosaicAlgorithm = value; }
-        }
+        public MosaicAlgorithm MosaicAlgorithm { get; set; } = new FloydSteinberg();
 
         [JsonIgnore]
-        public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, m_mosaicAlgorithm);
+        public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, MosaicAlgorithm);
+
+        // export properties.
+
+        public ExportLdrawSettings ExportLdrawSettings
+        {
+            get
+            {
+                m_exportLdrawSettings = m_exportLdrawSettings ?? GetDefaultExportFileSettings<ExportLdrawSettings>("ldr");
+                return m_exportLdrawSettings;
+            }
+        }
 
         public Project()
         {
             m_ldrawService = new LdrawService();
-        }
-
-        public Project(LdrawService ldrawService)
-        {
-            m_ldrawService = ldrawService;
         }
 
         public static Project CreateSimpleProject(string filename)
@@ -105,14 +109,9 @@ namespace TeethInc.Chantry.Core.Models
             return project;
         }
 
-        public void ExportLdraw(ExportSettings settings)
+        public void Export(IExportSettings exportSettings)
         {
-            var exportService = new ExportService();
-
-            exportService.Export(
-                Mosaic,
-                settings,
-                new LdrawExporter());
+            new ExportService().Export(Mosaic, exportSettings);
         }
 
         // private properties.
@@ -137,6 +136,22 @@ namespace TeethInc.Chantry.Core.Models
 
                 return m_mosaicService;
             }
+        }
+
+        private T GetDefaultExportFileSettings<T>(string extension) where T : IExportSettings
+        {
+            T ret = (T)Activator.CreateInstance(typeof(T));
+
+            switch (Source)
+            {
+                case FileSource fileSource:
+
+                    string filename = Path.ChangeExtension(fileSource.Filename, extension);
+                    ret.Filename = filename;
+                    break;
+            }
+
+            return ret;
         }
     }
 }

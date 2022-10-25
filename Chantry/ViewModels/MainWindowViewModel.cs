@@ -62,8 +62,10 @@ namespace TeethInc.Chantry.ViewModels
 
         public void ExportLdrawCommand()
         {
-            var exportLdrawView = new ExportLdrawView() { DataContext = new ExportLdrawViewModel() };
+            if (ProjectViewModel == null)
+                return;
 
+            var exportLdrawView = new ExportLdrawView() { DataContext = new ExportLdrawViewModel(ProjectViewModel.Project) };
             exportLdrawView.ShowDialog(ApplicationHelper.GetMainWindow());
         }
 

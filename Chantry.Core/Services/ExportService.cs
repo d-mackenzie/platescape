@@ -16,22 +16,20 @@ namespace TeethInc.Chantry.Core.Services
 {
     public class ExportService
     {
-        public void Export(Mosaic mosaic, ExportSettings settings, IExporter exporter)
+        public void Export(Mosaic mosaic, IExportSettings exportSettings)
         {
-            if (!settings.OneFilePerBaseplate)
+            IExporter exporter = GetExporter(exportSettings);
+
+            if (!exportSettings.OneFilePerBaseplate)
             {
-                var sw = Stopwatch.StartNew();
-                exporter.Export(mosaic, new FileStream(settings.Filename, FileMode.Create));
-                Debug.WriteLine($"Wrote '{settings.Filename}' in {sw.ElapsedMilliseconds}ms.");
+                WriteFile(exporter, mosaic, exportSettings, exportSettings.Filename);
             }
             else
             {
                 foreach (KeyValuePair<(int Column, int Row), Mosaic> kvp in GetMosaicBaseplates(mosaic))
                 {
-                    var sw = Stopwatch.StartNew();
-                    string filename = Path.Join(settings.ExportFolder, FilenamePatternHelper.BuildFilename(settings.FilenamePattern, kvp.Key.Row + 1, kvp.Key.Column + 1));
-                    exporter.Export(kvp.Value, new FileStream(filename, FileMode.Create));
-                    Debug.WriteLine($"Wrote '{filename}' in {sw.ElapsedMilliseconds}ms.");
+                    string filename = Path.Join(exportSettings.ExportFolder, FilenamePatternHelper.BuildFilename(exportSettings.FilenamePattern, kvp.Key.Row + 1, kvp.Key.Column + 1));
+                    WriteFile(exporter, kvp.Value, exportSettings, filename);
                 }
             }
         }
@@ -65,6 +63,22 @@ namespace TeethInc.Chantry.Core.Services
                 Top = y * baseplate.Size.Height,
                 Size = baseplate.Size
             };
+        }
+
+        private IExporter GetExporter(IExportSettings exportSettings)
+        {
+            return exportSettings switch
+            {
+                ExportLdrawSettings exportLdrawSettings => new LdrawExporter(exportLdrawSettings),
+                _ => throw new Exception("Unhandled export settings.")
+            };
+        }
+
+        private void WriteFile(IExporter exporter, Mosaic mosaic, IExportSettings exportSettings, string filename)
+        {
+            var sw = Stopwatch.StartNew();
+            exporter.Export(mosaic, new FileStream(filename, FileMode.Create));
+            Debug.WriteLine($"Wrote '{filename}' in {sw.ElapsedMilliseconds}ms.");
         }
     }
 }

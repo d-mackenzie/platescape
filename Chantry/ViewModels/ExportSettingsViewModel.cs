@@ -10,10 +10,7 @@ namespace TeethInc.Chantry.ViewModels
 {
     internal class ExportSettingsViewModel : BaseViewModel
     {
-        private ExportSettings m_exportSettings = new ExportSettings()
-        {
-            FilenamePattern = "R{row}-C{col}.ldr"
-        };
+        private readonly IExportSettings m_exportSettings;
 
         public string Filename
         {
@@ -74,7 +71,12 @@ namespace TeethInc.Chantry.ViewModels
 
         public bool IsValid
         {
-            get { return m_exportSettings.IsValid(); }
+            get { return m_exportSettings.IsValid; }
+        }
+
+        public ExportSettingsViewModel(IExportSettings exportSettings)
+        {
+            m_exportSettings = exportSettings;
         }
     }
 }
