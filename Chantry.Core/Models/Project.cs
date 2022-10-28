@@ -140,8 +140,8 @@ namespace TeethInc.Chantry.Core.Models
 
         private T GetDefaultExportFileSettings<T>() where T : IExportSettings
         {
-            T ret = (T)Activator.CreateInstance(typeof(T));
-
+            T ret = Activator.CreateInstance<T>();
+            
             switch (Source)
             {
                 case FileSource fileSource:

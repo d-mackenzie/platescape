@@ -7,26 +7,28 @@
 
     <Grid ColumnDefinitions="25,*" RowDefinitions="*,*">
 
-        <Label Grid.Column="0"
+		<Image Source="/Assets/brightness.png"
+			   Width="16"
+			   Height="16"
 			   Grid.Row="0"
-			   VerticalContentAlignment="Center"
-               Content="B"/>
-
-		<Slider Grid.Column="1"
-				Grid.Row="0"
+			   Grid.Column="0"/>
+		
+		<Slider Grid.Row="0"
+				Grid.Column="1"
     			Minimum="-100"
                 Maximum="100"
                 TickFrequency="10"
                 TickPlacement="TopLeft"
                 Value="{Binding Brightness}"/>
 
-		<Label Grid.Column="0"
+		<Image Source="/Assets/contrast.png"
+			   Width="16"
+			   Height="16"
 			   Grid.Row="1"
-			   VerticalContentAlignment="Center"
-			   Content="C"/>
+			   Grid.Column="0"/>
 
-		<Slider Grid.Column="1"
-				Grid.Row="1"
+		<Slider Grid.Row="1"
+				Grid.Column="1"
     			Minimum="-100"
                 Maximum="100"
                 TickFrequency="10"
