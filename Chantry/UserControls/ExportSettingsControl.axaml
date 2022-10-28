@@ -15,6 +15,7 @@
 		
 		<DockPanel LastChildFill="True">
 			<Button Content="..."
+				    Margin="4,0,0,0"
 					DockPanel.Dock="Right"
 					IsEnabled="{Binding !OneFilePerBaseplate}"/>
 			<TextBox Text="{Binding Filename}"
@@ -29,6 +30,7 @@
 
 		<DockPanel LastChildFill="True">
 			<Button Content="..."
+					Margin="4,0,0,0"
 					DockPanel.Dock="Right"
 					IsEnabled="{Binding OneFilePerBaseplate}"/>
 			<TextBox Text="{Binding ExportFolder}"
@@ -39,7 +41,10 @@
 			   IsEnabled="{Binding OneFilePerBaseplate}"/>
 		
 		<DockPanel LastChildFill="True">
-			<TextBlock Text=" i "
+			<Image Source="/Assets/i.png"
+				   Width="16"
+				   Height="16"
+				   Margin="4,0,0,0"
 				   DockPanel.Dock="Right"
 				   ToolTip.Tip="{Binding ExampleFilenames}"
 				   IsEnabled="{Binding OneFilePerBaseplate}"/>
