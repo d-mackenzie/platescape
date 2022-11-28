@@ -56,7 +56,7 @@ namespace TeethInc.Chantry.ViewModels
         {
             if (m_projectViewModel is not null)
                 m_fileDialog
-                    .ShowSaveDialog($"{m_projectViewModel.Name}.json", "json", FileFilters.Ldraw)
+                    .ShowSaveDialog($"{m_projectViewModel.Name}.json", FileFilters.Projects)
                     .ContinueWith(x => SaveProject(x.Result));
         }
 

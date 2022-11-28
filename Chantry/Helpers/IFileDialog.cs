@@ -11,6 +11,8 @@ namespace TeethInc.Chantry.Helpers
     {
         public Task<string?> ShowOpenDialog(List<FileDialogFilter> filers);
 
-        public Task<string?> ShowSaveDialog(string initialFilename, string defaultExtension, List<FileDialogFilter> filters);
+        public Task<string?> ShowSaveDialog(string initialFilename, List<FileDialogFilter> filters);
+
+        public Task<string?> ShowFolderDialog(string folder);
     }
 }

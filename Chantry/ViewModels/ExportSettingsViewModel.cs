@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -85,14 +86,15 @@ namespace TeethInc.Chantry.ViewModels
         public void SelectFilenameCommand()
         {
             m_fileDialog
-                .ShowSaveDialog(Filename, "ldr", FileFilters.Ldraw)
+                .ShowSaveDialog(Filename, FileFilters.Ldraw)
                 .ContinueWith(x => Filename = x.Result ?? Filename);
         }
 
         public void SelectFolderCommand()
         {
-
+            m_fileDialog
+                .ShowFolderDialog(Path.GetDirectoryName(Filename) ?? Environment.GetFolderPath(Environment.SpecialFolder.Personal))
+                .ContinueWith(x => ExportFolder = x.Result ?? ExportFolder);
         }
-
     }
 }
