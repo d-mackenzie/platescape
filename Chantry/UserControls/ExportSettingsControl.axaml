@@ -17,6 +17,7 @@
 			<Button Content="..."
 				    Margin="4,0,0,0"
 					DockPanel.Dock="Right"
+					Command="{Binding SelectFilenameCommand}"
 					IsEnabled="{Binding !OneFilePerBaseplate}"/>
 			<TextBox Text="{Binding Filename}"
 					 IsEnabled="{Binding !OneFilePerBaseplate}"/>
@@ -32,6 +33,7 @@
 			<Button Content="..."
 					Margin="4,0,0,0"
 					DockPanel.Dock="Right"
+					Command="{Binding SelectFolderCommand}"
 					IsEnabled="{Binding OneFilePerBaseplate}"/>
 			<TextBox Text="{Binding ExportFolder}"
 					 IsEnabled="{Binding OneFilePerBaseplate}"/>

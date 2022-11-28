@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Avalonia.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,8 @@ namespace TeethInc.Chantry.Helpers
 {
     public interface IFileDialog
     {
-        public Task<string?> ShowFileDialog(string[] extensions);
+        public Task<string?> ShowOpenDialog(List<FileDialogFilter> filers);
 
-        public Task<string?> ShowSaveDialog(string initialFilename);
+        public Task<string?> ShowSaveDialog(string initialFilename, string defaultExtension, List<FileDialogFilter> filters);
     }
 }

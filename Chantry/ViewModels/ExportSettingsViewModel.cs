@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Helpers;
 using TeethInc.Chantry.Core.Models;
+using TeethInc.Chantry.Helpers;
 
 namespace TeethInc.Chantry.ViewModels
 {
     internal class ExportSettingsViewModel : BaseViewModel
     {
         private readonly IExportSettings m_exportSettings;
+        private IFileDialog m_fileDialog;
 
         public string Filename
         {
@@ -77,6 +79,20 @@ namespace TeethInc.Chantry.ViewModels
         public ExportSettingsViewModel(IExportSettings exportSettings)
         {
             m_exportSettings = exportSettings;
+            m_fileDialog = new FileDialog();
         }
+
+        public void SelectFilenameCommand()
+        {
+            m_fileDialog
+                .ShowSaveDialog(Filename, "ldr", FileFilters.Ldraw)
+                .ContinueWith(x => Filename = x.Result ?? Filename);
+        }
+
+        public void SelectFolderCommand()
+        {
+
+        }
+
     }
 }

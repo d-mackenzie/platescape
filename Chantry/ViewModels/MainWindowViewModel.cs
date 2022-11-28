@@ -41,14 +41,14 @@ namespace TeethInc.Chantry.ViewModels
         public void OpenAnImageCommand()
         {
             m_fileDialog
-                .ShowFileDialog(new string[] { "jpg", "png" })
+                .ShowOpenDialog(FileFilters.Images)
                 .ContinueWith(x => Open(x?.Result));
         }
 
         public void OpenAProjectCommand()
         {
             m_fileDialog
-                .ShowFileDialog(new string[] { "json" })
+                .ShowOpenDialog(FileFilters.Projects)
                 .ContinueWith(x => Open(x.Result));
         }
 
@@ -56,7 +56,7 @@ namespace TeethInc.Chantry.ViewModels
         {
             if (m_projectViewModel is not null)
                 m_fileDialog
-                    .ShowSaveDialog($"{m_projectViewModel.Name}.json")
+                    .ShowSaveDialog($"{m_projectViewModel.Name}.json", "json", FileFilters.Ldraw)
                     .ContinueWith(x => SaveProject(x.Result));
         }
 

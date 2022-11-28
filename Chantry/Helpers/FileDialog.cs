@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,26 +10,24 @@ namespace TeethInc.Chantry.Helpers
 {
     public class FileDialog : IFileDialog
     {
-        public async Task<string?> ShowFileDialog(string[] extensions)
+        public async Task<string?> ShowOpenDialog(List<FileDialogFilter> filters)
         {
             OpenFileDialog dialog = new OpenFileDialog();
 
-            dialog.Filters = new List<FileDialogFilter>
-            {
-                new FileDialogFilter { Name = "Images", Extensions = new List<string>(extensions) },
-                new FileDialogFilter { Name = "All Files", Extensions = new List<string> {"*" } }
-            };
+            dialog.Filters = filters;
 
             string[]? files = await dialog.ShowAsync(ApplicationHelper.GetMainWindow());
 
             return files?.FirstOrDefault();
         }
 
-        public async Task<string?> ShowSaveDialog(string initialFileName)
+        public async Task<string?> ShowSaveDialog(string initialFileName, string defaultExtension, List<FileDialogFilter> filters)
         {
             SaveFileDialog dialog = new SaveFileDialog();
 
-            dialog.InitialFileName = initialFileName;
+            dialog.Directory = Path.GetDirectoryName(initialFileName);
+            dialog.InitialFileName = Path.GetFileName(initialFileName);
+            dialog.Filters = filters;
 
             string? filename = await dialog.ShowAsync(ApplicationHelper.GetMainWindow());
 
