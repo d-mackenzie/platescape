@@ -3,17 +3,9 @@
     "Chantry.App": {
       "commandName": "Project"
     },
-    "Open Dan": {
+    "Mona Lisa": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\dev\\chantry\\samples\\dan-cropped.png"
-    },
-    "Open Eric": {
-      "commandName": "Project",
-      "commandLineArgs": "c:\\dev\\chantry\\samples\\eric-avatar.jpg"
-    },
-    "Open Village": {
-      "commandName": "Project",
-      "commandLineArgs": "c:\\dev\\chantry\\samples\\village.jpg"
+      "commandLineArgs": "c:\\dev\\chantry\\samples\\mona-lisa.jpg"
     }
   }
 }
