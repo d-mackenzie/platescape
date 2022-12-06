@@ -5,7 +5,7 @@
     },
     "Open Dan": {
       "commandName": "Project",
-      "commandLineArgs": "c:\\dev\\chantry\\samples\\dan-cropped.png"
+      "commandLineArgs": "C:\\dev\\chantry\\samples\\dan-cropped.png"
     },
     "Open Eric": {
       "commandName": "Project",

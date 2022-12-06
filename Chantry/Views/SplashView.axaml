@@ -21,7 +21,7 @@
             <TextBlock Grid.Row="0"
                        FontSize="36"
                        Padding="20"
-                       Text="Chantry"/>
+                       Text="{Binding ApplicationTitle}"/>
 
             <Grid Grid.Row="1">
 

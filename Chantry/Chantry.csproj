@@ -5,6 +5,9 @@
     <Nullable>enable</Nullable>
     <RootNamespace>TeethInc.Chantry</RootNamespace>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+    <AssemblyVersion>2022.12</AssemblyVersion>
+	<AssemblyFileVersion>2022.12</AssemblyFileVersion>
+    <FileVersion>2022.12</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.17" />

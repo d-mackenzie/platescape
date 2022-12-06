@@ -14,6 +14,16 @@ namespace TeethInc.Chantry.ViewModels
         public event EventHandler? OpenAnImage;
         public event EventHandler? OpenAProject;
 
+        public string ApplicationTitle
+        {
+            get
+            {
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+                return $"{assembly.GetName().Name} {assembly.GetName().Version?.Major}.{assembly.GetName().Version?.Minor}";
+            }
+        }
+
         public List<string> Mru
         {
             get { return m_mru; }
