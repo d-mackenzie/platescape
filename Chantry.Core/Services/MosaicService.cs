@@ -24,30 +24,30 @@ namespace TeethInc.Chantry.Core.Services
         private const int LDRAW_LIGHT_BLUISH_GREY = 71;
         private const int LDRAW_DARK_BLUISH_GREY = 72;
 
-        private ColorService m_colorService;
-        private LdrawService m_ldrawService;
+        private ColorService _colorService;
+        private LdrawService _ldrawService;
 
-        private LdPart m_baseplate;
-        private LdPart m_element;
+        private LdPart _baseplate;
+        private LdPart _element;
 
         public string Baseplate
         {
-            get { return m_baseplate.Number; }
-            set { m_baseplate = m_ldrawService.GetPart(value); }
+            get { return _baseplate.Number; }
+            set { _baseplate = _ldrawService.GetPart(value); }
         }
 
         public string Element
         {
-            get { return m_element.Number; }
-            set { m_element = m_ldrawService.GetPart(value); }
+            get { return _element.Number; }
+            set { _element = _ldrawService.GetPart(value); }
         }
 
         public SKSizeI BaseplateExtent { get; set; }
 
         public int[] AllowedColors
         {
-            get { return m_colorService.AllowedColors; }
-            set { m_colorService.AllowedColors = value; }
+            get { return _colorService.AllowedColors; }
+            set { _colorService.AllowedColors = value; }
         }
 
         public SKSizeI ElementExtent
@@ -55,8 +55,8 @@ namespace TeethInc.Chantry.Core.Services
             get
             {
                 return new SKSizeI(
-                    m_baseplate.Size.Width * BaseplateExtent.Width / m_element.Size.Width,
-                    m_baseplate.Size.Height * BaseplateExtent.Height / m_element.Size.Height);
+                    _baseplate.Size.Width * BaseplateExtent.Width / _element.Size.Width,
+                    _baseplate.Size.Height * BaseplateExtent.Height / _element.Size.Height);
             }
         }
 
@@ -65,15 +65,15 @@ namespace TeethInc.Chantry.Core.Services
             get
             {
                 return new SKSizeI(
-                    m_baseplate.Size.Width * BaseplateExtent.Width,
-                    m_baseplate.Size.Height * BaseplateExtent.Height);
+                    _baseplate.Size.Width * BaseplateExtent.Width,
+                    _baseplate.Size.Height * BaseplateExtent.Height);
             }
         }
 
         public MosaicService(LdrawService ldrawService)
         {
-            m_ldrawService = ldrawService;
-            m_colorService = new ColorService(m_ldrawService);
+            _ldrawService = ldrawService;
+            _colorService = new ColorService(_ldrawService);
 
             Baseplate = BASEPLATE_32X32;
             Element = PLATE_1X1;
@@ -117,7 +117,7 @@ namespace TeethInc.Chantry.Core.Services
                     for (int x = 0; x < ElementExtent.Width; x++)
                     {
                         SKColor color = sourcePixels[source.GetPixelIndex(topLeft.X + x, topLeft.Y + y)];
-                        LdColor ldColor = mosaicAlgorithm.GetColor(x, y, color, m_colorService);
+                        LdColor ldColor = mosaicAlgorithm.GetColor(x, y, color, _colorService);
                         colors[x, y] = ldColor;
                         mosaicPixels[mosaic.GetPixelIndex(x, y)] = ldColor.Color;
                     }
@@ -128,7 +128,7 @@ namespace TeethInc.Chantry.Core.Services
 
                 Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
 
-                return new Mosaic(m_baseplate, m_element, colors, mosaic);
+                return new Mosaic(_baseplate, _element, colors, mosaic);
             }
         }
     }

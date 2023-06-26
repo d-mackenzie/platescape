@@ -13,7 +13,7 @@ namespace TeethInc.Chantry.UserControls
     public partial class MosaicViewer : ImageViewer
     {
 
-        private Dictionary<int, IImage> m_studOverlays = new Dictionary<int, IImage>();
+        private Dictionary<int, IImage> _studOverlays = new Dictionary<int, IImage>();
 
         public static readonly StyledProperty<Mosaic> MosaicProperty =
             AvaloniaProperty.Register<MosaicViewer, Mosaic>(nameof(Mosaic));
@@ -43,14 +43,14 @@ namespace TeethInc.Chantry.UserControls
             if (Zoom < 6)
                 return;
 
-            if (!m_studOverlays.ContainsKey(Zoom))
-                m_studOverlays[Zoom] = GetStudOverlayImage();
+            if (!_studOverlays.ContainsKey(Zoom))
+                _studOverlays[Zoom] = GetStudOverlayImage();
 
-            for (int x = (int)(ImageRenderBounds.Left); x < (int)(ImageRenderBounds.Right); x += (int)(m_studOverlays[Zoom].Size.Width))
+            for (int x = (int)(ImageRenderBounds.Left); x < (int)(ImageRenderBounds.Right); x += (int)(_studOverlays[Zoom].Size.Width))
             {
-                for (int y = (int)(ImageRenderBounds.Top); y < (int)(ImageRenderBounds.Bottom); y += (int)(m_studOverlays[Zoom].Size.Height))
+                for (int y = (int)(ImageRenderBounds.Top); y < (int)(ImageRenderBounds.Bottom); y += (int)(_studOverlays[Zoom].Size.Height))
                 {
-                    context.DrawImage(m_studOverlays[Zoom], new Rect(x, y, m_studOverlays[Zoom].Size.Width, m_studOverlays[Zoom].Size.Height));
+                    context.DrawImage(_studOverlays[Zoom], new Rect(x, y, _studOverlays[Zoom].Size.Width, _studOverlays[Zoom].Size.Height));
                 }
             }
         }

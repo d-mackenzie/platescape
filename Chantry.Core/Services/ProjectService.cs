@@ -13,19 +13,19 @@ namespace TeethInc.Chantry.Core.Services
 {
     public static class ProjectService
     {
-        private static JsonSerializerSettings m_jsonSerializerSettings = new JsonSerializerSettings()
+        private static JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings()
         {
             TypeNameHandling = TypeNameHandling.Auto
         };
 
         public static string SerializeProject(Project project)
         {
-            return JsonConvert.SerializeObject(project, Formatting.Indented, m_jsonSerializerSettings);
+            return JsonConvert.SerializeObject(project, Formatting.Indented, _jsonSerializerSettings);
         }
 
         public static Project DeserializeProject(string json)
         {
-            return JsonConvert.DeserializeObject<Project>(json, m_jsonSerializerSettings);
+            return JsonConvert.DeserializeObject<Project>(json, _jsonSerializerSettings);
         }
     }
 }

@@ -6,16 +6,16 @@ namespace TeethInc.Chantry.Core.Sources
 {
     public class FileSource : ISource
     {
-        private SKBitmap m_image = null;
-        private string m_filename = "";
+        private SKBitmap _image = null;
+        private string _filename = "";
 
         public string Filename
         {
-            get { return m_filename; }
+            get { return _filename; }
             set
             {
-                m_filename = value;
-                m_image = null;
+                _filename = value;
+                _image = null;
             }
         }
 
@@ -24,19 +24,19 @@ namespace TeethInc.Chantry.Core.Sources
         {
             get
             {
-                if (m_image == null)
+                if (_image == null)
                 {
                     if (File.Exists(Filename))
                     {
-                        m_image = SKBitmap.Decode(Filename);
+                        _image = SKBitmap.Decode(Filename);
                     }
                     else
                     {
-                        m_image = new SKBitmap(50, 50);
+                        _image = new SKBitmap(50, 50);
                     }
                 }
 
-                return m_image;
+                return _image;
             }
         }
     }

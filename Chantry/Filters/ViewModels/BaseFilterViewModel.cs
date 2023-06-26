@@ -10,21 +10,21 @@ namespace TeethInc.Chantry.Filters.ViewModels
 {
     public class BaseFilterViewModel<T> : BaseViewModel, IFilterViewModel where T : Filter
     {
-        private T m_filter;
+        private T _filter;
 
-        protected T Filter => m_filter;
+        protected T Filter => _filter;
 
-        public string DisplayName => m_filter.DisplayName;
+        public string DisplayName => _filter.DisplayName;
 
         public bool Enabled
         {
-            get { return m_filter.Enabled; }
-            set { m_filter.Enabled = value; RaisePropertyChanged(); }
+            get { return _filter.Enabled; }
+            set { _filter.Enabled = value; RaisePropertyChanged(); }
         }
 
         public BaseFilterViewModel(T filter)
         {
-            m_filter = filter;
+            _filter = filter;
         }
     }
 }

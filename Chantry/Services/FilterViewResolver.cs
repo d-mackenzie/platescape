@@ -12,19 +12,19 @@ namespace TeethInc.Chantry.Services
 {
     public static class FilterViewResolver
     {
-        private static List<Registration> m_registrations = new List<Registration>();
+        private static List<Registration> _registrations = new List<Registration>();
 
         public static void Register<TFilter, TViewModel, TView>()
             where TFilter : Filter
             where TViewModel : IFilterViewModel
             where TView : UserControl
         {
-            m_registrations.Add(new Registration(typeof(TFilter), typeof(TViewModel), typeof(TView)));
+            _registrations.Add(new Registration(typeof(TFilter), typeof(TViewModel), typeof(TView)));
         }
 
         public static IFilterViewModel ConstructFilterViewModel(Filter filter)
         {
-            Type? viewModelType = m_registrations.FirstOrDefault(x => x.FilterType == filter.GetType())?.ViewModelType;
+            Type? viewModelType = _registrations.FirstOrDefault(x => x.FilterType == filter.GetType())?.ViewModelType;
 
             if (viewModelType is null)
                 throw new ArgumentException($"{filter.GetType()} not registered.");

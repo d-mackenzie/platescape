@@ -9,20 +9,20 @@ namespace TeethInc.Chantry.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        private ProjectViewModel? m_projectViewModel;
-        private IFileDialog m_fileDialog;
-        private bool m_isLoading = false;
+        private ProjectViewModel? _projectViewModel;
+        private IFileDialog _fileDialog;
+        private bool _isLoading = false;
 
         public ProjectViewModel? ProjectViewModel
         {
-            get { return m_projectViewModel; }
-            set { m_projectViewModel = value; RaisePropertyChanged(); }
+            get { return _projectViewModel; }
+            set { _projectViewModel = value; RaisePropertyChanged(); }
         }
 
         public bool IsLoading
         {
-            get { return m_isLoading; }
-            set { m_isLoading = value; RaisePropertyChanged(); }
+            get { return _isLoading; }
+            set { _isLoading = value; RaisePropertyChanged(); }
         }
 
         public SplashViewModel SplashViewModel { get; set; }
@@ -35,28 +35,28 @@ namespace TeethInc.Chantry.ViewModels
             SplashViewModel.OpenAnImage += SplashViewModel_OpenAnImage; ;
             SplashViewModel.OpenAProject += SplashViewModel_OpenAProject;
 
-            m_fileDialog = new FileDialog();
+            _fileDialog = new FileDialog();
         }
 
         public void OpenAnImageCommand()
         {
-            m_fileDialog
+            _fileDialog
                 .ShowOpenDialog(FileFilters.Images)
                 .ContinueWith(x => Open(x?.Result));
         }
 
         public void OpenAProjectCommand()
         {
-            m_fileDialog
+            _fileDialog
                 .ShowOpenDialog(FileFilters.Projects)
                 .ContinueWith(x => Open(x.Result));
         }
 
         public void SaveProjectCommand()
         {
-            if (m_projectViewModel is not null)
-                m_fileDialog
-                    .ShowSaveDialog($"{m_projectViewModel.Name}.json", FileFilters.Projects)
+            if (_projectViewModel is not null)
+                _fileDialog
+                    .ShowSaveDialog($"{_projectViewModel.Name}.json", FileFilters.Projects)
                     .ContinueWith(x => SaveProject(x.Result));
         }
 
@@ -106,10 +106,10 @@ namespace TeethInc.Chantry.ViewModels
 
         private void SaveProject(string? filename)
         {
-            if (filename is null || m_projectViewModel is null)
+            if (filename is null || _projectViewModel is null)
                 return;
 
-            m_projectViewModel.SerializeProject(filename);
+            _projectViewModel.SerializeProject(filename);
 
             var config = ApplicationHelper.LoadConfiguration();
             config.Mru = new string[] { filename };

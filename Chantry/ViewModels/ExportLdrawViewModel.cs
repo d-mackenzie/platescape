@@ -9,30 +9,30 @@ namespace TeethInc.Chantry.ViewModels
 {
     internal class ExportLdrawViewModel : BaseViewModel
     {
-        private ExportSettingsViewModel m_exportSettingsViewModel;
-        private Project m_project;
+        private ExportSettingsViewModel _exportSettingsViewModel;
+        private Project _project;
 
         public ExportLdrawViewModel(Project project)
         {
-            m_project = project;
-            m_exportSettingsViewModel = new ExportSettingsViewModel(m_project.ExportLdrawSettings);
+            _project = project;
+            _exportSettingsViewModel = new ExportSettingsViewModel(_project.ExportLdrawSettings);
         }
 
         public ExportSettingsViewModel ExportSettingsViewModel
         {
-            get { return m_exportSettingsViewModel; }
-            set { m_exportSettingsViewModel = value; RaisePropertyChanged(); }
+            get { return _exportSettingsViewModel; }
+            set { _exportSettingsViewModel = value; RaisePropertyChanged(); }
         }
 
         public bool IncludeBaseplate
         {
-            get { return m_project.ExportLdrawSettings.IncludeBaseplate; }
-            set { m_project.ExportLdrawSettings.IncludeBaseplate = value; RaisePropertyChanged(); }
+            get { return _project.ExportLdrawSettings.IncludeBaseplate; }
+            set { _project.ExportLdrawSettings.IncludeBaseplate = value; RaisePropertyChanged(); }
         }
 
         public void ExportCommand()
         {
-            m_project.Export(m_project.ExportLdrawSettings);
+            _project.Export(_project.ExportLdrawSettings);
         }
     }
 }

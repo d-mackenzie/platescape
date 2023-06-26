@@ -15,12 +15,12 @@ namespace TeethInc.Chantry.Core.Models
 {
     public class Project
     {
-        private ISource m_source;
-        private FilterService m_filterService;
-        private MosaicService m_mosaicService;
-        private LdrawService m_ldrawService;
+        private ISource _source;
+        private FilterService _filterService;
+        private MosaicService _mosaicService;
+        private LdrawService _ldrawService;
 
-        private ExportLdrawSettings m_exportLdrawSettings;
+        private ExportLdrawSettings _exportLdrawSettings;
 
         public string Name { get; set; }
 
@@ -28,8 +28,8 @@ namespace TeethInc.Chantry.Core.Models
 
         public ISource Source
         {
-            get { return m_source; }
-            set { m_source = value; }
+            get { return _source; }
+            set { _source = value; }
         }
 
         // filter properties.
@@ -83,14 +83,14 @@ namespace TeethInc.Chantry.Core.Models
         {
             get
             {
-                m_exportLdrawSettings = m_exportLdrawSettings ?? GetDefaultExportFileSettings<ExportLdrawSettings>();
-                return m_exportLdrawSettings;
+                _exportLdrawSettings = _exportLdrawSettings ?? GetDefaultExportFileSettings<ExportLdrawSettings>();
+                return _exportLdrawSettings;
             }
         }
 
         public Project()
         {
-            m_ldrawService = new LdrawService();
+            _ldrawService = new LdrawService();
         }
 
         public static Project CreateSimpleProject(string filename)
@@ -120,10 +120,10 @@ namespace TeethInc.Chantry.Core.Models
         {
             get
             {
-                if (m_filterService is null)
-                    m_filterService = new FilterService(Source);
+                if (_filterService is null)
+                    _filterService = new FilterService(Source);
 
-                return m_filterService;
+                return _filterService;
             }
         }
 
@@ -131,10 +131,10 @@ namespace TeethInc.Chantry.Core.Models
         {
             get
             {
-                if (m_mosaicService is null)
-                    m_mosaicService = new MosaicService(m_ldrawService);
+                if (_mosaicService is null)
+                    _mosaicService = new MosaicService(_ldrawService);
 
-                return m_mosaicService;
+                return _mosaicService;
             }
         }
 

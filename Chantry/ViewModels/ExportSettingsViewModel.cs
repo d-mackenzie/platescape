@@ -12,33 +12,33 @@ namespace TeethInc.Chantry.ViewModels
 {
     internal class ExportSettingsViewModel : BaseViewModel
     {
-        private readonly IExportSettings m_exportSettings;
-        private IFileDialog m_fileDialog;
+        private readonly IExportSettings _exportSettings;
+        private IFileDialog _fileDialog;
 
         public string Filename
         {
-            get { return m_exportSettings.Filename; }
-            set { m_exportSettings.Filename = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
+            get { return _exportSettings.Filename; }
+            set { _exportSettings.Filename = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
         }
 
         public bool OneFilePerBaseplate
         {
-            get { return m_exportSettings.OneFilePerBaseplate;  }
-            set { m_exportSettings.OneFilePerBaseplate = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
+            get { return _exportSettings.OneFilePerBaseplate;  }
+            set { _exportSettings.OneFilePerBaseplate = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
         }
 
         public string ExportFolder
         {
-            get { return m_exportSettings.ExportFolder; }
-            set { m_exportSettings.ExportFolder = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
+            get { return _exportSettings.ExportFolder; }
+            set { _exportSettings.ExportFolder = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
         }
 
         public string FilenamePattern
         {
-            get { return m_exportSettings.FilenamePattern; }
+            get { return _exportSettings.FilenamePattern; }
             set
             { 
-               m_exportSettings.FilenamePattern = value;
+               _exportSettings.FilenamePattern = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(IsValid));
                 RaisePropertyChanged(nameof(ExampleFilenames));
@@ -74,25 +74,25 @@ namespace TeethInc.Chantry.ViewModels
 
         public bool IsValid
         {
-            get { return m_exportSettings.IsValid; }
+            get { return _exportSettings.IsValid; }
         }
 
         public ExportSettingsViewModel(IExportSettings exportSettings)
         {
-            m_exportSettings = exportSettings;
-            m_fileDialog = new FileDialog();
+            _exportSettings = exportSettings;
+            _fileDialog = new FileDialog();
         }
 
         public void SelectFilenameCommand()
         {
-            m_fileDialog
+            _fileDialog
                 .ShowSaveDialog(Filename, FileFilters.Ldraw)
                 .ContinueWith(x => Filename = x.Result ?? Filename);
         }
 
         public void SelectFolderCommand()
         {
-            m_fileDialog
+            _fileDialog
                 .ShowFolderDialog(Path.GetDirectoryName(Filename) ?? Environment.GetFolderPath(Environment.SpecialFolder.Personal))
                 .ContinueWith(x => ExportFolder = x.Result ?? ExportFolder);
         }

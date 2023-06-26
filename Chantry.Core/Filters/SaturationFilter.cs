@@ -11,17 +11,17 @@ namespace TeethInc.Chantry.Core.Filters
 
         public double Saturation { get; set; }
 
-        private byte[] m_red;
-        private byte[] m_green;
-        private byte[] m_blue;
+        private byte[] _red;
+        private byte[] _green;
+        private byte[] _blue;
 
         public SaturationFilter() : base()
         {
             Saturation = 1d;
 
-            m_red = GetCalculatedArray(0.21f);
-            m_green = GetCalculatedArray(0.71f);
-            m_blue = GetCalculatedArray(0.07f);
+            _red = GetCalculatedArray(0.21f);
+            _green = GetCalculatedArray(0.71f);
+            _blue = GetCalculatedArray(0.07f);
         }
 
         private byte[] GetCalculatedArray(float factor)
@@ -43,7 +43,7 @@ namespace TeethInc.Chantry.Core.Filters
 
         private SKColor GetSaturationPixel(SKColor unfilteredPixel)
         {
-            byte luminosity = (byte)(m_red[unfilteredPixel.Red] + m_green[unfilteredPixel.Green] + m_blue[unfilteredPixel.Blue]);
+            byte luminosity = (byte)(_red[unfilteredPixel.Red] + _green[unfilteredPixel.Green] + _blue[unfilteredPixel.Blue]);
 
             byte red = MathHelper.Lerp(luminosity, unfilteredPixel.Red, Saturation);
             byte green = MathHelper.Lerp(luminosity, unfilteredPixel.Green, Saturation);

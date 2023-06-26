@@ -8,8 +8,8 @@ namespace TeethInc.Chantry.ViewModels
 {
     public class SplashViewModel : BaseViewModel
     {
-        private IFileDialog m_fileDialog;
-        private List<string> m_mru;
+        private IFileDialog _fileDialog;
+        private List<string> _mru;
 
         public event EventHandler? OpenAnImage;
         public event EventHandler? OpenAProject;
@@ -26,19 +26,19 @@ namespace TeethInc.Chantry.ViewModels
 
         public List<string> Mru
         {
-            get { return m_mru; }
+            get { return _mru; }
         }
 
         public SplashViewModel()
         {
-            m_fileDialog = new FileDialog();
-            m_mru = ApplicationHelper.LoadConfiguration().Mru.ToList();
+            _fileDialog = new FileDialog();
+            _mru = ApplicationHelper.LoadConfiguration().Mru.ToList();
         }
 
         public SplashViewModel(IFileDialog fileDialog)
         {
-            m_fileDialog = fileDialog;
-            m_mru = ApplicationHelper.LoadConfiguration().Mru.ToList();
+            _fileDialog = fileDialog;
+            _mru = ApplicationHelper.LoadConfiguration().Mru.ToList();
         }
 
         public void OpenAnImageCommand()

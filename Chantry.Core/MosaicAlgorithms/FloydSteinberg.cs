@@ -7,8 +7,8 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 {
     public class FloydSteinberg : MosaicAlgorithm
     {
-        private Error[,] m_errors;
-        private SKSizeI m_size;
+        private Error[,] _errors;
+        private SKSizeI _size;
 
         private const float EAST_ERROR = 7 / 16f;
         private const float SOUTHEAST_ERROR = 1 / 16f;
@@ -32,7 +32,7 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
             // apply the error.
 
-            Error error = m_errors[x, y];
+            Error error = _errors[x, y];
 
             sourceRed += error.RedError;
             sourceGreen += error.GreenError;
@@ -56,26 +56,26 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
 
             // propagate the error.
 
-            m_errors[x + 1, y + 0].AddFraction(calculatedError, EAST_ERROR);
-            m_errors[x + 1, y + 1].AddFraction(calculatedError, SOUTHEAST_ERROR);
-            m_errors[x + 0, y + 1].AddFraction(calculatedError, SOUTH_ERROR);
+            _errors[x + 1, y + 0].AddFraction(calculatedError, EAST_ERROR);
+            _errors[x + 1, y + 1].AddFraction(calculatedError, SOUTHEAST_ERROR);
+            _errors[x + 0, y + 1].AddFraction(calculatedError, SOUTH_ERROR);
             
             if (x != 0)
-                m_errors[x - 1, y + 1].AddFraction(calculatedError, SOUTHWEST_ERROR);
+                _errors[x - 1, y + 1].AddFraction(calculatedError, SOUTHWEST_ERROR);
 
             return newColor;
         }
 
         public override void Reset(SKSizeI size)
         {
-            if (size != m_size)
+            if (size != _size)
             {
-                m_errors = new Error[size.Width + 1, size.Height + 1];
+                _errors = new Error[size.Width + 1, size.Height + 1];
                 for (int x = 0; x < size.Width + 1; x++)
                 {
                     for (int y = 0; y < size.Height + 1; y++)
                     {
-                        m_errors[x, y] = new Error();
+                        _errors[x, y] = new Error();
                     }
                 }
             }
@@ -85,12 +85,12 @@ namespace TeethInc.Chantry.Core.MosaicAlgorithms
                 {
                     for (int y = 0; y < size.Height + 1; y++)
                     {
-                        m_errors[x, y].Reset();
+                        _errors[x, y].Reset();
                     }
                 }
             }
 
-            m_size = size;
+            _size = size;
         }
 
         private class Error

@@ -11,18 +11,18 @@ namespace TeethInc.Chantry.Core.Services
 {
     public class LdrawService
     {
-        private List<LdColor> m_colors;
+        private List<LdColor> _colors;
 
-        private List<LdPart> m_baseplates;
-        private List<LdPart> m_elements;
+        private List<LdPart> _baseplates;
+        private List<LdPart> _elements;
 
-        public List<LdPart> Baseplates => m_baseplates;
-        public List<LdPart> Elements => m_elements;
-        public List<LdColor> Colors => m_colors;
+        public List<LdPart> Baseplates => _baseplates;
+        public List<LdPart> Elements => _elements;
+        public List<LdColor> Colors => _colors;
 
         public LdrawService()
         {
-            m_colors = new List<LdColor>()
+            _colors = new List<LdColor>()
             {
                 new LdColor(0, "Black", "05131D"),
                 new LdColor(1, "Blue", "0055BF"),
@@ -57,14 +57,14 @@ namespace TeethInc.Chantry.Core.Services
                 new LdColor(484, "Dark Orange", "A95500")
             };
 
-            m_baseplates = new List<LdPart>()
+            _baseplates = new List<LdPart>()
             {
                 new LdPart("4186", "Baseplate 48 x 48", new SKSizeI(48, 48), 4),
                 new LdPart("3811", "Baseplate 32 x 32", new SKSizeI(32, 32), 4),
                 new LdPart("3867", "Baseplate 16 x 16", new SKSizeI(16, 16), 4)
             };
 
-            m_elements = new List<LdPart>()
+            _elements = new List<LdPart>()
             {
                 new LdPart("3024", "Plate 1 x 1", new SKSizeI(1, 1), 8),
                 new LdPart("3022", "Plate 2 x 2", new SKSizeI(2, 2), 8),
@@ -75,17 +75,17 @@ namespace TeethInc.Chantry.Core.Services
 
         public LdColor GetColor(int ldrawColorNumber)
         {
-            return m_colors.FirstOrDefault(x => x.Number == ldrawColorNumber);
+            return _colors.FirstOrDefault(x => x.Number == ldrawColorNumber);
         }
 
         public LdPart GetPart(string ldrawElementNumber)
         {
-            return m_baseplates.Union(m_elements).FirstOrDefault(x => x.Number == ldrawElementNumber);
+            return _baseplates.Union(_elements).FirstOrDefault(x => x.Number == ldrawElementNumber);
         }
 
         public IEnumerable<LdColor> GetColors(int[] ldrawColorNumbers)
         {
-            return m_colors.Where(x => ldrawColorNumbers.Contains(x.Number));
+            return _colors.Where(x => ldrawColorNumbers.Contains(x.Number));
         }
     }
 }

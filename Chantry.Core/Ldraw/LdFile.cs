@@ -11,7 +11,7 @@ namespace TeethInc.Chantry.Core.Ldraw
 {
     public class LdFile
     {
-        private List<LdPartLine> m_parts = new List<LdPartLine>();
+        private List<LdPartLine> _parts = new List<LdPartLine>();
 
         public string Name { get; set; }
 
@@ -27,7 +27,7 @@ namespace TeethInc.Chantry.Core.Ldraw
 
         public void Add(LdPart ldPart, LdColor ldColor, int x, int y, int z)
         {
-            m_parts.Add(new LdPartLine(ldPart, ldColor, x, y, z));
+            _parts.Add(new LdPartLine(ldPart, ldColor, x, y, z));
         }
 
         public IEnumerable<string> AsEnumerable()
@@ -38,7 +38,7 @@ namespace TeethInc.Chantry.Core.Ldraw
                 "0 Author: Chantry"
             };
 
-            return headers.Concat(m_parts.Select(x => x.ToString()));
+            return headers.Concat(_parts.Select(x => x.ToString()));
         }
 
         private class LdPartLine

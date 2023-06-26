@@ -24,74 +24,74 @@ namespace TeethInc.Chantry.ViewModels
 {
     public class ProjectViewModel : BaseViewModel
     {
-        private Project m_project;
-        private ObservableCollection<IFilterViewModel> m_filters = new ObservableCollection<IFilterViewModel>();
-        private List<MosaicAlgorithm> m_mosaicAlgorithms = new List<MosaicAlgorithm>()
+        private Project _project;
+        private ObservableCollection<IFilterViewModel> _filters = new ObservableCollection<IFilterViewModel>();
+        private List<MosaicAlgorithm> _mosaicAlgorithms = new List<MosaicAlgorithm>()
         {
             new BayerMatrix(),
             new FloydSteinberg(),
             new NearestColor()
         };
 
-        private LdrawService m_ldrawService;
+        private LdrawService _ldrawService;
 
-        private Point m_pan;
-        private double m_zoom = 1d;
+        private Point _pan;
+        private double _zoom = 1d;
 
         // project properties.
 
-        public string Name => m_project.Name;
+        public string Name => _project.Name;
 
         // source properties.
 
         public FileSource Source
         {
-            get { return (FileSource)m_project.Source; }
+            get { return (FileSource)_project.Source; }
         }
 
         // filter properties.
 
-        public ObservableCollection<IFilterViewModel> Filters => m_filters;
-        public AmiBitmap UnfilteredImage => m_project.UnfilteredImage.AsAvaloniaMediaImagingBitmap();
-        public AmiBitmap FilteredImage => m_project.FilteredImage.AsAvaloniaMediaImagingBitmap();
-        public AmiBitmap MosaicImage => m_project.Mosaic.Image.AsAvaloniaMediaImagingBitmap();
+        public ObservableCollection<IFilterViewModel> Filters => _filters;
+        public AmiBitmap UnfilteredImage => _project.UnfilteredImage.AsAvaloniaMediaImagingBitmap();
+        public AmiBitmap FilteredImage => _project.FilteredImage.AsAvaloniaMediaImagingBitmap();
+        public AmiBitmap MosaicImage => _project.Mosaic.Image.AsAvaloniaMediaImagingBitmap();
 
         // moasic properties.
 
-        public List<LdPart> Baseplates => m_ldrawService.Baseplates;
-        public List<LdPart> Elements => m_ldrawService.Elements;
+        public List<LdPart> Baseplates => _ldrawService.Baseplates;
+        public List<LdPart> Elements => _ldrawService.Elements;
         public List<AllowedColorViewModel> Colors =>
-            m_ldrawService.Colors.Select(x =>
-                new AllowedColorViewModel(x, m_project.AllowedColors.Contains(x.Number))).OrderBy(x => x.LdColor.Hue).ToList();
+            _ldrawService.Colors.Select(x =>
+                new AllowedColorViewModel(x, _project.AllowedColors.Contains(x.Number))).OrderBy(x => x.LdColor.Hue).ToList();
 
         public LdPart Baseplate
         {
-            get { return m_ldrawService.GetPart(m_project.BaseplatePartNumber); }
-            set { m_project.BaseplatePartNumber = value.Number; RaiseMosaicPropertiesChanged(); }
+            get { return _ldrawService.GetPart(_project.BaseplatePartNumber); }
+            set { _project.BaseplatePartNumber = value.Number; RaiseMosaicPropertiesChanged(); }
         }
 
         public LdPart Element
         {
-            get { return m_ldrawService.GetPart(m_project.ElementPartNumber); }
-            set { m_project.ElementPartNumber = value.Number; RaiseMosaicPropertiesChanged(); }
+            get { return _ldrawService.GetPart(_project.ElementPartNumber); }
+            set { _project.ElementPartNumber = value.Number; RaiseMosaicPropertiesChanged(); }
         }
 
         public int BaseplateExtentWidth
         {
-            get { return m_project.BaseplateExtent.Width; }
+            get { return _project.BaseplateExtent.Width; }
             set
             {
-                m_project.BaseplateExtent = new SKSizeI(value, m_project.BaseplateExtent.Height);
+                _project.BaseplateExtent = new SKSizeI(value, _project.BaseplateExtent.Height);
                 RaiseMosaicPropertiesChanged();
             }
         }
 
         public int BaseplateExtentHeight
         {
-            get { return m_project.BaseplateExtent.Height; }
+            get { return _project.BaseplateExtent.Height; }
             set
             {
-                m_project.BaseplateExtent = new SKSizeI(m_project.BaseplateExtent.Width, value);
+                _project.BaseplateExtent = new SKSizeI(_project.BaseplateExtent.Width, value);
                 RaiseMosaicPropertiesChanged();
             }
         }
@@ -100,10 +100,10 @@ namespace TeethInc.Chantry.ViewModels
         {
             get
             {
-                int width = m_project.BaseplateExtent.Width * Baseplate.Size.Width;
-                int height = m_project.BaseplateExtent.Height * Baseplate.Size.Height;
+                int width = _project.BaseplateExtent.Width * Baseplate.Size.Width;
+                int height = _project.BaseplateExtent.Height * Baseplate.Size.Height;
 
-                string ret = $"{m_project.ElementExtent.Width} elements by { m_project.ElementExtent.Height} elements\n";
+                string ret = $"{_project.ElementExtent.Width} elements by { _project.ElementExtent.Height} elements\n";
                 ret += $"{width} studs by {height} studs\n";
                 ret += $"{MmToCentimetersOrMeters(width * 8)} by {MmToCentimetersOrMeters(height * 8)}\n";
                 ret += $"{MmToFeetAndInches(width * 8)} by {MmToFeetAndInches(height * 8)}\n";
@@ -112,15 +112,15 @@ namespace TeethInc.Chantry.ViewModels
             }
         }
 
-        public Mosaic Mosaic => m_project.Mosaic;
+        public Mosaic Mosaic => _project.Mosaic;
 
         public MosaicAlgorithm MosaicAlgorithm
         {
-            get { return m_project.MosaicAlgorithm; }
-            set { m_project.MosaicAlgorithm = value; RaiseMosaicPropertiesChanged(); }
+            get { return _project.MosaicAlgorithm; }
+            set { _project.MosaicAlgorithm = value; RaiseMosaicPropertiesChanged(); }
         }
 
-        public List<MosaicAlgorithm> MosaicAlgorithms => m_mosaicAlgorithms;
+        public List<MosaicAlgorithm> MosaicAlgorithms => _mosaicAlgorithms;
 
         // project properties.
 
@@ -128,30 +128,30 @@ namespace TeethInc.Chantry.ViewModels
 
         public double Zoom
         {
-            get { return m_zoom; }
-            set { m_zoom = value; RaisePropertyChanged(); }
+            get { return _zoom; }
+            set { _zoom = value; RaisePropertyChanged(); }
         }
 
         public Point Pan
         {
-            get { return m_pan; }
-            set { m_pan = value; RaisePropertyChanged(); }
+            get { return _pan; }
+            set { _pan = value; RaisePropertyChanged(); }
         }
 
         public double ZoomMultiplier
         {
-            get { return m_project.FilteredImage.Info.Size.GetScaleToFill(m_project.Mosaic.Image.Info.Size); }
+            get { return _project.FilteredImage.Info.Size.GetScaleToFill(_project.Mosaic.Image.Info.Size); }
         }
 
-        public Project Project => m_project;
+        public Project Project => _project;
 
         public ProjectViewModel(Project project)
         {
-            m_ldrawService = new LdrawService();
+            _ldrawService = new LdrawService();
 
-            m_project = project;
-            m_project.Filters.ForEach(AddFilterViewModel);
-            m_project.MosaicAlgorithm = m_mosaicAlgorithms.FirstOrDefault(x => x.DisplayName == m_project.MosaicAlgorithm.DisplayName);
+            _project = project;
+            _project.Filters.ForEach(AddFilterViewModel);
+            _project.MosaicAlgorithm = _mosaicAlgorithms.FirstOrDefault(x => x.DisplayName == _project.MosaicAlgorithm.DisplayName);
 
             Zoom = 4;
         }
@@ -163,7 +163,7 @@ namespace TeethInc.Chantry.ViewModels
             if (filter is null)
                 throw new ArgumentException($"Could not create filter of type {filterType}");
 
-            m_project.Filters.Add(filter);
+            _project.Filters.Add(filter);
             AddFilterViewModel(filter);
         }
 
@@ -173,7 +173,7 @@ namespace TeethInc.Chantry.ViewModels
 
             int index = Filters.IndexOf(filterViewModel);
             Filters.RemoveAt(index);
-            m_project.Filters.RemoveAt(index);
+            _project.Filters.RemoveAt(index);
 
             RaiseFilterPropertyChanged();
         }
@@ -182,13 +182,13 @@ namespace TeethInc.Chantry.ViewModels
         {
             int number = color.LdColor.Number;
 
-            if (m_project.AllowedColors.Contains(number))
+            if (_project.AllowedColors.Contains(number))
             {
-                m_project.AllowedColors = m_project.AllowedColors.Where(x => x != number).ToArray();
+                _project.AllowedColors = _project.AllowedColors.Where(x => x != number).ToArray();
             }
             else
             {
-                m_project.AllowedColors = m_project.AllowedColors.Concat(new int[] { number }).ToArray();
+                _project.AllowedColors = _project.AllowedColors.Concat(new int[] { number }).ToArray();
             }
             
             RaisePropertyChanged(nameof(Colors));
@@ -197,7 +197,7 @@ namespace TeethInc.Chantry.ViewModels
 
         public void SerializeProject(string filename)
         {
-            string json = ProjectService.SerializeProject(m_project);
+            string json = ProjectService.SerializeProject(_project);
             File.WriteAllText(filename, json);
         }
 
