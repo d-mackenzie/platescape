@@ -98,9 +98,9 @@ namespace TeethInc.Chantry.Core.Models
             var project = new Project()
             {
                 Name = Path.GetFileNameWithoutExtension(filename),
-                Source = new FileSource()
+                Source = new ImageSource()
                 {
-                    Filename = filename
+                    Image = SKBitmap.Decode(filename)
                 }
             };
 

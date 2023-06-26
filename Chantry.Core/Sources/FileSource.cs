@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SkiaSharp;
+using System;
 using System.IO;
 
 namespace TeethInc.Chantry.Core.Sources
@@ -8,6 +9,7 @@ namespace TeethInc.Chantry.Core.Sources
     {
         private SKBitmap _image = null;
         private string _filename = "";
+        private bool _disposedValue;
 
         public string Filename
         {
@@ -38,6 +40,25 @@ namespace TeethInc.Chantry.Core.Sources
 
                 return _image;
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _image?.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
