@@ -22,7 +22,12 @@ namespace TeethInc.Chantry.Core.Models
 
         private ExportLdrawSettings _exportLdrawSettings;
 
-        public string Name { get; set; }
+		private static JsonSerializerSettings JsonSerializerSettings => new JsonSerializerSettings()
+		{
+			TypeNameHandling = TypeNameHandling.Auto
+		};
+
+		public string Name { get; set; }
 
         // source properties.
 
@@ -93,21 +98,15 @@ namespace TeethInc.Chantry.Core.Models
             _ldrawService = new LdrawService();
         }
 
-        public static Project CreateSimpleProject(string filename)
-        {
-            var project = new Project()
-            {
-                Name = Path.GetFileNameWithoutExtension(filename),
-                Source = new ImageSource()
-                {
-                    Image = SKBitmap.Decode(filename)
-                }
-            };
+		public string Serialize()
+		{
+			return JsonConvert.SerializeObject(this, Formatting.Indented, JsonSerializerSettings);
+		}
 
-            project.Filters.Add(new BrightnessContrastFilter());
-
-            return project;
-        }
+		public static Project Deserialize(string json)
+		{
+			return JsonConvert.DeserializeObject<Project>(json, JsonSerializerSettings);
+		}
 
         public void Export(IExportSettings exportSettings)
         {

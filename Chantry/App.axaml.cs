@@ -45,12 +45,12 @@ namespace TeethInc.Chantry
                         case "json":
 
                             string json = File.ReadAllText(filename);
-                            projectViewModel = new ProjectViewModel(ProjectService.DeserializeProject(json));
+                            projectViewModel = new ProjectViewModel(Project.Deserialize(json));
                             break;
 
                         default:
 
-                            projectViewModel = new ProjectViewModel(Project.CreateSimpleProject(filename));
+                            projectViewModel = new ProjectViewModel(ProjectService.CreateSimpleProject(filename));
                             break;
                     }
                 }

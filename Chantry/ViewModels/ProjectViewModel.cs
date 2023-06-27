@@ -197,7 +197,7 @@ namespace TeethInc.Chantry.ViewModels
 
         public void SerializeProject(string filename)
         {
-            string json = ProjectService.SerializeProject(_project);
+            string json = _project.Serialize();
             File.WriteAllText(filename, json);
         }
 

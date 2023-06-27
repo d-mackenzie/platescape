@@ -8,24 +8,29 @@ using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Converters;
 using Newtonsoft.Json;
 using TeethInc.Chantry.Core.Models;
+using SkiaSharp;
+using System.IO;
+using TeethInc.Chantry.Core.Filters;
 
 namespace TeethInc.Chantry.Core.Services
 {
     public static class ProjectService
     {
-        private static JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings()
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        };
 
-        public static string SerializeProject(Project project)
-        {
-            return JsonConvert.SerializeObject(project, Formatting.Indented, _jsonSerializerSettings);
-        }
+		public static Project CreateSimpleProject(string filename)
+		{
+			var project = new Project()
+			{
+				Name = Path.GetFileNameWithoutExtension(filename),
+				Source = new ImageSource()
+				{
+					Image = SKBitmap.Decode(filename)
+				}
+			};
 
-        public static Project DeserializeProject(string json)
-        {
-            return JsonConvert.DeserializeObject<Project>(json, _jsonSerializerSettings);
-        }
-    }
+			project.Filters.Add(new BrightnessContrastFilter());
+
+			return project;
+		}
+	}
 }

@@ -94,11 +94,11 @@ namespace TeethInc.Chantry.ViewModels
             if (Path.GetExtension(filename) == "json")
             {
                 string json = File.ReadAllText(filename);
-                ProjectViewModel = new ProjectViewModel(ProjectService.DeserializeProject(json));
+                ProjectViewModel = new ProjectViewModel(Project.Deserialize(json));
             }
             else
             {
-                ProjectViewModel = new ProjectViewModel(Project.CreateSimpleProject(filename));
+                ProjectViewModel = new ProjectViewModel(ProjectService.CreateSimpleProject(filename));
             }
 
             IsLoading = false;

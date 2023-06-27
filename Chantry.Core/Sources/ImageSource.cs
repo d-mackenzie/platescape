@@ -4,67 +4,67 @@ using System;
 
 namespace TeethInc.Chantry.Core.Sources
 {
-    public class ImageSource : ISource
-    {
-        private SKBitmap _image = null;
-        private bool _disposedValue;
+	public class ImageSource : ISource
+	{
+		private SKBitmap _image = null;
+		private bool _disposedValue;
 
-        public string Base64
-        {
-            get
-            {
-                using (var pixmap = _image.PeekPixels())
-                {
-                    var filters = SKPngEncoderFilterFlags.NoFilters;
-                    int compress = 9;
-                    var encoderOptions = new SKPngEncoderOptions(filters, compress);
+		public string Base64
+		{
+			get
+			{
+				using (var pixmap = _image.PeekPixels())
+				{
+					var filters = SKPngEncoderFilterFlags.NoFilters;
+					int compress = 9;
+					var encoderOptions = new SKPngEncoderOptions(filters, compress);
 
-                    using (var data = pixmap.Encode(encoderOptions))
-                    {
-                        return Convert.ToBase64String(data.Span);
-                    }
-                }
-            }
-            set
-            {
-                var data = Convert.FromBase64String(value);
-                _image = SKBitmap.Decode(data);
-            }
-        }
+					using (var data = pixmap.Encode(encoderOptions))
+					{
+						return Convert.ToBase64String(data.Span);
+					}
+				}
+			}
+			set
+			{
+				var data = Convert.FromBase64String(value);
+				_image = SKBitmap.Decode(data);
+			}
+		}
 
-        [JsonIgnore]
-        public SKBitmap Image
-        {
-            get
-            {
-                if (_image is null)
-                    _image = new SKBitmap(50, 50);
+		[JsonIgnore]
+		public SKBitmap Image
+		{
+			get
+			{
+				if (_image is null)
+					_image = new SKBitmap(50, 50);
 
-                return _image;
-            }
-            set
-            {
-                _image = value;
-            }
-        }
+				return _image;
+			}
+			set
+			{
+				_image = value;
+			}
+		}
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    _image.Dispose();
-                }
+		protected virtual void Dispose(bool disposing)
+		{
+			if (!_disposedValue)
+			{
+				if (disposing)
+				{
+					_image.Dispose();
+				}
 
-                _disposedValue = true;
-            }
-        }
+				_disposedValue = true;
+			}
+		}
 
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-    }
+		public void Dispose()
+		{
+			Dispose(disposing: true);
+			GC.SuppressFinalize(this);
+		}
+	}
 }
