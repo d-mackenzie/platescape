@@ -98,7 +98,13 @@ namespace TeethInc.Chantry.ViewModels
             }
             else
             {
-                ProjectViewModel = new ProjectViewModel(ProjectService.CreateSimpleProject(filename));
+                Project project = new ProjectBuilder()
+                    .FromFile(filename)
+                    .WithMaximumSize(new SkiaSharp.SKSize(320, 320))
+                    .WithDefaultFilters()
+                    .Build();
+
+                ProjectViewModel = new ProjectViewModel(project);
             }
 
             IsLoading = false;

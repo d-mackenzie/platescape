@@ -19,11 +19,15 @@ namespace TeethInc.Chantry.Console
     {
         static void Main(string[] args)
         {
-            Project project = ProjectService.CreateSimpleProject(@"c:\temp\eric-avatar.jpg");
-            project.BaseplateExtent = new SKSizeI(2, 2);
 
-            var json = project.Serialize();
-            File.WriteAllText("c:\\temp\\eric-avatar.json", json);
+            Project project = new ProjectBuilder()
+                .FromFile("c:\\temp\\eric-avatar.jpg")
+                .WithMaximumSize(new SKSize(320, 320))
+                .Build();
+
+
+
+
         }
     }
 }

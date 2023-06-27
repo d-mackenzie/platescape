@@ -50,7 +50,13 @@ namespace TeethInc.Chantry
 
                         default:
 
-                            projectViewModel = new ProjectViewModel(ProjectService.CreateSimpleProject(filename));
+                            Project project = new ProjectBuilder()
+                                .FromFile(filename)
+                                .WithMaximumSize(new SkiaSharp.SKSize(320, 320))
+                                .WithDefaultFilters()
+                                .Build();
+
+                            projectViewModel = new ProjectViewModel(project);
                             break;
                     }
                 }
