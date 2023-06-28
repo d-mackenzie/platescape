@@ -42,7 +42,7 @@ namespace TeethInc.Chantry.Core.Models
         public List<Filter> Filters => FilterService.Filters;
 
         [JsonIgnore]
-        public SKBitmap UnfilteredImage => FilterService.GetUnfilteredImage();
+        public SKBitmap UnfilteredImage => Source.Image;
 
         [JsonIgnore]
         public SKBitmap FilteredImage => FilterService.GetFilteredImage();

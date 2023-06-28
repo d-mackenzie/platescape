@@ -40,25 +40,7 @@ namespace TeethInc.Chantry
 
                 if (filename is not null)
                 {
-                    switch (Path.GetExtension(filename))
-                    {
-                        case "json":
-
-                            string json = File.ReadAllText(filename);
-                            projectViewModel = new ProjectViewModel(Project.Deserialize(json));
-                            break;
-
-                        default:
-
-                            Project project = new ProjectBuilder()
-                                .FromFile(filename)
-                                .WithMaximumSize(new SkiaSharp.SKSize(320, 320))
-                                .WithDefaultFilters()
-                                .Build();
-
-                            projectViewModel = new ProjectViewModel(project);
-                            break;
-                    }
+                    projectViewModel = new ProjectViewModel(ProjectService.Load(filename));
                 }
 
                 desktop.MainWindow = new MainWindow()

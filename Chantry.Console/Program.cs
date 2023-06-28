@@ -21,8 +21,8 @@ namespace TeethInc.Chantry.Console
         {
 
             Project project = new ProjectBuilder()
-                .FromFile("c:\\temp\\eric-avatar.jpg")
-                .WithMaximumSize(new SKSize(320, 320))
+                .WithFilename("c:\\temp\\eric-avatar.jpg")
+                .WithMaximumSize(320)
                 .Build();
 
 

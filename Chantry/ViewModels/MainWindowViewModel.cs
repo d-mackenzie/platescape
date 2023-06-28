@@ -91,21 +91,7 @@ namespace TeethInc.Chantry.ViewModels
 
             IsLoading = true;
 
-            if (Path.GetExtension(filename) == "json")
-            {
-                string json = File.ReadAllText(filename);
-                ProjectViewModel = new ProjectViewModel(Project.Deserialize(json));
-            }
-            else
-            {
-                Project project = new ProjectBuilder()
-                    .FromFile(filename)
-                    .WithMaximumSize(new SkiaSharp.SKSize(320, 320))
-                    .WithDefaultFilters()
-                    .Build();
-
-                ProjectViewModel = new ProjectViewModel(project);
-            }
+            ProjectViewModel = new ProjectViewModel(ProjectService.Load(filename));
 
             IsLoading = false;
         }
