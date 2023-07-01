@@ -10,11 +10,11 @@
     <FileVersion>2022.12</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.17" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.17" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.17" />
-    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.17" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Avalonia" Version="0.10.21" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.21" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.21" />
+    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.19" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
    </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Chantry.Core\Chantry.Core.csproj" />

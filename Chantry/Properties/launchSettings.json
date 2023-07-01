@@ -6,6 +6,10 @@
     "Mona Lisa": {
       "commandName": "Project",
       "commandLineArgs": "c:\\dev\\chantry\\samples\\mona-lisa.jpg"
+    },
+    "Eric": {
+      "commandName": "Project",
+      "commandLineArgs": "c:\\temp\\eric-avatar.jpg"
     }
   }
 }

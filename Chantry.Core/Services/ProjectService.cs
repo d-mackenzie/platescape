@@ -1,10 +1,13 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.Models;
+using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.Core.Services
 {
@@ -21,11 +24,16 @@ namespace TeethInc.Chantry.Core.Services
 
                 default:
 
-                    Project project = new ProjectBuilder()
-                        .WithFilename(filename)
-                        .WithMaximumSize(320)
-                        .WithDefaultFilters()
-                        .Build();
+                    var project = new Project()
+                    {
+                        Name = Path.GetFileNameWithoutExtension(filename),
+                        Source = new ScaledImageSource(320)
+                        {
+                            Image = SKBitmap.Decode(filename)
+                        }
+                    };
+
+                    project.Filters.Add(new BrightnessContrastFilter());
 
                     return project;
             }

@@ -20,13 +20,6 @@ namespace TeethInc.Chantry.Console
         static void Main(string[] args)
         {
 
-            Project project = new ProjectBuilder()
-                .WithFilename("c:\\temp\\eric-avatar.jpg")
-                .WithMaximumSize(320)
-                .Build();
-
-
-
 
         }
     }

@@ -1,4 +1,5 @@
 ﻿using SkiaSharp;
+using System;
 
 namespace TeethInc.Chantry.Core.Extensions
 {
@@ -27,7 +28,7 @@ namespace TeethInc.Chantry.Core.Extensions
 
         public static SKSizeI GetSizeScaledBy(this SKSizeI me, double scale)
         {
-            return new SKSizeI((int)(me.Width * scale), (int)(me.Height * scale));
+            return new SKSizeI((int)Math.Round(me.Width * scale), (int)Math.Round(me.Height * scale));
         }
 
         public static SKSizeI GetSizeToFill(this SKSizeI me, SKSizeI target)
@@ -36,6 +37,17 @@ namespace TeethInc.Chantry.Core.Extensions
             SKSizeI scaledByHeight = me.GetSizeScaledBy((double)target.Height / me.Height);
 
             if (scaledByWidth.IsSmallerThan(target))
+                return scaledByHeight;
+
+            return scaledByWidth;
+        }
+
+        public static SKSizeI GetSizeToFit(this SKSizeI me, SKSizeI target)
+        {
+            SKSizeI scaledByWidth = me.GetSizeScaledBy((double)target.Width / me.Width);
+            SKSizeI scaledByHeight = me.GetSizeScaledBy((double)target.Height / me.Height);
+
+            if (scaledByWidth.IsLargerThan(target))
                 return scaledByHeight;
 
             return scaledByWidth;
@@ -50,17 +62,6 @@ namespace TeethInc.Chantry.Core.Extensions
                 return heightScale;
 
             return widthScale;
-        }
-
-        public static SKSizeI GetSizeToFit(this SKSizeI me, SKSizeI target)
-        {
-            SKSizeI scaledByWidth = me.GetSizeScaledBy((double)target.Width / me.Width);
-            SKSizeI scaledByHeight = me.GetSizeScaledBy((double)target.Height / me.Height);
-
-            if (scaledByWidth.IsLargerThan(target))
-                return scaledByHeight;
-
-            return scaledByWidth;
         }
     }
 }

@@ -14,8 +14,6 @@ namespace TeethInc.Chantry.Extensions
                 memory.Position = 0;
 
                 return new AmiBitmap(memory);
-
-//                return new AmiBitmap(Avalonia.Platform.PixelFormat.Rgba8888, sdBitmap.GetHbitmap(), PixelSize.Empty, Vector.One, sdBitmap.str
             }
         }
     }
