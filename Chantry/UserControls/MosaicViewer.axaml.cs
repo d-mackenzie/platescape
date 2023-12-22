@@ -59,20 +59,20 @@ namespace TeethInc.Chantry.UserControls
         {
             var studOverlay = new RenderTargetBitmap(new PixelSize(Mosaic.Baseplate.Size.Width * ZoomScale, Mosaic.Baseplate.Size.Height * ZoomScale));
 
-            using (var overlayDrawingContext = studOverlay.CreateDrawingContext(null))
-            {
-                var pen = new Pen(new SolidColorBrush(Colors.DarkGray, 0.25), 2);
-                double studSize = (double)ZoomScale * 0.6d;
-                int studOffset = (int)(ZoomScale * 0.2d);
+			using (var overlayDrawingContext = studOverlay.CreateDrawingContext())
+			{
+				var pen = new Pen(new SolidColorBrush(Colors.DarkGray, 0.25), 2);
+				double studSize = (double)ZoomScale * 0.6d;
+				int studOffset = (int)(ZoomScale * 0.2d);
 
-                for (int x = studOffset; x < studOverlay.PixelSize.Width; x += ZoomScale)
-                {
-                    for (int y = studOffset; y < studOverlay.PixelSize.Height; y += ZoomScale)
-                    {
-                        overlayDrawingContext.DrawEllipse(null, pen, new Rect(x, y, studSize, studSize));
-                    }
-                }
-            }
+				for (int x = studOffset; x < studOverlay.PixelSize.Width; x += ZoomScale)
+				{
+					for (int y = studOffset; y < studOverlay.PixelSize.Height; y += ZoomScale)
+					{
+						overlayDrawingContext.DrawEllipse(null, pen, new Rect(x, y, studSize, studSize));
+					}
+				}
+			}
 
             return studOverlay;
         }

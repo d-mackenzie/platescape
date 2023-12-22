@@ -95,7 +95,7 @@ namespace TeethInc.Chantry.UserControls
             get
             {
                 if (Source == null)
-                    return Rect.Empty;
+                    return new Rect(0, 0, 0, 0);
 
                 Point origin = Bounds.Center + Pan;
 
@@ -107,8 +107,8 @@ namespace TeethInc.Chantry.UserControls
         {
             get
             {
-                if (Source == null)
-                    return Size.Empty;
+				if (Source == null)
+					return new Size(0, 0);
 
                 return Source.Size * ZoomMultiplier * ZoomScale;
             }

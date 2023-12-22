@@ -1,19 +1,19 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TeethInc.Chantry.PropertyPages.FiltersPage"
-             xmlns:viewmodels="clr-namespace:TeethInc.Chantry.Filters.ViewModels"
-             xmlns:views="clr-namespace:TeethInc.Chantry.Filters.Views"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="TeethInc.Chantry.PropertyPages.FiltersPage"
+			 xmlns:viewmodels="clr-namespace:TeethInc.Chantry.Filters.ViewModels"
+			 xmlns:views="clr-namespace:TeethInc.Chantry.Filters.Views"
 			 xmlns:filters="clr-namespace:TeethInc.Chantry.Core.Filters;assembly=Chantry.Core">
 
 	<ScrollViewer AllowAutoHide="False">
 
 		<StackPanel>
 
-			<ItemsControl Items="{Binding Filters}">
+			<ItemsControl ItemsSource="{Binding Filters}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<StackPanel>
@@ -52,7 +52,6 @@
 			</ItemsControl>
 
 			<Border BorderBrush="LightGray"
-					BorderDashArray="2,2"
 					CornerRadius="5"
 					BorderThickness="2"
 					Background="Transparent"
@@ -85,5 +84,5 @@
 		</StackPanel>
 
 	</ScrollViewer>
-        
+		
 </UserControl>
