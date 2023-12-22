@@ -38,7 +38,9 @@ namespace TeethInc.Chantry.UserControls
                 Blur = 10
             });
 
-        public Bitmap Source
+		private RenderOptions _renderOptions = new RenderOptions() { BitmapInterpolationMode = BitmapInterpolationMode.None };
+
+		public Bitmap Source
         {
             get { return GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
@@ -152,8 +154,8 @@ namespace TeethInc.Chantry.UserControls
 
         public override void Render(DrawingContext context)
         {
-            Layers.ForEach(x => x.Invoke(context));
-            base.Render(context);
+			Layers.ForEach(x => x.Invoke(context));
+			base.Render(context);
         }
 
         private void DrawImage(DrawingContext context)
@@ -161,8 +163,11 @@ namespace TeethInc.Chantry.UserControls
             if (Source is null)
                 return;
 
-            context.DrawRectangle(Brushes.Black, null, ImageRenderBounds.Deflate(1), 0, 0, _boxShadows);
-            context.DrawImage(Source, ImageRenderBounds);
+			using (context.PushRenderOptions(_renderOptions))
+			{
+				context.DrawRectangle(Brushes.Black, null, ImageRenderBounds.Deflate(1), 0, 0, _boxShadows);
+				context.DrawImage(Source, ImageRenderBounds);
+			}
         }
 
         private void ImageViewer_PointerWheelChanged(object? sender, Avalonia.Input.PointerWheelEventArgs e)
