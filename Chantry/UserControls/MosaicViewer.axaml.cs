@@ -1,80 +1,80 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using SkiaSharp;
 using System.Collections.Generic;
 using TeethInc.Chantry.Core.Models;
-using TeethInc.Chantry.Extensions;
 
 namespace TeethInc.Chantry.UserControls
 {
-    public partial class MosaicViewer : ImageViewer
-    {
+	public partial class MosaicViewer : ImageViewer
+	{
 
-        private Dictionary<int, IImage> _studOverlays = new Dictionary<int, IImage>();
+		private Dictionary<int, IImage> _studOverlays = new Dictionary<int, IImage>();
 
-        public static readonly StyledProperty<Mosaic> MosaicProperty =
-            AvaloniaProperty.Register<MosaicViewer, Mosaic>(nameof(Mosaic));
+		public static readonly StyledProperty<Mosaic> MosaicProperty =
+			AvaloniaProperty.Register<MosaicViewer, Mosaic>(nameof(Mosaic));
 
-        public Mosaic Mosaic
-        {
-            get { return GetValue(MosaicProperty); }
-            set { SetValue(MosaicProperty, value); }
-        }
+		public Mosaic Mosaic
+		{
+			get { return GetValue(MosaicProperty); }
+			set { SetValue(MosaicProperty, value); }
+		}
 
 
-        public MosaicViewer()
-        {
-            AffectsRender<MosaicViewer>(MosaicProperty);
+		public MosaicViewer()
+		{
+			AffectsRender<MosaicViewer>(MosaicProperty);
 
-            Layers.Add(DrawStuds);
-            InitializeComponent();
-        }
+			Layers.Add(DrawStuds);
+			InitializeComponent();
+		}
 
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+		private void InitializeComponent()
+		{
+			AvaloniaXamlLoader.Load(this);
+		}
 
-        private void DrawStuds(DrawingContext context)
-        {
-            if (Zoom < 6)
-                return;
+		private void DrawStuds(DrawingContext context)
+		{
+			if (Zoom < 6)
+				return;
 
-            if (!_studOverlays.ContainsKey(Zoom))
-                _studOverlays[Zoom] = GetStudOverlayImage();
+			if (!_studOverlays.ContainsKey(Zoom))
+				_studOverlays[Zoom] = GetStudOverlayImage();
 
-            for (int x = (int)(ImageRenderBounds.Left); x < (int)(ImageRenderBounds.Right); x += (int)(_studOverlays[Zoom].Size.Width))
-            {
-                for (int y = (int)(ImageRenderBounds.Top); y < (int)(ImageRenderBounds.Bottom); y += (int)(_studOverlays[Zoom].Size.Height))
-                {
-                    context.DrawImage(_studOverlays[Zoom], new Rect(x, y, _studOverlays[Zoom].Size.Width, _studOverlays[Zoom].Size.Height));
-                }
-            }
-        }
+			for (int x = (int)(ImageRenderBounds.Left); x < (int)(ImageRenderBounds.Right); x += (int)(_studOverlays[Zoom].Size.Width))
+			{
+				for (int y = (int)(ImageRenderBounds.Top); y < (int)(ImageRenderBounds.Bottom); y += (int)(_studOverlays[Zoom].Size.Height))
+				{
+					var targetRect = new Rect(x, y, _studOverlays[Zoom].Size.Width, _studOverlays[Zoom].Size.Height);
+					context.DrawImage(_studOverlays[Zoom], targetRect);
+				}
+			}
+		}
 
-        private IImage GetStudOverlayImage()
-        {
-            var studOverlay = new RenderTargetBitmap(new PixelSize(Mosaic.Baseplate.Size.Width * ZoomScale, Mosaic.Baseplate.Size.Height * ZoomScale));
+		private IImage GetStudOverlayImage()
+		{
+			var studOverlay = new RenderTargetBitmap(new PixelSize(Mosaic.Baseplate.Size.Width * ZoomScale, Mosaic.Baseplate.Size.Height * ZoomScale));
 
-            using (var overlayDrawingContext = studOverlay.CreateDrawingContext(null))
-            {
-                var pen = new Pen(new SolidColorBrush(Colors.DarkGray, 0.25), 2);
-                double studSize = (double)ZoomScale * 0.6d;
-                int studOffset = (int)(ZoomScale * 0.2d);
+			using (var overlayDrawingContext = studOverlay.CreateDrawingContext())
+			{
+				var pen = new Pen(new SolidColorBrush(Colors.DarkGray, 0.25), 2);
+				double studSize = (double)ZoomScale * 0.6d;
+				int studOffset = (int)(ZoomScale * 0.2d);
 
-                for (int x = studOffset; x < studOverlay.PixelSize.Width; x += ZoomScale)
-                {
-                    for (int y = studOffset; y < studOverlay.PixelSize.Height; y += ZoomScale)
-                    {
-                        overlayDrawingContext.DrawEllipse(null, pen, new Rect(x, y, studSize, studSize));
-                    }
-                }
-            }
+				overlayDrawingContext.DrawRectangle(pen, new Rect(studOverlay.Size));
 
-            return studOverlay;
-        }
-    }
+				for (int x = studOffset; x < studOverlay.PixelSize.Width; x += ZoomScale)
+				{
+					for (int y = studOffset; y < studOverlay.PixelSize.Height; y += ZoomScale)
+					{
+						overlayDrawingContext.DrawEllipse(null, pen, new Rect(x, y, studSize, studSize));
+					}
+				}
+			}
+
+			return studOverlay;
+		}
+	}
 }

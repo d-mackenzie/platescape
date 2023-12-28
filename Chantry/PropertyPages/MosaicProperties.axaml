@@ -25,7 +25,7 @@
 					   Grid.Column="0"
 					   VerticalAlignment="Center"/>
 
-				<ComboBox Items="{Binding MosaicAlgorithms}"
+				<ComboBox ItemsSource="{Binding MosaicAlgorithms}"
 						  SelectedItem="{Binding MosaicAlgorithm}"
 						  Grid.Row="0"
 						  Grid.Column="1"
@@ -64,7 +64,7 @@
 					   Grid.Column="0"
 					   VerticalAlignment="Center"/>
 				
-				<ComboBox Items="{Binding Baseplates}"
+				<ComboBox ItemsSource="{Binding Baseplates}"
 						  SelectedItem="{Binding Baseplate}"
 						  Grid.Row="2"
 						  Grid.Column="1"
@@ -81,7 +81,7 @@
 					   Grid.Column="0"
 					   VerticalAlignment="Center"/>
 				
-				<ComboBox Items="{Binding Elements}"
+				<ComboBox ItemsSource="{Binding Elements}"
 						  SelectedItem="{Binding Element}"
 						  Grid.Row="3"
 						  Grid.Column="1"
@@ -106,7 +106,7 @@
 			<Label Content="Colours:"/>
 
 			<ListBox MaxHeight="400"
-						Items="{Binding Colors}"
+						ItemsSource="{Binding Colors}"
 						Margin="0,0,5,0"
 						Background="Transparent">
 				<ListBox.Styles>
