@@ -113,8 +113,6 @@ namespace TeethInc.Chantry.ViewModels
 			}
 		}
 
-		public Mosaic Mosaic => _project.Mosaic;
-
 		public MosaicAlgorithm MosaicAlgorithm
 		{
 			get { return _project.MosaicAlgorithm; }
@@ -234,7 +232,8 @@ namespace TeethInc.Chantry.ViewModels
 		private void RaiseMosaicPropertiesChanged()
 		{
 			RaisePropertyChanged(nameof(MosaicImage));
-			//            RaisePropertyChanged(nameof(Mosaic));
+			RaisePropertyChanged(nameof(Baseplate));
+			RaisePropertyChanged(nameof(Element));
 			RaisePropertyChanged(nameof(SizeInfo));
 		}
 

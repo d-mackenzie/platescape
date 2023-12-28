@@ -2,30 +2,48 @@ using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using SkiaSharp;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Xml.Linq;
+using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.UserControls
 {
 	public partial class MosaicViewer : ImageViewer
 	{
+		public static readonly DirectProperty<MosaicViewer, LdPart> BaseplateProperty =
+			AvaloniaProperty.RegisterDirect<MosaicViewer, LdPart>(nameof(Baseplate), x => x.Baseplate, (o, v) => o.Baseplate = v);
 
-		private Dictionary<int, IImage> _studOverlays = new Dictionary<int, IImage>();
+		public static readonly DirectProperty<MosaicViewer, LdPart> ElementProperty =
+			AvaloniaProperty.RegisterDirect<MosaicViewer, LdPart>(nameof(Element), x => x.Element, (o, v) => o.Element = v);
 
-		public static readonly StyledProperty<Mosaic> MosaicProperty =
-			AvaloniaProperty.Register<MosaicViewer, Mosaic>(nameof(Mosaic));
+		private Dictionary<int, IImage> _cachedStudOverlayImages = new Dictionary<int, IImage>();
 
-		public Mosaic Mosaic
+		private LdPart _baseplate;
+		private LdPart _element;
+
+		public LdPart Baseplate
 		{
-			get { return GetValue(MosaicProperty); }
-			set { SetValue(MosaicProperty, value); }
+			get { return _baseplate; }
+			set { SetAndRaise(BaseplateProperty, ref _baseplate, value); InvalidateStudOverlayImageCache(); }
 		}
 
+		public LdPart Element
+		{
+			get { return _element; }
+			set { SetAndRaise(BaseplateProperty, ref _element, value); InvalidateStudOverlayImageCache(); }
+		}
+
+		static MosaicViewer()
+		{
+			AffectsRender<MosaicViewer>(BaseplateProperty);
+			AffectsRender<MosaicViewer>(ElementProperty);
+		}
 
 		public MosaicViewer()
 		{
-			AffectsRender<MosaicViewer>(MosaicProperty);
-
 			Layers.Add(DrawStuds);
 			InitializeComponent();
 		}
@@ -40,22 +58,22 @@ namespace TeethInc.Chantry.UserControls
 			if (Zoom < 6)
 				return;
 
-			if (!_studOverlays.ContainsKey(Zoom))
-				_studOverlays[Zoom] = GetStudOverlayImage();
+			if (!_cachedStudOverlayImages.ContainsKey(Zoom))
+				_cachedStudOverlayImages[Zoom] = GetStudOverlayImage();
 
-			for (int x = (int)(ImageRenderBounds.Left); x < (int)(ImageRenderBounds.Right); x += (int)(_studOverlays[Zoom].Size.Width))
+			for (int x = (int)(ImageRenderBounds.Left); x < (int)(ImageRenderBounds.Right); x += (int)(_cachedStudOverlayImages[Zoom].Size.Width))
 			{
-				for (int y = (int)(ImageRenderBounds.Top); y < (int)(ImageRenderBounds.Bottom); y += (int)(_studOverlays[Zoom].Size.Height))
+				for (int y = (int)(ImageRenderBounds.Top); y < (int)(ImageRenderBounds.Bottom); y += (int)(_cachedStudOverlayImages[Zoom].Size.Height))
 				{
-					var targetRect = new Rect(x, y, _studOverlays[Zoom].Size.Width, _studOverlays[Zoom].Size.Height);
-					context.DrawImage(_studOverlays[Zoom], targetRect);
+					var targetRect = new Rect(x, y, _cachedStudOverlayImages[Zoom].Size.Width, _cachedStudOverlayImages[Zoom].Size.Height);
+					context.DrawImage(_cachedStudOverlayImages[Zoom], targetRect);
 				}
 			}
 		}
 
 		private IImage GetStudOverlayImage()
 		{
-			var studOverlay = new RenderTargetBitmap(new PixelSize(Mosaic.Baseplate.Size.Width * ZoomScale, Mosaic.Baseplate.Size.Height * ZoomScale));
+			var studOverlay = new RenderTargetBitmap(new PixelSize(Baseplate.Size.Width * ZoomScale, Baseplate.Size.Height * ZoomScale));
 
 			using (var overlayDrawingContext = studOverlay.CreateDrawingContext())
 			{
@@ -75,6 +93,12 @@ namespace TeethInc.Chantry.UserControls
 			}
 
 			return studOverlay;
+		}
+
+		private void InvalidateStudOverlayImageCache()
+		{
+			Debug.WriteLine("cache invalidated.");
+			_cachedStudOverlayImages.Clear();
 		}
 	}
 }
