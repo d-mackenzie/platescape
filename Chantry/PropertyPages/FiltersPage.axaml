@@ -29,7 +29,7 @@
 										   Grid.Column="1"/>
 									<Button Content="X"
 											Grid.Column="2"
-											Command="{Binding $parent[ItemsControl].DataContext.RemoveFilterCommand}"
+											Command="{Binding $parent[UserControl].DataContext.RemoveFilterCommand}"
 											CommandParameter="{Binding}"/>
 								</Grid>
 							</Border>
