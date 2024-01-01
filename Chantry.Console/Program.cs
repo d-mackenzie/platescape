@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.Ldraw;
-using TeethInc.Chantry.Core.MosaicAlgorithms;
+using TeethInc.Chantry.Core.Algorithms;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
 using SkiaSharp;

@@ -15,7 +15,7 @@ using SkiaSharp;
 using Avalonia;
 using System;
 using TeethInc.Chantry.Services;
-using TeethInc.Chantry.Core.MosaicAlgorithms;
+using TeethInc.Chantry.Core.Algorithms;
 using TeethInc.Chantry.Core.Models;
 using System.Reactive;
 using ReactiveUI;
@@ -27,7 +27,7 @@ namespace TeethInc.Chantry.ViewModels
 	{
 		private Project _project;
 		private ObservableCollection<IFilterViewModel> _filters = new ObservableCollection<IFilterViewModel>();
-		private List<MosaicAlgorithm> _mosaicAlgorithms = new List<MosaicAlgorithm>()
+		private List<IAlgorithm> _mosaicAlgorithms = new List<IAlgorithm>()
 		{
 			new BayerMatrix(),
 			new FloydSteinberg(),
@@ -63,63 +63,49 @@ namespace TeethInc.Chantry.ViewModels
 		public List<LdPart> Elements => _ldrawService.Elements;
 		public List<AllowedColorViewModel> Colors =>
 			_ldrawService.Colors.Select(x =>
-				new AllowedColorViewModel(x, _project.AllowedColors.Contains(x.Number))).OrderBy(x => x.LdColor.Hue).ToList();
+				new AllowedColorViewModel(x, _project.AlgorithmSettings.AllowedColors.Contains(x.Number))).OrderBy(x => x.LdColor.Hue).ToList();
 
 		public LdPart Baseplate
 		{
-			get { return _ldrawService.GetPart(_project.BaseplatePartNumber); }
-			set { _project.BaseplatePartNumber = value.Number; RaiseMosaicPropertiesChanged(); }
+			get { return _project.ExtentSettings.Baseplate; }
+			set { _project.ExtentSettings.Baseplate = value; RaiseMosaicPropertiesChanged(); }
 		}
 
 		public LdPart Element
 		{
-			get { return _ldrawService.GetPart(_project.ElementPartNumber); }
-			set { _project.ElementPartNumber = value.Number; RaiseMosaicPropertiesChanged(); }
+			get { return _project.ExtentSettings.Element; }
+			set { _project.ExtentSettings.Element = value; RaiseMosaicPropertiesChanged(); }
 		}
 
 		public int BaseplateExtentWidth
 		{
-			get { return _project.BaseplateExtent.Width; }
+			get { return _project.ExtentSettings.BaseplateExtent.Width; }
 			set
 			{
-				_project.BaseplateExtent = new SKSizeI(value, _project.BaseplateExtent.Height);
+				_project.ExtentSettings.BaseplateExtent = new SKSizeI(value, _project.ExtentSettings.BaseplateExtent.Height);
 				RaiseMosaicPropertiesChanged();
 			}
 		}
 
 		public int BaseplateExtentHeight
 		{
-			get { return _project.BaseplateExtent.Height; }
+			get { return _project.ExtentSettings.BaseplateExtent.Height; }
 			set
 			{
-				_project.BaseplateExtent = new SKSizeI(_project.BaseplateExtent.Width, value);
+				_project.ExtentSettings.BaseplateExtent = new SKSizeI(_project.ExtentSettings.BaseplateExtent.Width, value);
 				RaiseMosaicPropertiesChanged();
 			}
 		}
 
-		public string SizeInfo
+		public string SizeInfo => _project.ExtentSettings.ToPhysicalSizeDisplayString();
+
+		public IAlgorithm MosaicAlgorithm
 		{
-			get
-			{
-				int width = _project.BaseplateExtent.Width * Baseplate.Size.Width;
-				int height = _project.BaseplateExtent.Height * Baseplate.Size.Height;
-
-				string ret = $"{_project.ElementExtent.Width} elements by {_project.ElementExtent.Height} elements\n";
-				ret += $"{width} studs by {height} studs\n";
-				ret += $"{MmToCentimetersOrMeters(width * 8)} by {MmToCentimetersOrMeters(height * 8)}\n";
-				ret += $"{MmToFeetAndInches(width * 8)} by {MmToFeetAndInches(height * 8)}\n";
-
-				return ret;
-			}
+			get { return _project.AlgorithmSettings.Algorithm; }
+			set { _project.AlgorithmSettings.Algorithm = value; RaiseMosaicPropertiesChanged(); }
 		}
 
-		public MosaicAlgorithm MosaicAlgorithm
-		{
-			get { return _project.MosaicAlgorithm; }
-			set { _project.MosaicAlgorithm = value; RaiseMosaicPropertiesChanged(); }
-		}
-
-		public List<MosaicAlgorithm> MosaicAlgorithms => _mosaicAlgorithms;
+		public List<IAlgorithm> MosaicAlgorithms => _mosaicAlgorithms;
 
 		// view properties.
 
@@ -157,7 +143,7 @@ namespace TeethInc.Chantry.ViewModels
 
 			_project = project;
 			_project.Filters.ForEach(AddFilterViewModel);
-			_project.MosaicAlgorithm = _mosaicAlgorithms.FirstOrDefault(x => x.DisplayName == _project.MosaicAlgorithm.DisplayName);
+			_project.AlgorithmSettings.Algorithm = _mosaicAlgorithms.FirstOrDefault(x => x.DisplayName == _project.AlgorithmSettings.Algorithm.DisplayName);
 
 			AddNewFilterCommand = ReactiveCommand.Create<Type>(AddFilter);
 			RemoveFilterCommand = ReactiveCommand.Create<IFilterViewModel>(RemoveFilter);
@@ -192,13 +178,13 @@ namespace TeethInc.Chantry.ViewModels
 		{
 			int number = color.LdColor.Number;
 
-			if (_project.AllowedColors.Contains(number))
+			if (_project.AlgorithmSettings.AllowedColors.Contains(number))
 			{
-				_project.AllowedColors = _project.AllowedColors.Where(x => x != number).ToArray();
+				_project.AlgorithmSettings.AllowedColors = _project.AlgorithmSettings.AllowedColors.Where(x => x != number).ToArray();
 			}
 			else
 			{
-				_project.AllowedColors = _project.AllowedColors.Concat(new int[] { number }).ToArray();
+				_project.AlgorithmSettings.AllowedColors = _project.AlgorithmSettings.AllowedColors.Concat(new int[] { number }).ToArray();
 			}
 
 			RaisePropertyChanged(nameof(Colors));
@@ -235,27 +221,6 @@ namespace TeethInc.Chantry.ViewModels
 			RaisePropertyChanged(nameof(Baseplate));
 			RaisePropertyChanged(nameof(Element));
 			RaisePropertyChanged(nameof(SizeInfo));
-		}
-
-		private string MmToFeetAndInches(int mm)
-		{
-			int inches = (int)(mm / 25.4f);
-
-			if (inches < 12)
-				return $"{inches}in";
-
-			if (inches % 12 == 0)
-				return $"{inches / 12}ft";
-
-			return $"{inches / 12}ft {inches % 12}in";
-		}
-
-		private string MmToCentimetersOrMeters(int mm)
-		{
-			if (mm >= 1000)
-				return string.Format("{0:F1}m", mm / 1000d);
-
-			return string.Format("{0:F0}cm", mm / 10d);
 		}
 	}
 }

@@ -4,23 +4,38 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Xml.Linq;
 using TeethInc.Chantry.Core.Converters;
 using TeethInc.Chantry.Core.Exporters;
 using TeethInc.Chantry.Core.Filters;
-using TeethInc.Chantry.Core.MosaicAlgorithms;
+using TeethInc.Chantry.Core.Algorithms;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.Core.Models
 {
-    public class Project
-    {
-        private ISource _source;
-        private FilterService _filterService;
-        private MosaicService _mosaicService;
-        private LdrawService _ldrawService;
+	public class Project
+	{
+		private const string BASEPLATE_32X32 = "3811";
+		private const string PLATE_1X1 = "3024";
 
-        private ExportLdrawSettings _exportLdrawSettings;
+		private const int LDRAW_BLACK = 0;
+		private const int LDRAW_BLUE = 1;
+		private const int LDRAW_GREEN = 2;
+		private const int LDRAW_RED = 4;
+		private const int LDRAW_YELLOW = 14;
+		private const int LDRAW_WHITE = 15;
+		private const int LDRAW_TAN = 19;
+		private const int LDRAW_DARK_TAN = 28;
+		private const int LDRAW_LIGHT_BLUISH_GREY = 71;
+		private const int LDRAW_DARK_BLUISH_GREY = 72;
+
+		private ISource _source;
+		private FilterService _filterService;
+		private MosaicService _mosaicService;
+		private LdrawService _ldrawService;
+
+		private ExportLdrawSettings _exportLdrawSettings;
 
 		private static JsonSerializerSettings JsonSerializerSettings => new JsonSerializerSettings()
 		{
@@ -29,74 +44,71 @@ namespace TeethInc.Chantry.Core.Models
 
 		public string Name { get; set; }
 
-        // source properties.
+		// source properties.
 
-        public ISource Source
-        {
-            get { return _source; }
-            set { _source = value; }
-        }
+		public ISource Source
+		{
+			get { return _source; }
+			set { _source = value; }
+		}
 
-        // filter properties.
+		// filter properties.
 
-        public List<Filter> Filters => FilterService.Filters;
+		public List<Filter> Filters => FilterService.Filters;
 
-        [JsonIgnore]
-        public SKBitmap UnfilteredImage => Source.Image;
+		[JsonIgnore]
+		public SKBitmap UnfilteredImage => Source.Image;
 
-        [JsonIgnore]
-        public SKBitmap FilteredImage => FilterService.GetFilteredImage();
+		[JsonIgnore]
+		public SKBitmap FilteredImage => FilterService.GetFilteredImage();
 
-        // mosaic properties.
+		// mosaic properties.
 
-        public string BaseplatePartNumber
-        {
-            get { return MosaicService.Baseplate; }
-            set { MosaicService.Baseplate = value; }
-        }
+		public ExtentSettings ExtentSettings { get; set; }
 
-        public string ElementPartNumber
-        {
-            get { return MosaicService.Element; }
-            set { MosaicService.Element = value; }
-        }
+		public AlgorithmSettings AlgorithmSettings { get; set; }
 
-        [JsonConverter(typeof(JsonSizeConverter))]
-        public SKSizeI BaseplateExtent
-        {
-            get { return MosaicService.BaseplateExtent; }
-            set { MosaicService.BaseplateExtent = value; }
-        }
+		[JsonIgnore]
+		public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, ExtentSettings, AlgorithmSettings);
 
-        [JsonIgnore]
-        public SKSizeI ElementExtent => MosaicService.ElementExtent;
+		// export properties.
 
-        public int[] AllowedColors
-        {
-            get { return MosaicService.AllowedColors; }
-            set { MosaicService.AllowedColors = value; }
-        }
+		public ExportLdrawSettings ExportLdrawSettings
+		{
+			get
+			{
+				_exportLdrawSettings = _exportLdrawSettings ?? GetDefaultExportFileSettings<ExportLdrawSettings>();
+				return _exportLdrawSettings;
+			}
+		}
 
-        public MosaicAlgorithm MosaicAlgorithm { get; set; } = new FloydSteinberg();
+		public Project()
+		{
+			_ldrawService = new LdrawService();
 
-        [JsonIgnore]
-        public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, MosaicAlgorithm);
+			ExtentSettings = new ExtentSettings();
+			AlgorithmSettings = new AlgorithmSettings();
 
-        // export properties.
+			ExtentSettings.Baseplate = _ldrawService.GetPart(BASEPLATE_32X32);
+			ExtentSettings.Element = _ldrawService.GetPart(PLATE_1X1);
+			ExtentSettings.BaseplateExtent = new SKSizeI(4, 4);
 
-        public ExportLdrawSettings ExportLdrawSettings
-        {
-            get
-            {
-                _exportLdrawSettings = _exportLdrawSettings ?? GetDefaultExportFileSettings<ExportLdrawSettings>();
-                return _exportLdrawSettings;
-            }
-        }
+			AlgorithmSettings.AllowedColors = new int[]
+			{
+				LDRAW_BLACK,
+				LDRAW_BLUE,
+				LDRAW_GREEN,
+				LDRAW_RED,
+				LDRAW_YELLOW,
+				LDRAW_WHITE,
+				LDRAW_TAN,
+				LDRAW_DARK_TAN,
+				LDRAW_LIGHT_BLUISH_GREY,
+				LDRAW_DARK_BLUISH_GREY
+			};
 
-        public Project()
-        {
-            _ldrawService = new LdrawService();
-        }
+			AlgorithmSettings.Algorithm = new FloydSteinberg();
+		}
 
 		public string Serialize()
 		{
@@ -108,50 +120,50 @@ namespace TeethInc.Chantry.Core.Models
 			return JsonConvert.DeserializeObject<Project>(json, JsonSerializerSettings);
 		}
 
-        public void Export(IExportSettings exportSettings)
-        {
-            new ExportService().Export(Mosaic, exportSettings);
-        }
+		public void Export(IExportSettings exportSettings)
+		{
+			new ExportService().Export(Mosaic, exportSettings);
+		}
 
-        // private properties.
+		// private properties.
 
-        private FilterService FilterService
-        {
-            get
-            {
-                if (_filterService is null)
-                    _filterService = new FilterService(Source);
+		private FilterService FilterService
+		{
+			get
+			{
+				if (_filterService is null)
+					_filterService = new FilterService(Source);
 
-                return _filterService;
-            }
-        }
+				return _filterService;
+			}
+		}
 
-        private MosaicService MosaicService
-        {
-            get
-            {
-                if (_mosaicService is null)
-                    _mosaicService = new MosaicService(_ldrawService);
+		private MosaicService MosaicService
+		{
+			get
+			{
+				if (_mosaicService is null)
+					_mosaicService = new MosaicService(_ldrawService);
 
-                return _mosaicService;
-            }
-        }
+				return _mosaicService;
+			}
+		}
 
-        private T GetDefaultExportFileSettings<T>() where T : IExportSettings
-        {
-            T ret = Activator.CreateInstance<T>();
-            
-            switch (Source)
-            {
-                case FileSource fileSource:
+		private T GetDefaultExportFileSettings<T>() where T : IExportSettings
+		{
+			T ret = Activator.CreateInstance<T>();
 
-                    ret.Filename = Path.ChangeExtension(fileSource.Filename, "ldr");
-                    ret.ExportFolder = Path.GetDirectoryName(fileSource.Filename);
-                    ret.FilenamePattern = Path.GetFileNameWithoutExtension(fileSource.Filename) + "_row{row}_col{col}.ldr";
-                    break;
-            }
+			switch (Source)
+			{
+				case FileSource fileSource:
 
-            return ret;
-        }
-    }
+					ret.Filename = Path.ChangeExtension(fileSource.Filename, "ldr");
+					ret.ExportFolder = Path.GetDirectoryName(fileSource.Filename);
+					ret.FilenamePattern = Path.GetFileNameWithoutExtension(fileSource.Filename) + "_row{row}_col{col}.ldr";
+					break;
+			}
+
+			return ret;
+		}
+	}
 }
