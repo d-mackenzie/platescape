@@ -19,7 +19,7 @@ namespace TeethInc.Chantry.UserControls
 		public static readonly DirectProperty<MosaicViewer, LdPart> ElementProperty =
 			AvaloniaProperty.RegisterDirect<MosaicViewer, LdPart>(nameof(Element), x => x.Element, (o, v) => o.Element = v);
 
-		private Dictionary<int, IImage> _cachedStudOverlayImages = new Dictionary<int, IImage>();
+		private Dictionary<string, IImage> _cachedStudOverlayImages = new Dictionary<string, IImage>();
 
 		private LdPart _baseplate;
 		private LdPart _element;
@@ -27,13 +27,13 @@ namespace TeethInc.Chantry.UserControls
 		public LdPart Baseplate
 		{
 			get { return _baseplate; }
-			set { SetAndRaise(BaseplateProperty, ref _baseplate, value); InvalidateStudOverlayImageCache(); }
+			set { SetAndRaise(BaseplateProperty, ref _baseplate, value); }
 		}
 
 		public LdPart Element
 		{
 			get { return _element; }
-			set { SetAndRaise(BaseplateProperty, ref _element, value); InvalidateStudOverlayImageCache(); }
+			set { SetAndRaise(BaseplateProperty, ref _element, value); }
 		}
 
 		static MosaicViewer()
@@ -58,47 +58,69 @@ namespace TeethInc.Chantry.UserControls
 			if (Zoom < 6)
 				return;
 
-			if (!_cachedStudOverlayImages.ContainsKey(Zoom))
-				_cachedStudOverlayImages[Zoom] = GetStudOverlayImage();
+			IImage studOverlayImage = GetStudOverlayImage();
 
-			for (int x = (int)(ImageRenderBounds.Left); x < (int)(ImageRenderBounds.Right); x += (int)(_cachedStudOverlayImages[Zoom].Size.Width))
+			for (int x = (int)(ImageRenderBounds.Left); x < (int)(ImageRenderBounds.Right); x += (int)(studOverlayImage.Size.Width))
 			{
-				for (int y = (int)(ImageRenderBounds.Top); y < (int)(ImageRenderBounds.Bottom); y += (int)(_cachedStudOverlayImages[Zoom].Size.Height))
+				for (int y = (int)(ImageRenderBounds.Top); y < (int)(ImageRenderBounds.Bottom); y += (int)(studOverlayImage.Size.Height))
 				{
-					var targetRect = new Rect(x, y, _cachedStudOverlayImages[Zoom].Size.Width, _cachedStudOverlayImages[Zoom].Size.Height);
-					context.DrawImage(_cachedStudOverlayImages[Zoom], targetRect);
+					var targetRect = new Rect(x, y, studOverlayImage.Size.Width, studOverlayImage.Size.Height);
+					context.DrawImage(studOverlayImage, targetRect);
 				}
 			}
 		}
 
 		private IImage GetStudOverlayImage()
 		{
+			string cacheKey = BuildCacheKey(_baseplate, _element, Zoom);
+
+			if (_cachedStudOverlayImages.ContainsKey(cacheKey))
+				return _cachedStudOverlayImages[cacheKey];
+
 			var studOverlay = new RenderTargetBitmap(new PixelSize(Baseplate.Size.Width * ZoomScale, Baseplate.Size.Height * ZoomScale));
 
 			using (var overlayDrawingContext = studOverlay.CreateDrawingContext())
 			{
-				var pen = new Pen(new SolidColorBrush(Colors.DarkGray, 0.25), 2);
-				double studSize = (double)ZoomScale * 0.6d;
-				int studOffset = (int)(ZoomScale * 0.2d);
+				var baseplatePen = new Pen(new SolidColorBrush(Colors.DarkGray, 0.5d), 2.0d);
+				var studPen = new Pen(new SolidColorBrush(Colors.DarkGray, 0.5d), 0.5d);
+				var elementPen = new Pen(new SolidColorBrush(Colors.DarkGray, 0.5d), 0.5d);
 
-				overlayDrawingContext.DrawRectangle(pen, new Rect(studOverlay.Size));
+				double studSize = ZoomScale * 0.3d;
+				double studOffset = ZoomScale * 0.5d;
 
-				for (int x = studOffset; x < studOverlay.PixelSize.Width; x += ZoomScale)
+				// baseplate outlines.
+
+				overlayDrawingContext.DrawRectangle(baseplatePen, new Rect(studOverlay.Size));
+
+				// stud circles.
+
+				for (double x = 0; x < studOverlay.PixelSize.Width; x += ZoomScale)
 				{
-					for (int y = studOffset; y < studOverlay.PixelSize.Height; y += ZoomScale)
+					for (double y = 0; y < studOverlay.PixelSize.Height; y += ZoomScale)
 					{
-						overlayDrawingContext.DrawEllipse(null, pen, new Rect(x, y, studSize, studSize));
+						overlayDrawingContext.DrawEllipse(null, studPen, new Point(x + studOffset, y + studOffset), studSize, studSize);
 					}
 				}
-			}
 
-			return studOverlay;
+				// element outlines.
+
+				for (double x = 0; x < studOverlay.PixelSize.Width; x += ZoomScale * Element.Size.Width)
+				{
+					for (double y = 0; y < studOverlay.PixelSize.Height; y += ZoomScale * Element.Size.Height)
+					{
+						overlayDrawingContext.DrawRectangle(null, elementPen, new Rect(x, y, ZoomScale * Element.Size.Width, ZoomScale * Element.Size.Height));
+					}
+				}
+
+				_cachedStudOverlayImages[cacheKey] = studOverlay;
+
+				return _cachedStudOverlayImages[cacheKey];
+			}
 		}
 
-		private void InvalidateStudOverlayImageCache()
+		private string BuildCacheKey(LdPart baseplate, LdPart element, int zoom)
 		{
-			Debug.WriteLine("cache invalidated.");
-			_cachedStudOverlayImages.Clear();
+			return $"{baseplate.Number};{element.Number};{zoom}";
 		}
 	}
 }
