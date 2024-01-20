@@ -1,41 +1,42 @@
 ﻿using SkiaSharp;
 using System;
 using System.Linq;
+using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.Services;
 
 namespace TeethInc.Chantry.Core.Algorithms
 {
-	public class BayerMatrix : IAlgorithm
+	public class BayerMatrix : Algorithm
 	{
-		private int _matrixSize = 2;
-
-		private float[,] _matrix;
-
-		public string DisplayName => "Bayer Matrix";
-
-		public LdColor GetColor(int x, int y, SKColor sourceColor, ColorService colorService)
+		private const int MATRIX_SIZE = 2;
+		private float[,] _matrix = new float[MATRIX_SIZE, MATRIX_SIZE]
 		{
-			float spread = 255f / colorService.AllowedColors.ToList().Count();
-			float matrixValue = _matrix[x % _matrixSize, y % _matrixSize];
+			{ 0.25f, 0.75f },
+			{ 1f,    0.5f }
+		};
 
-			float red = sourceColor.Red + spread * (matrixValue - 0.5f);
-			float green = sourceColor.Green + spread * (matrixValue - 0.5f);
-			float blue = sourceColor.Blue + spread * (matrixValue - 0.5f);
+		public override string DisplayName => "Bayer Matrix";
 
-			return colorService.GetClosestLdColor(new SKColor(
-				(byte)Math.Clamp((int)(red), 0, 255),
-				(byte)Math.Clamp((int)(green), 0, 255),
-				(byte)Math.Clamp((int)(blue), 0, 255)));
-		}
+		public BayerMatrix(ColorService colorService) : base(colorService) { }
 
-		public void Reset(SKSizeI size)
+		protected override void GetMosaic(SKColor[,] sourcePixels, LdColor[,] mosaic)
 		{
-			_matrix = new float[2, 2]
-				{
-					{ 0.25f, 0.75f },
-					{ 1f,    0.5f }
-				};
+			float spread = 255f / 8;
+
+			foreach ((int x, int y, SKColor sourceColor) in sourcePixels.Each())
+			{
+				float matrixValue = _matrix[x % MATRIX_SIZE, y % MATRIX_SIZE] - 0.5f;
+
+				float red = sourceColor.Red + (spread * matrixValue);
+				float green = sourceColor.Green + (spread * matrixValue);
+				float blue = sourceColor.Blue + (spread * matrixValue);
+
+				mosaic[x, y] = GetClosestLdColor(new SKColor(
+					(byte)Math.Clamp(red, 0, 255),
+					(byte)Math.Clamp(green, 0, 255),
+					(byte)Math.Clamp(blue, 0, 255)));
+			}
 		}
 	}
 }

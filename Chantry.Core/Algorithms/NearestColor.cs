@@ -1,19 +1,23 @@
 ﻿using SkiaSharp;
+using System;
+using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.Services;
 
 namespace TeethInc.Chantry.Core.Algorithms
 {
-	public class NearestColor : IAlgorithm
+	public class NearestColor : Algorithm
 	{
-		public string DisplayName => "Nearest Colour";
+		public override string DisplayName => "Nearest Colour";
 
-		public LdColor GetColor(int x, int y, SKColor sourceColor, ColorService colorService)
+		public NearestColor(ColorService colorService) : base(colorService) { }
+
+		protected override void GetMosaic(SKColor[,] sourcePixels, LdColor[,] mosaic)
 		{
-			return colorService.GetClosestLdColor(sourceColor);
+			foreach ((int x, int y, SKColor sourceColor) in sourcePixels.Each())
+			{
+				mosaic[x, y] = GetClosestLdColor(sourceColor);
+			}
 		}
-
-		public void Reset(SKSizeI size)
-		{ }
 	}
 }

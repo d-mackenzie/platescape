@@ -1,17 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Text.Json.Serialization;
 using TeethInc.Chantry.Core.Algorithms;
-using TeethInc.Chantry.Core.Services;
+using TeethInc.Chantry.Core.Ldraw;
 
 namespace TeethInc.Chantry.Core.Models
 {
 	public class AlgorithmSettings
 	{
-		public int[] AllowedColors { get; set; }
+		[JsonIgnore]
+		public LdColor[] AllowedColors { get; set; }
 
-		public IAlgorithm Algorithm { get; set; }
+		public int[] AllowedColorNumbers
+		{
+			get
+			{
+				return AllowedColors.Select(x => x.Number).ToArray();
+			}
+		}
+
+		public Algorithm Algorithm { get; set; }
 	}
 }
