@@ -20,6 +20,7 @@ using TeethInc.Chantry.Core.Models;
 using System.Reactive;
 using ReactiveUI;
 using System.Diagnostics;
+using DynamicData;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -27,14 +28,12 @@ namespace TeethInc.Chantry.ViewModels
 	{
 		private Project _project;
 		private ObservableCollection<IFilterViewModel> _filters = new ObservableCollection<IFilterViewModel>();
-		private List<IAlgorithm> _mosaicAlgorithms = new List<IAlgorithm>()
+		private List<Algorithm> _mosaicAlgorithms = new List<Algorithm>()
 		{
 			new BayerMatrix(),
 			new FloydSteinberg(),
 			new NearestColor()
 		};
-
-		private LdrawService _ldrawService;
 
 		private Point _pan;
 		private double _zoom = 1d;
@@ -59,11 +58,11 @@ namespace TeethInc.Chantry.ViewModels
 
 		// moasic properties.
 
-		public List<LdPart> Baseplates => _ldrawService.Baseplates;
-		public List<LdPart> Elements => _ldrawService.Elements;
+		public List<LdPart> Baseplates => LdrawService.Baseplates;
+		public List<LdPart> Elements => LdrawService.Elements;
 		public List<AllowedColorViewModel> Colors =>
-			_ldrawService.Colors.Select(x =>
-				new AllowedColorViewModel(x, _project.AlgorithmSettings.AllowedColors.Contains(x.Number))).OrderBy(x => x.LdColor.Hue).ToList();
+			LdrawService.Colors.Select(x =>
+				new AllowedColorViewModel(x, _project.AlgorithmSettings.AllowedColors.Contains(x))).OrderBy(x => x.LdColor.Hue).ToList();
 
 		public LdPart Baseplate
 		{
@@ -99,13 +98,13 @@ namespace TeethInc.Chantry.ViewModels
 
 		public string SizeInfo => _project.ExtentSettings.ToPhysicalSizeDisplayString();
 
-		public IAlgorithm MosaicAlgorithm
+		public Algorithm MosaicAlgorithm
 		{
 			get { return _project.AlgorithmSettings.Algorithm; }
 			set { _project.AlgorithmSettings.Algorithm = value; RaiseMosaicPropertiesChanged(); }
 		}
 
-		public List<IAlgorithm> MosaicAlgorithms => _mosaicAlgorithms;
+		public List<Algorithm> MosaicAlgorithms => _mosaicAlgorithms;
 
 		// view properties.
 
@@ -139,8 +138,6 @@ namespace TeethInc.Chantry.ViewModels
 
 		public ProjectViewModel(Project project)
 		{
-			_ldrawService = new LdrawService();
-
 			_project = project;
 			_project.Filters.ForEach(AddFilterViewModel);
 			_project.AlgorithmSettings.Algorithm = _mosaicAlgorithms.FirstOrDefault(x => x.DisplayName == _project.AlgorithmSettings.Algorithm.DisplayName);
@@ -176,15 +173,13 @@ namespace TeethInc.Chantry.ViewModels
 
 		public void ToggleColor(AllowedColorViewModel color)
 		{
-			int number = color.LdColor.Number;
-
-			if (_project.AlgorithmSettings.AllowedColors.Contains(number))
+			if (_project.AlgorithmSettings.AllowedColors.Contains(color.LdColor))
 			{
-				_project.AlgorithmSettings.AllowedColors = _project.AlgorithmSettings.AllowedColors.Where(x => x != number).ToArray();
+				_project.AlgorithmSettings.AllowedColors.Remove(new[] { color.LdColor });
 			}
 			else
 			{
-				_project.AlgorithmSettings.AllowedColors = _project.AlgorithmSettings.AllowedColors.Concat(new int[] { number }).ToArray();
+				_project.AlgorithmSettings.AllowedColors.Concat(new[] { color.LdColor });
 			}
 
 			RaisePropertyChanged(nameof(Colors));

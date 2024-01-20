@@ -7,23 +7,20 @@ using TeethInc.Chantry.Core.Ldraw;
 
 namespace TeethInc.Chantry.Core.Services
 {
-	public class ColorService
+	public static class ColorService
 	{
-		private LdrawService _ldrawService;
-		private LdColor[] _cachedAllowedColors;
-		private LdColor[,,] _closestLdColorCache = new LdColor[64, 64, 64];
-		private float[,,,] _distanceCache;
-		private int[] _ldColorIndex;
+		private static LdColor[] _cachedAllowedColors;
+		private static LdColor[,,] _closestLdColorCache = new LdColor[64, 64, 64];
+		private static float[,,,] _distanceCache;
+		private static int[] _ldColorIndex;
 
-		public ColorService(LdrawService ldrawService)
+		static ColorService()
 		{
-			_ldrawService = ldrawService;
 			BuildDistanceCache();
-
 			_cachedAllowedColors = new LdColor[0];
 		}
 
-		public LdColor GetClosestLdColor(SKColor color, LdColor[] allowedColors)
+		public static LdColor GetClosestLdColor(SKColor color, LdColor[] allowedColors)
 		{
 			if (isCacheInvalid(allowedColors))
 			{
@@ -33,7 +30,7 @@ namespace TeethInc.Chantry.Core.Services
 			return _closestLdColorCache[color.Red >> 2, color.Green >> 2, color.Blue >> 2];
 		}
 
-		private bool isCacheInvalid(LdColor[] allowedColors)
+		private static bool isCacheInvalid(LdColor[] allowedColors)
 		{
 			if (allowedColors.Length != _cachedAllowedColors.Length)
 				return true;
@@ -47,20 +44,19 @@ namespace TeethInc.Chantry.Core.Services
 			return false;
 		}
 
-		private void BuildDistanceCache()
+		private static void BuildDistanceCache()
 		{
 			var sw = Stopwatch.StartNew();
 
-			var ldColors = _ldrawService.Colors;
-			_distanceCache = new float[64, 64, 64, ldColors.Count];
-			_ldColorIndex = new int[ldColors.Select(x => x.Number).Max() + 1];
+			_distanceCache = new float[64, 64, 64, LdrawService.Colors.Count];
+			_ldColorIndex = new int[LdrawService.Colors.Select(x => x.Number).Max() + 1];
 
-			for (int i = 0; i < ldColors.Count; i++)
+			for (int i = 0; i < LdrawService.Colors.Count; i++)
 			{
-				_ldColorIndex[ldColors[i].Number] = i;
+				_ldColorIndex[LdrawService.Colors[i].Number] = i;
 			}
 
-			foreach (LdColor ldColor in ldColors)
+			foreach (LdColor ldColor in LdrawService.Colors)
 			{
 				int ldColorIndex = _ldColorIndex[ldColor.Number];
 
@@ -80,7 +76,7 @@ namespace TeethInc.Chantry.Core.Services
 			Debug.WriteLine($"BuildDistanceCache(): {sw.ElapsedMilliseconds}ms.");
 		}
 
-		private void BuildClosestLdColorCache()
+		private static void BuildClosestLdColorCache()
 		{
 			var sw = Stopwatch.StartNew();
 
@@ -98,7 +94,7 @@ namespace TeethInc.Chantry.Core.Services
 			Debug.WriteLine($"BuildClosestLdColorCache(): {sw.ElapsedMilliseconds}ms.");
 		}
 
-		private LdColor CalculateClosestLdColor(SKColor color)
+		private static LdColor CalculateClosestLdColor(SKColor color)
 		{
 			float minDistance = float.MaxValue;
 			LdColor closestColor = null;

@@ -1,4 +1,5 @@
 ﻿using SkiaSharp;
+using System.Text.Json.Serialization;
 using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.Models;
 using TeethInc.Chantry.Core.Services;
@@ -7,15 +8,10 @@ namespace TeethInc.Chantry.Core.Algorithms
 {
 	public abstract class Algorithm
 	{
+		[JsonIgnore]
 		public abstract string DisplayName { get; }
 
-		private ColorService _colorService;
 		private LdColor[] _allowedColors;
-
-		public Algorithm(ColorService colorService)
-		{
-			_colorService = colorService;
-		}
 
 		public LdColor[,] GetMosaic(SKBitmap sourceBitmap, SKSizeI targetSize, LdColor[] allowedColors)
 		{
@@ -50,7 +46,7 @@ namespace TeethInc.Chantry.Core.Algorithms
 
 		protected LdColor GetClosestLdColor(SKColor color)
 		{
-			return _colorService.GetClosestLdColor(color, _allowedColors);
+			return ColorService.GetClosestLdColor(color, _allowedColors);
 		}
 	}
 }

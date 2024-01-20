@@ -4,22 +4,11 @@ using System.Diagnostics;
 using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.Models;
-using TeethInc.Chantry.Core.Algorithms;
 
 namespace TeethInc.Chantry.Core.Services
 {
 	public class MosaicService
 	{
-		private ColorService _colorService;
-		private LdrawService _ldrawService;
-
-		public MosaicService(LdrawService ldrawService)
-		{
-			_ldrawService = ldrawService;
-			_colorService = new ColorService(_ldrawService);
-
-		}
-
 		public Mosaic GetMosaic(SKBitmap filteredImage, ExtentSettings extentSettings, AlgorithmSettings algorithmSettings)
 		{
 			var sw = Stopwatch.StartNew();

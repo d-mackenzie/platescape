@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using TeethInc.Chantry.Core.Algorithms;
 using TeethInc.Chantry.Core.Ldraw;
+using TeethInc.Chantry.Core.Services;
 
 namespace TeethInc.Chantry.Core.Models
 {
@@ -15,6 +16,10 @@ namespace TeethInc.Chantry.Core.Models
 			get
 			{
 				return AllowedColors.Select(x => x.Number).ToArray();
+			}
+			set
+			{
+				AllowedColors = LdrawService.GetColors(value).ToArray();
 			}
 		}
 

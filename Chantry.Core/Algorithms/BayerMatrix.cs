@@ -18,8 +18,6 @@ namespace TeethInc.Chantry.Core.Algorithms
 
 		public override string DisplayName => "Bayer Matrix";
 
-		public BayerMatrix(ColorService colorService) : base(colorService) { }
-
 		protected override void GetMosaic(SKColor[,] sourcePixels, LdColor[,] mosaic)
 		{
 			float spread = 255f / 8;

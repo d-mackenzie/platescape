@@ -33,7 +33,6 @@ namespace TeethInc.Chantry.Core.Models
 		private ISource _source;
 		private FilterService _filterService;
 		private MosaicService _mosaicService;
-		private LdrawService _ldrawService;
 
 		private ExportLdrawSettings _exportLdrawSettings;
 
@@ -84,16 +83,14 @@ namespace TeethInc.Chantry.Core.Models
 
 		public Project()
 		{
-			_ldrawService = new LdrawService();
-
 			ExtentSettings = new ExtentSettings();
 			AlgorithmSettings = new AlgorithmSettings();
 
-			ExtentSettings.Baseplate = _ldrawService.GetPart(BASEPLATE_32X32);
-			ExtentSettings.Element = _ldrawService.GetPart(PLATE_1X1);
+			ExtentSettings.Baseplate = LdrawService.GetPart(BASEPLATE_32X32);
+			ExtentSettings.Element = LdrawService.GetPart(PLATE_1X1);
 			ExtentSettings.BaseplateExtent = new SKSizeI(4, 4);
 
-			AlgorithmSettings.AllowedColors = new int[]
+			AlgorithmSettings.AllowedColorNumbers = new int[]
 			{
 				LDRAW_BLACK,
 				LDRAW_BLUE,
@@ -143,7 +140,7 @@ namespace TeethInc.Chantry.Core.Models
 			get
 			{
 				if (_mosaicService is null)
-					_mosaicService = new MosaicService(_ldrawService);
+					_mosaicService = new MosaicService();
 
 				return _mosaicService;
 			}

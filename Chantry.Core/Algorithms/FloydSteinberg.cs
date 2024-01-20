@@ -14,8 +14,6 @@ namespace TeethInc.Chantry.Core.Algorithms
 		private const float SOUTH_ERROR = 5 / 16f;
 		private const float SOUTHWEST_ERROR = 3 / 16f;
 
-		public FloydSteinberg(ColorService colorService) : base(colorService) { }
-
 		public override string DisplayName => "Floyd Steinberg";
 
 		protected override void GetMosaic(SKColor[,] sourcePixels, LdColor[,] mosaic)

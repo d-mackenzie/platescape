@@ -9,18 +9,18 @@ using TeethInc.Chantry.Core.Ldraw;
 
 namespace TeethInc.Chantry.Core.Services
 {
-	public class LdrawService
+	public static class LdrawService
 	{
-		private List<LdColor> _colors;
+		private static List<LdColor> _colors;
 
-		private List<LdPart> _baseplates;
-		private List<LdPart> _elements;
+		private static List<LdPart> _baseplates;
+		private static List<LdPart> _elements;
 
-		public List<LdPart> Baseplates => _baseplates;
-		public List<LdPart> Elements => _elements;
-		public List<LdColor> Colors => _colors;
+		public static List<LdPart> Baseplates => _baseplates;
+		public static List<LdPart> Elements => _elements;
+		public static List<LdColor> Colors => _colors;
 
-		public LdrawService()
+		static LdrawService()
 		{
 			_colors = new List<LdColor>()
 			{
@@ -73,17 +73,17 @@ namespace TeethInc.Chantry.Core.Services
 			};
 		}
 
-		public LdColor GetColor(int ldrawColorNumber)
+		public static LdColor GetColor(int ldrawColorNumber)
 		{
 			return _colors.FirstOrDefault(x => x.Number == ldrawColorNumber);
 		}
 
-		public LdPart GetPart(string ldrawElementNumber)
+		public static LdPart GetPart(string ldrawElementNumber)
 		{
 			return _baseplates.Union(_elements).FirstOrDefault(x => x.Number == ldrawElementNumber);
 		}
 
-		public IEnumerable<LdColor> GetColors(int[] ldrawColorNumbers)
+		public static IEnumerable<LdColor> GetColors(int[] ldrawColorNumbers)
 		{
 			return _colors.Where(x => ldrawColorNumbers.Contains(x.Number));
 		}
