@@ -1,4 +1,5 @@
 ﻿using SkiaSharp;
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.Models;
@@ -15,10 +16,10 @@ namespace TeethInc.Chantry.Core.Algorithms
 
 		public LdColor[,] GetMosaic(SKBitmap sourceBitmap, SKSizeI targetSize, LdColor[] allowedColors)
 		{
-			// convert source pixels into 2d array.
+			// generate cropped 2d pixel array.
 
 			SKColor[] sourceBitmapPixels = sourceBitmap.Pixels;
-			SKColor[,] sourcePixels = new SKColor[targetSize.Width, targetSize.Height];
+			SKColor[,] croppedSourcePixels = new SKColor[targetSize.Width, targetSize.Height];
 
 			SKPointI topLeft = new SKPointI(
 				(sourceBitmap.Width - targetSize.Width) / 2,
@@ -28,16 +29,16 @@ namespace TeethInc.Chantry.Core.Algorithms
 			{
 				for (int x = 0; x < targetSize.Width; x++)
 				{
-					int sourcePixelIndex = ((topLeft.Y + y) * targetSize.Width) + topLeft.X + x;
-					sourcePixels[x, y] = sourceBitmapPixels[sourcePixelIndex];
+					int sourcePixelIndex = ((topLeft.Y + y) * sourceBitmap.Width) + topLeft.X + x;
+					croppedSourcePixels[x, y] = sourceBitmapPixels[sourcePixelIndex];
 				}
 			}
 
 			_allowedColors = allowedColors;
 
-			var mosaic = new LdColor[sourcePixels.GetLength(0), sourcePixels.GetLength(1)];
+			var mosaic = new LdColor[croppedSourcePixels.GetLength(0), croppedSourcePixels.GetLength(1)];
 
-			GetMosaic(sourcePixels, mosaic);
+			GetMosaic(croppedSourcePixels, mosaic);
 
 			return mosaic;
 		}

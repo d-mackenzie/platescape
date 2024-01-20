@@ -15,31 +15,34 @@ namespace TeethInc.Chantry.Core.Services
 
 			SKSizeI elementExtent = extentSettings.ElementExtent;
 
-			var colors = new LdColor[elementExtent.Width, elementExtent.Height];
-
-			using (SKBitmap source = filteredImage.Resize(filteredImage.Info.Size.GetSizeToFill(elementExtent), SKFilterQuality.High))
+			using (SKBitmap sourceImage = filteredImage.Resize(filteredImage.Info.Size.GetSizeToFill(elementExtent), SKFilterQuality.High))
 			{
-				SKBitmap mosaic = new SKBitmap(elementExtent.Width, elementExtent.Height);
 
-				var mosaicPixels = mosaic.Pixels;
-
-				var mosaicColors = algorithmSettings.Algorithm.GetMosaic(filteredImage, extentSettings.ElementExtent, algorithmSettings.AllowedColors);
-
-				for (int y = 0; y < elementExtent.Height; y++)
-				{
-					for (int x = 0; x < elementExtent.Width; x++)
-					{
-						mosaicPixels[mosaic.GetPixelIndex(x, y)] = mosaicColors[x, y].Color;
-					}
-				}
-
-				mosaic.Pixels = mosaicPixels;
-				mosaic = mosaic.Resize(extentSettings.StudExtent, SKFilterQuality.None);
+				var mosaicColors = algorithmSettings.Algorithm.GetMosaic(sourceImage, extentSettings.ElementExtent, algorithmSettings.AllowedColors);
 
 				Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
 
-				return new Mosaic(extentSettings.Baseplate, extentSettings.Element, colors, mosaic);
+				return new Mosaic(extentSettings.Baseplate, extentSettings.Element, mosaicColors, GetMosaicBitmap(mosaicColors, extentSettings));
 			}
+		}
+
+		private SKBitmap GetMosaicBitmap(LdColor[,] mosaicColors, ExtentSettings extentSettings)
+		{
+			SKBitmap mosaicImage = new SKBitmap(extentSettings.ElementExtent.Width, extentSettings.ElementExtent.Height);
+			var mosaicPixels = mosaicImage.Pixels;
+
+			for (int y = 0; y < extentSettings.ElementExtent.Height; y++)
+			{
+				for (int x = 0; x < extentSettings.ElementExtent.Width; x++)
+				{
+					mosaicPixels[mosaicImage.GetPixelIndex(x, y)] = mosaicColors[x, y].Color;
+				}
+			}
+
+			mosaicImage.Pixels = mosaicPixels;
+			mosaicImage = mosaicImage.Resize(extentSettings.StudExtent, SKFilterQuality.None);
+
+			return mosaicImage;
 		}
 	}
 }

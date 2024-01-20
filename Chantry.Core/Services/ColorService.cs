@@ -24,7 +24,7 @@ namespace TeethInc.Chantry.Core.Services
 		{
 			if (isCacheInvalid(allowedColors))
 			{
-				BuildClosestLdColorCache();
+				BuildClosestLdColorCache(allowedColors);
 			}
 
 			return _closestLdColorCache[color.Red >> 2, color.Green >> 2, color.Blue >> 2];
@@ -76,7 +76,7 @@ namespace TeethInc.Chantry.Core.Services
 			Debug.WriteLine($"BuildDistanceCache(): {sw.ElapsedMilliseconds}ms.");
 		}
 
-		private static void BuildClosestLdColorCache()
+		private static void BuildClosestLdColorCache(LdColor[] allowedColors)
 		{
 			var sw = Stopwatch.StartNew();
 
@@ -86,20 +86,22 @@ namespace TeethInc.Chantry.Core.Services
 				{
 					for (int b = 0; b < 256; b += 4)
 					{
-						_closestLdColorCache[r >> 2, g >> 2, b >> 2] = CalculateClosestLdColor(new SKColor((byte)r, (byte)g, (byte)b));
+						_closestLdColorCache[r >> 2, g >> 2, b >> 2] = CalculateClosestLdColor(new SKColor((byte)r, (byte)g, (byte)b), allowedColors);
 					}
 				}
 			}
 
+			_cachedAllowedColors = allowedColors;
+
 			Debug.WriteLine($"BuildClosestLdColorCache(): {sw.ElapsedMilliseconds}ms.");
 		}
 
-		private static LdColor CalculateClosestLdColor(SKColor color)
+		private static LdColor CalculateClosestLdColor(SKColor color, LdColor[] allowedColors)
 		{
 			float minDistance = float.MaxValue;
 			LdColor closestColor = null;
 
-			foreach (LdColor ldColor in _cachedAllowedColors)
+			foreach (LdColor ldColor in allowedColors)
 			{
 				// get distance.
 
