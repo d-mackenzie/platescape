@@ -106,7 +106,7 @@
 			<Label Content="Colours:"/>
 
 			<ListBox MaxHeight="400"
-						ItemsSource="{Binding Colors}"
+						ItemsSource="{Binding AllowedColors}"
 						Margin="0,0,5,0"
 						Background="Transparent">
 				<ListBox.Styles>
@@ -122,21 +122,20 @@
 				</ListBox.ItemsPanel>
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<Button Width="25"
-								Height="25"
-								Background="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"
-								Padding="0"
-								Command="{Binding DataContext.ToggleColorCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-								CommandParameter="{Binding}"
-								ToolTip.Tip="{Binding LdColor.DisplayName}">
-							<Button.Content>
+						<CheckBox Width="25"
+  								  Height="25"
+  								  Background="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"
+  								  Padding="0"
+								  IsChecked="{Binding IsAllowed}"
+  								  ToolTip.Tip="{Binding LdColor.DisplayName}">
+							<CheckBox.Content>
 								<Path Data="M 5 8 L 10 13 L 20 0"
 										Stroke="{Binding ContrastColor, Converter={StaticResource ColorToBrushConverter}}"
 										StrokeThickness="3"
 										VerticalAlignment="Center"
 										IsVisible="{Binding IsAllowed}"/>
-							</Button.Content>
-						</Button>
+							</CheckBox.Content>
+						</CheckBox>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>

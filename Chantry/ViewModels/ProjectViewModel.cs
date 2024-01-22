@@ -21,6 +21,7 @@ using System.Reactive;
 using ReactiveUI;
 using System.Diagnostics;
 using DynamicData;
+using DynamicData.Binding;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -28,6 +29,8 @@ namespace TeethInc.Chantry.ViewModels
 	{
 		private Project _project;
 		private ObservableCollection<IFilterViewModel> _filters = new ObservableCollection<IFilterViewModel>();
+		private List<AllowedColorViewModel> _allowedColors;
+
 		private List<Algorithm> _mosaicAlgorithms = new List<Algorithm>()
 		{
 			new BayerMatrix(),
@@ -60,9 +63,7 @@ namespace TeethInc.Chantry.ViewModels
 
 		public List<LdPart> Baseplates => LdrawService.Baseplates;
 		public List<LdPart> Elements => LdrawService.Elements;
-		public List<AllowedColorViewModel> Colors =>
-			LdrawService.Colors.Select(x =>
-				new AllowedColorViewModel(x, _project.AlgorithmSettings.AllowedColors.Contains(x))).OrderBy(x => x.LdColor.Hue).ToList();
+		public List<AllowedColorViewModel> AllowedColors => _allowedColors;
 
 		public LdPart Baseplate
 		{
@@ -142,9 +143,13 @@ namespace TeethInc.Chantry.ViewModels
 			_project.Filters.ForEach(AddFilterViewModel);
 			_project.AlgorithmSettings.Algorithm = _mosaicAlgorithms.FirstOrDefault(x => x.DisplayName == _project.AlgorithmSettings.Algorithm.DisplayName);
 
+			_allowedColors = new List<AllowedColorViewModel>(
+				LdrawService.Colors
+					.Select(x => BuildAllowedColorViewModel(x, _project.AlgorithmSettings.AllowedColors.Contains(x)))
+					.OrderBy(x => x.LdColor.Hue));
+
 			AddNewFilterCommand = ReactiveCommand.Create<Type>(AddFilter);
 			RemoveFilterCommand = ReactiveCommand.Create<IFilterViewModel>(RemoveFilter);
-			ToggleColorCommand = ReactiveCommand.Create<AllowedColorViewModel>(ToggleColor);
 
 			Zoom = 4;
 		}
@@ -171,19 +176,10 @@ namespace TeethInc.Chantry.ViewModels
 			RaiseFilterPropertyChanged();
 		}
 
-		public void ToggleColor(AllowedColorViewModel color)
+		private void AllowedColorChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (_project.AlgorithmSettings.AllowedColors.Contains(color.LdColor))
-			{
-				_project.AlgorithmSettings.AllowedColors.Remove(new[] { color.LdColor });
-			}
-			else
-			{
-				_project.AlgorithmSettings.AllowedColors.Concat(new[] { color.LdColor });
-			}
-
-			RaisePropertyChanged(nameof(Colors));
-			RaiseMosaicPropertiesChanged();
+			_project.AlgorithmSettings.AllowedColors = _allowedColors.Where(x => x.IsAllowed).Select(x => x.LdColor).ToArray();
+			RaisePropertyChanged(nameof(MosaicImage));
 		}
 
 		public void SerializeProject(string filename)
@@ -216,6 +212,14 @@ namespace TeethInc.Chantry.ViewModels
 			RaisePropertyChanged(nameof(Baseplate));
 			RaisePropertyChanged(nameof(Element));
 			RaisePropertyChanged(nameof(SizeInfo));
+		}
+
+		private AllowedColorViewModel BuildAllowedColorViewModel(LdColor color, bool isAllowed)
+		{
+			var ret = new AllowedColorViewModel(color, _project.AlgorithmSettings.AllowedColors.Contains(color));
+			ret.PropertyChanged += AllowedColorChanged;
+
+			return ret;
 		}
 	}
 }

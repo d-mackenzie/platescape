@@ -88,7 +88,7 @@ namespace TeethInc.Chantry.Core.Models
 
 			ExtentSettings.Baseplate = LdrawService.GetPart(BASEPLATE_32X32);
 			ExtentSettings.Element = LdrawService.GetPart(PLATE_1X1);
-			ExtentSettings.BaseplateExtent = new SKSizeI(10, 10);
+			ExtentSettings.BaseplateExtent = new SKSizeI(4, 4);
 
 			AlgorithmSettings.AllowedColorNumbers = new int[]
 			{
