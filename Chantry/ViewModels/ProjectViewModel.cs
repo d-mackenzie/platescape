@@ -135,8 +135,6 @@ namespace TeethInc.Chantry.ViewModels
 
 		public ReactiveCommand<IFilterViewModel, Unit> RemoveFilterCommand { get; }
 
-		public ReactiveCommand<AllowedColorViewModel, Unit> ToggleColorCommand { get; }
-
 		public ProjectViewModel(Project project)
 		{
 			_project = project;
