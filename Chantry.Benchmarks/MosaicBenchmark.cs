@@ -25,6 +25,7 @@ namespace TeethInc.Chantry.Benchmarks
 
 		// baseline:								50ms.
 		// crop image and don't copy to 2d array:	47ms.
+		// ldcolorcache:							22ms.
 
 		[Benchmark]
 		public void GetMosaic()

@@ -12,11 +12,11 @@ namespace TeethInc.Chantry.Core.Algorithms
 		[JsonIgnore]
 		public abstract string DisplayName { get; }
 
-		private LdColor[] _allowedColors;
+		private LdColorCache _ldColorCache = new LdColorCache();
 
 		public LdColor[,] GetMosaic(SKBitmap sourceBitmap, LdColor[] allowedColors)
 		{
-			_allowedColors = allowedColors;
+			_ldColorCache.BuildCache(allowedColors);
 
 			var mosaic = new LdColor[sourceBitmap.Width, sourceBitmap.Height];
 
@@ -29,7 +29,7 @@ namespace TeethInc.Chantry.Core.Algorithms
 
 		protected LdColor GetClosestLdColor(SKColor color)
 		{
-			return ColorService.GetClosestLdColor(color, _allowedColors);
+			return _ldColorCache.GetClosestAllowedLdColor(color);
 		}
 	}
 }
