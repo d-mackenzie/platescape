@@ -11,32 +11,37 @@ using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.Core.Services
 {
-    public static class ProjectService
-    {
-        public static Project Load(string filename)
-        {
-            switch (Path.GetExtension(filename))
-            {
-                case "json":
+	public static class ProjectService
+	{
+		public static Project Load(string filename)
+		{
+			switch (Path.GetExtension(filename))
+			{
+				case "json":
 
-                    string json = File.ReadAllText(filename);
-                    return Project.Deserialize(json);
+					string json = File.ReadAllText(filename);
+					return Project.Deserialize(json);
 
-                default:
+				default:
 
-                    var project = new Project()
-                    {
-                        Name = Path.GetFileNameWithoutExtension(filename),
-                        Source = new ScaledImageSource(320)
-                        {
-                            Image = SKBitmap.Decode(filename)
-                        }
-                    };
+					var absoluteFilename = Path.GetFullPath(filename);
 
-                    project.Filters.Add(new BrightnessContrastFilter());
+					if (!File.Exists(absoluteFilename))
+						throw new FileNotFoundException($"Cannot find file {absoluteFilename}");
 
-                    return project;
-            }
-        }
-    }
+					var project = new Project()
+					{
+						Name = Path.GetFileNameWithoutExtension(absoluteFilename),
+						Source = new ScaledImageSource(320)
+						{
+							Image = SKBitmap.Decode(absoluteFilename)
+						}
+					};
+
+					project.Filters.Add(new BrightnessContrastFilter());
+
+					return project;
+			}
+		}
+	}
 }
