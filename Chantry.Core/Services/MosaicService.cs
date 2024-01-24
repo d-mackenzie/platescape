@@ -15,14 +15,22 @@ namespace TeethInc.Chantry.Core.Services
 
 			SKSizeI elementExtent = extentSettings.ElementExtent;
 
-			using (SKBitmap sourceImage = filteredImage.Resize(filteredImage.Info.Size.GetSizeToFill(elementExtent), SKFilterQuality.High))
+			using (SKBitmap resizedImage = filteredImage.Resize(filteredImage.Info.Size.GetSizeToFill(elementExtent), SKFilterQuality.High))
 			{
+				SKRectI cropRect = new SKRectI(
+					(resizedImage.Width - elementExtent.Width) / 2,
+					(resizedImage.Height - elementExtent.Height) / 2,
+					((resizedImage.Width - elementExtent.Width) / 2) + elementExtent.Width,
+					((resizedImage.Height - elementExtent.Height) / 2) + elementExtent.Height);
 
-				var mosaicColors = algorithmSettings.Algorithm.GetMosaic(sourceImage, extentSettings.ElementExtent, algorithmSettings.AllowedColors);
+				using (SKBitmap croppedImage = resizedImage.GetCrop(cropRect))
+				{
+					var mosaicColors = algorithmSettings.Algorithm.GetMosaic(resizedImage, algorithmSettings.AllowedColors);
 
-				Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
+					Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
 
-				return new Mosaic(extentSettings.Baseplate, extentSettings.Element, mosaicColors, GetMosaicBitmap(mosaicColors, extentSettings));
+					return new Mosaic(extentSettings.Baseplate, extentSettings.Element, mosaicColors, GetMosaicBitmap(mosaicColors, extentSettings));
+				}
 			}
 		}
 

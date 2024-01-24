@@ -18,11 +18,11 @@ namespace TeethInc.Chantry.Core.Algorithms
 
 		public override string DisplayName => "Bayer Matrix";
 
-		protected override void GetMosaic(SKColor[,] sourcePixels, LdColor[,] mosaic)
+		protected override void GetMosaic(SKBitmap sourceImage, LdColor[,] mosaic)
 		{
 			float spread = 255f / 8;
 
-			foreach ((int x, int y, SKColor sourceColor) in sourcePixels.Each())
+			foreach ((int x, int y, SKColor sourceColor) in sourceImage.Pixels.As2dIEnumerable(sourceImage.Width, sourceImage.Height))
 			{
 				float matrixValue = _matrix[x % MATRIX_SIZE, y % MATRIX_SIZE] - 0.5f;
 

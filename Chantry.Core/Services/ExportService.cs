@@ -48,7 +48,7 @@ namespace TeethInc.Chantry.Core.Services
                         mosaic.Baseplate,
                         mosaic.Part,
                         mosaic.Colors.GetRect(baseplateBounds),
-                        mosaic.Image.GetRect(baseplateBounds));
+                        mosaic.Image.GetCrop(baseplateBounds));
                 }
             }
 

@@ -24,13 +24,13 @@ namespace TeethInc.Chantry.Core.Extensions
 
 			return ret;
 		}
-		public static IEnumerable<(int, int, T)> Each<T>(this T[,] array)
+		public static IEnumerable<(int, int, SKColor)> As2dIEnumerable(this SKColor[] array, int width, int height)
 		{
-			for (int y = 0; y < array.GetLength(1); y++)
+			for (int y = 0; y < height; y++)
 			{
-				for (int x = 0; x < array.GetLength(0); x++)
+				for (int x = 0; x < width; x++)
 				{
-					yield return (x, y, array[x, y]);
+					yield return (x, y, array[(y * width) + x]);
 				}
 			}
 		}	}

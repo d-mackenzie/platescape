@@ -23,6 +23,9 @@ namespace TeethInc.Chantry.Benchmarks
 			_project.ExtentSettings.Element = LdrawService.GetPart("3024");
 		}
 
+		// baseline:								50ms.
+		// crop image and don't copy to 2d array:	47ms.
+
 		[Benchmark]
 		public void GetMosaic()
 		{

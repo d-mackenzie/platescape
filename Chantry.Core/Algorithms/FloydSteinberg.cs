@@ -16,10 +16,10 @@ namespace TeethInc.Chantry.Core.Algorithms
 
 		public override string DisplayName => "Floyd Steinberg";
 
-		protected override void GetMosaic(SKColor[,] sourcePixels, LdColor[,] mosaic)
+		protected override void GetMosaic(SKBitmap sourceImage, LdColor[,] mosaic)
 		{
-			int width = sourcePixels.GetLength(0);
-			int height = sourcePixels.GetLength(1);
+			int width = sourceImage.Width;
+			int height = sourceImage.Height;
 
 			var errors = new Error[width + 1, height + 1];
 
@@ -31,7 +31,7 @@ namespace TeethInc.Chantry.Core.Algorithms
 				}
 			}
 
-			foreach ((int x, int y, SKColor sourceColor) in sourcePixels.Each())
+			foreach ((int x, int y, SKColor sourceColor) in sourceImage.Pixels.As2dIEnumerable(width, height))
 			{
 				float sourceRed = sourceColor.Red;
 				float sourceGreen = sourceColor.Green;

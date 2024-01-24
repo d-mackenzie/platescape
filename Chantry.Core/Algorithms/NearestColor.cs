@@ -10,9 +10,9 @@ namespace TeethInc.Chantry.Core.Algorithms
 	{
 		public override string DisplayName => "Nearest Colour";
 
-		protected override void GetMosaic(SKColor[,] sourcePixels, LdColor[,] mosaic)
+		protected override void GetMosaic(SKBitmap sourceImage, LdColor[,] mosaic)
 		{
-			foreach ((int x, int y, SKColor sourceColor) in sourcePixels.Each())
+			foreach ((int x, int y, SKColor sourceColor) in sourceImage.Pixels.As2dIEnumerable(sourceImage.Width, sourceImage.Height))
 			{
 				mosaic[x, y] = GetClosestLdColor(sourceColor);
 			}
