@@ -6,51 +6,51 @@ using TeethInc.Chantry.Helpers;
 
 namespace TeethInc.Chantry.ViewModels
 {
-    public class SplashViewModel : BaseViewModel
-    {
-        private IFileDialog _fileDialog;
-        private List<string> _mru;
+	public class SplashViewModel : BaseViewModel
+	{
+		private IFileDialog _fileDialog;
+		private List<string> _mru;
 
-        public event EventHandler? OpenAnImage;
-        public event EventHandler? OpenAProject;
+		public event EventHandler? OpenAnImage;
+		public event EventHandler? OpenAProject;
 
-        public string ApplicationTitle
-        {
-            get
-            {
-                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+		public string ApplicationTitle
+		{
+			get
+			{
+				var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
-                return $"{assembly.GetName().Name} {assembly.GetName().Version?.Major}.{assembly.GetName().Version?.Minor}";
-            }
-        }
+				return $"{assembly.GetName().Name} {assembly.GetName().Version?.Major}.{assembly.GetName().Version?.Minor}";
+			}
+		}
 
-        public List<string> Mru
-        {
-            get { return _mru; }
-        }
+		public List<string> Mru
+		{
+			get { return _mru; }
+		}
 
-        public SplashViewModel()
-        {
-            _fileDialog = new FileDialog();
-            _mru = ApplicationHelper.LoadConfiguration().Mru.ToList();
-        }
+		public SplashViewModel()
+		{
+			_fileDialog = new FileDialog();
+			_mru = ApplicationHelper.LoadConfiguration().Mru.ToList();
+		}
 
-        public SplashViewModel(IFileDialog fileDialog)
-        {
-            _fileDialog = fileDialog;
-            _mru = ApplicationHelper.LoadConfiguration().Mru.ToList();
-        }
+		public SplashViewModel(IFileDialog fileDialog)
+		{
+			_fileDialog = fileDialog;
+			_mru = ApplicationHelper.LoadConfiguration().Mru.ToList();
+		}
 
-        public void OpenAnImageCommand()
-        {
-            if (OpenAnImage is not null)
-                OpenAnImage(this, new EventArgs());
-        }
+		public void OpenAnImageCommand()
+		{
+			if (OpenAnImage is not null)
+				OpenAnImage(this, new EventArgs());
+		}
 
-        public void OpenAProjectCommand()
-        {
-            if (OpenAProject is not null)
-                OpenAProject(this, new EventArgs());
-        }
-    }
+		public void OpenAProjectCommand()
+		{
+			if (OpenAProject is not null)
+				OpenAProject(this, new EventArgs());
+		}
+	}
 }

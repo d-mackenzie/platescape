@@ -5,9 +5,10 @@
     <Nullable>enable</Nullable>
     <RootNamespace>TeethInc.Chantry</RootNamespace>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
-    <AssemblyVersion>2022.12</AssemblyVersion>
-	<AssemblyFileVersion>2022.12</AssemblyFileVersion>
-    <FileVersion>2022.12</FileVersion>
+    <AssemblyVersion>0.2</AssemblyVersion>
+	<AssemblyFileVersion>0.2</AssemblyFileVersion>
+    <FileVersion>0.2</FileVersion>
+    <AssemblyName>Platescape</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.6" />
@@ -25,14 +26,8 @@
     <Compile Update="PropertyPages\MosaicProperties.axaml.cs">
       <DependentUpon>MosaicProperties.axaml</DependentUpon>
     </Compile>
-    <Compile Update="PropertyPages\ProjectPage.axaml.cs">
-      <DependentUpon>ProjectPage.axaml</DependentUpon>
-    </Compile>
     <Compile Update="Pages\FilteredImagePage.axaml.cs">
       <DependentUpon>FilteredImagePage.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\UnfilteredImagePage.axaml.cs">
-      <DependentUpon>UnfilteredImagePage.axaml</DependentUpon>
     </Compile>
     <Compile Update="UserControls\MosaicViewer.axaml.cs">
       <DependentUpon>MosaicViewer.axaml</DependentUpon>

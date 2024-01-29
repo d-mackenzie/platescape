@@ -10,72 +10,51 @@
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="3"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <TabControl Grid.Column="0">
+		<ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Hidden">
+		
+			<StackPanel>
 
-            <TabItem Header="Unfiltered"
-					 FontSize="12"
-					 Padding="5">
-                <pages:UnfilteredImagePage DataContext="{Binding}"/>
-            </TabItem>
+				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="True">
+					<Expander.Header>Mosaic Properties</Expander.Header>
+					<propertypages:MosaicProperties DataContext="{Binding}"/>
+				</Expander>
 
-            <TabItem Header="Filtered"
-					 FontSize="12"
-					 Padding="5">
-                <pages:FilteredImagePage DataContext="{Binding}"/>
-            </TabItem>
+				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="True">
+					<Expander.Header>Filters</Expander.Header>
+					<propertypages:FiltersPage DataContext="{Binding}"/>
+				</Expander>
 
-            <TabItem Header="Mosaic"
-					 FontSize="12"
-					 Padding="5"
-					 IsSelected="True">
-                <pages:MosaicPage DataContext="{Binding}"/>
-            </TabItem>
+			</StackPanel>
+			
+		</ScrollViewer>
 
-            <TabItem Header="Edits"
-					 FontSize="12"
-					 Padding="5">
-                <pages:EditsPage DataContext="{Binding}"/>
-            </TabItem>
-
-        </TabControl>
-
-        <GridSplitter Grid.Column="1"
+		<GridSplitter Grid.Column="1"
 					  Width="3"
 					  HorizontalAlignment="Stretch"
 					  Background="LightGray" />
 
-        <TabControl Grid.Column="2">
+		<TabControl Grid.Column="2">
 
-            <TabItem Header="Project"
+			<TabItem Header="Source Image"
 					 FontSize="12"
 					 Padding="5">
-                <propertypages:ProjectPage DataContext="{Binding}"/>
-            </TabItem>
+				<pages:FilteredImagePage DataContext="{Binding}"/>
+			</TabItem>
 
-            <TabItem Header="Filters"
-					 FontSize="12" Padding="5"
+			<TabItem Header="Mosaic Output"
+					 FontSize="12"
+					 Padding="5"
 					 IsSelected="True">
-                <propertypages:FiltersPage DataContext="{Binding}"/>
-            </TabItem>
+				<pages:MosaicPage DataContext="{Binding}"/>
+			</TabItem>
 
-            <TabItem Header="Mosaic"
-					 FontSize="12"
-					 Padding="5">
-                <propertypages:MosaicProperties DataContext="{Binding}"/>
-            </TabItem>
+		</TabControl>
 
-            <TabItem Header="Edits"
-					 FontSize="12"
-					 Padding="5">
-            </TabItem>
-
-        </TabControl>
-
-    </Grid>
+	</Grid>
     
 </UserControl>

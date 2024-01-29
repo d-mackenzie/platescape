@@ -10,6 +10,10 @@
     "Eric": {
       "commandName": "Project",
       "commandLineArgs": "c:\\temp\\eric-avatar.jpg"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
     }
   }
 }
