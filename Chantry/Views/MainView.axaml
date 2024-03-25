@@ -18,7 +18,7 @@
 		<ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Hidden">
 		
 			<StackPanel>
-
+				
 				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="True">
 					<Expander.Header>Mosaic Properties</Expander.Header>
 					<propertypages:MosaicProperties DataContext="{Binding}"/>
@@ -39,7 +39,7 @@
 					  Background="LightGray" />
 
 		<TabControl Grid.Column="2">
-
+						
 			<TabItem Header="Source Image"
 					 FontSize="12"
 					 Padding="5">

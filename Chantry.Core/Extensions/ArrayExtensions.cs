@@ -24,7 +24,7 @@ namespace TeethInc.Chantry.Core.Extensions
 
 			return ret;
 		}
-		public static IEnumerable<(int, int, SKColor)> As2dIEnumerable(this SKColor[] array, int width, int height)
+		public static IEnumerable<(int, int, T)> As2dIEnumerable<T>(this T[] array, int width, int height)
 		{
 			for (int y = 0; y < height; y++)
 			{

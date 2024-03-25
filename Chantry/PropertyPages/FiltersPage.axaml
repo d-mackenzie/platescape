@@ -16,24 +16,26 @@
 			<ItemsControl ItemsSource="{Binding Filters}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<StackPanel>
-							<Border Background="CornflowerBlue"
-									Padding="5,0,0,0">
-								<Grid ColumnDefinitions="Auto,*,Auto">
-									<CheckBox IsChecked="{Binding Enabled}"
-											  Grid.Column="0"/>
-									<Label Content="{Binding DisplayName}"
-										   VerticalContentAlignment="Center"
-										   Foreground="White"
-										   FontWeight="Bold"
-										   Grid.Column="1"/>
-									<Button Content="X"
-											Grid.Column="2"
-											Command="{Binding $parent[UserControl].DataContext.RemoveFilterCommand}"
-											CommandParameter="{Binding}"/>
-								</Grid>
-							</Border>
-							<ContentControl Content="{Binding}">
+						<Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,*">
+							<ToggleSwitch IsChecked="{Binding Enabled}"
+											OnContent=""
+											OffContent=""
+											Grid.Column="0"
+											Grid.Row="0"/>
+							<Label Content="{Binding DisplayName}"
+									VerticalContentAlignment="Center"
+									FontWeight="Bold"
+									Grid.Column="1"
+									Grid.Row="0"/>
+							<Button Content="X"
+									Grid.Column="2"
+									Command="{Binding $parent[UserControl].DataContext.RemoveFilterCommand}"
+									CommandParameter="{Binding}"
+									Grid.Row="0"/>
+							<ContentControl Content="{Binding}"
+											Grid.Row="1"
+											Grid.Column="1"
+											Grid.ColumnSpan="2">
 								<ContentControl.DataTemplates>
 									<DataTemplate DataType="{x:Type viewmodels:BrightnessContrastViewModel}">
 										<views:BrightnessContrastView DataContext="{Binding}"/>
@@ -46,7 +48,7 @@
 									</DataTemplate>
 								</ContentControl.DataTemplates>
 							</ContentControl>
-						</StackPanel>
+						</Grid>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
