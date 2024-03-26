@@ -1,6 +1,8 @@
 ﻿using SkiaSharp;
 using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Threading;
 using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Ldraw;
@@ -24,47 +26,53 @@ namespace TeethInc.Chantry.Core.Algorithms
 			int height = sourceImage.Height;
 
 			var errors = new Error[width + 1, height + 1];
+			var sourcePixelArray = sourceImage.Pixels;
 
-			foreach ((int x, int y, SKColor sourceColor) in sourceImage.Pixels.As2dIEnumerable(width, height))
+			for (int y = 0; y < height; y++)
 			{
-				float sourceRed = sourceColor.Red;
-				float sourceGreen = sourceColor.Green;
-				float sourceBlue = sourceColor.Blue;
+				for (int x = 0; x < width; x++)
+				{
+					SKColor sourceColor = sourcePixelArray[(y * width) + x];
 
-				// apply the error.
+					float sourceRed = sourceColor.Red;
+					float sourceGreen = sourceColor.Green;
+					float sourceBlue = sourceColor.Blue;
 
-				Error error = errors[x, y];
+					// apply the error.
 
-				sourceRed += error.RedError;
-				sourceGreen += error.GreenError;
-				sourceBlue += error.BlueError;
+					Error error = errors[x, y];
 
-				// get closest color.
+					sourceRed += error.RedError;
+					sourceGreen += error.GreenError;
+					sourceBlue += error.BlueError;
 
-				SKColor colorWithErrorApplied = new SKColor(
-					(byte)Math.Clamp(sourceRed, 0, 255),
-					(byte)Math.Clamp(sourceGreen, 0, 255),
-					(byte)Math.Clamp(sourceBlue, 0, 255));
+					// get closest color.
 
-				LdColor newColor = GetClosestLdColor(colorWithErrorApplied);
+					SKColor colorWithErrorApplied = new SKColor(
+						(byte)Math.Clamp(sourceRed, 0, 255),
+						(byte)Math.Clamp(sourceGreen, 0, 255),
+						(byte)Math.Clamp(sourceBlue, 0, 255));
 
-				// calculate the error.
+					LdColor newColor = GetClosestLdColor(colorWithErrorApplied);
 
-				Error calculatedError = new Error(
-					colorWithErrorApplied.Red - newColor.Color.Red,
-					colorWithErrorApplied.Green - newColor.Color.Green,
-					colorWithErrorApplied.Blue - newColor.Color.Blue);
+					// calculate the error.
 
-				// propagate the error.
+					Error calculatedError = new Error(
+						colorWithErrorApplied.Red - newColor.Color.Red,
+						colorWithErrorApplied.Green - newColor.Color.Green,
+						colorWithErrorApplied.Blue - newColor.Color.Blue);
 
-				errors[x + 1, y + 0].AddFraction(calculatedError, EAST_ERROR);
-				errors[x + 1, y + 1].AddFraction(calculatedError, SOUTHEAST_ERROR);
-				errors[x + 0, y + 1].AddFraction(calculatedError, SOUTH_ERROR);
+					// propagate the error.
 
-				if (x != 0)
-					errors[x - 1, y + 1].AddFraction(calculatedError, SOUTHWEST_ERROR);
+					errors[x + 1, y + 0].AddFraction(calculatedError, EAST_ERROR);
+					errors[x + 1, y + 1].AddFraction(calculatedError, SOUTHEAST_ERROR);
+					errors[x + 0, y + 1].AddFraction(calculatedError, SOUTH_ERROR);
 
-				mosaic[x, y] = newColor;
+					if (x != 0)
+						errors[x - 1, y + 1].AddFraction(calculatedError, SOUTHWEST_ERROR);
+
+					mosaic[x, y] = newColor;
+				}
 			}
 		}
 
@@ -81,13 +89,6 @@ namespace TeethInc.Chantry.Core.Algorithms
 				RedError = redError;
 				GreenError = greenError;
 				BlueError = blueError;
-			}
-
-			public void Init()
-			{
-				RedError = 0;
-				GreenError = 0;
-				BlueError = 0;
 			}
 
 			public void AddFraction(Error error, float fraction)
