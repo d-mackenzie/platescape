@@ -1,9 +1,11 @@
 ﻿using SkiaSharp;
 using System;
 using System.Drawing;
+using System.Threading;
 using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.Services;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TeethInc.Chantry.Core.Algorithms
 {
@@ -22,14 +24,6 @@ namespace TeethInc.Chantry.Core.Algorithms
 			int height = sourceImage.Height;
 
 			var errors = new Error[width + 1, height + 1];
-
-			for (int y = 0; y < height + 1; y++)
-			{
-				for (int x = 0; x < width + 1; x++)
-				{
-					errors[x, y] = new Error();
-				}
-			}
 
 			foreach ((int x, int y, SKColor sourceColor) in sourceImage.Pixels.As2dIEnumerable(width, height))
 			{
@@ -74,7 +68,7 @@ namespace TeethInc.Chantry.Core.Algorithms
 			}
 		}
 
-		private class Error
+		private struct Error
 		{
 			public float RedError = 0;
 			public float GreenError = 0;
@@ -87,6 +81,13 @@ namespace TeethInc.Chantry.Core.Algorithms
 				RedError = redError;
 				GreenError = greenError;
 				BlueError = blueError;
+			}
+
+			public void Init()
+			{
+				RedError = 0;
+				GreenError = 0;
+				BlueError = 0;
 			}
 
 			public void AddFraction(Error error, float fraction)
