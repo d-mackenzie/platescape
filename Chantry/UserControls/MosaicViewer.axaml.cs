@@ -65,7 +65,9 @@ namespace TeethInc.Chantry.UserControls
 				for (int y = (int)(ImageRenderBounds.Top); y < (int)(ImageRenderBounds.Bottom); y += (int)(studOverlayImage.Size.Height))
 				{
 					var targetRect = new Rect(x, y, studOverlayImage.Size.Width, studOverlayImage.Size.Height);
-					context.DrawImage(studOverlayImage, targetRect);
+
+					if (this.Bounds.Intersects(targetRect))
+						context.DrawImage(studOverlayImage, targetRect);
 				}
 			}
 		}
