@@ -19,13 +19,9 @@ namespace TeethInc.Chantry.Benchmarks
 		public void Setup()
 		{
 			_project = ProjectService.Load("c:\\temp\\eric-avatar.jpg");
-			_project.ExtentSettings.BaseplateExtent = new SkiaSharp.SKSizeI(8, 8);
+			_project.ExtentSettings.BaseplateExtent = new SkiaSharp.SKSizeI(20, 20);
 			_project.ExtentSettings.Element = LdrawService.GetPart("3024");
 		}
-
-		// baseline:								50ms.
-		// crop image and don't copy to 2d array:	47ms.
-		// ldcolorcache:							22ms.
 
 		[Benchmark]
 		public void GetMosaic()
