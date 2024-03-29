@@ -1,0 +1,59 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TeethInc.Chantry.UserControls.ExportSettingsControl">
+
+	<StackPanel>
+
+		<RadioButton Content="Export as a single file:"
+					 IsChecked="{Binding !OneFilePerBaseplate}"/>
+
+		<Label Content="Filename:"
+			   IsEnabled="{Binding !OneFilePerBaseplate}"/>
+		
+		<DockPanel LastChildFill="True">
+			<Button Content="..."
+				    Margin="4,0,0,0"
+					DockPanel.Dock="Right"
+					Command="{Binding SelectFilenameCommand}"
+					IsEnabled="{Binding !OneFilePerBaseplate}"/>
+			<TextBox Text="{Binding Filename}"
+					 IsEnabled="{Binding !OneFilePerBaseplate}"/>
+		</DockPanel>
+			
+		<RadioButton Content="Export one file per baseplate:"
+			 		 IsChecked="{Binding OneFilePerBaseplate}"/>
+
+		<Label Content="Folder:"
+			   IsEnabled="{Binding OneFilePerBaseplate}"/>
+
+		<DockPanel LastChildFill="True">
+			<Button Content="..."
+					Margin="4,0,0,0"
+					DockPanel.Dock="Right"
+					Command="{Binding SelectFolderCommand}"
+					IsEnabled="{Binding OneFilePerBaseplate}"/>
+			<TextBox Text="{Binding ExportFolder}"
+					 IsEnabled="{Binding OneFilePerBaseplate}"/>
+		</DockPanel>
+
+		<Label Content="Filename Format:"
+			   IsEnabled="{Binding OneFilePerBaseplate}"/>
+		
+		<DockPanel LastChildFill="True">
+			<Image Source="/Assets/i.png"
+				   Width="16"
+				   Height="16"
+				   Margin="4,0,0,0"
+				   DockPanel.Dock="Right"
+				   ToolTip.Tip="{Binding ExampleFilenames}"
+				   IsEnabled="{Binding OneFilePerBaseplate}"/>
+			<TextBox Text="{Binding FilenamePattern}"
+					 IsEnabled="{Binding OneFilePerBaseplate}"/>
+		</DockPanel>
+		
+	</StackPanel>
+
+</UserControl>
