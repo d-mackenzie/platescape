@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:converters="clr-namespace:TeethInc.Chantry.Converters"
+             x:Class="TeethInc.Chantry.UserControls.ColorChip">
+
+	<UserControl.Resources>
+		<converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+	</UserControl.Resources>
+
+	<StackPanel>	
+		<CheckBox Background="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"
+				  Foreground="{Binding ContrastColor}"
+				  Content="{Binding LdColor.Name}"
+				  IsChecked="{Binding IsAllowed}"
+				  ToolTip.Tip="{Binding LdColor.DisplayName}" />
+	</StackPanel>
+
+</UserControl>

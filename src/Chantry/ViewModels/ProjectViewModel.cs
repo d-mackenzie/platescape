@@ -29,7 +29,7 @@ namespace TeethInc.Chantry.ViewModels
 	{
 		private Project _project;
 		private ObservableCollection<IFilterViewModel> _filters = new ObservableCollection<IFilterViewModel>();
-		private List<AllowedColorViewModel> _allowedColors;
+		private List<ColorChipViewModel> _allowedColors;
 
 		private List<Algorithm> _mosaicAlgorithms = new List<Algorithm>()
 		{
@@ -63,7 +63,7 @@ namespace TeethInc.Chantry.ViewModels
 
 		public List<LdPart> Baseplates => LdrawService.Baseplates;
 		public List<LdPart> Elements => LdrawService.Elements;
-		public List<AllowedColorViewModel> AllowedColors => _allowedColors;
+		public List<ColorChipViewModel> AllowedColors => _allowedColors;
 
 		public LdPart Baseplate
 		{
@@ -141,7 +141,7 @@ namespace TeethInc.Chantry.ViewModels
 			_project.Filters.ForEach(AddFilterViewModel);
 			_project.AlgorithmSettings.Algorithm = _mosaicAlgorithms.FirstOrDefault(x => x.DisplayName == _project.AlgorithmSettings.Algorithm.DisplayName);
 
-			_allowedColors = new List<AllowedColorViewModel>(
+			_allowedColors = new List<ColorChipViewModel>(
 				LdrawService.Colors
 					.Select(x => BuildAllowedColorViewModel(x, _project.AlgorithmSettings.AllowedColors.Contains(x)))
 					.OrderBy(x => x.LdColor.Hue));
@@ -212,9 +212,9 @@ namespace TeethInc.Chantry.ViewModels
 			RaisePropertyChanged(nameof(SizeInfo));
 		}
 
-		private AllowedColorViewModel BuildAllowedColorViewModel(LdColor color, bool isAllowed)
+		private ColorChipViewModel BuildAllowedColorViewModel(LdColor color, bool isAllowed)
 		{
-			var ret = new AllowedColorViewModel(color, _project.AlgorithmSettings.AllowedColors.Contains(color));
+			var ret = new ColorChipViewModel(color, _project.AlgorithmSettings.AllowedColors.Contains(color));
 			ret.PropertyChanged += AllowedColorChanged;
 
 			return ret;

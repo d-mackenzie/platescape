@@ -7,7 +7,8 @@
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TeethInc.Chantry.PropertyPages.MosaicProperties"
 			 xmlns:local="clr-namespace:TeethInc.Chantry"
-             xmlns:converters="clr-namespace:TeethInc.Chantry.Converters">
+             xmlns:converters="clr-namespace:TeethInc.Chantry.Converters"
+			 xmlns:usercontrols="clr-namespace:TeethInc.Chantry.UserControls">
 
     <UserControl.Resources>
         <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
@@ -121,21 +122,8 @@
 					</ItemsPanelTemplate>
 				</ListBox.ItemsPanel>
 				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<CheckBox Width="25"
-  								  Height="25"
-  								  Background="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"
-  								  Padding="0"
-								  IsChecked="{Binding IsAllowed}"
-  								  ToolTip.Tip="{Binding LdColor.DisplayName}">
-							<CheckBox.Content>
-								<Path Data="M 5 8 L 10 13 L 20 0"
-										Stroke="{Binding ContrastColor, Converter={StaticResource ColorToBrushConverter}}"
-										StrokeThickness="3"
-										VerticalAlignment="Center"
-										IsVisible="{Binding IsAllowed}"/>
-							</CheckBox.Content>
-						</CheckBox>
+					<DataTemplate>						
+						<usercontrols:ColorChip />
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>

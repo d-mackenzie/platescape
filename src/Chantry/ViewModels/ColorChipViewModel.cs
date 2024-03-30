@@ -9,7 +9,7 @@ using TeethInc.Chantry.Core.Ldraw;
 
 namespace TeethInc.Chantry.ViewModels
 {
-	public class AllowedColorViewModel : BaseViewModel
+	public class ColorChipViewModel : BaseViewModel
 	{
 		private bool _isAllowed;
 
@@ -25,9 +25,7 @@ namespace TeethInc.Chantry.ViewModels
 			}
 		}
 
-		public SKColor ContrastColor => LdColor.IsDarkColor ? SKColors.White : SKColors.Black;
-
-		public AllowedColorViewModel(LdColor ldColor, bool isAllowed)
+		public ColorChipViewModel(LdColor ldColor, bool isAllowed)
 		{
 			LdColor = ldColor;
 			_isAllowed = isAllowed;
