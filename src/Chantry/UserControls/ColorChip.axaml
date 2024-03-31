@@ -8,14 +8,14 @@
 
 	<UserControl.Resources>
 		<converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+		<converters:ColorToContrastColorConverter x:Key="ColorToContrastColorConverter"/>
 	</UserControl.Resources>
 
-	<StackPanel>	
-		<CheckBox Background="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"
-				  Foreground="{Binding ContrastColor}"
-				  Content="{Binding LdColor.Name}"
-				  IsChecked="{Binding IsSelected}"
-				  ToolTip.Tip="{Binding LdColor.DisplayName}" />
+	<StackPanel>
+		<ToggleButton Content="{Binding LdColor.Name}"
+					  IsChecked="{Binding IsSelected}"
+					  Background="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"
+					  Foreground="{Binding LdColor.Color, Converter={StaticResource ColorToContrastColorConverter}}"/>
 	</StackPanel>
 
 </UserControl>
