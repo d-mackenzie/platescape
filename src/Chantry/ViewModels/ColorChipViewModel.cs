@@ -11,24 +11,24 @@ namespace TeethInc.Chantry.ViewModels
 {
 	public class ColorChipViewModel : BaseViewModel
 	{
-		private bool _isAllowed;
+		private bool _isSelected;
 
 		public LdColor LdColor { get; set; }
 
-		public bool IsAllowed
+		public bool IsSelected
 		{
-			get => _isAllowed;
+			get => _isSelected;
 			set
 			{
-				_isAllowed = value;
+				_isSelected = value;
 				RaisePropertyChanged();
 			}
 		}
 
-		public ColorChipViewModel(LdColor ldColor, bool isAllowed)
+		public ColorChipViewModel(LdColor ldColor, bool isSelected)
 		{
 			LdColor = ldColor;
-			_isAllowed = isAllowed;
+			_isSelected = isSelected;
 		}
 	}
 }

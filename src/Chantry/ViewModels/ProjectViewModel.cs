@@ -176,7 +176,7 @@ namespace TeethInc.Chantry.ViewModels
 
 		private void AllowedColorChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			_project.AlgorithmSettings.AllowedColors = _allowedColors.Where(x => x.IsAllowed).Select(x => x.LdColor).ToArray();
+			_project.AlgorithmSettings.AllowedColors = _allowedColors.Where(x => x.IsSelected).Select(x => x.LdColor).ToArray();
 			RaisePropertyChanged(nameof(MosaicImage));
 		}
 

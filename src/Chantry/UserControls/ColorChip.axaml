@@ -14,7 +14,7 @@
 		<CheckBox Background="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"
 				  Foreground="{Binding ContrastColor}"
 				  Content="{Binding LdColor.Name}"
-				  IsChecked="{Binding IsAllowed}"
+				  IsChecked="{Binding IsSelected}"
 				  ToolTip.Tip="{Binding LdColor.DisplayName}" />
 	</StackPanel>
 
