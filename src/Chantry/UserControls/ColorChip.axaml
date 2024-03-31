@@ -12,14 +12,13 @@
 	</UserControl.Resources>
 	
 	<ToggleButton Content="{Binding LdColor.Name}"
-				  IsChecked="{Binding IsSelected}">
+				  IsChecked="{Binding IsSelected}"
+				  BorderBrush="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}">
 
 		<ToggleButton.Styles>
 			<Style Selector="ToggleButton:unchecked">
 				<Setter Property="Background" Value="White"/>
-				<Setter Property="BorderBrush" Value="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"/>
 				<Setter Property="Foreground" Value="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"/>
-				<Setter Property="Opacity" Value=".5"/>
 			</Style>
 			<Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
 				<Setter Property="Background" Value="{Binding $parent.DataContext.LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"/>
