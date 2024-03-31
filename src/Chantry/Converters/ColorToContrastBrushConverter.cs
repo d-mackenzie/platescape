@@ -12,7 +12,7 @@ using TeethInc.Chantry.Extensions;
 
 namespace TeethInc.Chantry.Converters
 {
-	public class ColorToContrastColorConverter : IValueConverter
+	public class ColorToContrastBrushConverter : IValueConverter
 	{
 		public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
 		{

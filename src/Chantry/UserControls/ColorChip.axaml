@@ -8,14 +8,25 @@
 
 	<UserControl.Resources>
 		<converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
-		<converters:ColorToContrastColorConverter x:Key="ColorToContrastColorConverter"/>
+		<converters:ColorToContrastBrushConverter x:Key="ColorToContrastBrushConverter"/>
 	</UserControl.Resources>
+	
+	<ToggleButton Content="{Binding LdColor.Name}"
+				  IsChecked="{Binding IsSelected}">
 
-	<StackPanel>
-		<ToggleButton Content="{Binding LdColor.Name}"
-					  IsChecked="{Binding IsSelected}"
-					  Background="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"
-					  Foreground="{Binding LdColor.Color, Converter={StaticResource ColorToContrastColorConverter}}"/>
-	</StackPanel>
-
+		<ToggleButton.Styles>
+			<Style Selector="ToggleButton:unchecked">
+				<Setter Property="Background" Value="White"/>
+				<Setter Property="BorderBrush" Value="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"/>
+				<Setter Property="Foreground" Value="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"/>
+				<Setter Property="Opacity" Value=".5"/>
+			</Style>
+			<Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+				<Setter Property="Background" Value="{Binding $parent.DataContext.LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"/>
+				<Setter Property="Foreground" Value="{Binding $parent.DataContext.LdColor.Color, Converter={StaticResource ColorToContrastBrushConverter}}"/>
+			</Style>
+		</ToggleButton.Styles>
+		
+	</ToggleButton>
+				  
 </UserControl>
