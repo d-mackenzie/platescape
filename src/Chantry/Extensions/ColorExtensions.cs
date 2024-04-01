@@ -1,15 +1,16 @@
 ﻿using Avalonia.Media;
 using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Extensions;
 
 namespace TeethInc.Chantry.Extensions
 {
-	internal static class SKColorExtensions
+	internal static class ColorExtensions
 	{
+		public static bool IsDarkColor(this SKColor skColor)
+		{
+			return skColor.GetValue() <= 75;
+		}
+
 		public static Color ToColor(this SKColor skColor)
 		{
 			return new Color(skColor.Alpha, skColor.Red, skColor.Green, skColor.Blue);

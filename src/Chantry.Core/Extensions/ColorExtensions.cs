@@ -42,10 +42,18 @@ namespace TeethInc.Chantry.Core.Extensions
 			return closestColor;
 		}
 
-		public static bool IsDarkColor(this SKColor skColor)
+		public static float GetSaturation(this SKColor skColor)
+		{
+			skColor.ToHsv(out float _, out float s, out float _);
+			return s;
+		}
+
+		public static float GetValue(this SKColor skColor)
 		{
 			skColor.ToHsv(out float _, out float _, out float v);
-			return (v <= 50);
+			return v;
 		}
+
+
 	}
 }

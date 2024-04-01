@@ -1,10 +1,7 @@
 ﻿using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Ldraw;
 
 namespace TeethInc.Chantry.Core.Services
@@ -24,37 +21,41 @@ namespace TeethInc.Chantry.Core.Services
 		{
 			_colors = new List<LdColor>()
 			{
-				new LdColor(0, "Black", "05131D"),
-				new LdColor(1, "Blue", "0055BF"),
-				new LdColor(2, "Green", "257A3E"),
-				new LdColor(4, "Red", "C91A09"),
-				new LdColor(9, "Lt Blue", "B4D2E3"),
-				new LdColor(10, "Br Green", "4B9F4A"),
-				new LdColor(14, "Yellow", "F2CD37"),
-				new LdColor(15, "White", "FFFFFF"),
-				new LdColor(19, "Tan", "E4CD9E"),
-				new LdColor(22, "Purple", "81007B"),
-				new LdColor(25, "Orange", "FE8A18"),
-				new LdColor(26, "Magenta", "923978"),
-				new LdColor(27, "Lime", "BBE90B"),
-				new LdColor(28, "Dk Tan", "958A73"),
-				new LdColor(29, "Bt Pink", "E4ADC8"),
-				new LdColor(70, "Reddish Brown", "582A12"),
-				new LdColor(71, "Lt Bluish Gray", "A0A5A9"),
-				new LdColor(72, "Dk Bluish Gray", "6C6E68"),
-				new LdColor(73, "Md Blue", "5C9DD1"),
-				new LdColor(118, "Aqua", "B3D7D1"),
-				new LdColor(272, "Dk Blue", "0D325B"),
-				new LdColor(288, "Dk Green", "184632"),
-				new LdColor(308, "Dk Brown", "352100"),
-				new LdColor(320, "Dk Red", "720E0F"),
-				new LdColor(321, "Dk Azure", "1498D7"),
-				new LdColor(322, "Md Azure", "3EC2DD"),
-				new LdColor(323, "Lt Aqua", "BDDCD8"),
-				new LdColor(330, "Olive Green", "9B9A5A"),
-				new LdColor(378, "Sand Green", "A0BCAC"),
-				new LdColor(379, "Sand Blue", "597184"),
-				new LdColor(484, "Dk Orange", "A95500")
+				new LdColor(0, "Black", "05131D", 0),
+				new LdColor(72, "Dk Bluish Gray", "6C6E68", 1),
+				new LdColor(71, "Lt Bluish Gray", "A0A5A9", 2),
+				new LdColor(15, "White", "FFFFFF", 3),
+
+				new LdColor(308, "Dk Brown", "352100", 4),
+				new LdColor(70, "Reddish Brown", "582A12", 5),
+				new LdColor(320, "Dk Red", "720E0F", 6),
+				new LdColor(4, "Red", "C91A09", 7),
+
+				new LdColor(484, "Dk Orange", "A95500", 8),
+				new LdColor(25, "Orange", "FE8A18", 9),
+
+				new LdColor(28, "Dk Tan", "958A73", 9),
+				new LdColor(19, "Tan", "E4CD9E", 10),
+				new LdColor(14, "Yellow", "F2CD37", 11),
+
+				new LdColor(288, "Dk Green", "184632", 12),
+				new LdColor(330, "Olive Green", "9B9A5A", 13),
+				new LdColor(378, "Sand Green", "A0BCAC", 14),
+				new LdColor(2, "Green", "257A3E", 15),
+				new LdColor(10, "Br Green", "4B9F4A", 16),
+				new LdColor(27, "Lime", "BBE90B", 17),
+
+				new LdColor(272, "Dk Blue", "0D325B", 18),
+				new LdColor(379, "Sand Blue", "597184", 19),
+				new LdColor(73, "Md Blue", "5C9DD1", 20),
+				new LdColor(1, "Blue", "0055BF", 21),
+				new LdColor(9, "Lt Blue", "B4D2E3", 22),
+				new LdColor(321, "Dk Azure", "1498D7", 23),
+				new LdColor(322, "Md Azure", "3EC2DD", 24),
+
+				new LdColor(22, "Purple", "81007B", 25),
+				new LdColor(26, "Magenta", "923978", 26),
+				new LdColor(29, "Bt Pink", "E4ADC8", 27),
 			};
 
 			_baseplates = new List<LdPart>()

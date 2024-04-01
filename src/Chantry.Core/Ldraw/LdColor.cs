@@ -9,6 +9,8 @@ namespace TeethInc.Chantry.Core.Ldraw
 		public string Name { get; }
 		public SKColor Color { get; }
 
+		public int Order { get; set; }
+
 		public string DisplayName => $"{Name} ({Number})";
 
 		public float Hue
@@ -20,7 +22,7 @@ namespace TeethInc.Chantry.Core.Ldraw
 			}
 		}
 
-		public LdColor(int number, string name, string rgbHex)
+		public LdColor(int number, string name, string rgbHex, int order)
 		{
 			Number = number;
 			Name = name;
@@ -28,6 +30,7 @@ namespace TeethInc.Chantry.Core.Ldraw
 			uint rgba = uint.Parse(rgbHex, System.Globalization.NumberStyles.HexNumber);
 			rgba = rgba | 0xFF000000;
 			Color = new SKColor(rgba);
+			Order = order;
 		}
 	}
 }

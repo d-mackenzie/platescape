@@ -144,7 +144,7 @@ namespace TeethInc.Chantry.ViewModels
 			_allowedColors = new List<ColorChipViewModel>(
 				LdrawService.Colors
 					.Select(x => BuildAllowedColorViewModel(x, _project.AlgorithmSettings.AllowedColors.Contains(x)))
-					.OrderBy(x => x.LdColor.Hue));
+					.OrderBy(x => x.LdColor.Order));
 
 			AddNewFilterCommand = ReactiveCommand.Create<Type>(AddFilter);
 			RemoveFilterCommand = ReactiveCommand.Create<IFilterViewModel>(RemoveFilter);
