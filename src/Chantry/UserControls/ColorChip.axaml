@@ -2,27 +2,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:converters="clr-namespace:TeethInc.Chantry.Converters"
              x:Class="TeethInc.Chantry.UserControls.ColorChip">
 
 	<UserControl.Resources>
-		<converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
-		<converters:ColorToContrastBrushConverter x:Key="ColorToContrastBrushConverter"/>
+		<converters:LdColorToColorConverter x:Key="LdColorToColorConverter"/>
+		<converters:LdColorToContrastConverter x:Key="LdColorToContrastConverter"/>
+		<sys:Boolean x:Key="True">True</sys:Boolean>
 	</UserControl.Resources>
 	
 	<ToggleButton Content="{Binding LdColor.Name}"
 				  IsChecked="{Binding IsSelected}"
-				  BorderBrush="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}">
+				  Background="White"
+				  Foreground="{Binding LdColor, Converter={StaticResource LdColorToColorConverter}, ConverterParameter={StaticResource True}}"
+				  BorderBrush="{Binding LdColor, Converter={StaticResource LdColorToColorConverter}, ConverterParameter={StaticResource True}}">
 
 		<ToggleButton.Styles>
-			<Style Selector="ToggleButton:unchecked">
-				<Setter Property="Background" Value="White"/>
-				<Setter Property="Foreground" Value="{Binding LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"/>
-			</Style>
 			<Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
-				<Setter Property="Background" Value="{Binding $parent.DataContext.LdColor.Color, Converter={StaticResource ColorToBrushConverter}}"/>
-				<Setter Property="Foreground" Value="{Binding $parent.DataContext.LdColor.Color, Converter={StaticResource ColorToContrastBrushConverter}}"/>
+				<Setter Property="Background" Value="{Binding $parent.DataContext.LdColor, Converter={StaticResource LdColorToColorConverter}}"/>
+				<Setter Property="Foreground" Value="{Binding $parent.DataContext.LdColor, Converter={StaticResource LdColorToContrastConverter}}"/>
 			</Style>
 		</ToggleButton.Styles>
 		
