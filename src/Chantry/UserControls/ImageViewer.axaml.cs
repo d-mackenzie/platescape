@@ -52,7 +52,7 @@ namespace TeethInc.Chantry.UserControls
 			set
 			{
 				SetValue(ZoomProperty, value);
-				SetValue(PanProperty, Pan);
+				Pan = Pan;
 			}
 		}
 
