@@ -42,17 +42,19 @@
 							Grid.Row="1"
 							Grid.Column="1"
 							Margin="5">
-
+					
 					<NumericUpDown Minimum="1"
 								   Maximum="20"
-								   Value="{Binding BaseplateExtentWidth}" />
+								   FormatString="N0"
+								   Value="{Binding BaseplateExtentWidth}"/>
 
 					<Label Content=" by "
 						   VerticalAlignment="Center"/>
 
 					<NumericUpDown Minimum="1"
 								   Maximum="20"
-								   Value="{Binding BaseplateExtentHeight}" />
+								   FormatString="N0"
+								   Value="{Binding BaseplateExtentHeight}"/>
 				</StackPanel>
 
 				<Label Content="Baseplate:"
