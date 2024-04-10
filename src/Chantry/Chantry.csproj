@@ -15,6 +15,7 @@
     <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
     <PackageReference Include="Avalonia.Diagnostics" Version="11.0.10" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Svg.Skia" Version="11.0.0.18" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.10.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -34,22 +35,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Include="Assets\*" />
-  </ItemGroup>
-  <ItemGroup>
-    <AvaloniaResource Remove="Assets\brightness.svg" />
-    <AvaloniaResource Remove="Assets\contrast.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AvaloniaXaml Remove="SplashView.axaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="SplashView.axaml.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Assets\brightness.svg" />
-    <None Remove="Assets\contrast.svg" />
-    <None Remove="Assets\splash.jpg" />
+    <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\app.ico" />
@@ -58,8 +44,5 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <UpToDateCheckInput Remove="UserControls\ExportSettingsControl.axaml" />
   </ItemGroup>
 </Project>

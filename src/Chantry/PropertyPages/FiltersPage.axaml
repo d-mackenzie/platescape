@@ -27,11 +27,16 @@
 									FontWeight="Bold"
 									Grid.Column="1"
 									Grid.Row="0"/>
-							<Button Content="X"
-									Grid.Column="2"
+							<Button Grid.Column="2"
 									Command="{Binding $parent[UserControl].DataContext.RemoveFilterCommand}"
 									CommandParameter="{Binding}"
-									Grid.Row="0"/>
+									Grid.Row="0">
+								<Button.Content>
+									<Svg Path="/Assets/ci-00882.svg"
+										 Width="16"
+										 Height="16"/>
+								</Button.Content>
+							</Button>
 							<ContentControl Content="{Binding}"
 											Grid.Row="1"
 											Grid.Column="1"

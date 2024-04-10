@@ -5,36 +5,20 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TeethInc.Chantry.Filters.Views.BrightnessContrastView">
 
-    <Grid ColumnDefinitions="25,*" RowDefinitions="*,*">
-
-		<Image Source="/Assets/brightness.png"
-			   Width="16"
-			   Height="16"
-			   Grid.Row="0"
-			   Grid.Column="0"/>
+    <StackPanel>
 		
-		<Slider Grid.Row="0"
-				Grid.Column="1"
-    			Minimum="-100"
+		<Slider Minimum="-100"
                 Maximum="100"
                 TickFrequency="10"
                 TickPlacement="TopLeft"
                 Value="{Binding Brightness}"/>
 
-		<Image Source="/Assets/contrast.png"
-			   Width="16"
-			   Height="16"
-			   Grid.Row="1"
-			   Grid.Column="0"/>
-
-		<Slider Grid.Row="1"
-				Grid.Column="1"
-    			Minimum="-100"
+		<Slider Minimum="-100"
                 Maximum="100"
                 TickFrequency="10"
                 TickPlacement="TopLeft"
                 Value="{Binding Contrast}"/>
 
-    </Grid>
+    </StackPanel>
     
 </UserControl>

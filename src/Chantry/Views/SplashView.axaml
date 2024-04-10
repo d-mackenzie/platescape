@@ -16,6 +16,7 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="*"/>
+				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 
 			<TextBlock Grid.Row="0"
@@ -53,6 +54,17 @@
 						<SolidColorBrush Color="Transparent"/>
 					</ListBox.Background>
 				</ListBox>
+
+			</Grid>
+			
+			<Grid Margin="20"
+				  Grid.Row="2">
+
+				<StackPanel>
+					<Label Content="Copyright 2024 David Mackenzie" Padding="0" HorizontalContentAlignment="Right"/>
+					<Label Content="https://github.com/d-mackenzie/chantry" Padding="0" HorizontalContentAlignment="Right"/>
+					<Label Content="Icons from https://custicon.com/" Padding="0" HorizontalContentAlignment="Right"/>
+				</StackPanel>
 
 			</Grid>
 			
