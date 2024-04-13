@@ -32,9 +32,9 @@
 									CommandParameter="{Binding}"
 									Grid.Row="0">
 								<Button.Content>
-									<Svg Path="/Assets/ci-00882.svg"
-										 Width="16"
-										 Height="16"/>
+									<Svg Path="/Assets/delete_FILL0_wght300_GRAD0_opsz24.svg"
+										 Width="24"
+										 Height="24"/>
 								</Button.Content>
 							</Button>
 							<ContentControl Content="{Binding}"

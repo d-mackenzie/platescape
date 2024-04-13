@@ -63,7 +63,6 @@
 				<StackPanel>
 					<Label Content="Copyright 2024 David Mackenzie" Padding="0" HorizontalContentAlignment="Right"/>
 					<Label Content="https://github.com/d-mackenzie/chantry" Padding="0" HorizontalContentAlignment="Right"/>
-					<Label Content="Icons from https://custicon.com/" Padding="0" HorizontalContentAlignment="Right"/>
 				</StackPanel>
 
 			</Grid>
