@@ -19,8 +19,16 @@ namespace TeethInc.Chantry.ViewModels
 			get
 			{
 				var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+				return $"{assembly.GetName().Name}";
+			}
+		}
 
-				return $"{assembly.GetName().Name} {assembly.GetName().Version?.Major}.{assembly.GetName().Version?.Minor}";
+		public string Version
+		{
+			get
+			{
+				var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+				return $"Version {assembly.GetName().Version?.Major}";
 			}
 		}
 

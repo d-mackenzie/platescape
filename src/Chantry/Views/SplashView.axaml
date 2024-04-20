@@ -61,6 +61,7 @@
 				  Grid.Row="2">
 
 				<StackPanel>
+					<Label Content="{Binding Version}" Padding="0" HorizontalContentAlignment="Right"/>
 					<Label Content="Copyright 2024 David Mackenzie" Padding="0" HorizontalContentAlignment="Right"/>
 					<Label Content="https://github.com/d-mackenzie/chantry" Padding="0" HorizontalContentAlignment="Right"/>
 				</StackPanel>

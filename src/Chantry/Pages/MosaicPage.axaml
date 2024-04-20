@@ -7,8 +7,8 @@
              xmlns:usercontrols="clr-namespace:TeethInc.Chantry.UserControls">
 
     <usercontrols:MosaicViewer Source="{Binding MosaicImage}"
-							   Baseplate="{Binding Baseplate}"
-							   Element="{Binding Element}"
+							   BaseplateSize="{Binding BaseplateSize}"
+							   ElementSize="{Binding ElementSize}"
 							   Pan="{Binding Path=Pan, Mode=TwoWay}"
                                Zoom="{Binding Path=Zoom, Mode=TwoWay}"
                                ZoomMultiplier="1" />

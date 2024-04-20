@@ -13,28 +13,28 @@ namespace TeethInc.Chantry.Core.Models
 {
 	public class ExtentSettings
 	{
-		public LdPart Baseplate { get; set; }
+		public SKSizeI BaseplateSize { get; set; }
 
-		public LdPart Element { get; set; }
+		public SKSizeI ElementSize { get; set; }
 
 		public SKSizeI BaseplateExtent { get; set; }
 
 		[JsonIgnore]
 		public SKSizeI ElementExtent =>
 			new SKSizeI(
-				Baseplate.Size.Width * BaseplateExtent.Width / Element.Size.Width,
-				Baseplate.Size.Height * BaseplateExtent.Height / Element.Size.Height);
+				BaseplateSize.Width * BaseplateExtent.Width / ElementSize.Width,
+				BaseplateSize.Height * BaseplateExtent.Height / ElementSize.Height);
 
 		[JsonIgnore]
 		public SKSizeI StudExtent =>
 			new SKSizeI(
-				Baseplate.Size.Width * BaseplateExtent.Width,
-				Baseplate.Size.Height * BaseplateExtent.Height);
+				BaseplateSize.Width * BaseplateExtent.Width,
+				BaseplateSize.Height * BaseplateExtent.Height);
 
 		public string ToPhysicalSizeDisplayString()
 		{
-			int width = BaseplateExtent.Width * Baseplate.Size.Width;
-			int height = BaseplateExtent.Height * Baseplate.Size.Height;
+			int width = BaseplateExtent.Width * BaseplateSize.Width;
+			int height = BaseplateExtent.Height * BaseplateSize.Height;
 
 			return $"{ElementExtent.Width} elements by {ElementExtent.Height} elements\n"
 				+ $"{width} studs by {height} studs\n"
@@ -62,7 +62,5 @@ namespace TeethInc.Chantry.Core.Models
 
 			return string.Format("{0:F0}cm", mm / 10d);
 		}
-
-
 	}
 }

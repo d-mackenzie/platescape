@@ -29,7 +29,7 @@ namespace TeethInc.Chantry.Core.Services
 
 					Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
 
-					return new Mosaic(extentSettings.Baseplate, extentSettings.Element, mosaicColors, GetMosaicBitmap(mosaicColors, extentSettings));
+					return new Mosaic(extentSettings.BaseplateSize, extentSettings.ElementSize, mosaicColors, GetMosaicBitmap(mosaicColors, extentSettings));
 				}
 			}
 		}

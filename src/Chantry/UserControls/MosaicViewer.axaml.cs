@@ -13,33 +13,33 @@ namespace TeethInc.Chantry.UserControls
 {
 	public partial class MosaicViewer : ImageViewer
 	{
-		public static readonly DirectProperty<MosaicViewer, LdPart> BaseplateProperty =
-			AvaloniaProperty.RegisterDirect<MosaicViewer, LdPart>(nameof(Baseplate), x => x.Baseplate, (o, v) => o.Baseplate = v);
+		public static readonly DirectProperty<MosaicViewer, SKSizeI> BaseplateSizeProperty =
+			AvaloniaProperty.RegisterDirect<MosaicViewer, SKSizeI>(nameof(BaseplateSize), x => x.BaseplateSize, (o, v) => o.BaseplateSize = v);
 
-		public static readonly DirectProperty<MosaicViewer, LdPart> ElementProperty =
-			AvaloniaProperty.RegisterDirect<MosaicViewer, LdPart>(nameof(Element), x => x.Element, (o, v) => o.Element = v);
+		public static readonly DirectProperty<MosaicViewer, SKSizeI> ElementSizeProperty =
+			AvaloniaProperty.RegisterDirect<MosaicViewer, SKSizeI>(nameof(ElementSize), x => x.ElementSize, (o, v) => o.ElementSize = v);
 
 		private Dictionary<string, IImage> _cachedStudOverlayImages = new Dictionary<string, IImage>();
 
-		private LdPart _baseplate;
-		private LdPart _element;
+		private SKSizeI _baseplateSize;
+		private SKSizeI _elementSize;
 
-		public LdPart Baseplate
+		public SKSizeI BaseplateSize
 		{
-			get { return _baseplate; }
-			set { SetAndRaise(BaseplateProperty, ref _baseplate, value); }
+			get { return _baseplateSize; }
+			set { SetAndRaise(BaseplateSizeProperty, ref _baseplateSize, value); }
 		}
 
-		public LdPart Element
+		public SKSizeI ElementSize
 		{
-			get { return _element; }
-			set { SetAndRaise(BaseplateProperty, ref _element, value); }
+			get { return _elementSize; }
+			set { SetAndRaise(BaseplateSizeProperty, ref _elementSize, value); }
 		}
 
 		static MosaicViewer()
 		{
-			AffectsRender<MosaicViewer>(BaseplateProperty);
-			AffectsRender<MosaicViewer>(ElementProperty);
+			AffectsRender<MosaicViewer>(BaseplateSizeProperty);
+			AffectsRender<MosaicViewer>(ElementSizeProperty);
 		}
 
 		public MosaicViewer()
@@ -74,12 +74,12 @@ namespace TeethInc.Chantry.UserControls
 
 		private IImage GetStudOverlayImage()
 		{
-			string cacheKey = BuildCacheKey(_baseplate, _element, Zoom);
+			string cacheKey = BuildCacheKey(_baseplateSize, _elementSize, Zoom);
 
 			if (_cachedStudOverlayImages.ContainsKey(cacheKey))
 				return _cachedStudOverlayImages[cacheKey];
 
-			var studOverlay = new RenderTargetBitmap(new PixelSize(Baseplate.Size.Width * ZoomScale, Baseplate.Size.Height * ZoomScale));
+			var studOverlay = new RenderTargetBitmap(new PixelSize(BaseplateSize.Width * ZoomScale, BaseplateSize.Height * ZoomScale));
 
 			using (var overlayDrawingContext = studOverlay.CreateDrawingContext())
 			{
@@ -106,11 +106,11 @@ namespace TeethInc.Chantry.UserControls
 
 				// element outlines.
 
-				for (double x = 0; x < studOverlay.PixelSize.Width; x += ZoomScale * Element.Size.Width)
+				for (double x = 0; x < studOverlay.PixelSize.Width; x += ZoomScale * ElementSize.Width)
 				{
-					for (double y = 0; y < studOverlay.PixelSize.Height; y += ZoomScale * Element.Size.Height)
+					for (double y = 0; y < studOverlay.PixelSize.Height; y += ZoomScale * ElementSize.Height)
 					{
-						overlayDrawingContext.DrawRectangle(null, elementPen, new Rect(x, y, ZoomScale * Element.Size.Width, ZoomScale * Element.Size.Height));
+						overlayDrawingContext.DrawRectangle(null, elementPen, new Rect(x, y, ZoomScale * ElementSize.Width, ZoomScale * ElementSize.Height));
 					}
 				}
 
@@ -120,9 +120,9 @@ namespace TeethInc.Chantry.UserControls
 			}
 		}
 
-		private string BuildCacheKey(LdPart baseplate, LdPart element, int zoom)
+		private string BuildCacheKey(SKSizeI baseplateSize, SKSizeI elementSize, int zoom)
 		{
-			return $"{baseplate.Number};{element.Number};{zoom}";
+			return $"{baseplateSize};{elementSize};{zoom}";
 		}
 	}
 }

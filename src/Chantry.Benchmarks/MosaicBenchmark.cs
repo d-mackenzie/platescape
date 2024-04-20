@@ -20,7 +20,7 @@ namespace TeethInc.Chantry.Benchmarks
 		{
 			_project = ProjectService.Load("c:\\temp\\eric-avatar.jpg");
 			_project.ExtentSettings.BaseplateExtent = new SkiaSharp.SKSizeI(20, 20);
-			_project.ExtentSettings.Element = LdrawService.GetPart("3024");
+			_project.ExtentSettings.ElementSize = new SkiaSharp.SKSizeI(1, 1);
 		}
 
 		[Benchmark]

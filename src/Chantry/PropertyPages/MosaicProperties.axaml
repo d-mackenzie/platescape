@@ -7,9 +7,14 @@
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TeethInc.Chantry.PropertyPages.MosaicProperties"
 			 xmlns:local="clr-namespace:TeethInc.Chantry"
+             xmlns:converters="clr-namespace:TeethInc.Chantry.Converters"
 			 xmlns:usercontrols="clr-namespace:TeethInc.Chantry.UserControls">
-    
-    <ScrollViewer AllowAutoHide="False">
+
+	<UserControl.Resources>
+		<converters:SKSizeIToStringConverter x:Key="SKSizeIToStringConverter"/>
+	</UserControl.Resources>
+
+	<ScrollViewer AllowAutoHide="False">
 
         <StackPanel>
 
@@ -62,14 +67,14 @@
 					   Grid.Column="0"
 					   VerticalAlignment="Center"/>
 				
-				<ComboBox ItemsSource="{Binding Baseplates}"
-						  SelectedItem="{Binding Baseplate}"
+				<ComboBox ItemsSource="{Binding BaseplateSizes}"
+						  SelectedItem="{Binding BaseplateSize}"
 						  Grid.Row="2"
 						  Grid.Column="1"
 						  Margin="5">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Name}"/>
+							<TextBlock Text="{Binding Converter={StaticResource SKSizeIToStringConverter}}"/>
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
@@ -79,14 +84,14 @@
 					   Grid.Column="0"
 					   VerticalAlignment="Center"/>
 				
-				<ComboBox ItemsSource="{Binding Elements}"
-						  SelectedItem="{Binding Element}"
+				<ComboBox ItemsSource="{Binding ElementSizes}"
+						  SelectedItem="{Binding ElementSize}"
 						  Grid.Row="3"
 						  Grid.Column="1"
 						  Margin="5">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Name}"/>
+							<TextBlock Text="{Binding Converter={StaticResource SKSizeIToStringConverter}}"/>
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>

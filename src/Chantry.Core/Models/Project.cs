@@ -16,9 +16,6 @@ namespace TeethInc.Chantry.Core.Models
 {
 	public class Project
 	{
-		private const string BASEPLATE_32X32 = "3811";
-		private const string PLATE_1X1 = "3024";
-
 		private const int LDRAW_BLACK = 0;
 		private const int LDRAW_BLUE = 1;
 		private const int LDRAW_GREEN = 2;
@@ -86,8 +83,8 @@ namespace TeethInc.Chantry.Core.Models
 			ExtentSettings = new ExtentSettings();
 			AlgorithmSettings = new AlgorithmSettings();
 
-			ExtentSettings.Baseplate = LdrawService.GetPart(BASEPLATE_32X32);
-			ExtentSettings.Element = LdrawService.GetPart(PLATE_1X1);
+			ExtentSettings.BaseplateSize = new SKSizeI(32, 32);
+			ExtentSettings.ElementSize = new SKSizeI(1, 1);
 			ExtentSettings.BaseplateExtent = new SKSizeI(4, 4);
 
 			AlgorithmSettings.AllowedColorNumbers = new int[]

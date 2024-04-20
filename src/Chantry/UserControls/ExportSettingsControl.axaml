@@ -43,13 +43,13 @@
 			   IsEnabled="{Binding OneFilePerBaseplate}"/>
 		
 		<DockPanel LastChildFill="True">
-			<Image Source="/Assets/i.png"
-				   Width="16"
-				   Height="16"
-				   Margin="4,0,0,0"
-				   DockPanel.Dock="Right"
-				   ToolTip.Tip="{Binding ExampleFilenames}"
-				   IsEnabled="{Binding OneFilePerBaseplate}"/>
+			<Svg Path="/Assets/info_FILL0_wght300_GRAD0_opsz24.svg"
+				 Width="16"
+				 Height="16"
+				 Margin="4,0,0,0"
+				 DockPanel.Dock="Right"
+				 ToolTip.Tip="{Binding ExampleFilenames}"
+				 IsEnabled="{Binding OneFilePerBaseplate}"/>
 			<TextBox Text="{Binding FilenamePattern}"
 					 IsEnabled="{Binding OneFilePerBaseplate}"/>
 		</DockPanel>

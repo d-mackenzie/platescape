@@ -61,20 +61,22 @@ namespace TeethInc.Chantry.ViewModels
 
 		// moasic properties.
 
-		public List<LdPart> Baseplates => LdrawService.Baseplates;
-		public List<LdPart> Elements => LdrawService.Elements;
+		public List<SKSizeI> BaseplateSizes => LdrawService.Baseplates.Select(x => x.Size).Distinct().ToList();
+
+		public List<SKSizeI> ElementSizes => LdrawService.Elements.Select(x => x.Size).Distinct().ToList();
+
 		public List<ColorChipViewModel> AllowedColors => _allowedColors;
 
-		public LdPart Baseplate
+		public SKSizeI BaseplateSize
 		{
-			get { return _project.ExtentSettings.Baseplate; }
-			set { _project.ExtentSettings.Baseplate = value; RaiseMosaicPropertiesChanged(); }
+			get { return _project.ExtentSettings.BaseplateSize; }
+			set { _project.ExtentSettings.BaseplateSize = value; RaiseMosaicPropertiesChanged(); }
 		}
 
-		public LdPart Element
+		public SKSizeI ElementSize
 		{
-			get { return _project.ExtentSettings.Element; }
-			set { _project.ExtentSettings.Element = value; RaiseMosaicPropertiesChanged(); }
+			get { return _project.ExtentSettings.ElementSize; }
+			set { _project.ExtentSettings.ElementSize = value; RaiseMosaicPropertiesChanged(); }
 		}
 
 		public int BaseplateExtentWidth
@@ -207,8 +209,8 @@ namespace TeethInc.Chantry.ViewModels
 		private void RaiseMosaicPropertiesChanged()
 		{
 			RaisePropertyChanged(nameof(MosaicImage));
-			RaisePropertyChanged(nameof(Baseplate));
-			RaisePropertyChanged(nameof(Element));
+			RaisePropertyChanged(nameof(BaseplateSize));
+			RaisePropertyChanged(nameof(ElementSize));
 			RaisePropertyChanged(nameof(SizeInfo));
 		}
 
