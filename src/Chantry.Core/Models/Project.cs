@@ -38,6 +38,8 @@ namespace TeethInc.Chantry.Core.Models
 			TypeNameHandling = TypeNameHandling.Auto
 		};
 
+		public int Version => 1;
+
 		public string Name { get; set; }
 
 		// source properties.
