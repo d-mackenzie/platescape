@@ -11,24 +11,24 @@ namespace TeethInc.Chantry.Core.Exporters
 {
 	public class LdrawExporter : IExporter
 	{
-		private readonly ExportLdrawSettings _exportLdrawSettings;
+		private readonly ExportLdrawSettings _settings;
 
-		public LdrawExporter(ExportLdrawSettings exportLdrawSettings)
+		public LdrawExporter(ExportLdrawSettings settings)
 		{
-			_exportLdrawSettings = exportLdrawSettings;
+			_settings = settings;
 		}
 
 		public void Export(Mosaic mosaic, Stream stream)
 		{
 			var ldFile = new LdFile();
 
-			ldFile.Author = "Chantry";
+			ldFile.Author = "Platescape";
 
 			for (int x = 0; x <= mosaic.Colors.GetUpperBound(0); x++)
 			{
 				for (int y = 0; y <= mosaic.Colors.GetUpperBound(1); y++)
 				{
-					//ldFile.Add(mosaic.Part, mosaic.Colors[x, y], x * 20, 0, y * -20);
+					ldFile.Add(_settings.Element, mosaic.Colors[x, y], x * 20, 0, y * -20);
 				}
 			}
 
