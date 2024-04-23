@@ -11,5 +11,7 @@ namespace TeethInc.Chantry.Core.Models
 		public int PixelsPerStud { get; set; }
 
 		public bool DrawStuds { get; set; }
+
+		public bool DrawOutlines { get; set; }
 	}
 }
