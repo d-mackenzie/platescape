@@ -11,9 +11,9 @@ namespace TeethInc.Chantry.Core.Exporters
 {
 	public class LdrawExporter : IExporter
 	{
-		private readonly ExportLdrawSettings _settings;
+		private readonly LdrawExportSettings _settings;
 
-		public LdrawExporter(ExportLdrawSettings settings)
+		public LdrawExporter(LdrawExportSettings settings)
 		{
 			_settings = settings;
 		}

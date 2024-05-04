@@ -2,7 +2,7 @@
 
 namespace TeethInc.Chantry.Core.Models
 {
-	public class ExportLdrawSettings : ExportSettings
+	public class LdrawExportSettings : ExportSettings
 	{
 		public LdPart Baseplate { get; set; }
 

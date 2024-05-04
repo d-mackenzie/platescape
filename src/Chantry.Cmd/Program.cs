@@ -13,24 +13,30 @@ namespace Chantry.Cmd
 			var project = ProjectService.Load("c:\\temp\\eric-avatar.jpg");
 
 			project.ExtentSettings.BaseplateSize = new SKSizeI(16, 16);
-			project.ExtentSettings.BaseplateExtent = new SKSizeI(1, 1);
+			project.ExtentSettings.BaseplateExtent = new SKSizeI(20, 20);
 			project.ExtentSettings.ElementSize = new SKSizeI(2, 2);
 
 			var mosaic = project.Mosaic;
 
-			var pngExporter = new PngExporter(new ExportPngSettings()
+			var pngExportSettings = new PngExportSettings()
 			{
-				PixelsPerStud = 50,
+				PixelsPerStud = 96,
 				DrawOutlines = true,
-				DrawStuds = true
-			});
+				DrawStuds = true,
+				ExportFolder = "c:\\temp",
+				FilenamePattern = "eric-avatar-{row}-{col}.png",
+				OneFilePerBaseplate = true
+			};
 
-			using (var stream = new FileStream("c:\\temp\\eric-avatar-mosaic.png", FileMode.OpenOrCreate))
-			{
-				pngExporter.Export(mosaic, stream);
-			}
+			var exportService = new ExportService();
 
-			Process.Start(new ProcessStartInfo("c:\\temp\\eric-avatar-mosaic.png") { UseShellExecute = true });
+			var sw = Stopwatch.StartNew();
+
+			exportService.Export(mosaic, pngExportSettings);
+
+			Debug.WriteLine(sw.ElapsedMilliseconds);
+
+			Process.Start(new ProcessStartInfo("c:\\temp\\eric-avatar-01-01.png") { UseShellExecute = true });
 		}
 	}
 }

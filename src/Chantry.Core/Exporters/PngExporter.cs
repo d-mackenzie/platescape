@@ -13,14 +13,13 @@ namespace TeethInc.Chantry.Core.Exporters
 {
 	public class PngExporter : IExporter
 	{
-		private ExportPngSettings _settings;
+		private PngExportSettings _settings;
 		private float _strokeWidth;
 
-		public PngExporter(ExportPngSettings settings)
+		public PngExporter(PngExportSettings settings)
 		{
 			_settings = settings;
 			_strokeWidth = _settings.PixelsPerStud * 0.04f;
-
 		}
 
 		public void Export(Mosaic mosaic, Stream stream)
@@ -56,9 +55,9 @@ namespace TeethInc.Chantry.Core.Exporters
 
 		private void DrawElements(Mosaic mosaic, SKCanvas canvas)
 		{
-			for (int x = 0; x <= mosaic.Colors.GetUpperBound(0); x++)
+			for (int x = 0; x <= mosaic.ElementExtent.Width; x++)
 			{
-				for (int y = 0; y <= mosaic.Colors.GetUpperBound(1); y++)
+				for (int y = 0; y <= mosaic.ElementExtent.Height; y++)
 				{
 					canvas.DrawRect(
 						GetElementRect(mosaic, x, y),

@@ -29,28 +29,9 @@ namespace TeethInc.Chantry.Core.Services
 
 					Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
 
-					return new Mosaic(extentSettings.BaseplateSize, extentSettings.ElementSize, mosaicColors, GetMosaicBitmap(mosaicColors, extentSettings));
+					return new Mosaic(extentSettings.BaseplateSize, extentSettings.ElementSize, mosaicColors);
 				}
 			}
-		}
-
-		private SKBitmap GetMosaicBitmap(LdColor[,] mosaicColors, ExtentSettings extentSettings)
-		{
-			SKBitmap mosaicImage = new SKBitmap(extentSettings.ElementExtent.Width, extentSettings.ElementExtent.Height);
-			var mosaicPixels = mosaicImage.Pixels;
-
-			for (int y = 0; y < extentSettings.ElementExtent.Height; y++)
-			{
-				for (int x = 0; x < extentSettings.ElementExtent.Width; x++)
-				{
-					mosaicPixels[mosaicImage.GetPixelIndex(x, y)] = mosaicColors[x, y].Color;
-				}
-			}
-
-			mosaicImage.Pixels = mosaicPixels;
-			mosaicImage = mosaicImage.Resize(extentSettings.StudExtent, SKFilterQuality.None);
-
-			return mosaicImage;
 		}
 	}
 }

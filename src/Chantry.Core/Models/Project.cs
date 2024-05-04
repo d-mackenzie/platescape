@@ -31,7 +31,7 @@ namespace TeethInc.Chantry.Core.Models
 		private FilterService _filterService;
 		private MosaicService _mosaicService;
 
-		private ExportLdrawSettings _exportLdrawSettings;
+		private LdrawExportSettings _ldrawExportSettings;
 
 		private static JsonSerializerSettings JsonSerializerSettings => new JsonSerializerSettings()
 		{
@@ -71,12 +71,12 @@ namespace TeethInc.Chantry.Core.Models
 
 		// export properties.
 
-		public ExportLdrawSettings ExportLdrawSettings
+		public LdrawExportSettings ExportLdrawSettings
 		{
 			get
 			{
-				_exportLdrawSettings = _exportLdrawSettings ?? GetDefaultExportFileSettings<ExportLdrawSettings>();
-				return _exportLdrawSettings;
+				_ldrawExportSettings = _ldrawExportSettings ?? GetDefaultExportFileSettings<LdrawExportSettings>();
+				return _ldrawExportSettings;
 			}
 		}
 

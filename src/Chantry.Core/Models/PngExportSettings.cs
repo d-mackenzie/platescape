@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TeethInc.Chantry.Core.Models
 {
-	public class ExportPngSettings
+	public class PngExportSettings : ExportSettings
 	{
 		public int PixelsPerStud { get; set; }
 
