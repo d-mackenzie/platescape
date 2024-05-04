@@ -55,9 +55,9 @@ namespace TeethInc.Chantry.Core.Exporters
 
 		private void DrawElements(Mosaic mosaic, SKCanvas canvas)
 		{
-			for (int x = 0; x <= mosaic.ElementExtent.Width; x++)
+			for (int x = 0; x < mosaic.ElementExtent.Width; x++)
 			{
-				for (int y = 0; y <= mosaic.ElementExtent.Height; y++)
+				for (int y = 0; y < mosaic.ElementExtent.Height; y++)
 				{
 					canvas.DrawRect(
 						GetElementRect(mosaic, x, y),
