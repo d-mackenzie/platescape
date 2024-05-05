@@ -4,7 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			 x:Class="TeethInc.Chantry.PropertyPages.FiltersPage"
+			 x:Class="TeethInc.Chantry.Views.Panels.FiltersView"
 			 xmlns:viewmodels="clr-namespace:TeethInc.Chantry.Filters.ViewModels"
 			 xmlns:views="clr-namespace:TeethInc.Chantry.Filters.Views"
 			 xmlns:filters="clr-namespace:TeethInc.Chantry.Core.Filters;assembly=Chantry.Core">

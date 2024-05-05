@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.Models;
@@ -48,7 +49,14 @@ namespace TeethInc.Chantry.Core.Exporters
 
 			// save.
 
-			bitmap.Encode(stream, SKEncodedImageFormat.Png, 1);
+			using (var pixmap = bitmap.PeekPixels())
+			{
+				pixmap.Encode(stream, new SKPngEncoderOptions()
+				{
+					FilterFlags = SKPngEncoderFilterFlags.None,
+					ZLibLevel = 5
+				});
+			}
 
 			Debug.WriteLine($"PngExporter.Export(): {sw.ElapsedMilliseconds}ms");
 		}

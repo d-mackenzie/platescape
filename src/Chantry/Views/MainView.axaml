@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:pages="clr-namespace:TeethInc.Chantry.Pages"
-             xmlns:propertypages="clr-namespace:TeethInc.Chantry.PropertyPages"
+             xmlns:panels="clr-namespace:TeethInc.Chantry.Views.Panels"
              x:Class="TeethInc.Chantry.Views.MainView">
 
     <Grid>
@@ -21,12 +21,12 @@
 				
 				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="True">
 					<Expander.Header>Mosaic Properties</Expander.Header>
-					<propertypages:MosaicProperties DataContext="{Binding}"/>
+					<panels:MosaicPropertiesView DataContext="{Binding}"/>
 				</Expander>
 
 				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="True">
 					<Expander.Header>Filters</Expander.Header>
-					<propertypages:FiltersPage DataContext="{Binding}"/>
+					<panels:FiltersView DataContext="{Binding}"/>
 				</Expander>
 
 			</StackPanel>

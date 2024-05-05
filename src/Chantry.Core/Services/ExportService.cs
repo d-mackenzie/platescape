@@ -62,7 +62,12 @@ namespace TeethInc.Chantry.Core.Services
 		private void WriteFile(IExporter exporter, Mosaic mosaic, string filename)
 		{
 			var sw = Stopwatch.StartNew();
-			exporter.Export(mosaic, new FileStream(filename, FileMode.Create));
+
+			using (var fileStream = new FileStream(filename, FileMode.Create))
+			{
+				exporter.Export(mosaic, fileStream);
+			}
+
 			Debug.WriteLine($"Wrote '{filename}' in {sw.ElapsedMilliseconds}ms.");
 		}
 	}
