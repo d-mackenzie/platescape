@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             xmlns:pages="clr-namespace:TeethInc.Chantry.Pages"
+             xmlns:tabs="clr-namespace:TeethInc.Chantry.Views.Tabs"
              xmlns:panels="clr-namespace:TeethInc.Chantry.Views.Panels"
              x:Class="TeethInc.Chantry.Views.MainView">
 
@@ -43,14 +43,14 @@
 			<TabItem Header="Source Image"
 					 FontSize="12"
 					 Padding="5">
-				<pages:FilteredImagePage DataContext="{Binding}"/>
+				<tabs:SourceView DataContext="{Binding}"/>
 			</TabItem>
 
 			<TabItem Header="Mosaic Output"
 					 FontSize="12"
 					 Padding="5"
 					 IsSelected="True">
-				<pages:MosaicPage DataContext="{Binding}"/>
+				<tabs:MosaicView DataContext="{Binding}"/>
 			</TabItem>
 
 		</TabControl>

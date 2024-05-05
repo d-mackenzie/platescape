@@ -30,8 +30,8 @@
     <Compile Update="Views\Panels\MosaicPropertiesView.axaml.cs">
       <DependentUpon>MosaicPropertiesView.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Pages\FilteredImagePage.axaml.cs">
-      <DependentUpon>FilteredImagePage.axaml</DependentUpon>
+    <Compile Update="Views\Tabs\SourceView.axaml.cs">
+      <DependentUpon>SourceView.axaml</DependentUpon>
     </Compile>
     <Compile Update="UserControls\MosaicViewer.axaml.cs">
       <DependentUpon>MosaicViewer.axaml</DependentUpon>
