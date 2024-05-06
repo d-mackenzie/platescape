@@ -16,7 +16,7 @@ namespace TeethInc.Chantry.Core.Services
 {
 	public class ExportService
 	{
-		public void Export(Mosaic mosaic, IExportSettings exportSettings)
+		public void Export(Mosaic mosaic, ExportSettings exportSettings)
 		{
 			IExporter exporter = GetExporter(exportSettings);
 
@@ -49,7 +49,7 @@ namespace TeethInc.Chantry.Core.Services
 			return ret;
 		}
 
-		private IExporter GetExporter(IExportSettings exportSettings)
+		private IExporter GetExporter(ExportSettings exportSettings)
 		{
 			return exportSettings switch
 			{

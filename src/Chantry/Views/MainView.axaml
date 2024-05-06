@@ -24,9 +24,14 @@
 					<panels:MosaicPropertiesView DataContext="{Binding}"/>
 				</Expander>
 
-				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="True">
+				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="False">
 					<Expander.Header>Filters</Expander.Header>
 					<panels:FiltersView DataContext="{Binding}"/>
+				</Expander>
+
+				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="False">
+					<Expander.Header>Export</Expander.Header>
+					<panels:ExportView DataContext="{Binding}"/>
 				</Expander>
 
 			</StackPanel>
@@ -41,13 +46,11 @@
 		<TabControl Grid.Column="2">
 						
 			<TabItem Header="Source Image"
-					 FontSize="12"
 					 Padding="5">
 				<tabs:SourceView DataContext="{Binding}"/>
 			</TabItem>
 
 			<TabItem Header="Mosaic Output"
-					 FontSize="12"
 					 Padding="5"
 					 IsSelected="True">
 				<tabs:MosaicView DataContext="{Binding}"/>

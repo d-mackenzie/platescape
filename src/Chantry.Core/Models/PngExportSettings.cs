@@ -13,5 +13,7 @@ namespace TeethInc.Chantry.Core.Models
 		public bool DrawStuds { get; set; }
 
 		public bool DrawOutlines { get; set; }
+
+		public override string DefaultExtension => "png";
 	}
 }

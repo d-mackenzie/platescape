@@ -31,7 +31,7 @@ namespace TeethInc.Chantry.Core.Models
 		private FilterService _filterService;
 		private MosaicService _mosaicService;
 
-		private LdrawExportSettings _ldrawExportSettings;
+		public List<ExportSettings> ExportSettings { get; set; }
 
 		private static JsonSerializerSettings JsonSerializerSettings => new JsonSerializerSettings()
 		{
@@ -69,17 +69,6 @@ namespace TeethInc.Chantry.Core.Models
 		[JsonIgnore]
 		public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, ExtentSettings, AlgorithmSettings);
 
-		// export properties.
-
-		public LdrawExportSettings ExportLdrawSettings
-		{
-			get
-			{
-				_ldrawExportSettings = _ldrawExportSettings ?? GetDefaultExportFileSettings<LdrawExportSettings>();
-				return _ldrawExportSettings;
-			}
-		}
-
 		public Project()
 		{
 			ExtentSettings = new ExtentSettings();
@@ -104,6 +93,12 @@ namespace TeethInc.Chantry.Core.Models
 			};
 
 			AlgorithmSettings.Algorithm = new FloydSteinberg();
+
+			ExportSettings = new List<ExportSettings>()
+			{
+				GetDefaultExportFileSettings<PngExportSettings>(),
+				GetDefaultExportFileSettings<LdrawExportSettings>()
+			};
 		}
 
 		public string Serialize()
@@ -116,7 +111,7 @@ namespace TeethInc.Chantry.Core.Models
 			return JsonConvert.DeserializeObject<Project>(json, JsonSerializerSettings);
 		}
 
-		public void Export(IExportSettings exportSettings)
+		public void Export(ExportSettings exportSettings)
 		{
 			new ExportService().Export(Mosaic, exportSettings);
 		}
@@ -145,7 +140,7 @@ namespace TeethInc.Chantry.Core.Models
 			}
 		}
 
-		private T GetDefaultExportFileSettings<T>() where T : IExportSettings
+		private T GetDefaultExportFileSettings<T>() where T : ExportSettings
 		{
 			T ret = Activator.CreateInstance<T>();
 
@@ -153,9 +148,15 @@ namespace TeethInc.Chantry.Core.Models
 			{
 				case FileSource fileSource:
 
-					ret.Filename = Path.ChangeExtension(fileSource.Filename, "ldr");
+					ret.Filename = Path.ChangeExtension(fileSource.Filename, ret.DefaultExtension);
 					ret.ExportFolder = Path.GetDirectoryName(fileSource.Filename);
-					ret.FilenamePattern = Path.GetFileNameWithoutExtension(fileSource.Filename) + "_row{row}_col{col}.ldr";
+					ret.FilenamePattern = Path.GetFileNameWithoutExtension(fileSource.Filename) + $"row_{{row}}_col_{{col}}.{ret.DefaultExtension}";
+					break;
+
+				default:
+					ret.Filename = $"mosaic.{ret.DefaultExtension}";
+					ret.ExportFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+					ret.FilenamePattern = $"mosaic_row_{{row}}_col_{{col}}.{ret.DefaultExtension}";
 					break;
 			}
 

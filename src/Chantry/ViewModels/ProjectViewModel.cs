@@ -45,13 +45,6 @@ namespace TeethInc.Chantry.ViewModels
 
 		public string Name => _project.Name;
 
-		// source properties.
-
-		public FileSource Source
-		{
-			get { return (FileSource)_project.Source; }
-		}
-
 		// filter properties.
 
 		public ObservableCollection<IFilterViewModel> Filters => _filters;

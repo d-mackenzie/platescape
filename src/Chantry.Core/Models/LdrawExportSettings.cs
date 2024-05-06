@@ -9,5 +9,7 @@ namespace TeethInc.Chantry.Core.Models
 		public LdPart Element { get; set; }
 
 		public bool IncludeBaseplate { get; set; }
+
+		public override string DefaultExtension => "ldr";
 	}
 }

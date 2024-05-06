@@ -2,115 +2,104 @@
 using System.IO;
 using TeethInc.Chantry.Helpers;
 using TeethInc.Chantry.Core.Services;
-using TeethInc.Chantry.Views;
-using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.ViewModels
 {
-    public class MainWindowViewModel : BaseViewModel
-    {
-        private ProjectViewModel? _projectViewModel;
-        private IFileDialog _fileDialog;
-        private bool _isLoading = false;
+	public class MainWindowViewModel : BaseViewModel
+	{
+		private ProjectViewModel? _projectViewModel;
+		private IFileDialog _fileDialog;
+		private bool _isLoading = false;
 
-        public ProjectViewModel? ProjectViewModel
-        {
-            get { return _projectViewModel; }
-            set { _projectViewModel = value; RaisePropertyChanged(); }
-        }
+		public ProjectViewModel? ProjectViewModel
+		{
+			get { return _projectViewModel; }
+			set { _projectViewModel = value; RaisePropertyChanged(); }
+		}
 
-        public bool IsLoading
-        {
-            get { return _isLoading; }
-            set { _isLoading = value; RaisePropertyChanged(); }
-        }
+		public bool IsLoading
+		{
+			get { return _isLoading; }
+			set { _isLoading = value; RaisePropertyChanged(); }
+		}
 
-        public SplashViewModel SplashViewModel { get; set; }
+		public SplashViewModel SplashViewModel { get; set; }
 
-        public MainWindowViewModel(ProjectViewModel? projectViewModel, SplashViewModel splashViewModel)
-        {
-            ProjectViewModel = projectViewModel;
-            SplashViewModel = splashViewModel;
+		public MainWindowViewModel(ProjectViewModel? projectViewModel, SplashViewModel splashViewModel)
+		{
+			ProjectViewModel = projectViewModel;
+			SplashViewModel = splashViewModel;
 
-            SplashViewModel.OpenAnImage += SplashViewModel_OpenAnImage; ;
-            SplashViewModel.OpenAProject += SplashViewModel_OpenAProject;
+			SplashViewModel.OpenAnImage += SplashViewModel_OpenAnImage; ;
+			SplashViewModel.OpenAProject += SplashViewModel_OpenAProject;
 
-            _fileDialog = new FileDialog();
-        }
+			_fileDialog = new FileDialog();
+		}
 
-        public void OpenAnImageCommand()
-        {
-            _fileDialog
-                .ShowOpenDialog(FileFilters.Images)
-                .ContinueWith(x => Open(x?.Result));
-        }
+		public void OpenAnImageCommand()
+		{
+			_fileDialog
+				.ShowOpenDialog(FileFilters.Images)
+				.ContinueWith(x => Open(x?.Result));
+		}
 
-        public void OpenAProjectCommand()
-        {
-            _fileDialog
-                .ShowOpenDialog(FileFilters.Projects)
-                .ContinueWith(x => Open(x.Result));
-        }
+		public void OpenAProjectCommand()
+		{
+			_fileDialog
+				.ShowOpenDialog(FileFilters.Projects)
+				.ContinueWith(x => Open(x.Result));
+		}
 
-        public void SaveProjectCommand()
-        {
-            if (_projectViewModel is not null)
-                _fileDialog
-                    .ShowSaveDialog($"{_projectViewModel.Name}.json", FileFilters.Projects)
-                    .ContinueWith(x => SaveProject(x.Result));
-        }
+		public void SaveProjectCommand()
+		{
+			if (_projectViewModel is not null)
+				_fileDialog
+					.ShowSaveDialog($"{_projectViewModel.Name}.json", FileFilters.Projects)
+					.ContinueWith(x => SaveProject(x.Result));
+		}
 
-        public void ExportLdrawCommand()
-        {
-            if (ProjectViewModel == null)
-                return;
+		public void CloseCommand()
+		{
+			Close();
+		}
 
-            var exportLdrawView = new ExportLdrawView() { DataContext = new ExportLdrawViewModel(ProjectViewModel.Project) };
-            exportLdrawView.ShowDialog(ApplicationHelper.GetMainWindow());
-        }
+		private void SplashViewModel_OpenAProject(object? sender, EventArgs e)
+		{
+			OpenAProjectCommand();
+		}
 
-        public void CloseCommand()
-        {
-            Close();
-        }
+		private void SplashViewModel_OpenAnImage(object? sender, EventArgs e)
+		{
+			OpenAnImageCommand();
+		}
 
-        private void SplashViewModel_OpenAProject(object? sender, EventArgs e)
-        {
-            OpenAProjectCommand();
-        }
+		private void Open(string? filename)
+		{
+			if (filename is null)
+				return;
 
-        private void SplashViewModel_OpenAnImage(object? sender, EventArgs e)
-        {
-            OpenAnImageCommand();
-        }
+			IsLoading = true;
 
-        private void Open(string? filename)
-        {
-            if (filename is null)
-                return;
+			ProjectViewModel = new ProjectViewModel(ProjectService.Load(filename));
 
-            IsLoading = true;
+			IsLoading = false;
+		}
 
-            ProjectViewModel = new ProjectViewModel(ProjectService.Load(filename));
+		private void SaveProject(string? filename)
+		{
+			if (filename is null || _projectViewModel is null)
+				return;
 
-            IsLoading = false;
-        }
+			_projectViewModel.SerializeProject(filename);
 
-        private void SaveProject(string? filename)
-        {
-            if (filename is null || _projectViewModel is null)
-                return;
+			var config = ApplicationHelper.LoadConfiguration();
+			config.Mru = new string[] { filename };
+			ApplicationHelper.SaveConfiguration(config);
+		}
 
-            _projectViewModel.SerializeProject(filename);
-
-            var config = ApplicationHelper.LoadConfiguration();
-            config.Mru = new string[] { filename };
-            ApplicationHelper.SaveConfiguration(config);
-        }
-
-        private void Close()
-        {
-            ProjectViewModel = null;
-        }
-    }
+		private void Close()
+		{
+			ProjectViewModel = null;
+		}
+	}
 }
