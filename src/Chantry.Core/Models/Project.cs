@@ -31,8 +31,6 @@ namespace TeethInc.Chantry.Core.Models
 		private FilterService _filterService;
 		private MosaicService _mosaicService;
 
-		public List<ExportSettings> ExportSettings { get; set; }
-
 		private static JsonSerializerSettings JsonSerializerSettings => new JsonSerializerSettings()
 		{
 			TypeNameHandling = TypeNameHandling.Auto
@@ -69,6 +67,12 @@ namespace TeethInc.Chantry.Core.Models
 		[JsonIgnore]
 		public Mosaic Mosaic => MosaicService.GetMosaic(FilteredImage, ExtentSettings, AlgorithmSettings);
 
+		// export settings.
+
+		public LdrawExportSettings LdrawExportSettings { get; set; }
+
+		public PngExportSettings PngExportSettings { get; set; }
+
 		public Project()
 		{
 			ExtentSettings = new ExtentSettings();
@@ -94,11 +98,8 @@ namespace TeethInc.Chantry.Core.Models
 
 			AlgorithmSettings.Algorithm = new FloydSteinberg();
 
-			ExportSettings = new List<ExportSettings>()
-			{
-				GetDefaultExportFileSettings<PngExportSettings>(),
-				GetDefaultExportFileSettings<LdrawExportSettings>()
-			};
+			LdrawExportSettings = GetDefaultExportFileSettings<LdrawExportSettings>();
+			PngExportSettings = GetDefaultExportFileSettings<PngExportSettings>();
 		}
 
 		public string Serialize()

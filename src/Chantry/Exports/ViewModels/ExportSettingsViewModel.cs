@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Helpers;
 using TeethInc.Chantry.Core.Models;
 using TeethInc.Chantry.Helpers;
+using TeethInc.Chantry.ViewModels;
 
-namespace TeethInc.Chantry.ViewModels
+namespace TeethInc.Chantry.Exports.ViewModels
 {
 	internal class ExportSettingsViewModel : BaseViewModel
 	{

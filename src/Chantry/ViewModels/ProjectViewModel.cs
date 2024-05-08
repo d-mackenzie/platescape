@@ -45,12 +45,6 @@ namespace TeethInc.Chantry.ViewModels
 
 		public string Name => _project.Name;
 
-		// filter properties.
-
-		public ObservableCollection<IFilterViewModel> Filters => _filters;
-		public AmiBitmap UnfilteredImage => _project.UnfilteredImage.AsAvaloniaMediaImagingBitmap();
-		public AmiBitmap FilteredImage => _project.FilteredImage.AsAvaloniaMediaImagingBitmap();
-		public AmiBitmap MosaicImage => _project.Mosaic.Image.AsAvaloniaMediaImagingBitmap();
 
 		// moasic properties.
 
@@ -101,6 +95,19 @@ namespace TeethInc.Chantry.ViewModels
 		}
 
 		public List<Algorithm> MosaicAlgorithms => _mosaicAlgorithms;
+
+		// filter properties.
+
+		public ObservableCollection<IFilterViewModel> Filters => _filters;
+		public AmiBitmap UnfilteredImage => _project.UnfilteredImage.AsAvaloniaMediaImagingBitmap();
+		public AmiBitmap FilteredImage => _project.FilteredImage.AsAvaloniaMediaImagingBitmap();
+		public AmiBitmap MosaicImage => _project.Mosaic.Image.AsAvaloniaMediaImagingBitmap();
+
+		// export properties.
+
+		public LdrawExportSettings LdrawExportSettings => _project.LdrawExportSettings;
+
+		public PngExportSettings PngExportSettings => _project.PngExportSettings;
 
 		// view properties.
 

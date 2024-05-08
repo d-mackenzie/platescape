@@ -24,6 +24,12 @@
     <ProjectReference Include="..\Chantry.Core\Chantry.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Exports\Views\ExportButton.axaml.cs">
+      <DependentUpon>ExportButton.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Exports\Views\ExportSettings.axaml.cs">
+      <DependentUpon>ExportSettings.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Panels\FiltersView.axaml.cs">
       <DependentUpon>FiltersView.axaml</DependentUpon>
     </Compile>
@@ -47,9 +53,5 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Export\ViewModels\" />
-    <Folder Include="Export\Views\" />
   </ItemGroup>
 </Project>

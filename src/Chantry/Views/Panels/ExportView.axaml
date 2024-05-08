@@ -3,19 +3,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			 xmlns:exports="clr-namespace:TeethInc.Chantry.Views.Exports"
+			 xmlns:views="clr-namespace:TeethInc.Chantry.Exports.Views"
 			 x:Class="TeethInc.Chantry.Views.Panels.ExportView">
 
 	<StackPanel>
 
 		<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="False">
 			<Expander.Header>PNG</Expander.Header>
-			<TextBlock>Blah</TextBlock>
+			<StackPanel>
+				<views:ExportSettings DataContext="{Binding PngExportSettings}"/>
+				<views:ExportButton DataContext="{Binding PngExportSettings}"/>
+			</StackPanel>
 		</Expander>
 
 		<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="False">
-			<Expander.Header>LDRAW</Expander.Header>
-			<TextBlock>Blah</TextBlock>
+			<Expander.Header>LDraw</Expander.Header>
+			<TextBlock>Todo</TextBlock>
 		</Expander>
 
 	</StackPanel>
