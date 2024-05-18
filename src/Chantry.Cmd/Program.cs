@@ -13,7 +13,7 @@ namespace Chantry.Cmd
 			var project = ProjectService.Load("c:\\temp\\eric-avatar.jpg");
 
 			project.ExtentSettings.BaseplateSize = new SKSizeI(16, 16);
-			project.ExtentSettings.BaseplateExtent = new SKSizeI(20, 20);
+			project.ExtentSettings.BaseplateExtent = new SKSizeI(5, 5);
 			project.ExtentSettings.ElementSize = new SKSizeI(2, 2);
 
 			var mosaic = project.Mosaic;
@@ -32,11 +32,28 @@ namespace Chantry.Cmd
 
 			var sw = Stopwatch.StartNew();
 
-			exportService.Export(mosaic, pngExportSettings);
+			DoExport(mosaic, pngExportSettings);
 
 			Debug.WriteLine(sw.ElapsedMilliseconds);
+		}
 
-			Process.Start(new ProcessStartInfo("c:\\temp\\eric-avatar-01-01.png") { UseShellExecute = true });
+		static async void DoExport(Mosaic mosaic, ExportSettings exportSettings)
+		{
+			await ExportWorker(mosaic, exportSettings);
+		}
+
+		static Task ExportWorker(Mosaic mosaic, ExportSettings exportSettings)
+		{
+			var exportService = new ExportService();
+			exportService.Progress += ExportService_Progress;
+			exportService.Export(mosaic, exportSettings);
+			Task.WaitAll();
+			return Task.CompletedTask;
+		}
+
+		private static void ExportService_Progress(object? sender, ProgressEventArgs e)
+		{
+			Debug.WriteLine($"{e.Done} of {e.Total}");
 		}
 	}
 }

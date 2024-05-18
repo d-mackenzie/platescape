@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using TeethInc.Chantry.Core.Sources;
 using TeethInc.Chantry.Extensions;
 using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.Extensions;
@@ -19,9 +18,6 @@ using TeethInc.Chantry.Core.Algorithms;
 using TeethInc.Chantry.Core.Models;
 using System.Reactive;
 using ReactiveUI;
-using System.Diagnostics;
-using DynamicData;
-using DynamicData.Binding;
 
 namespace TeethInc.Chantry.ViewModels
 {

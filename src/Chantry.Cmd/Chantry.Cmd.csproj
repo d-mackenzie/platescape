@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ExportWorker.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Chantry.Core\Chantry.Core.csproj" />
   </ItemGroup>
 
