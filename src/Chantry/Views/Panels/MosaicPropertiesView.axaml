@@ -14,124 +14,120 @@
 		<converters:SKSizeIToStringConverter x:Key="SKSizeIToStringConverter"/>
 	</UserControl.Resources>
 
-	<ScrollViewer AllowAutoHide="False">
+    <StackPanel>
 
-        <StackPanel>
+		<Grid RowDefinitions="Auto,Auto,Auto,Auto, Auto"
+			  ColumnDefinitions="Auto,*">
 
-			<Grid RowDefinitions="Auto,Auto,Auto,Auto, Auto"
-				  ColumnDefinitions="Auto,*">
+			<Label Content="Algorithm:"
+					Grid.Row="0"
+					Grid.Column="0"
+					VerticalAlignment="Center"/>
 
-				<Label Content="Algorithm:"
-					   Grid.Row="0"
-					   Grid.Column="0"
-					   VerticalAlignment="Center"/>
-
-				<ComboBox ItemsSource="{Binding MosaicAlgorithms}"
-						  SelectedItem="{Binding MosaicAlgorithm}"
-						  Grid.Row="0"
-						  Grid.Column="1"
-						  Margin="5">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding DisplayName}"/>
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-
-				<Label Content="Size:"
-					   Grid.Row="1"
-					   Grid.Column="0"
-					   VerticalAlignment="Center"/>
-
-				<StackPanel Orientation="Horizontal"
-							Grid.Row="1"
-							Grid.Column="1"
-							Margin="5">
-					
-					<NumericUpDown Minimum="1"
-								   Maximum="20"
-								   FormatString="N0"
-								   Value="{Binding BaseplateExtentWidth}"/>
-
-					<Label Content=" by "
-						   VerticalAlignment="Center"/>
-
-					<NumericUpDown Minimum="1"
-								   Maximum="20"
-								   FormatString="N0"
-								   Value="{Binding BaseplateExtentHeight}"/>
-				</StackPanel>
-
-				<Label Content="Baseplate:"
-					   Grid.Row="2"
-					   Grid.Column="0"
-					   VerticalAlignment="Center"/>
-				
-				<ComboBox ItemsSource="{Binding BaseplateSizes}"
-						  SelectedItem="{Binding BaseplateSize}"
-						  Grid.Row="2"
-						  Grid.Column="1"
-						  Margin="5">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Converter={StaticResource SKSizeIToStringConverter}}"/>
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-
-				<Label Content="Element:"
-					   Grid.Row="3"
-					   Grid.Column="0"
-					   VerticalAlignment="Center"/>
-				
-				<ComboBox ItemsSource="{Binding ElementSizes}"
-						  SelectedItem="{Binding ElementSize}"
-						  Grid.Row="3"
-						  Grid.Column="1"
-						  Margin="5">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Converter={StaticResource SKSizeIToStringConverter}}"/>
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				
-				<Label Content="Measurements:"
-					   Grid.Row="4"
-					   Grid.Column="0"/>
-
-				<Label Content="{Binding SizeInfo}"
-					   Grid.Row="4"
-					   Grid.Column="1"/>
-				
-			</Grid>
-
-			<Label Content="Colours:"/>
-
-			<ListBox MaxHeight="400"
-						ItemsSource="{Binding AllowedColors}"
-						Margin="0,0,5,0"
-						Background="Transparent">
-				<ListBox.Styles>
-					<Style Selector="ListBoxItem">
-						<Setter Property="Padding"
-								Value="2"/>
-					</Style>
-				</ListBox.Styles>
-				<ListBox.ItemsPanel>
-					<ItemsPanelTemplate>
-						<WrapPanel />
-					</ItemsPanelTemplate>
-				</ListBox.ItemsPanel>
-				<ListBox.ItemTemplate>
-					<DataTemplate>						
-						<usercontrols:ColorChip />
+			<ComboBox ItemsSource="{Binding MosaicAlgorithms}"
+						SelectedItem="{Binding MosaicAlgorithm}"
+						Grid.Row="0"
+						Grid.Column="1"
+						Margin="5">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding DisplayName}"/>
 					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-				
-        </StackPanel>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 
-    </ScrollViewer>
+			<Label Content="Size:"
+					Grid.Row="1"
+					Grid.Column="0"
+					VerticalAlignment="Center"/>
+
+			<StackPanel Orientation="Horizontal"
+						Grid.Row="1"
+						Grid.Column="1"
+						Margin="5">
+					
+				<NumericUpDown Minimum="1"
+								Maximum="20"
+								FormatString="N0"
+								Value="{Binding BaseplateExtentWidth}"/>
+
+				<Label Content=" by "
+						VerticalAlignment="Center"/>
+
+				<NumericUpDown Minimum="1"
+								Maximum="20"
+								FormatString="N0"
+								Value="{Binding BaseplateExtentHeight}"/>
+			</StackPanel>
+
+			<Label Content="Baseplate:"
+					Grid.Row="2"
+					Grid.Column="0"
+					VerticalAlignment="Center"/>
+				
+			<ComboBox ItemsSource="{Binding BaseplateSizes}"
+						SelectedItem="{Binding BaseplateSize}"
+						Grid.Row="2"
+						Grid.Column="1"
+						Margin="5">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Converter={StaticResource SKSizeIToStringConverter}}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+
+			<Label Content="Element:"
+					Grid.Row="3"
+					Grid.Column="0"
+					VerticalAlignment="Center"/>
+				
+			<ComboBox ItemsSource="{Binding ElementSizes}"
+						SelectedItem="{Binding ElementSize}"
+						Grid.Row="3"
+						Grid.Column="1"
+						Margin="5">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Converter={StaticResource SKSizeIToStringConverter}}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+				
+			<Label Content="Measurements:"
+					Grid.Row="4"
+					Grid.Column="0"/>
+
+			<Label Content="{Binding SizeInfo}"
+					Grid.Row="4"
+					Grid.Column="1"/>
+				
+		</Grid>
+
+		<Label Content="Colours:"/>
+
+		<ListBox MaxHeight="400"
+					ItemsSource="{Binding AllowedColors}"
+					Margin="0,0,5,0"
+					Background="Transparent">
+			<ListBox.Styles>
+				<Style Selector="ListBoxItem">
+					<Setter Property="Padding"
+							Value="2"/>
+				</Style>
+			</ListBox.Styles>
+			<ListBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel />
+				</ItemsPanelTemplate>
+			</ListBox.ItemsPanel>
+			<ListBox.ItemTemplate>
+				<DataTemplate>						
+					<usercontrols:ColorChip />
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+				
+    </StackPanel>
     
 </UserControl>

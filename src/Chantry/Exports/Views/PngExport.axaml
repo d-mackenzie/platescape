@@ -3,13 +3,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TeethInc.Chantry.Exports.Views.ExportButton">
-	
-	<StackPanel Spacing="10">
-	
-		<ProgressBar HorizontalAlignment="Stretch"/>
-		<Button HorizontalAlignment="Right" Content="Export"/>
+             x:Class="TeethInc.Chantry.Exports.Views.PngExport">
+
+	<StackPanel>
 		
+		<Label Content="Pixels Per Stud:"/>
+		<TextBox Text="1"/>
+		
+		<CheckBox Content="Draw Studs"/>
+
+		<CheckBox Content="Draw Outlines"/>
+
 	</StackPanel>
 	
 </UserControl>
