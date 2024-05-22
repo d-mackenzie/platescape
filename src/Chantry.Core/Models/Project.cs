@@ -100,6 +100,7 @@ namespace TeethInc.Chantry.Core.Models
 
 			LdrawExportSettings = GetDefaultExportFileSettings<LdrawExportSettings>();
 			PngExportSettings = GetDefaultExportFileSettings<PngExportSettings>();
+			PngExportSettings.PixelsPerStud = 1;
 		}
 
 		public string Serialize()

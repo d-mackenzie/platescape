@@ -8,11 +8,13 @@
 	<StackPanel>
 		
 		<Label Content="Pixels Per Stud:"/>
-		<TextBox Text="1"/>
+		<TextBox Text="{Binding PixelsPerStud}"/>
 		
-		<CheckBox Content="Draw Studs"/>
+		<CheckBox Content="Draw Studs"
+				  IsChecked="{Binding DrawStuds}"/>
 
-		<CheckBox Content="Draw Outlines"/>
+		<CheckBox Content="Draw Outlines"
+				  IsChecked="{Binding DrawOutlines}"/>
 
 	</StackPanel>
 	

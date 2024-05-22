@@ -18,6 +18,7 @@ using TeethInc.Chantry.Core.Algorithms;
 using TeethInc.Chantry.Core.Models;
 using System.Reactive;
 using ReactiveUI;
+using TeethInc.Chantry.Exports.ViewModels;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -40,7 +41,6 @@ namespace TeethInc.Chantry.ViewModels
 		// project properties.
 
 		public string Name => _project.Name;
-
 
 		// moasic properties.
 
@@ -95,7 +95,6 @@ namespace TeethInc.Chantry.ViewModels
 		// filter properties.
 
 		public ObservableCollection<IFilterViewModel> Filters => _filters;
-		public AmiBitmap UnfilteredImage => _project.UnfilteredImage.AsAvaloniaMediaImagingBitmap();
 		public AmiBitmap FilteredImage => _project.FilteredImage.AsAvaloniaMediaImagingBitmap();
 		public AmiBitmap MosaicImage => _project.Mosaic.Image.AsAvaloniaMediaImagingBitmap();
 
@@ -103,7 +102,9 @@ namespace TeethInc.Chantry.ViewModels
 
 		public LdrawExportSettings LdrawExportSettings => _project.LdrawExportSettings;
 
-		public PngExportSettings PngExportSettings => _project.PngExportSettings;
+		internal PngExportViewModel PngExport => new PngExportViewModel(_project.PngExportSettings);
+		internal ExportSettingsViewModel PngExportSettings => new ExportSettingsViewModel(_project.PngExportSettings);
+		internal ExportButtonViewModel PngExportButton => new ExportButtonViewModel(_project.PngExportSettings);
 
 		// view properties.
 
