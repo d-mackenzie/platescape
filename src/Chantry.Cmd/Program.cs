@@ -18,11 +18,14 @@ namespace Chantry.Cmd
 
 			var mosaic = project.Mosaic;
 
-			var pngExportSettings = new PngExportSettings()
+			var exportSettings = new ExportSettings<PngExporter>(
+				new PngExporter()
+				{
+					PixelsPerStud = 96,
+					DrawOutlines = true,
+					DrawStuds = true
+				})
 			{
-				PixelsPerStud = 96,
-				DrawOutlines = true,
-				DrawStuds = true,
 				ExportFolder = "c:\\temp",
 				FilenamePattern = "eric-avatar-{row}-{col}.png",
 				OneFilePerBaseplate = true
@@ -32,17 +35,17 @@ namespace Chantry.Cmd
 
 			var sw = Stopwatch.StartNew();
 
-			DoExport(mosaic, pngExportSettings);
+			DoExport(mosaic, exportSettings);
 
 			Debug.WriteLine(sw.ElapsedMilliseconds);
 		}
 
-		static async void DoExport(Mosaic mosaic, ExportSettings exportSettings)
+		static async void DoExport(Mosaic mosaic, ExportSettings<PngExporter> exportSettings)
 		{
 			await ExportWorker(mosaic, exportSettings);
 		}
 
-		static Task ExportWorker(Mosaic mosaic, ExportSettings exportSettings)
+		static Task ExportWorker(Mosaic mosaic, ExportSettings<PngExporter> exportSettings)
 		{
 			var exportService = new ExportService();
 			exportService.Progress += ExportService_Progress;

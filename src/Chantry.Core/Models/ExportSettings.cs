@@ -3,33 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Exporters;
 
 namespace TeethInc.Chantry.Core.Models
 {
-	public abstract class ExportSettings
+	public class ExportSettings<T> where T : IExporter
 	{
 		public string Filename { get; set; }
 
-		public bool OneFilePerBaseplate { get; set; }
+		public bool OneFilePerBaseplate { get; set; } = false;
 
 		public string ExportFolder { get; set; }
 
 		public string FilenamePattern { get; set; }
 
-		public ExportSettings()
+		public T Exporter { get; private set; }
+
+		public ExportSettings(T exporter)
 		{
-			OneFilePerBaseplate = false;
+			Exporter = exporter;
 		}
 
 		public bool IsValid
 		{
 			get
 			{
-				return IsFilenameSettingsValid() && IsSettingsValid();
+				return IsFilenameSettingsValid() && Exporter.IsValid;
 			}
 		}
-
-		public abstract string DefaultExtension { get; }
 
 		private bool IsFilenameSettingsValid()
 		{
@@ -42,11 +43,6 @@ namespace TeethInc.Chantry.Core.Models
 			{
 				return !string.IsNullOrWhiteSpace(Filename);
 			}
-		}
-
-		protected virtual bool IsSettingsValid()
-		{
-			return true;
 		}
 	}
 }

@@ -11,12 +11,15 @@ namespace TeethInc.Chantry.Core.Exporters
 {
 	public class LdrawExporter : IExporter
 	{
-		private readonly LdrawExportSettings _settings;
+		public LdPart Baseplate { get; set; }
 
-		public LdrawExporter(LdrawExportSettings settings)
-		{
-			_settings = settings;
-		}
+		public LdPart Element { get; set; }
+
+		public bool IncludeBaseplate { get; set; }
+
+		public bool IsValid => true;
+
+		public string DefaultExtension => "ldr";
 
 		public void Export(Mosaic mosaic, Stream stream)
 		{
@@ -28,7 +31,7 @@ namespace TeethInc.Chantry.Core.Exporters
 			{
 				for (int y = 0; y <= mosaic.Colors.GetUpperBound(1); y++)
 				{
-					ldFile.Add(_settings.Element, mosaic.Colors[x, y], x * 20, 0, y * -20);
+					ldFile.Add(Element, mosaic.Colors[x, y], x * 20, 0, y * -20);
 				}
 			}
 

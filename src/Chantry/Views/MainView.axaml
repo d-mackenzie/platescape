@@ -19,7 +19,7 @@
 		
 			<StackPanel>
 				
-				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="True">
+				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="False">
 					<Expander.Header>Mosaic Properties</Expander.Header>
 					<panels:MosaicPropertiesView DataContext="{Binding}"/>
 				</Expander>
@@ -29,7 +29,7 @@
 					<panels:FiltersView DataContext="{Binding}"/>
 				</Expander>
 
-				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="False">
+				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="True">
 					<Expander.Header>Export</Expander.Header>
 					<panels:ExportView DataContext="{Binding}"/>
 				</Expander>

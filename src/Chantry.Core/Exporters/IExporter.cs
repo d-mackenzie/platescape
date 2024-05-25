@@ -8,8 +8,12 @@ using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.Core.Exporters
 {
-    public interface IExporter
-    {
-        void Export(Mosaic mosaic, Stream stream);
-    }
+	public interface IExporter
+	{
+		string DefaultExtension { get; }
+
+		bool IsValid { get; }
+
+		void Export(Mosaic mosaic, Stream stream);
+	}
 }

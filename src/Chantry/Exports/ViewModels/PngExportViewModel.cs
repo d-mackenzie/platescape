@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Exporters;
 using TeethInc.Chantry.Core.Models;
 using TeethInc.Chantry.ViewModels;
 
@@ -10,29 +11,29 @@ namespace TeethInc.Chantry.Exports.ViewModels
 {
 	internal class PngExportViewModel : BaseViewModel
 	{
-		private PngExportSettings _pngExportSettings;
+		private PngExporter _pngExporter;
 
 		public int PixelsPerStud
 		{
-			get { return _pngExportSettings.PixelsPerStud; }
-			set { _pngExportSettings.PixelsPerStud = value; RaisePropertyChanged(); }
+			get { return _pngExporter.PixelsPerStud; }
+			set { _pngExporter.PixelsPerStud = value; RaisePropertyChanged(); }
 		}
 
 		public bool DrawStuds
 		{
-			get { return _pngExportSettings.DrawStuds; }
-			set { _pngExportSettings.DrawStuds = value; RaisePropertyChanged(); }
+			get { return _pngExporter.DrawStuds; }
+			set { _pngExporter.DrawStuds = value; RaisePropertyChanged(); }
 		}
 
 		public bool DrawOutlines
 		{
-			get { return _pngExportSettings.DrawOutlines; }
-			set { _pngExportSettings.DrawOutlines = value; RaisePropertyChanged(); }
+			get { return _pngExporter.DrawOutlines; }
+			set { _pngExporter.DrawOutlines = value; RaisePropertyChanged(); }
 		}
 
-		public PngExportViewModel(PngExportSettings pngExportSettings)
+		public PngExportViewModel(PngExporter pngExportSettings)
 		{
-			_pngExportSettings = pngExportSettings;
+			_pngExporter = pngExportSettings;
 		}
 	}
 }

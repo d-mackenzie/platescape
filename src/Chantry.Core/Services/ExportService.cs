@@ -13,13 +13,11 @@ namespace TeethInc.Chantry.Core.Services
 		public event EventHandler<ProgressEventArgs> Progress;
 		public event EventHandler Completed;
 
-		public void Export(Mosaic mosaic, ExportSettings exportSettings)
+		public void Export<T>(Mosaic mosaic, ExportSettings<T> exportSettings) where T : IExporter
 		{
-			IExporter exporter = GetExporter(exportSettings);
-
 			if (!exportSettings.OneFilePerBaseplate)
 			{
-				WriteFile(exporter, mosaic, exportSettings.Filename);
+				WriteMosaicToFile(exportSettings.Exporter, mosaic, exportSettings.Filename);
 				OnProgress(new ProgressEventArgs() { Done = 1, Total = 1 });
 				OnCompleted(new EventArgs());
 			}
@@ -31,7 +29,7 @@ namespace TeethInc.Chantry.Core.Services
 				foreach (KeyValuePair<(int Column, int Row), Mosaic> kvp in mosaics)
 				{
 					string filename = Path.Join(exportSettings.ExportFolder, FilenamePatternHelper.BuildFilename(exportSettings.FilenamePattern, kvp.Key.Row + 1, kvp.Key.Column + 1));
-					WriteFile(exporter, kvp.Value, filename);
+					WriteMosaicToFile(exportSettings.Exporter, kvp.Value, filename);
 					done++;
 					OnProgress(new ProgressEventArgs() { Done = done, Total = mosaics.Count });
 				}
@@ -65,17 +63,7 @@ namespace TeethInc.Chantry.Core.Services
 			return ret;
 		}
 
-		private IExporter GetExporter(ExportSettings exportSettings)
-		{
-			return exportSettings switch
-			{
-				LdrawExportSettings exportLdrawSettings => new LdrawExporter(exportLdrawSettings),
-				PngExportSettings exportPngSettings => new PngExporter(exportPngSettings),
-				_ => throw new Exception("Unhandled export settings.")
-			};
-		}
-
-		private void WriteFile(IExporter exporter, Mosaic mosaic, string filename)
+		private void WriteMosaicToFile(IExporter exporter, Mosaic mosaic, string filename)
 		{
 			var sw = Stopwatch.StartNew();
 

@@ -8,7 +8,7 @@
 
 	<StackPanel>
 
-		<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="False">
+		<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="True">
 			<Expander.Header>PNG</Expander.Header>
 			<StackPanel Spacing="10">
 				<views:PngExport DataContext="{Binding PngExport}"/>
