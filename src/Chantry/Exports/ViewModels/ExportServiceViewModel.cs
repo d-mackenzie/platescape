@@ -5,42 +5,44 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Exporters;
 using TeethInc.Chantry.Core.Helpers;
 using TeethInc.Chantry.Core.Models;
+using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Helpers;
 using TeethInc.Chantry.ViewModels;
 
 namespace TeethInc.Chantry.Exports.ViewModels
 {
-	internal class ExportSettingsViewModel : BaseViewModel
+	internal class ExportServiceViewModel<T> : BaseViewModel where T : IExporter
 	{
-		private readonly ExportSettings _exportSettings;
+		private readonly ExportService<T> _exportService;
 		private IFileDialog _fileDialog;
 
 		public string Filename
 		{
-			get { return _exportSettings.Filename; }
-			set { _exportSettings.Filename = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
+			get { return _exportService.OutputSettings.Filename; }
+			set { _exportService.OutputSettings.Filename = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
 		}
 
 		public bool OneFilePerBaseplate
 		{
-			get { return _exportSettings.OneFilePerBaseplate; }
-			set { _exportSettings.OneFilePerBaseplate = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
+			get { return _exportService.OutputSettings.OneFilePerBaseplate; }
+			set { _exportService.OutputSettings.OneFilePerBaseplate = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
 		}
 
 		public string ExportFolder
 		{
-			get { return _exportSettings.ExportFolder; }
-			set { _exportSettings.ExportFolder = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
+			get { return _exportService.OutputSettings.ExportFolder; }
+			set { _exportService.OutputSettings.ExportFolder = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
 		}
 
 		public string FilenamePattern
 		{
-			get { return _exportSettings.FilenamePattern; }
+			get { return _exportService.OutputSettings.FilenamePattern; }
 			set
 			{
-				_exportSettings.FilenamePattern = value;
+				_exportService.OutputSettings.FilenamePattern = value;
 				RaisePropertyChanged();
 				RaisePropertyChanged(nameof(IsValid));
 				RaisePropertyChanged(nameof(ExampleFilenames));
@@ -76,12 +78,12 @@ namespace TeethInc.Chantry.Exports.ViewModels
 
 		public bool IsValid
 		{
-			get { return _exportSettings.IsValid; }
+			get { return _exportService.IsValid; }
 		}
 
-		public ExportSettingsViewModel(ExportSettings exportSettings)
+		public ExportServiceViewModel(ExportService<T> exportService)
 		{
-			_exportSettings = exportSettings;
+			_exportService = exportService;
 			_fileDialog = new FileDialog();
 		}
 

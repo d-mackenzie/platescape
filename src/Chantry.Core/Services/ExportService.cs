@@ -8,16 +8,31 @@ using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.Core.Services
 {
-	public class ExportService
+	public class ExportService<T> where T : IExporter
 	{
+		public OutputSettings OutputSettings { get; private set; }
+
+		public T Exporter { get; private set; }
+
+		public bool IsValid => OutputSettings.IsValid && Exporter.IsValid;
+
 		public event EventHandler<ProgressEventArgs> Progress;
 		public event EventHandler Completed;
 
-		public void Export<T>(Mosaic mosaic, ExportSettings<T> exportSettings) where T : IExporter
+		public ExportService(T exporter)
 		{
-			if (!exportSettings.OneFilePerBaseplate)
+			Exporter = exporter;
+			OutputSettings = new OutputSettings();
+		}
+
+		public void Export(Mosaic mosaic)
+		{
+			if (!IsValid)
+				throw new InvalidOperationException();
+
+			if (!OutputSettings.OneFilePerBaseplate)
 			{
-				WriteMosaicToFile(exportSettings.Exporter, mosaic, exportSettings.Filename);
+				WriteMosaicToFile(Exporter, mosaic, OutputSettings.Filename);
 				OnProgress(new ProgressEventArgs() { Done = 1, Total = 1 });
 				OnCompleted(new EventArgs());
 			}
@@ -28,8 +43,8 @@ namespace TeethInc.Chantry.Core.Services
 
 				foreach (KeyValuePair<(int Column, int Row), Mosaic> kvp in mosaics)
 				{
-					string filename = Path.Join(exportSettings.ExportFolder, FilenamePatternHelper.BuildFilename(exportSettings.FilenamePattern, kvp.Key.Row + 1, kvp.Key.Column + 1));
-					WriteMosaicToFile(exportSettings.Exporter, kvp.Value, filename);
+					string filename = Path.Join(OutputSettings.ExportFolder, FilenamePatternHelper.BuildFilename(OutputSettings.FilenamePattern, kvp.Key.Row + 1, kvp.Key.Column + 1));
+					WriteMosaicToFile(Exporter, kvp.Value, filename);
 					done++;
 					OnProgress(new ProgressEventArgs() { Done = done, Total = mosaics.Count });
 				}
@@ -82,4 +97,34 @@ namespace TeethInc.Chantry.Core.Services
 
 		public int Total { get; init; }
 	}
+
+	public class OutputSettings
+	{
+		public string Filename { get; set; } = "";
+
+		public bool OneFilePerBaseplate { get; set; } = false;
+
+		public string ExportFolder { get; set; } = "";
+
+		public string FilenamePattern { get; set; } = "";
+
+		public bool IsValid
+		{
+			get
+			{
+				if (OneFilePerBaseplate)
+				{
+					return !string.IsNullOrWhiteSpace(ExportFolder) &&
+						   !string.IsNullOrWhiteSpace(FilenamePattern);
+				}
+				else
+				{
+					return !string.IsNullOrWhiteSpace(Filename);
+				}
+			}
+		}
+	}
+
+
+
 }

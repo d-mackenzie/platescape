@@ -9,7 +9,7 @@ using TeethInc.Chantry.ViewModels;
 
 namespace TeethInc.Chantry.Exports.ViewModels
 {
-	internal class PngExportViewModel : BaseViewModel
+	internal class PngExporterViewModel : BaseViewModel
 	{
 		private PngExporter _pngExporter;
 
@@ -31,7 +31,7 @@ namespace TeethInc.Chantry.Exports.ViewModels
 			set { _pngExporter.DrawOutlines = value; RaisePropertyChanged(); }
 		}
 
-		public PngExportViewModel(PngExporter pngExportSettings)
+		public PngExporterViewModel(PngExporter pngExportSettings)
 		{
 			_pngExporter = pngExportSettings;
 		}

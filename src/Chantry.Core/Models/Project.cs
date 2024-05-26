@@ -69,9 +69,9 @@ namespace TeethInc.Chantry.Core.Models
 
 		// export settings.
 
-		public ExportSettings<PngExporter> PngExportSettings { get; set; }
+		public ExportService<PngExporter> PngExportService { get; set; }
 
-		public ExportSettings<LdrawExporter> LdrawExportSettings { get; set; }
+		public ExportService<LdrawExporter> LdrawExportService { get; set; }
 
 		public Project()
 		{
@@ -98,8 +98,8 @@ namespace TeethInc.Chantry.Core.Models
 
 			AlgorithmSettings.Algorithm = new FloydSteinberg();
 
-			PngExportSettings = GetDefaultExportFileSettings<PngExporter>();
-			LdrawExportSettings = GetDefaultExportFileSettings<LdrawExporter>();
+			PngExportService = GetExportService(new PngExporter());
+			LdrawExportService = GetExportService(new LdrawExporter());
 		}
 
 		public string Serialize()
@@ -110,16 +110,6 @@ namespace TeethInc.Chantry.Core.Models
 		public static Project Deserialize(string json)
 		{
 			return JsonConvert.DeserializeObject<Project>(json, JsonSerializerSettings);
-		}
-
-		public void ExportPng()
-		{
-			new ExportService().Export(Mosaic, PngExportSettings);
-		}
-
-		public void ExportLdraw()
-		{
-			new ExportService().Export(Mosaic, LdrawExportSettings);
 		}
 
 		// private properties.
@@ -146,28 +136,27 @@ namespace TeethInc.Chantry.Core.Models
 			}
 		}
 
-		private ExportSettings<T> GetDefaultExportFileSettings<T>() where T : IExporter
+		private ExportService<T> GetExportService<T>(T exporter) where T : IExporter
 		{
-			T exporter = Activator.CreateInstance<T>();
-			var exportSettings = new ExportSettings<T>(exporter);
+			var exportService = new ExportService<T>(exporter);
 
 			switch (Source)
 			{
 				case FileSource fileSource:
 
-					exportSettings.Filename = Path.ChangeExtension(fileSource.Filename, exporter.DefaultExtension);
-					exportSettings.ExportFolder = Path.GetDirectoryName(fileSource.Filename);
-					exportSettings.FilenamePattern = Path.GetFileNameWithoutExtension(fileSource.Filename) + $"row_{{row}}_col_{{col}}.{exporter.DefaultExtension}";
+					exportService.OutputSettings.Filename = Path.ChangeExtension(fileSource.Filename, exporter.DefaultExtension);
+					exportService.OutputSettings.ExportFolder = Path.GetDirectoryName(fileSource.Filename);
+					exportService.OutputSettings.FilenamePattern = Path.GetFileNameWithoutExtension(fileSource.Filename) + $"row_{{row}}_col_{{col}}.{exporter.DefaultExtension}";
 					break;
 
 				default:
-					exportSettings.Filename = $"mosaic.{exporter.DefaultExtension}";
-					exportSettings.ExportFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-					exportSettings.FilenamePattern = $"mosaic_row_{{row}}_col_{{col}}.{exporter.DefaultExtension}";
+					exportService.OutputSettings.Filename = $"mosaic.{exporter.DefaultExtension}";
+					exportService.OutputSettings.ExportFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+					exportService.OutputSettings.FilenamePattern = $"mosaic_row_{{row}}_col_{{col}}.{exporter.DefaultExtension}";
 					break;
 			}
 
-			return exportSettings;
+			return exportService;
 		}
 	}
 }

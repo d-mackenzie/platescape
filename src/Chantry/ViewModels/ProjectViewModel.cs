@@ -19,6 +19,7 @@ using TeethInc.Chantry.Core.Models;
 using System.Reactive;
 using ReactiveUI;
 using TeethInc.Chantry.Exports.ViewModels;
+using TeethInc.Chantry.Core.Exporters;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -100,11 +101,8 @@ namespace TeethInc.Chantry.ViewModels
 
 		// export properties.
 
-		public LdrawExportSettings LdrawExportSettings => _project.LdrawExportSettings;
-
-		internal PngExportViewModel PngExport => new PngExportViewModel(_project.PngExportSettings);
-		internal ExportSettingsViewModel PngExportSettings => new ExportSettingsViewModel(_project.PngExportSettings);
-		internal ExportButtonViewModel PngExportButton => new ExportButtonViewModel(_project.PngExportSettings);
+		internal PngExporterViewModel PngExport => new PngExporterViewModel(_project.PngExportService.Exporter);
+		internal ExportServiceViewModel<PngExporter> PngExportService => new ExportServiceViewModel<PngExporter>(_project.PngExportService);
 
 		// view properties.
 

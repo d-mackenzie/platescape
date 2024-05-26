@@ -13,25 +13,22 @@ namespace Chantry.Cmd
 			var project = ProjectService.Load("c:\\temp\\eric-avatar.jpg");
 
 			project.ExtentSettings.BaseplateSize = new SKSizeI(16, 16);
-			project.ExtentSettings.BaseplateExtent = new SKSizeI(5, 5);
-			project.ExtentSettings.ElementSize = new SKSizeI(2, 2);
+			project.ExtentSettings.BaseplateExtent = new SKSizeI(2, 2);
+			project.ExtentSettings.ElementSize = new SKSizeI(1, 1);
 
 			var mosaic = project.Mosaic;
 
-			var exportSettings = new ExportSettings<PngExporter>(
+			var exportSettings = new ExportService<PngExporter>(
 				new PngExporter()
 				{
 					PixelsPerStud = 96,
 					DrawOutlines = true,
 					DrawStuds = true
-				})
-			{
-				ExportFolder = "c:\\temp",
-				FilenamePattern = "eric-avatar-{row}-{col}.png",
-				OneFilePerBaseplate = true
-			};
+				});
 
-			var exportService = new ExportService();
+			exportSettings.OutputSettings.ExportFolder = "c:\\temp";
+			exportSettings.OutputSettings.FilenamePattern = "eric-avatar-{row}-{col}.png";
+			exportSettings.OutputSettings.OneFilePerBaseplate = true;
 
 			var sw = Stopwatch.StartNew();
 
@@ -40,16 +37,15 @@ namespace Chantry.Cmd
 			Debug.WriteLine(sw.ElapsedMilliseconds);
 		}
 
-		static async void DoExport(Mosaic mosaic, ExportSettings<PngExporter> exportSettings)
+		static async void DoExport(Mosaic mosaic, ExportService<PngExporter> exportService)
 		{
-			await ExportWorker(mosaic, exportSettings);
+			await ExportWorker(mosaic, exportService);
 		}
 
-		static Task ExportWorker(Mosaic mosaic, ExportSettings<PngExporter> exportSettings)
+		static Task ExportWorker(Mosaic mosaic, ExportService<PngExporter> exportService)
 		{
-			var exportService = new ExportService();
 			exportService.Progress += ExportService_Progress;
-			exportService.Export(mosaic, exportSettings);
+			exportService.Export(mosaic);
 			Task.WaitAll();
 			return Task.CompletedTask;
 		}
