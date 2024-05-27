@@ -10,7 +10,7 @@ namespace TeethInc.Chantry.Helpers
 {
 	public interface IFileDialog
 	{
-		public Task<string?> ShowOpenDialog(List<FileDialogFilter> filers);
+		public Task<string?> ShowOpenDialog(IReadOnlyList<FilePickerFileType> filters);
 
 		public Task<string?> ShowSaveDialog(string initialFilename, IReadOnlyList<FilePickerFileType> filters);
 

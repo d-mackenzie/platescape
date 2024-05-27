@@ -11,37 +11,33 @@ namespace TeethInc.Chantry.Helpers
 {
 	internal static class FileFilters
 	{
-		public static List<FileDialogFilter> Images =>
-			new List<FileDialogFilter>
+		public static IReadOnlyList<FilePickerFileType> Images =>
+			new List<FilePickerFileType>
 			{
-				new FileDialogFilter { Name = "Images", Extensions = new List<string> {"jpg", "png"} },
+				new FilePickerFileType("Images") { Patterns = [ "jpg", "jpeg", "png" ] },
 				AllFilesFilter()
 			};
 
-		public static List<FileDialogFilter> Projects =>
-			new List<FileDialogFilter>
+		public static IReadOnlyList<FilePickerFileType> Projects =>
+			new List<FilePickerFileType>
 			{
-				new FileDialogFilter { Name = "Chantry Project", Extensions = new List<string> {"json"} },
+				new FilePickerFileType("Chantry Project") { Patterns = [ "json" ] },
 				AllFilesFilter()
 			};
 
-		public static List<FileDialogFilter> Ldraw =>
-			new List<FileDialogFilter>
+		public static IReadOnlyList<FilePickerFileType> Ldraw =>
+			new List<FilePickerFileType>
 			{
-				new FileDialogFilter { Name = "LDRAW", Extensions = new List<string> {"ldr"} },
+				new FilePickerFileType("LDRAW") { Patterns = [ "ldr" ] },
 				AllFilesFilter()
 			};
 
 		public static IReadOnlyList<FilePickerFileType> Png =>
 			new List<FilePickerFileType>
 			{
-				new FilePickerFileType("PNG") { Patterns = [ "*.png" ] }
+				new FilePickerFileType("PNG") { Patterns = [ "png" ] }
 			};
 
-		private static FileDialogFilter AllFilesFilter() => new FileDialogFilter
-		{
-			Name = "All Files",
-			Extensions = new List<string> { "*" }
-		};
+		private static FilePickerFileType AllFilesFilter() => new FilePickerFileType("All Files") { Patterns = ["*.*"] };
 	}
 }

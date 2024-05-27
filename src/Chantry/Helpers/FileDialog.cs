@@ -11,21 +11,25 @@ namespace TeethInc.Chantry.Helpers
 {
 	public class FileDialog : IFileDialog
 	{
-		public async Task<string?> ShowOpenDialog(List<FileDialogFilter> filters)
+		private Lazy<Window> _window = new Lazy<Window>(() => ApplicationHelper.GetMainWindow());
+
+		private Window Window => _window.Value;
+
+		public async Task<string?> ShowOpenDialog(IReadOnlyList<FilePickerFileType> filters)
 		{
-			OpenFileDialog dialog = new OpenFileDialog()
+			var options = new FilePickerOpenOptions()
 			{
-				Filters = filters
+				AllowMultiple = false,
+				FileTypeFilter = filters
 			};
 
-			string[]? files = await dialog.ShowAsync(ApplicationHelper.GetMainWindow());
-			return files?.FirstOrDefault();
+			IReadOnlyList<IStorageFile> files = await Window.StorageProvider.OpenFilePickerAsync(options);
+
+			return files?.FirstOrDefault()?.Name;
 		}
 
 		public async Task<string?> ShowSaveDialog(string initialFileName, IReadOnlyList<FilePickerFileType> filters)
 		{
-			Window window = ApplicationHelper.GetMainWindow();
-
 			var options = new FilePickerSaveOptions()
 			{
 				ShowOverwritePrompt = true,
@@ -33,23 +37,21 @@ namespace TeethInc.Chantry.Helpers
 				DefaultExtension = filters.FirstOrDefault()?.Patterns?.FirstOrDefault(),
 			};
 
-			IStorageFile? file = await window.StorageProvider.SaveFilePickerAsync(options);
+			IStorageFile? file = await Window.StorageProvider.SaveFilePickerAsync(options);
 
-			if (file is null)
-				return null;
-
-			return file.Name;
+			return file?.Name;
 		}
 
-		public async Task<string?> ShowFolderDialog(string folder)
+		public async Task<string?> ShowFolderDialog(string initialFolder)
 		{
-			OpenFolderDialog dialog = new OpenFolderDialog()
+			var options = new FolderPickerOpenOptions
 			{
-				Directory = folder
+				AllowMultiple = false
 			};
 
-			string? filename = await dialog.ShowAsync(ApplicationHelper.GetMainWindow());
-			return filename;
+			IReadOnlyList<IStorageFolder>? folder = await Window.StorageProvider.OpenFolderPickerAsync(options);
+
+			return folder?.FirstOrDefault()?.Name;
 		}
 	}
 }
