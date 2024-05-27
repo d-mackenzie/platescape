@@ -13,7 +13,7 @@ using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.Core.Exporters
 {
-	public class PngExporter : IExporter
+	public class PngExporter : Exporter
 	{
 		public int PixelsPerStud { get; set; } = 1;
 
@@ -21,13 +21,13 @@ namespace TeethInc.Chantry.Core.Exporters
 
 		public bool DrawOutlines { get; set; }
 
-		public string DefaultExtension => "png";
+		public override string DefaultExtension => "png";
 
-		public bool IsValid => (PixelsPerStud > 0);
+		public override bool IsExporterValid => (PixelsPerStud > 0);
 
 		private float StrokeWidth => PixelsPerStud * 0.04f;
 
-		public void Export(Mosaic mosaic, Stream stream)
+		public override void ToStream(Mosaic mosaic, Stream stream)
 		{
 			var sw = Stopwatch.StartNew();
 

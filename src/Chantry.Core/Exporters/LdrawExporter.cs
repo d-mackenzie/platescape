@@ -9,7 +9,7 @@ using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.Core.Exporters
 {
-	public class LdrawExporter : IExporter
+	public class LdrawExporter : Exporter
 	{
 		public LdPart Baseplate { get; set; }
 
@@ -17,11 +17,11 @@ namespace TeethInc.Chantry.Core.Exporters
 
 		public bool IncludeBaseplate { get; set; }
 
-		public bool IsValid => true;
+		public override bool IsExporterValid => true;
 
-		public string DefaultExtension => "ldr";
+		public override string DefaultExtension => "ldr";
 
-		public void Export(Mosaic mosaic, Stream stream)
+		public override void ToStream(Mosaic mosaic, Stream stream)
 		{
 			var ldFile = new LdFile();
 

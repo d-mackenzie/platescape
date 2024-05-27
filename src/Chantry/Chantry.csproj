@@ -24,11 +24,11 @@
     <ProjectReference Include="..\Chantry.Core\Chantry.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Exports\Views\ExportButton.axaml.cs">
-      <DependentUpon>ExportButton.axaml</DependentUpon>
+    <Compile Update="Exports\Views\ExporterView.axaml.cs">
+      <DependentUpon>ExporterView.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Exports\Views\ExportServiceView.axaml.cs">
-      <DependentUpon>ExportServiceView.axaml</DependentUpon>
+    <Compile Update="Exports\Views\PngExportView.axaml.cs">
+      <DependentUpon>PngExportView.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Panels\FiltersView.axaml.cs">
       <DependentUpon>FiltersView.axaml</DependentUpon>

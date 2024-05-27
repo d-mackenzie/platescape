@@ -14,35 +14,36 @@ using TeethInc.Chantry.ViewModels;
 
 namespace TeethInc.Chantry.Exports.ViewModels
 {
-	internal class ExportServiceViewModel<T> : BaseViewModel where T : IExporter
+	internal abstract class ExporterViewModel<T> : BaseViewModel where T : Exporter
 	{
-		private readonly ExportService<T> _exportService;
+		protected readonly T _exporter;
+
 		private IFileDialog _fileDialog;
 
 		public string Filename
 		{
-			get { return _exportService.OutputSettings.Filename; }
-			set { _exportService.OutputSettings.Filename = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
+			get { return _exporter.Filename; }
+			set { _exporter.Filename = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
 		}
 
 		public bool OneFilePerBaseplate
 		{
-			get { return _exportService.OutputSettings.OneFilePerBaseplate; }
-			set { _exportService.OutputSettings.OneFilePerBaseplate = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
+			get { return _exporter.OneFilePerBaseplate; }
+			set { _exporter.OneFilePerBaseplate = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
 		}
 
 		public string ExportFolder
 		{
-			get { return _exportService.OutputSettings.ExportFolder; }
-			set { _exportService.OutputSettings.ExportFolder = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
+			get { return _exporter.ExportFolder; }
+			set { _exporter.ExportFolder = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsValid)); }
 		}
 
 		public string FilenamePattern
 		{
-			get { return _exportService.OutputSettings.FilenamePattern; }
+			get { return _exporter.FilenamePattern; }
 			set
 			{
-				_exportService.OutputSettings.FilenamePattern = value;
+				_exporter.FilenamePattern = value;
 				RaisePropertyChanged();
 				RaisePropertyChanged(nameof(IsValid));
 				RaisePropertyChanged(nameof(ExampleFilenames));
@@ -78,19 +79,19 @@ namespace TeethInc.Chantry.Exports.ViewModels
 
 		public bool IsValid
 		{
-			get { return _exportService.IsValid; }
+			get { return _exporter.IsValid; }
 		}
 
-		public ExportServiceViewModel(ExportService<T> exportService)
+		public ExporterViewModel(T exporter)
 		{
-			_exportService = exportService;
+			_exporter = exporter;
 			_fileDialog = new FileDialog();
 		}
 
 		public void SelectFilenameCommand()
 		{
 			_fileDialog
-				.ShowSaveDialog(Filename, FileFilters.Ldraw)
+				.ShowSaveDialog(Filename, FileFilters.Png)
 				.ContinueWith(x => Filename = x.Result ?? Filename);
 		}
 

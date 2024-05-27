@@ -2,37 +2,56 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using TeethInc.Chantry.Core.Exporters;
 using TeethInc.Chantry.Core.Helpers;
 using TeethInc.Chantry.Core.Models;
 
-namespace TeethInc.Chantry.Core.Services
+namespace TeethInc.Chantry.Core.Exporters
 {
-	public class ExportService<T> where T : IExporter
+	public abstract class Exporter
 	{
-		public OutputSettings OutputSettings { get; private set; }
+		public string Filename { get; set; } = "";
 
-		public T Exporter { get; private set; }
+		public bool OneFilePerBaseplate { get; set; } = false;
 
-		public bool IsValid => OutputSettings.IsValid && Exporter.IsValid;
+		public string ExportFolder { get; set; } = "";
+
+		public string FilenamePattern { get; set; } = "";
+
+		public bool IsOutputValid
+		{
+			get
+			{
+				if (OneFilePerBaseplate)
+				{
+					return !string.IsNullOrWhiteSpace(ExportFolder) &&
+						   !string.IsNullOrWhiteSpace(FilenamePattern);
+				}
+				else
+				{
+					return !string.IsNullOrWhiteSpace(Filename);
+				}
+			}
+		}
+
+		public bool IsValid => IsOutputValid && IsExporterValid;
 
 		public event EventHandler<ProgressEventArgs> Progress;
 		public event EventHandler Completed;
 
-		public ExportService(T exporter)
-		{
-			Exporter = exporter;
-			OutputSettings = new OutputSettings();
-		}
+		public abstract bool IsExporterValid { get; }
 
-		public void Export(Mosaic mosaic)
+		public abstract string DefaultExtension { get; }
+
+		public abstract void ToStream(Mosaic mosaic, Stream stream);
+
+		public void ToFile(Mosaic mosaic)
 		{
 			if (!IsValid)
 				throw new InvalidOperationException();
 
-			if (!OutputSettings.OneFilePerBaseplate)
+			if (!OneFilePerBaseplate)
 			{
-				WriteMosaicToFile(Exporter, mosaic, OutputSettings.Filename);
+				ToFile(mosaic, Filename);
 				OnProgress(new ProgressEventArgs() { Done = 1, Total = 1 });
 				OnCompleted(new EventArgs());
 			}
@@ -43,8 +62,8 @@ namespace TeethInc.Chantry.Core.Services
 
 				foreach (KeyValuePair<(int Column, int Row), Mosaic> kvp in mosaics)
 				{
-					string filename = Path.Join(OutputSettings.ExportFolder, FilenamePatternHelper.BuildFilename(OutputSettings.FilenamePattern, kvp.Key.Row + 1, kvp.Key.Column + 1));
-					WriteMosaicToFile(Exporter, kvp.Value, filename);
+					string filename = Path.Join(ExportFolder, FilenamePatternHelper.BuildFilename(FilenamePattern, kvp.Key.Row + 1, kvp.Key.Column + 1));
+					ToFile(kvp.Value, filename);
 					done++;
 					OnProgress(new ProgressEventArgs() { Done = done, Total = mosaics.Count });
 				}
@@ -78,13 +97,13 @@ namespace TeethInc.Chantry.Core.Services
 			return ret;
 		}
 
-		private void WriteMosaicToFile(IExporter exporter, Mosaic mosaic, string filename)
+		private void ToFile(Mosaic mosaic, string filename)
 		{
 			var sw = Stopwatch.StartNew();
 
 			using (var fileStream = new FileStream(filename, FileMode.Create))
 			{
-				exporter.Export(mosaic, fileStream);
+				ToStream(mosaic, fileStream);
 			}
 
 			Debug.WriteLine($"Wrote '{filename}' in {sw.ElapsedMilliseconds}ms.");
@@ -97,34 +116,4 @@ namespace TeethInc.Chantry.Core.Services
 
 		public int Total { get; init; }
 	}
-
-	public class OutputSettings
-	{
-		public string Filename { get; set; } = "";
-
-		public bool OneFilePerBaseplate { get; set; } = false;
-
-		public string ExportFolder { get; set; } = "";
-
-		public string FilenamePattern { get; set; } = "";
-
-		public bool IsValid
-		{
-			get
-			{
-				if (OneFilePerBaseplate)
-				{
-					return !string.IsNullOrWhiteSpace(ExportFolder) &&
-						   !string.IsNullOrWhiteSpace(FilenamePattern);
-				}
-				else
-				{
-					return !string.IsNullOrWhiteSpace(Filename);
-				}
-			}
-		}
-	}
-
-
-
 }

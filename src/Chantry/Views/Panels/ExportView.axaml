@@ -11,8 +11,8 @@
 		<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="True">
 			<Expander.Header>PNG</Expander.Header>
 			<StackPanel Spacing="10">
-				<views:PngExport DataContext="{Binding PngExporter}"/>
-				<views:ExportServiceView DataContext="{Binding PngExportService}"/>
+				<views:PngExportView DataContext="{Binding PngExporter}"/>
+				<views:ExporterView DataContext="{Binding PngExporter}"/>
 			</StackPanel>
 		</Expander>
 

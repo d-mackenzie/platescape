@@ -69,9 +69,7 @@ namespace TeethInc.Chantry.Core.Models
 
 		// export settings.
 
-		public ExportService<PngExporter> PngExportService { get; set; }
-
-		public ExportService<LdrawExporter> LdrawExportService { get; set; }
+		public PngExporter PngExporter { get; set; }
 
 		public Project()
 		{
@@ -98,8 +96,8 @@ namespace TeethInc.Chantry.Core.Models
 
 			AlgorithmSettings.Algorithm = new FloydSteinberg();
 
-			PngExportService = GetExportService(new PngExporter());
-			LdrawExportService = GetExportService(new LdrawExporter());
+			PngExporter = new PngExporter();
+			PopulateOutputSettings(PngExporter);
 		}
 
 		public string Serialize()
@@ -136,27 +134,23 @@ namespace TeethInc.Chantry.Core.Models
 			}
 		}
 
-		private ExportService<T> GetExportService<T>(T exporter) where T : IExporter
+		private void PopulateOutputSettings(Exporter exporter)
 		{
-			var exportService = new ExportService<T>(exporter);
-
 			switch (Source)
 			{
 				case FileSource fileSource:
 
-					exportService.OutputSettings.Filename = Path.ChangeExtension(fileSource.Filename, exporter.DefaultExtension);
-					exportService.OutputSettings.ExportFolder = Path.GetDirectoryName(fileSource.Filename);
-					exportService.OutputSettings.FilenamePattern = Path.GetFileNameWithoutExtension(fileSource.Filename) + $"row_{{row}}_col_{{col}}.{exporter.DefaultExtension}";
+					exporter.Filename = Path.ChangeExtension(fileSource.Filename, exporter.DefaultExtension);
+					exporter.ExportFolder = Path.GetDirectoryName(fileSource.Filename);
+					exporter.FilenamePattern = Path.GetFileNameWithoutExtension(fileSource.Filename) + $"row_{{row}}_col_{{col}}.{exporter.DefaultExtension}";
 					break;
 
 				default:
-					exportService.OutputSettings.Filename = $"mosaic.{exporter.DefaultExtension}";
-					exportService.OutputSettings.ExportFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-					exportService.OutputSettings.FilenamePattern = $"mosaic_row_{{row}}_col_{{col}}.{exporter.DefaultExtension}";
+					exporter.Filename = $"mosaic.{exporter.DefaultExtension}";
+					exporter.ExportFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+					exporter.FilenamePattern = $"mosaic_row_{{row}}_col_{{col}}.{exporter.DefaultExtension}";
 					break;
 			}
-
-			return exportService;
 		}
 	}
 }

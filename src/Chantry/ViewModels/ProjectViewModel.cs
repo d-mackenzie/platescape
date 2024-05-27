@@ -101,8 +101,7 @@ namespace TeethInc.Chantry.ViewModels
 
 		// export properties.
 
-		internal PngExporterViewModel PngExport => new PngExporterViewModel(_project.PngExportService.Exporter);
-		internal ExportServiceViewModel<PngExporter> PngExportService => new ExportServiceViewModel<PngExporter>(_project.PngExportService);
+		internal PngExporterViewModel PngExporter { get; private set; }
 
 		// view properties.
 
@@ -147,6 +146,8 @@ namespace TeethInc.Chantry.ViewModels
 			RemoveFilterCommand = ReactiveCommand.Create<IFilterViewModel>(RemoveFilter);
 
 			Zoom = 4;
+
+			PngExporter = new PngExporterViewModel(_project.PngExporter);
 		}
 
 		public void AddFilter(Type filterType)

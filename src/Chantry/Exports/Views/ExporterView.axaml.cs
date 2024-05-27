@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace TeethInc.Chantry.Exports.Views
 {
-	public partial class ExportServiceView : UserControl
+	public partial class ExporterView : UserControl
 	{
-		public ExportServiceView()
+		public ExporterView()
 		{
 			InitializeComponent();
 		}

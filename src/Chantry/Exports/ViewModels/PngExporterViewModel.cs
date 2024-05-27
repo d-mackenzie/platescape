@@ -9,31 +9,26 @@ using TeethInc.Chantry.ViewModels;
 
 namespace TeethInc.Chantry.Exports.ViewModels
 {
-	internal class PngExporterViewModel : BaseViewModel
+	internal class PngExporterViewModel : ExporterViewModel<PngExporter>
 	{
-		private PngExporter _pngExporter;
-
 		public int PixelsPerStud
 		{
-			get { return _pngExporter.PixelsPerStud; }
-			set { _pngExporter.PixelsPerStud = value; RaisePropertyChanged(); }
+			get { return _exporter.PixelsPerStud; }
+			set { _exporter.PixelsPerStud = value; RaisePropertyChanged(); }
 		}
 
 		public bool DrawStuds
 		{
-			get { return _pngExporter.DrawStuds; }
-			set { _pngExporter.DrawStuds = value; RaisePropertyChanged(); }
+			get { return _exporter.DrawStuds; }
+			set { _exporter.DrawStuds = value; RaisePropertyChanged(); }
 		}
 
 		public bool DrawOutlines
 		{
-			get { return _pngExporter.DrawOutlines; }
-			set { _pngExporter.DrawOutlines = value; RaisePropertyChanged(); }
+			get { return _exporter.DrawOutlines; }
+			set { _exporter.DrawOutlines = value; RaisePropertyChanged(); }
 		}
 
-		public PngExporterViewModel(PngExporter pngExportSettings)
-		{
-			_pngExporter = pngExportSettings;
-		}
+		public PngExporterViewModel(PngExporter exporter) : base(exporter) { }
 	}
 }
