@@ -14,28 +14,28 @@ namespace TeethInc.Chantry.Helpers
 		public static IReadOnlyList<FilePickerFileType> Images =>
 			new List<FilePickerFileType>
 			{
-				new FilePickerFileType("Images") { Patterns = [ "jpg", "jpeg", "png" ] },
+				new FilePickerFileType("Images") { Patterns = [ "*.jpg", "*.jpeg", "*.png" ] },
 				AllFilesFilter()
 			};
 
 		public static IReadOnlyList<FilePickerFileType> Projects =>
 			new List<FilePickerFileType>
 			{
-				new FilePickerFileType("Chantry Project") { Patterns = [ "json" ] },
+				new FilePickerFileType("Chantry Project") { Patterns = [ "*.json" ] },
 				AllFilesFilter()
 			};
 
 		public static IReadOnlyList<FilePickerFileType> Ldraw =>
 			new List<FilePickerFileType>
 			{
-				new FilePickerFileType("LDRAW") { Patterns = [ "ldr" ] },
+				new FilePickerFileType("LDRAW") { Patterns = [ "*.ldr" ] },
 				AllFilesFilter()
 			};
 
 		public static IReadOnlyList<FilePickerFileType> Png =>
 			new List<FilePickerFileType>
 			{
-				new FilePickerFileType("PNG") { Patterns = [ "png" ] }
+				new FilePickerFileType("PNG") { Patterns = [ "*.png" ] }
 			};
 
 		private static FilePickerFileType AllFilesFilter() => new FilePickerFileType("All Files") { Patterns = ["*.*"] };
