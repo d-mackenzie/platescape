@@ -25,7 +25,7 @@ namespace TeethInc.Chantry.Helpers
 
 			IReadOnlyList<IStorageFile> files = await Window.StorageProvider.OpenFilePickerAsync(options);
 
-			return files?.FirstOrDefault()?.Name;
+			return files?.FirstOrDefault()?.Path.AbsolutePath;
 		}
 
 		public async Task<string?> ShowSaveDialog(string initialFileName, IReadOnlyList<FilePickerFileType> filters)

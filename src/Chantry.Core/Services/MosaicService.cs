@@ -23,9 +23,11 @@ namespace TeethInc.Chantry.Core.Services
 					((resizedImage.Width - elementExtent.Width) / 2) + elementExtent.Width,
 					((resizedImage.Height - elementExtent.Height) / 2) + elementExtent.Height);
 
-				using (SKBitmap croppedImage = resizedImage.GetCrop(cropRect))
+				using (SKBitmap croppedImage = new SKBitmap(cropRect.Width, cropRect.Height))
 				{
-					var mosaicColors = algorithmSettings.Algorithm.GetMosaic(resizedImage, algorithmSettings.AllowedColors);
+					resizedImage.ExtractSubset(croppedImage, cropRect);
+
+					var mosaicColors = algorithmSettings.Algorithm.GetMosaic(croppedImage, algorithmSettings.AllowedColors);
 
 					Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
 

@@ -22,13 +22,5 @@ namespace TeethInc.Chantry.Core.Extensions
 		{
 			return (y * bitmap.Width) + x;
 		}
-
-		public static SKBitmap GetCrop(this SKBitmap bitmap, SKRectI rect)
-		{
-			using var ret = new SKBitmap(rect.Width, rect.Height);
-			bitmap.ExtractSubset(ret, rect);
-
-			return ret;
-		}
 	}
 }
