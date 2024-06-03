@@ -21,19 +21,19 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Build win-x64
-      run: dotnet publish Chantry/src/Chantry.csproj -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -p:PublishTrimmed=true --self-contained true --output ./publish
+      run: dotnet publish src/Chantry/Chantry.csproj -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -p:PublishTrimmed=true --self-contained true --output ./publish
 
     - name: Build osx-x64
-      run: dotnet publish Chantry/src/Chantry.csproj -c Release -r osx-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -p:PublishTrimmed=true --self-contained true --output ./publish
+      run: dotnet publish src/Chantry/Chantry.csproj -c Release -r osx-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -p:PublishTrimmed=true --self-contained true --output ./publish
       
     - name: Upload win-x64 artifact
       uses: actions/upload-artifact@v3
       with:
         name: chantry-win-x64
-        path: ./publish/Chantry.exe
+        path: ./publish/Platescape.exe
 
     - name: Upload osx-x64 artifact
       uses: actions/upload-artifact@v3
       with:
         name: chantry-osx-x64
-        path: ./publish/Chantry
+        path: ./publish/Platescape
