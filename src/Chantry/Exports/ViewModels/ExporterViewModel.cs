@@ -17,6 +17,7 @@ namespace TeethInc.Chantry.Exports.ViewModels
 	internal abstract class ExporterViewModel<T> : BaseViewModel where T : Exporter
 	{
 		protected readonly T _exporter;
+		protected readonly ProjectViewModel _parent;
 
 		private IFileDialog _fileDialog;
 
@@ -82,9 +83,10 @@ namespace TeethInc.Chantry.Exports.ViewModels
 			get { return _exporter.IsValid; }
 		}
 
-		public ExporterViewModel(T exporter)
+		public ExporterViewModel(T exporter, ProjectViewModel parent)
 		{
 			_exporter = exporter;
+			_parent = parent;
 			_fileDialog = new FileDialog();
 		}
 
@@ -100,6 +102,11 @@ namespace TeethInc.Chantry.Exports.ViewModels
 			_fileDialog
 				.ShowFolderDialog(Path.GetDirectoryName(Filename) ?? Environment.GetFolderPath(Environment.SpecialFolder.Personal))
 				.ContinueWith(x => ExportFolder = x.Result ?? ExportFolder);
+		}
+
+		public void ExportCommand()
+		{
+			_exporter.ToFile(_parent.Mosaic);
 		}
 	}
 }

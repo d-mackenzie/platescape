@@ -96,8 +96,12 @@ namespace TeethInc.Chantry.ViewModels
 		// filter properties.
 
 		public ObservableCollection<IFilterViewModel> Filters => _filters;
+
 		public AmiBitmap FilteredImage => _project.FilteredImage.AsAvaloniaMediaImagingBitmap();
+
 		public AmiBitmap MosaicImage => _project.Mosaic.Image.AsAvaloniaMediaImagingBitmap();
+
+		public Mosaic Mosaic => _project.Mosaic;
 
 		// export properties.
 
@@ -147,7 +151,7 @@ namespace TeethInc.Chantry.ViewModels
 
 			Zoom = 4;
 
-			PngExporter = new PngExporterViewModel(_project.PngExporter);
+			PngExporter = new PngExporterViewModel(_project.PngExporter, this);
 		}
 
 		public void AddFilter(Type filterType)

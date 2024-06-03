@@ -16,11 +16,6 @@
 			</StackPanel>
 		</Expander>
 
-		<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="False">
-			<Expander.Header>LDraw</Expander.Header>
-			<TextBlock>Todo</TextBlock>
-		</Expander>
-
 	</StackPanel>
 
 </UserControl>

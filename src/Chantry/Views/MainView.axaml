@@ -19,12 +19,12 @@
 		
 			<StackPanel>
 				
-				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="False">
+				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="True">
 					<Expander.Header>Mosaic Properties</Expander.Header>
 					<panels:MosaicPropertiesView DataContext="{Binding}"/>
 				</Expander>
 
-				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="False">
+				<Expander VerticalAlignment="Top" HorizontalAlignment="Stretch" IsExpanded="True">
 					<Expander.Header>Filters</Expander.Header>
 					<panels:FiltersView DataContext="{Binding}"/>
 				</Expander>

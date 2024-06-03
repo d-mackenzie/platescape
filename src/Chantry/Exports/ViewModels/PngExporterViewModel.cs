@@ -29,6 +29,6 @@ namespace TeethInc.Chantry.Exports.ViewModels
 			set { _exporter.DrawOutlines = value; RaisePropertyChanged(); }
 		}
 
-		public PngExporterViewModel(PngExporter exporter) : base(exporter) { }
+		public PngExporterViewModel(PngExporter exporter, ProjectViewModel parent) : base(exporter, parent) { }
 	}
 }
