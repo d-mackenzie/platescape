@@ -1,1 +1,1 @@
-dotnet publish Chantry/Chantry.csproj -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -p:PublishTrimmed=true --self-contained true --output ./publish
+dotnet publish src/Chantry/Chantry.csproj -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true --output ./publish
