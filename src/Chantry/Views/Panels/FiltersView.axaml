@@ -6,8 +6,10 @@
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="TeethInc.Chantry.Views.Panels.FiltersView"
 			 xmlns:viewmodels="clr-namespace:TeethInc.Chantry.Filters.ViewModels"
+			 xmlns:viewmodels2="clr-namespace:TeethInc.Chantry.ViewModels"
 			 xmlns:views="clr-namespace:TeethInc.Chantry.Filters.Views"
-			 xmlns:filters="clr-namespace:TeethInc.Chantry.Core.Filters;assembly=Chantry.Core">
+			 xmlns:filters="clr-namespace:TeethInc.Chantry.Core.Filters;assembly=Chantry.Core"
+			 x:DataType="viewmodels2:ProjectViewModel">
 
 	<ScrollViewer AllowAutoHide="False">
 
@@ -28,7 +30,7 @@
 									Grid.Column="1"
 									Grid.Row="0"/>
 							<Button Grid.Column="2"
-									Command="{Binding $parent[UserControl].DataContext.RemoveFilterCommand}"
+									Command="{Binding $parent[UserControl].((viewmodels2:ProjectViewModel)DataContext).RemoveFilterCommand}"
 									CommandParameter="{Binding}"
 									Grid.Row="0">
 								<Button.Content>

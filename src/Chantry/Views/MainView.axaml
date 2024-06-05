@@ -5,6 +5,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:tabs="clr-namespace:TeethInc.Chantry.Views.Tabs"
              xmlns:panels="clr-namespace:TeethInc.Chantry.Views.Panels"
+ 			 xmlns:viewmodels="clr-namespace:TeethInc.Chantry.ViewModels"
+			 x:DataType="viewmodels:ProjectViewModel"
              x:Class="TeethInc.Chantry.Views.MainView">
 
     <Grid>

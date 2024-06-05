@@ -9,6 +9,7 @@
 	<AssemblyFileVersion>0.2</AssemblyFileVersion>
     <FileVersion>1.0.0</FileVersion>
     <AssemblyName>Platescape</AssemblyName>
+	<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.10" />

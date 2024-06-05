@@ -5,6 +5,8 @@
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:converters="clr-namespace:TeethInc.Chantry.Converters"
+ 			 xmlns:viewmodels="clr-namespace:TeethInc.Chantry.ViewModels"
+			 x:DataType="viewmodels:ColorChipViewModel"
              x:Class="TeethInc.Chantry.UserControls.ColorChip">
 
 	<UserControl.Resources>
@@ -21,8 +23,8 @@
 
 		<ToggleButton.Styles>
 			<Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
-				<Setter Property="Background" Value="{Binding $parent.DataContext.LdColor, Converter={StaticResource LdColorToColorConverter}}"/>
-				<Setter Property="Foreground" Value="{Binding $parent.DataContext.LdColor, Converter={StaticResource LdColorToContrastConverter}}"/>
+				<Setter Property="Background" Value="{Binding $parent.((viewmodels:ColorChipViewModel)DataContext).LdColor, Converter={StaticResource LdColorToColorConverter}}"/>
+				<Setter Property="Foreground" Value="{Binding $parent.((viewmodels:ColorChipViewModel)DataContext).LdColor, Converter={StaticResource LdColorToContrastConverter}}"/>
 			</Style>
 		</ToggleButton.Styles>
 		

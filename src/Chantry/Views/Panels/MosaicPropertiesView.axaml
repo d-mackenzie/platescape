@@ -8,7 +8,9 @@
              x:Class="TeethInc.Chantry.Views.Panels.MosaicPropertiesView"
 			 xmlns:local="clr-namespace:TeethInc.Chantry"
              xmlns:converters="clr-namespace:TeethInc.Chantry.Converters"
-			 xmlns:usercontrols="clr-namespace:TeethInc.Chantry.UserControls">
+			 xmlns:usercontrols="clr-namespace:TeethInc.Chantry.UserControls"
+ 			 xmlns:viewmodels="clr-namespace:TeethInc.Chantry.ViewModels"
+			 x:DataType="viewmodels:ProjectViewModel">
 
 	<UserControl.Resources>
 		<converters:SKSizeIToStringConverter x:Key="SKSizeIToStringConverter"/>

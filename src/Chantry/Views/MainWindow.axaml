@@ -3,8 +3,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="TeethInc.Chantry.Views.MainWindow"
         xmlns:views="clr-namespace:TeethInc.Chantry.Views"
+        xmlns:viewmodels="clr-namespace:TeethInc.Chantry.ViewModels"
+		x:DataType="viewmodels:MainWindowViewModel"
+        x:Class="TeethInc.Chantry.Views.MainWindow"
         Title="Platescape"
 		Icon="/Assets/app.ico"
         MinWidth="800"
@@ -19,11 +21,11 @@
 
 				<MenuItem Header="_Save Project"
 						  Command="{Binding SaveProjectCommand}"
-						  IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+						  IsVisible="{Binding $parent.((viewmodels:MainWindowViewModel)DataContext).ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
 
 				<MenuItem Header="_Close"
 		                  Command="{Binding CloseCommand}"
-		                  IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+		                  IsVisible="{Binding $parent.((viewmodels:MainWindowViewModel)DataContext).ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
 			</MenuItem>
         </Menu>
 
@@ -31,10 +33,10 @@
               IsVisible="{Binding !IsLoading}">
 
             <views:MainView DataContext="{Binding ProjectViewModel}"
-                            IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                            IsVisible="{Binding $parent.((viewmodels:MainWindowViewModel)DataContext).ProjectViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"/>
         
             <views:SplashView DataContext="{Binding SplashViewModel}"
-                              IsVisible="{Binding $parent.DataContext.ProjectViewModel, Converter={x:Static ObjectConverters.IsNull}}"/>
+                              IsVisible="{Binding $parent.((viewmodels:MainWindowViewModel)DataContext).ProjectViewModel, Converter={x:Static ObjectConverters.IsNull}}"/>
         
         </Grid>
 
