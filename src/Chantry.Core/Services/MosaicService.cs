@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Ldraw;
+using TeethInc.Chantry.Core.Logging;
 using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.Core.Services
@@ -29,7 +30,7 @@ namespace TeethInc.Chantry.Core.Services
 
 					var mosaicColors = algorithmSettings.Algorithm.GetMosaic(croppedImage, algorithmSettings.AllowedColors);
 
-					Debug.WriteLine($"GetMosaic() done: {sw.ElapsedMilliseconds}ms");
+					Logger.Debug($"{sw.ElapsedMilliseconds}ms");
 
 					return new Mosaic(extentSettings.BaseplateSize, extentSettings.ElementSize, mosaicColors);
 				}

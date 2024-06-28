@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chantry.Tests", "Chantry.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chantry.Benchmarks", "Chantry.Benchmarks\Chantry.Benchmarks.csproj", "{D06EC613-1631-44BC-B33E-67EFDBC29276}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chantry.Cmd", "Chantry.Cmd\Chantry.Cmd.csproj", "{CE10CAB4-2B81-4FF6-A197-0EB459C3B1D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chantry.Cmd", "Chantry.Cmd\Chantry.Cmd.csproj", "{CE10CAB4-2B81-4FF6-A197-0EB459C3B1D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,7 +28,6 @@ Global
 		{A5503EEE-0356-4347-BC61-66D0B70E8AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5503EEE-0356-4347-BC61-66D0B70E8AC6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{72196463-BF79-453B-B086-AEC177519DDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{72196463-BF79-453B-B086-AEC177519DDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72196463-BF79-453B-B086-AEC177519DDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72196463-BF79-453B-B086-AEC177519DDB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D06EC613-1631-44BC-B33E-67EFDBC29276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
