@@ -345,3 +345,6 @@ healthchecksdb
 
 # LDRAW Files
 *.ldr
+
+# LOG files
+*.log

@@ -2,6 +2,7 @@
 using System.IO;
 using TeethInc.Chantry.Helpers;
 using TeethInc.Chantry.Core.Services;
+using TeethInc.Chantry.Core.Logging;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -78,11 +79,20 @@ namespace TeethInc.Chantry.ViewModels
 			if (filename is null)
 				return;
 
-			IsLoading = true;
+			Logger.Debug($"Loading {filename}");
 
-			ProjectViewModel = new ProjectViewModel(ProjectService.Load(filename));
+			try
+			{
+				IsLoading = true;
 
-			IsLoading = false;
+				ProjectViewModel = new ProjectViewModel(ProjectService.Load(filename));
+
+				IsLoading = false;
+			}
+			catch (Exception ex)
+			{
+				Logger.Exception(ex);
+			}
 		}
 
 		private void SaveProject(string? filename)

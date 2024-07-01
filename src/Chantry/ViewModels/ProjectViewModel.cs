@@ -190,7 +190,7 @@ namespace TeethInc.Chantry.ViewModels
 
 		private void AddFilterViewModel(Filter filter)
 		{
-			IFilterViewModel viewModel = FilterViewResolver.ConstructFilterViewModel(filter);
+			IFilterViewModel viewModel = FilterViewModelFactory.ConstructFilterViewModel(filter);
 			viewModel.PropertyChanged += FilterPropertyChanged;
 			Filters.Add(viewModel);
 		}

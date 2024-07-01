@@ -18,49 +18,45 @@ using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry
 {
-    public class App : Application
-    {
-        public override void Initialize()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+	public class App : Application
+	{
+		public override void Initialize()
+		{
+			AvaloniaXamlLoader.Load(this);
+		}
 
-        public override void OnFrameworkInitializationCompleted()
-        {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                FilterViewResolver.Register<BrightnessContrastFilter, BrightnessContrastViewModel, BrightnessContrastView>();
-                FilterViewResolver.Register<SaturationFilter, SaturationViewModel, SaturationView>();
-                FilterViewResolver.Register<MultiplyFilter, MultiplyViewModel, MultiplyView>();
+		public override void OnFrameworkInitializationCompleted()
+		{
+			if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+			{
+				var args = Environment.GetCommandLineArgs();
+				ProjectViewModel? projectViewModel = null;
 
-                var args = Environment.GetCommandLineArgs();
-                ProjectViewModel? projectViewModel = null;
+				string? filename = GetSupportedFilenameArg(args);
 
-                string? filename = GetSupportedFilenameArg(args);
+				if (filename is not null)
+				{
+					projectViewModel = new ProjectViewModel(ProjectService.Load(filename));
+				}
 
-                if (filename is not null)
-                {
-                    projectViewModel = new ProjectViewModel(ProjectService.Load(filename));
-                }
+				desktop.MainWindow = new MainWindow()
+				{
+					DataContext = new MainWindowViewModel(projectViewModel, new SplashViewModel())
+				};
 
-                desktop.MainWindow = new MainWindow()
-                {
-                    DataContext = new MainWindowViewModel(projectViewModel, new SplashViewModel())
-                };
+			}
 
-            }
+			base.OnFrameworkInitializationCompleted();
+		}
 
-            base.OnFrameworkInitializationCompleted();
-        }
+		private string? GetSupportedFilenameArg(string[]? args)
+		{
+			if (args is null)
+				return null;
 
-        private string? GetSupportedFilenameArg(string[]? args)
-        {
-            if (args is null)
-                return null;
+			string[] supportedFileTypes = new string[] { ".json", ".jpeg", ".jpg", ".png" };
 
-            string[] supportedFileTypes = new string[] { ".json", ".jpeg", ".jpg", ".png" };
-
-            return args.FirstOrDefault(x => x.EndsWithAny(supportedFileTypes));
-        }
-    }
+			return args.FirstOrDefault(x => x.EndsWithAny(supportedFileTypes));
+		}
+	}
 }

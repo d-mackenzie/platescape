@@ -15,10 +15,10 @@ namespace TeethInc.Chantry.Core.Logging
 		static Logger()
 		{
 			using ILoggerFactory factory = LoggerFactory.Create(
-				builder =>
-					builder
-						.AddConsole()
-						.AddDebug());
+				builder => builder
+					.AddFilter("Platescape", LogLevel.Debug)
+					.AddConsole()
+					.AddDebug());
 
 			_logger = factory.CreateLogger("Platescape");
 		}
@@ -26,6 +26,11 @@ namespace TeethInc.Chantry.Core.Logging
 		public static void Debug(string message, [CallerMemberName] string callerMemberName = "")
 		{
 			_logger.LogDebug($"{callerMemberName}: {message}");
+		}
+
+		public static void Exception(Exception ex, [CallerMemberName] string callerMemberName = "")
+		{
+			_logger.LogError($"{callerMemberName}: {ex.ToString()}");
 		}
 	}
 }
