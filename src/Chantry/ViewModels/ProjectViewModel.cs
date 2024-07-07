@@ -26,7 +26,7 @@ namespace TeethInc.Chantry.ViewModels
 	public class ProjectViewModel : BaseViewModel
 	{
 		private Project _project;
-		private ObservableCollection<IFilterViewModel> _filters = new ObservableCollection<IFilterViewModel>();
+		private ObservableCollection<IFilterViewModel> _filterViewModels = new ObservableCollection<IFilterViewModel>();
 		private List<ColorChipViewModel> _allowedColors;
 
 		private List<Algorithm> _mosaicAlgorithms = new List<Algorithm>()
@@ -95,7 +95,7 @@ namespace TeethInc.Chantry.ViewModels
 
 		// filter properties.
 
-		public ObservableCollection<IFilterViewModel> Filters => _filters;
+		public ObservableCollection<IFilterViewModel> FilterViewModels => _filterViewModels;
 
 		public AmiBitmap FilteredImage => _project.FilteredImage.AsAvaloniaMediaImagingBitmap();
 
@@ -131,14 +131,16 @@ namespace TeethInc.Chantry.ViewModels
 
 		// commands.
 
-		public ReactiveCommand<Type, Unit> AddNewFilterCommand { get; }
+		public ReactiveCommand<Unit, Unit> AddNewBrightnessContrastFilterCommand { get; }
+		public ReactiveCommand<Unit, Unit> AddNewMultiplyFilterCommand { get; }
+		public ReactiveCommand<Unit, Unit> AddNewSaturationFilterCommand { get; }
 
 		public ReactiveCommand<IFilterViewModel, Unit> RemoveFilterCommand { get; }
 
 		public ProjectViewModel(Project project)
 		{
 			_project = project;
-			_project.Filters.ForEach(AddFilterViewModel);
+			_project.Filters.ForEach(AddFilter);
 			_project.AlgorithmSettings.Algorithm = _mosaicAlgorithms.FirstOrDefault(x => x.DisplayName == _project.AlgorithmSettings.Algorithm.DisplayName);
 
 			_allowedColors = new List<ColorChipViewModel>(
@@ -146,7 +148,9 @@ namespace TeethInc.Chantry.ViewModels
 					.Select(x => BuildAllowedColorViewModel(x, _project.AlgorithmSettings.AllowedColors.Contains(x)))
 					.OrderBy(x => x.LdColor.Order));
 
-			AddNewFilterCommand = ReactiveCommand.Create<Type>(AddFilter);
+			AddNewBrightnessContrastFilterCommand = ReactiveCommand.Create<Unit>(x => AddFilter(new BrightnessContrastFilter()));
+			AddNewMultiplyFilterCommand = ReactiveCommand.Create<Unit>(x => AddFilter(new MultiplyFilter()));
+			AddNewSaturationFilterCommand = ReactiveCommand.Create<Unit>(x => AddFilter(new SaturationFilter()));
 			RemoveFilterCommand = ReactiveCommand.Create<IFilterViewModel>(RemoveFilter);
 
 			Zoom = 4;
@@ -154,23 +158,22 @@ namespace TeethInc.Chantry.ViewModels
 			PngExporter = new PngExporterViewModel(_project.PngExporter, this);
 		}
 
-		public void AddFilter(Type filterType)
+		public void AddFilter(Filter filter)
 		{
-			Filter? filter = Activator.CreateInstance(filterType) as Filter;
+			if (!_project.Filters.Contains(filter))
+				_project.Filters.Add(filter);
 
-			if (filter is null)
-				throw new ArgumentException($"Could not create filter of type {filterType}");
-
-			_project.Filters.Add(filter);
-			AddFilterViewModel(filter);
+			IFilterViewModel viewModel = FilterViewModelFactory.ConstructFilterViewModel(filter);
+			viewModel.PropertyChanged += FilterPropertyChanged;
+			FilterViewModels.Add(viewModel);
 		}
 
 		public void RemoveFilter(IFilterViewModel filterViewModel)
 		{
 			filterViewModel.PropertyChanged -= FilterPropertyChanged;
 
-			int index = Filters.IndexOf(filterViewModel);
-			Filters.RemoveAt(index);
+			int index = FilterViewModels.IndexOf(filterViewModel);
+			FilterViewModels.RemoveAt(index);
 			_project.Filters.RemoveAt(index);
 
 			RaiseFilterPropertyChanged();
@@ -186,13 +189,6 @@ namespace TeethInc.Chantry.ViewModels
 		{
 			string json = _project.Serialize();
 			File.WriteAllText(filename, json);
-		}
-
-		private void AddFilterViewModel(Filter filter)
-		{
-			IFilterViewModel viewModel = FilterViewModelFactory.ConstructFilterViewModel(filter);
-			viewModel.PropertyChanged += FilterPropertyChanged;
-			Filters.Add(viewModel);
 		}
 
 		private void RaiseFilterPropertyChanged()

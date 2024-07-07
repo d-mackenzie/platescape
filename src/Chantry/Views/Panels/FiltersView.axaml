@@ -15,7 +15,7 @@
 
 		<StackPanel>
 
-			<ItemsControl ItemsSource="{Binding Filters}">
+			<ItemsControl ItemsSource="{Binding FilterViewModels}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,*">
@@ -70,14 +70,11 @@
 				<Border.ContextMenu>
 					<ContextMenu>
 						<MenuItem Header="Brightness and Contrast"
-								  Command="{Binding AddNewFilterCommand}"
-								  CommandParameter="{x:Type filters:BrightnessContrastFilter}"/>
+								  Command="{Binding AddNewBrightnessContrastFilterCommand}"/>
 						<MenuItem Header="Multiply"
-								  Command="{Binding AddNewFilterCommand}"
-								  CommandParameter="{x:Type filters:MultiplyFilter}"/>
+								  Command="{Binding AddNewMultiplyFilterCommand}"/>
 						<MenuItem Header="Saturation"
-								  Command="{Binding AddNewFilterCommand}"
-								  CommandParameter="{x:Type filters:SaturationFilter}"/>
+								  Command="{Binding AddNewSaturationFilterCommand}"/>
 					</ContextMenu>
 				</Border.ContextMenu>
 
