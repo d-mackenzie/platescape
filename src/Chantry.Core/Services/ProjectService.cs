@@ -17,7 +17,7 @@ namespace TeethInc.Chantry.Core.Services
 		{
 			switch (Path.GetExtension(filename))
 			{
-				case "json":
+				case ".json":
 
 					string json = File.ReadAllText(filename);
 					return Project.Deserialize(json);

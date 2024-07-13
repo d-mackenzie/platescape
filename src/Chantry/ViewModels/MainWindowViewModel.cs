@@ -53,10 +53,10 @@ namespace TeethInc.Chantry.ViewModels
 
 		public void SaveProjectCommand()
 		{
-			//if (_projectViewModel is not null)
-			//	_fileDialog
-			//		.ShowSaveDialog($"{_projectViewModel.Name}.json", FileFilters.Projects)
-			//		.ContinueWith(x => SaveProject(x.Result));
+			if (_projectViewModel is not null)
+				_fileDialog
+					.ShowSaveDialog($"{_projectViewModel.Name}.json", FileFilters.Projects)
+					.ContinueWith(x => SaveProject(x.Result));
 		}
 
 		public void CloseCommand()
