@@ -23,14 +23,24 @@ namespace TeethInc.Chantry.Core.Logging
 			_logger = factory.CreateLogger("Platescape");
 		}
 
-		public static void Debug(string message, [CallerMemberName] string callerMemberName = "")
+		public static void Debug(string message, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0, [CallerMemberName] string callerMemberName = "")
 		{
-			_logger.LogDebug($"{callerMemberName}: {message}");
+			Log(message, LogLevel.Debug, callerFilePath, callerLineNumber, callerMemberName);
 		}
 
-		public static void Exception(Exception ex, [CallerMemberName] string callerMemberName = "")
+		public static void Info(string message, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0, [CallerMemberName] string callerMemberName = "")
 		{
-			_logger.LogError($"{callerMemberName}: {ex.ToString()}");
+			Log(message, LogLevel.Information, callerFilePath, callerLineNumber, callerMemberName);
+		}
+
+		public static void Exception(Exception ex, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0, [CallerMemberName] string callerMemberName = "")
+		{
+			Log(ex.ToString(), LogLevel.Error, callerFilePath, callerLineNumber, callerMemberName);
+		}
+
+		private static void Log(string message, LogLevel logLevel, string callerFilePath, int callerLineNumber, string callerMemberName)
+		{
+			_logger.Log(logLevel, $"{callerFilePath}:{callerLineNumber} {callerMemberName}(): {message}");
 		}
 	}
 }
