@@ -39,7 +39,7 @@ namespace TeethInc.Chantry.Helpers
 
 			IStorageFile? file = await Window.StorageProvider.SaveFilePickerAsync(options);
 
-			return file?.Name;
+			return file?.Path.LocalPath;
 		}
 
 		public async Task<string?> ShowFolderDialog(string initialFolder)
