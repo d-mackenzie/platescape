@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Ldraw;
+using TeethInc.Chantry.Core.Logging;
 using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.Core.Exporters
@@ -62,7 +63,7 @@ namespace TeethInc.Chantry.Core.Exporters
 				});
 			}
 
-			Debug.WriteLine($"PngExporter.Export(): {sw.ElapsedMilliseconds}ms");
+			Logger.Debug($"PngExporter.Export(): {sw.ElapsedMilliseconds}ms");
 		}
 
 		private void PaintElements(Mosaic mosaic, SKCanvas canvas)

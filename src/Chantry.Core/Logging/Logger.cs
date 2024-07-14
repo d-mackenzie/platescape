@@ -23,6 +23,11 @@ namespace TeethInc.Chantry.Core.Logging
 			_logger = factory.CreateLogger("Platescape");
 		}
 
+		public static void Trace(string message, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0, [CallerMemberName] string callerMemberName = "")
+		{
+			Log(message, LogLevel.Trace, callerFilePath, callerLineNumber, callerMemberName);
+		}
+
 		public static void Debug(string message, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0, [CallerMemberName] string callerMemberName = "")
 		{
 			Log(message, LogLevel.Debug, callerFilePath, callerLineNumber, callerMemberName);

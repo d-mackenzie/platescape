@@ -30,7 +30,7 @@ namespace TeethInc.Chantry.Core.Services
 
 					var mosaicColors = algorithmSettings.Algorithm.GetMosaic(croppedImage, algorithmSettings.AllowedColors);
 
-					Logger.Debug($"{sw.ElapsedMilliseconds}ms");
+					Logger.Trace($"{sw.ElapsedMilliseconds}ms");
 
 					return new Mosaic(extentSettings.BaseplateSize, extentSettings.ElementSize, mosaicColors);
 				}

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using TeethInc.Chantry.Core.Extensions;
 using TeethInc.Chantry.Core.Ldraw;
+using TeethInc.Chantry.Core.Logging;
 
 namespace TeethInc.Chantry.Core.Services
 {
@@ -46,7 +47,7 @@ namespace TeethInc.Chantry.Core.Services
 				}
 			}
 
-			Debug.WriteLine($"BuildDistanceCache(): {sw.ElapsedMilliseconds}ms.");
+			Logger.Debug($"BuildDistanceCache(): {sw.ElapsedMilliseconds}ms.");
 		}
 
 		public static float GetDistanceBetween(SKColor color, LdColor ldColor)

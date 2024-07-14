@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Ldraw;
+using TeethInc.Chantry.Core.Logging;
 using TeethInc.Chantry.Core.Services;
 
 namespace TeethInc.Chantry.Core.Models
@@ -41,7 +42,7 @@ namespace TeethInc.Chantry.Core.Models
 
 			_cachedAllowedColors = allowedColors;
 
-			Debug.WriteLine($"BuildClosestLdColorCache(): {sw.ElapsedMilliseconds}ms.");
+			Logger.Debug($"BuildClosestLdColorCache(): {sw.ElapsedMilliseconds}ms.");
 		}
 
 		public LdColor GetClosestAllowedLdColor(SKColor color)

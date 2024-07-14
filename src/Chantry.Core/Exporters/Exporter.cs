@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using TeethInc.Chantry.Core.Helpers;
+using TeethInc.Chantry.Core.Logging;
 using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.Core.Exporters
@@ -106,7 +107,7 @@ namespace TeethInc.Chantry.Core.Exporters
 				ToStream(mosaic, fileStream);
 			}
 
-			Debug.WriteLine($"Wrote '{filename}' in {sw.ElapsedMilliseconds}ms.");
+			Logger.Debug($"Wrote '{filename}' in {sw.ElapsedMilliseconds}ms.");
 		}
 	}
 
