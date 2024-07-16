@@ -15,32 +15,42 @@ namespace TeethInc.Chantry.Core.Services
 	{
 		public static Project Load(string filename)
 		{
-			switch (Path.GetExtension(filename))
+			if (!File.Exists(filename))
+				throw new FileNotFoundException($"Cannot find file {filename}");
+
+			try
 			{
-				case ".json":
+				switch (Path.GetExtension(filename))
+				{
+					case ".json":
 
-					string json = File.ReadAllText(filename);
-					return Project.Deserialize(json);
+						string json = File.ReadAllText(filename);
+						return Project.Deserialize(json);
 
-				default:
+					default:
 
-					var absoluteFilename = Path.GetFullPath(filename);
+						SKBitmap image = SKBitmap.Decode(filename);
 
-					if (!File.Exists(absoluteFilename))
-						throw new FileNotFoundException($"Cannot find file {absoluteFilename}");
+						if (image is null)
+							throw new Exception($"'{filename}' is not in a recognisable image format.");
 
-					var project = new Project()
-					{
-						Name = Path.GetFileNameWithoutExtension(absoluteFilename),
-						Source = new ScaledImageSource(320)
+						var project = new Project()
 						{
-							Image = SKBitmap.Decode(absoluteFilename)
-						}
-					};
+							Name = Path.GetFileNameWithoutExtension(filename),
+							Source = new ScaledImageSource(320)
+							{
+								Image = image
+							}
+						};
 
-					project.Filters.Add(new BrightnessContrastFilter());
+						project.Filters.Add(new BrightnessContrastFilter());
 
-					return project;
+						return project;
+				}
+			}
+			catch (Exception ex)
+			{
+				throw;
 			}
 		}
 	}

@@ -46,9 +46,10 @@ namespace TeethInc.Chantry.Core.Sources
 			}
 			set
 			{
-				_image = value.Resize(value.Info.Size.GetSizeToFit(_maximumSize), SKFilterQuality.High);
-            }
-        }
+				if (value is not null)
+					_image = value.Resize(value.Info.Size.GetSizeToFit(_maximumSize), SKFilterQuality.High);
+			}
+		}
 
 		public ScaledImageSource(int maximumSize)
 		{

@@ -3,6 +3,7 @@ using System.IO;
 using TeethInc.Chantry.Helpers;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Logging;
+using TeethInc.Chantry.Services;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -46,9 +47,9 @@ namespace TeethInc.Chantry.ViewModels
 
 		public void OpenAProjectCommand()
 		{
-			_fileDialog
-				.ShowOpenDialog(FileFilters.Projects)
-				.ContinueWith(x => Open(x.Result));
+			//_fileDialog
+			//	.ShowOpenDialog(FileFilters.Projects)
+			//	.ContinueWith(x => Open(x.Result));
 		}
 
 		public void SaveProjectCommand()
@@ -84,15 +85,15 @@ namespace TeethInc.Chantry.ViewModels
 			try
 			{
 				IsLoading = true;
-
 				ProjectViewModel = new ProjectViewModel(ProjectService.Load(filename));
-
-				IsLoading = false;
 			}
 			catch (Exception ex)
 			{
+				NotificationService.NotifyOfException(ex);
 				Logger.Exception(ex);
 			}
+
+			IsLoading = false;
 		}
 
 		private void SaveProject(string? filename)
