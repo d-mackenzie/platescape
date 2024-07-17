@@ -4,6 +4,9 @@ using TeethInc.Chantry.Helpers;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Logging;
 using TeethInc.Chantry.Services;
+using System.Threading.Tasks;
+using System.Threading;
+using Avalonia.Controls.Notifications;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -40,9 +43,15 @@ namespace TeethInc.Chantry.ViewModels
 
 		public void OpenAnImageCommand()
 		{
+			string? result = null;
+
 			_fileDialog
 				.ShowOpenDialog(FileFilters.Images)
-				.ContinueWith(x => Open(x?.Result));
+				.ContinueWith(x => result = x?.Result)
+				.GetAwaiter().OnCompleted(() =>
+				{
+					Open(result);
+				});
 		}
 
 		public void OpenAProjectCommand()
@@ -84,16 +93,13 @@ namespace TeethInc.Chantry.ViewModels
 
 			try
 			{
-				IsLoading = true;
 				ProjectViewModel = new ProjectViewModel(ProjectService.Load(filename));
 			}
 			catch (Exception ex)
 			{
-				NotificationService.NotifyOfException(ex);
 				Logger.Exception(ex);
+				ApplicationHelper.ShowToast("Cannot Open", ex.Message, NotificationType.Error);
 			}
-
-			IsLoading = false;
 		}
 
 		private void SaveProject(string? filename)

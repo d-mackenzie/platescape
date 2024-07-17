@@ -5,16 +5,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TeethInc.Chantry.Helpers
 {
 	public class FileDialog : IFileDialog
 	{
-		private Lazy<Window> _window = new Lazy<Window>(() => ApplicationHelper.GetMainWindow());
-
-		private Window Window => _window.Value;
-
 		public async Task<string?> ShowOpenDialog(IReadOnlyList<FilePickerFileType> filters)
 		{
 			var options = new FilePickerOpenOptions()
@@ -23,7 +20,7 @@ namespace TeethInc.Chantry.Helpers
 				FileTypeFilter = filters
 			};
 
-			IReadOnlyList<IStorageFile> files = await Window.StorageProvider.OpenFilePickerAsync(options);
+			IReadOnlyList<IStorageFile> files = await ApplicationHelper.GetMainWindow().StorageProvider.OpenFilePickerAsync(options);
 
 			return files?.FirstOrDefault()?.Path.LocalPath;
 		}
@@ -37,7 +34,7 @@ namespace TeethInc.Chantry.Helpers
 				DefaultExtension = filters.FirstOrDefault()?.Patterns?.FirstOrDefault(),
 			};
 
-			IStorageFile? file = await Window.StorageProvider.SaveFilePickerAsync(options);
+			IStorageFile? file = await ApplicationHelper.GetMainWindow().StorageProvider.SaveFilePickerAsync(options);
 
 			return file?.Path.LocalPath;
 		}
@@ -49,7 +46,7 @@ namespace TeethInc.Chantry.Helpers
 				AllowMultiple = false
 			};
 
-			IReadOnlyList<IStorageFolder>? folder = await Window.StorageProvider.OpenFolderPickerAsync(options);
+			IReadOnlyList<IStorageFolder>? folder = await ApplicationHelper.GetMainWindow().StorageProvider.OpenFolderPickerAsync(options);
 
 			return folder?.FirstOrDefault()?.Name;
 		}
