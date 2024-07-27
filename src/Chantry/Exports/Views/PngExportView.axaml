@@ -10,7 +10,11 @@
 	<StackPanel>
 		
 		<Label Content="Pixels Per Stud:"/>
-		<TextBox Text="{Binding PixelsPerStud}"/>
+		<NumericUpDown Value="{Binding PixelsPerStud}"
+					   Minimum="1"
+					   Maximum="200"
+					   FormatString="N0"
+					   ShowButtonSpinner="False"/>
 		
 		<CheckBox Content="Draw Studs"
 				  IsChecked="{Binding DrawStuds}"/>

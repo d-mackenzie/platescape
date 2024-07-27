@@ -69,6 +69,7 @@ namespace TeethInc.Chantry.ViewModels
 			set
 			{
 				_project.ExtentSettings.BaseplateExtent = new SKSizeI(value, _project.ExtentSettings.BaseplateExtent.Height);
+				RaisePropertyChanged();
 				RaiseMosaicPropertiesChanged();
 			}
 		}
@@ -79,6 +80,7 @@ namespace TeethInc.Chantry.ViewModels
 			set
 			{
 				_project.ExtentSettings.BaseplateExtent = new SKSizeI(_project.ExtentSettings.BaseplateExtent.Width, value);
+				RaisePropertyChanged();
 				RaiseMosaicPropertiesChanged();
 			}
 		}
