@@ -11,6 +11,17 @@
 			 xmlns:filters="clr-namespace:TeethInc.Chantry.Core.Filters;assembly=Chantry.Core"
 			 x:DataType="viewmodels2:ProjectViewModel">
 
+<UserControl.Resources>
+	<MenuFlyout x:Key="AddFilterMenu">
+		<MenuItem Header="Brightness and Contrast"
+					Command="{Binding AddNewBrightnessContrastFilterCommand}"/>
+		<MenuItem Header="Multiply"
+					Command="{Binding AddNewMultiplyFilterCommand}"/>
+		<MenuItem Header="Saturation"
+					Command="{Binding AddNewSaturationFilterCommand}"/>
+	</MenuFlyout>
+</UserControl.Resources>
+	
 	<ScrollViewer AllowAutoHide="False">
 
 		<StackPanel>
@@ -60,32 +71,17 @@
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 
-			<Border BorderBrush="LightGray"
-					CornerRadius="5"
-					BorderThickness="2"
-					Background="Transparent"
-					Padding="10"
-					PointerReleased="Border_PointerReleased">
-
-				<Border.ContextMenu>
-					<ContextMenu>
-						<MenuItem Header="Brightness and Contrast"
-								  Command="{Binding AddNewBrightnessContrastFilterCommand}"/>
-						<MenuItem Header="Multiply"
-								  Command="{Binding AddNewMultiplyFilterCommand}"/>
-						<MenuItem Header="Saturation"
-								  Command="{Binding AddNewSaturationFilterCommand}"/>
-					</ContextMenu>
-				</Border.ContextMenu>
-
-				<Label Content="Add another filter..."
-					   Foreground="DarkGray"
-					   HorizontalAlignment="Stretch"
-					   HorizontalContentAlignment="Center">
-
-				</Label>
-
-			</Border>
+			<Button HorizontalAlignment="Stretch"
+					HorizontalContentAlignment="Center"
+					Flyout="{StaticResource AddFilterMenu}">
+				<StackPanel Orientation="Horizontal">
+					<Svg Path="/Assets/add_circle_FILL0_wght300_GRAD0_opsz24.svg"
+						 Width="32"
+						 Height="32"/>
+					<Label Content="Add a filter..."
+						   VerticalContentAlignment="Center"/>
+				</StackPanel>
+			</Button>
 
 		</StackPanel>
 
