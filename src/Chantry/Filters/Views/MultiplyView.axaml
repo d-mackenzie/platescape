@@ -9,11 +9,16 @@
 
 	<StackPanel>
 
-		<Label Content="Factor"/>
-		<Slider Minimum="10"
-                Maximum="100"
-                TickFrequency="10"
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Factor:"/>
+			<Label Content="{Binding DisplayFactor}"/>
+		</StackPanel>
+
+		<Slider Minimum="1"
+                Maximum="2"
+                TickFrequency="0.05"
                 TickPlacement="TopLeft"
+				IsSnapToTickEnabled="True"
                 Value="{Binding Factor}"/>
 
 	</StackPanel>

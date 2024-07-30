@@ -8,15 +8,17 @@ using TeethInc.Chantry.Core.Filters;
 
 namespace TeethInc.Chantry.Filters.ViewModels
 {
-    public class MultiplyViewModel : BaseFilterViewModel<MultiplyFilter>
-    {
-        public double Factor
-        {
-            get { return Filter.Factor * 10; }
-            set { Filter.Factor = value / 10; RaisePropertyChanged(); }
-        }
+	public class MultiplyViewModel : BaseFilterViewModel<MultiplyFilter>
+	{
+		public double Factor
+		{
+			get { return Filter.Factor; }
+			set { Filter.Factor = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(DisplayFactor)); }
+		}
 
-        public MultiplyViewModel(MultiplyFilter filter) : base(filter)
-        { }
-    }
+		public string DisplayFactor => Filter.Factor.ToString("F2");
+
+		public MultiplyViewModel(MultiplyFilter filter) : base(filter)
+		{ }
+	}
 }
