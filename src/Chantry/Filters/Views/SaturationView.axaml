@@ -9,12 +9,17 @@
 
 	<StackPanel>
 
-		<Label Content="Saturation"/>
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Saturation:"/>
+			<Label Content="{Binding DisplayFactor}"/>
+		</StackPanel>
+		
 		<Slider Minimum="0"
                 Maximum="100"
-                TickFrequency="10"
+                TickFrequency="5"
                 TickPlacement="TopLeft"
-                Value="{Binding Saturation}"/>
+				IsSnapToTickEnabled="True"
+                Value="{Binding Factor}"/>
 
 	</StackPanel>
 

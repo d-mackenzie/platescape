@@ -8,15 +8,17 @@ using TeethInc.Chantry.Core.Filters;
 
 namespace TeethInc.Chantry.Filters.ViewModels
 {
-    public class SaturationViewModel : BaseFilterViewModel<SaturationFilter>
-    {
-        public int Saturation
-        {
-            get { return (int)(Filter.Saturation * 100); }
-            set { Filter.Saturation = value / 100d; RaisePropertyChanged(); }
-        }
+	public class SaturationViewModel : BaseFilterViewModel<SaturationFilter>
+	{
+		public int Factor
+		{
+			get { return (int)(Filter.Saturation * 100); }
+			set { Filter.Saturation = value / 100d; RaisePropertyChanged(); RaisePropertyChanged(nameof(DisplayFactor)); }
+		}
 
-        public SaturationViewModel(SaturationFilter filter) : base(filter)
-        { }
-    }
+		public string DisplayFactor => $"{Factor.ToString("N0")}%";
+
+		public SaturationViewModel(SaturationFilter filter) : base(filter)
+		{ }
+	}
 }
