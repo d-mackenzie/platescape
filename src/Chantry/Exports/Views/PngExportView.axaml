@@ -4,17 +4,30 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:viewmodels="clr-namespace:TeethInc.Chantry.Exports.ViewModels"
+			 xmlns:usercontrols="clr-namespace:TeethInc.Chantry.UserControls"
 			 x:DataType="viewmodels:PngExporterViewModel"
              x:Class="TeethInc.Chantry.Exports.Views.PngExportView">
 
 	<StackPanel>
-		
-		<Label Content="Pixels Per Stud:"/>
-		<NumericUpDown Value="{Binding PixelsPerStud}"
+
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Pixels Per Stud:"/>
+			<Svg Path="/Assets/help_FILL0_wght300_GRAD0_opsz24.svg"
+				 Width="16"
+				 Height="16"
+				 ToolTip.Tip="94 pixels per stud represents actual size, i.e. 8mm per stud, when printed at 300 DPI."/>
+		</StackPanel>
+
+		<usercontrols:IntegerTextBox MinimumValue="1"
+									 MaximumValue="100"
+									 Width="50"
+									 HorizontalAlignment="Left"/>
+
+		<!--<NumericUpDown Value="{Binding PixelsPerStud}"
 					   Minimum="1"
 					   Maximum="200"
 					   FormatString="N0"
-					   ShowButtonSpinner="False"/>
+					   ShowButtonSpinner="False"/>-->
 		
 		<CheckBox Content="Draw Studs"
 				  IsChecked="{Binding DrawStuds}"/>
