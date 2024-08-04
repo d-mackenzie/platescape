@@ -1,20 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Avalonia.Data;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using TeethInc.Chantry.Core.Exporters;
-using TeethInc.Chantry.Core.Models;
 using TeethInc.Chantry.ViewModels;
 
 namespace TeethInc.Chantry.Exports.ViewModels
 {
 	internal class PngExporterViewModel : ExporterViewModel<PngExporter>
 	{
-		public int PixelsPerStud
+		private const string PIXELS_PER_STUD_VALIDATION_MESSAGE = "Enter a number 1 - 94";
+
+		[Required(ErrorMessage = PIXELS_PER_STUD_VALIDATION_MESSAGE)]
+		[Range(1, 94, ErrorMessage = PIXELS_PER_STUD_VALIDATION_MESSAGE)]
+		public int? PixelsPerStud
 		{
 			get { return _exporter.PixelsPerStud; }
-			set { _exporter.PixelsPerStud = value; RaisePropertyChanged(); }
+			set
+			{
+				_exporter.PixelsPerStud = value ?? throw new DataValidationException(PIXELS_PER_STUD_VALIDATION_MESSAGE);
+				RaisePropertyChanged();
+			}
 		}
 
 		public bool DrawStuds

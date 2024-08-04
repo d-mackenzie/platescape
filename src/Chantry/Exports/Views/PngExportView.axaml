@@ -5,8 +5,13 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:viewmodels="clr-namespace:TeethInc.Chantry.Exports.ViewModels"
 			 xmlns:usercontrols="clr-namespace:TeethInc.Chantry.UserControls"
+			 xmlns:converters="clr-namespace:TeethInc.Chantry.Converters"
 			 x:DataType="viewmodels:PngExporterViewModel"
              x:Class="TeethInc.Chantry.Exports.Views.PngExportView">
+
+	<UserControl.Resources>
+		<converters:IntegerToStringConverter x:Key="IntegerToStringConverter"/>
+	</UserControl.Resources>
 
 	<StackPanel>
 
@@ -17,11 +22,11 @@
 				 Height="16"
 				 ToolTip.Tip="94 pixels per stud represents actual size, i.e. 8mm per stud, when printed at 300 DPI."/>
 		</StackPanel>
-
-		<usercontrols:IntegerTextBox MinimumValue="1"
-									 MaximumValue="100"
-									 Width="50"
-									 HorizontalAlignment="Left"/>
+		
+		<TextBox Text="{Binding PixelsPerStud, Converter={StaticResource IntegerToStringConverter}}"
+				 MaxLength="5"
+				 MinWidth="40"
+				 HorizontalAlignment="Left"/>
 
 		<!--<NumericUpDown Value="{Binding PixelsPerStud}"
 					   Minimum="1"
