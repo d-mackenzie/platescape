@@ -12,7 +12,7 @@
 			</FluentTheme.Palettes>
 		</FluentTheme>
 
-		<Style Selector="DataValidationErrors">
+		<Style Selector="TextBox[(DataValidationErrors.HasErrors)=true] > DataValidationErrors">
 			<Setter Property="Template">
 				<ControlTemplate>
 					<Grid RowDefinitions="Auto"

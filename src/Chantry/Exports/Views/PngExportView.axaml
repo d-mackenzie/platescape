@@ -27,12 +27,6 @@
 				 MaxLength="5"
 				 MinWidth="40"
 				 HorizontalAlignment="Left"/>
-
-		<!--<NumericUpDown Value="{Binding PixelsPerStud}"
-					   Minimum="1"
-					   Maximum="200"
-					   FormatString="N0"
-					   ShowButtonSpinner="False"/>-->
 		
 		<CheckBox Content="Draw Studs"
 				  IsChecked="{Binding DrawStuds}"/>
