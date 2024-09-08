@@ -97,7 +97,6 @@ namespace TeethInc.Chantry.Core.Models
 			AlgorithmSettings.Algorithm = new FloydSteinberg();
 
 			PngExporter = new PngExporter();
-			PopulateOutputSettings(PngExporter);
 		}
 
 		public string Serialize()
@@ -131,25 +130,6 @@ namespace TeethInc.Chantry.Core.Models
 					_mosaicService = new MosaicService();
 
 				return _mosaicService;
-			}
-		}
-
-		private void PopulateOutputSettings(Exporter exporter)
-		{
-			switch (Source)
-			{
-				case FileSource fileSource:
-
-					exporter.Filename = Path.ChangeExtension(fileSource.Filename, exporter.DefaultExtension);
-					exporter.ExportFolder = Path.GetDirectoryName(fileSource.Filename);
-					exporter.FilenamePattern = Path.GetFileNameWithoutExtension(fileSource.Filename) + $"row_{{row}}_col_{{col}}.{exporter.DefaultExtension}";
-					break;
-
-				default:
-					exporter.Filename = $"mosaic.{exporter.DefaultExtension}";
-					exporter.ExportFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-					exporter.FilenamePattern = $"mosaic_row_{{row}}_col_{{col}}.{exporter.DefaultExtension}";
-					break;
 			}
 		}
 	}

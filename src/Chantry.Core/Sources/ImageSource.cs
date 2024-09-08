@@ -48,6 +48,8 @@ namespace TeethInc.Chantry.Core.Sources
 			}
 		}
 
+		public string OriginalFilename { get; set; }
+
 		protected virtual void Dispose(bool disposing)
 		{
 			if (!_disposedValue)

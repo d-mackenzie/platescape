@@ -39,11 +39,13 @@ namespace TeethInc.Chantry.Core.Services
 							Name = Path.GetFileNameWithoutExtension(filename),
 							Source = new ScaledImageSource(320)
 							{
-								Image = image
+								Image = image,
+								OriginalFilename = filename
 							}
 						};
 
 						project.Filters.Add(new BrightnessContrastFilter());
+						project.PngExporter.PopulateOutputSettings(project.Source);
 
 						return project;
 				}

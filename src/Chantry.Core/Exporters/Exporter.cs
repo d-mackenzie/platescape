@@ -5,6 +5,7 @@ using System.IO;
 using TeethInc.Chantry.Core.Helpers;
 using TeethInc.Chantry.Core.Logging;
 using TeethInc.Chantry.Core.Models;
+using TeethInc.Chantry.Core.Sources;
 
 namespace TeethInc.Chantry.Core.Exporters
 {
@@ -44,6 +45,25 @@ namespace TeethInc.Chantry.Core.Exporters
 		public abstract string DefaultExtension { get; }
 
 		public abstract void ToStream(Mosaic mosaic, Stream stream);
+
+		public void PopulateOutputSettings(ISource source)
+		{
+			switch (source)
+			{
+				case ScaledImageSource scaledImageSource:
+					string filename = scaledImageSource.OriginalFilename;
+					ExportFolder = Path.GetDirectoryName(filename);
+					Filename = Path.Combine(ExportFolder, $"{Path.GetFileNameWithoutExtension(filename)}_mosaic.{DefaultExtension}");
+					FilenamePattern = Path.GetFileNameWithoutExtension(filename) + $"_mosaic_row_{{row}}_col_{{col}}.{DefaultExtension}";
+					break;
+
+				default:
+					Filename = $"mosaic.{DefaultExtension}";
+					ExportFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+					FilenamePattern = $"mosaic_row_{{row}}_col_{{col}}.{DefaultExtension}";
+					break;
+			}
+		}
 
 		public void ToFile(Mosaic mosaic)
 		{

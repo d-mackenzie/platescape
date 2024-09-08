@@ -56,6 +56,8 @@ namespace TeethInc.Chantry.Core.Sources
 			_maximumSize = new SKSizeI(maximumSize, maximumSize);
 		}
 
+		public string OriginalFilename { get; set; }
+
 		protected virtual void Dispose(bool disposing)
 		{
 			if (!_disposedValue)
