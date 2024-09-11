@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Avalonia.Controls.Notifications;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeethInc.Chantry.Core.Exporters;
 using TeethInc.Chantry.Core.Helpers;
+using TeethInc.Chantry.Core.Logging;
 using TeethInc.Chantry.Core.Models;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Helpers;
@@ -106,7 +108,15 @@ namespace TeethInc.Chantry.Exports.ViewModels
 
 		public void ExportCommand()
 		{
-			_exporter.ToFile(_parent.Mosaic);
+			try
+			{
+				_exporter.ToFile(_parent.Mosaic);
+			}
+			catch (Exception ex)
+			{
+				Logger.Exception(ex);
+				ApplicationHelper.ShowToast("Cannot Export", ex.Message, NotificationType.Error);
+			}
 		}
 	}
 }

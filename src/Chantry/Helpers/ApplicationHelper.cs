@@ -9,26 +9,26 @@ namespace TeethInc.Chantry.Helpers
 {
 	public static class ApplicationHelper
 	{
-		private static WindowNotificationManager? _windowNotificationManager = null;
-		private static Window? _mainWindow = null;
-
-		public static Window GetMainWindow()
-		{
-			if (_mainWindow is null)
+		private static Lazy<Window> _mainWindow =
+			new Lazy<Window>(() =>
 			{
 				if (Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
 				{
-					_mainWindow = desktop.MainWindow ?? throw new Exception("No Application Window found.");
-					_windowNotificationManager = new WindowNotificationManager(_mainWindow);
+					return desktop.MainWindow ?? throw new Exception("No Application Window found.");
 				}
 				else
 				{
 					throw new Exception("No Application Window found.");
 				}
-			}
+			});
 
-			return _mainWindow;
-		}
+		private static Lazy<WindowNotificationManager> _windowNotificationManager =
+			new Lazy<WindowNotificationManager>(() =>
+				new WindowNotificationManager(_mainWindow.Value));
+
+		public static Window MainWindow => _mainWindow.Value;
+
+		private static WindowNotificationManager WindowNotificationManager => _windowNotificationManager.Value;
 
 		public static void SaveConfiguration(Configuration configuration)
 		{
@@ -56,7 +56,7 @@ namespace TeethInc.Chantry.Helpers
 
 		public static void ShowToast(string title, string message, NotificationType notificationType = NotificationType.Success)
 		{
-			_windowNotificationManager?.Show(new Notification(title, message, notificationType));
+			WindowNotificationManager.Show(new Notification(title, message, notificationType));
 		}
 
 	}

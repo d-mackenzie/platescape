@@ -20,7 +20,7 @@ namespace TeethInc.Chantry.Helpers
 				FileTypeFilter = filters
 			};
 
-			IReadOnlyList<IStorageFile> files = await ApplicationHelper.GetMainWindow().StorageProvider.OpenFilePickerAsync(options);
+			IReadOnlyList<IStorageFile> files = await ApplicationHelper.MainWindow.StorageProvider.OpenFilePickerAsync(options);
 
 			return files?.FirstOrDefault()?.Path.LocalPath;
 		}
@@ -34,7 +34,7 @@ namespace TeethInc.Chantry.Helpers
 				DefaultExtension = filters.FirstOrDefault()?.Patterns?.FirstOrDefault(),
 			};
 
-			IStorageFile? file = await ApplicationHelper.GetMainWindow().StorageProvider.SaveFilePickerAsync(options);
+			IStorageFile? file = await ApplicationHelper.MainWindow.StorageProvider.SaveFilePickerAsync(options);
 
 			return file?.Path.LocalPath;
 		}
@@ -46,7 +46,7 @@ namespace TeethInc.Chantry.Helpers
 				AllowMultiple = false
 			};
 
-			IReadOnlyList<IStorageFolder>? folder = await ApplicationHelper.GetMainWindow().StorageProvider.OpenFolderPickerAsync(options);
+			IReadOnlyList<IStorageFolder>? folder = await ApplicationHelper.MainWindow.StorageProvider.OpenFolderPickerAsync(options);
 
 			return folder?.FirstOrDefault()?.Name;
 		}
