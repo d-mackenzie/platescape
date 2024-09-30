@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExCSS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,14 +9,36 @@ using System.Threading.Tasks;
 
 namespace TeethInc.Chantry.ViewModels
 {
-    public abstract class BaseViewModel : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
+	public abstract class BaseViewModel : INotifyPropertyChanged
+	{
+		public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void RaisePropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
+		private bool _isDirty = false;
+
+		public bool IsDirty
+		{
+			get { return _isDirty; }
+		}
+
+		public void ClearDirty()
+		{
+			_isDirty = false;
+
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsDirty)));
+			}
+		}
+
+		protected void RaisePropertyChanged([CallerMemberName] string propertyName = "")
+		{
+			_isDirty = true;
+
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsDirty)));
+			}
+		}
+	}
 }

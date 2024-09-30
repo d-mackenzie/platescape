@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -19,6 +20,7 @@ namespace TeethInc.Chantry.Core.Exporters
 
 		public string FilenamePattern { get; set; } = "";
 
+		[JsonIgnore]
 		public bool IsOutputValid
 		{
 			get
@@ -35,11 +37,13 @@ namespace TeethInc.Chantry.Core.Exporters
 			}
 		}
 
+		[JsonIgnore]
 		public bool IsValid => IsOutputValid && IsExporterValid;
 
 		public event EventHandler<ProgressEventArgs> Progress;
 		public event EventHandler Completed;
 
+		[JsonIgnore]
 		public abstract bool IsExporterValid { get; }
 
 		public abstract string DefaultExtension { get; }

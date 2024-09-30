@@ -61,14 +61,6 @@ namespace TeethInc.Chantry.ViewModels
 			//	.ContinueWith(x => Open(x.Result));
 		}
 
-		public void SaveProjectCommand()
-		{
-			if (_projectViewModel is not null)
-				_fileDialog
-					.ShowSaveDialog($"{_projectViewModel.Name}.json", FileFilters.Projects)
-					.ContinueWith(x => SaveProject(x.Result));
-		}
-
 		public void CloseCommand()
 		{
 			Close();
@@ -100,18 +92,6 @@ namespace TeethInc.Chantry.ViewModels
 				Logger.Exception(ex);
 				ApplicationHelper.ShowToast("Cannot Open", ex.Message, NotificationType.Error);
 			}
-		}
-
-		private void SaveProject(string? filename)
-		{
-			if (filename is null || _projectViewModel is null)
-				return;
-
-			_projectViewModel.SerializeProject(filename);
-
-			var config = ApplicationHelper.LoadConfiguration();
-			config.Mru = new string[] { filename };
-			ApplicationHelper.SaveConfiguration(config);
 		}
 
 		private void Close()

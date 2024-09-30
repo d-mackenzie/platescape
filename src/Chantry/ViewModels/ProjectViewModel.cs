@@ -20,6 +20,7 @@ using System.Reactive;
 using ReactiveUI;
 using TeethInc.Chantry.Exports.ViewModels;
 using TeethInc.Chantry.Core.Exporters;
+using TeethInc.Chantry.Helpers;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -28,6 +29,8 @@ namespace TeethInc.Chantry.ViewModels
 		private Project _project;
 		private ObservableCollection<IFilterViewModel> _filterViewModels = new ObservableCollection<IFilterViewModel>();
 		private List<ColorChipViewModel> _allowedColors;
+		private string? _filename = null;
+		private IFileDialog _fileDialog;
 
 		private List<Algorithm> _mosaicAlgorithms = new List<Algorithm>()
 		{
@@ -42,6 +45,12 @@ namespace TeethInc.Chantry.ViewModels
 		// project properties.
 
 		public string Name => _project.Name;
+
+		public string? Filename
+		{
+			get { return _filename; }
+			set { _filename = value; RaisePropertyChanged(); }
+		}
 
 		// moasic properties.
 
@@ -109,8 +118,38 @@ namespace TeethInc.Chantry.ViewModels
 
 		internal PngExporterViewModel PngExporter { get; private set; }
 
-		// view properties.
 
+		// commands.
+		public void SaveProjectCommand()
+		{
+			if (_filename is null)
+			{
+				_fileDialog
+					.ShowSaveDialog($"{Name}.json", FileFilters.Projects)
+					.ContinueWith(x => SaveProject(x.Result));
+			}
+			else
+			{
+				SaveProject(_filename);
+			}
+		}
+
+		private void SaveProject(string? filename)
+		{
+			if (filename is null)
+				return;
+
+			SerializeProject(filename);
+
+			var config = ApplicationHelper.LoadConfiguration();
+			config.Mru = [filename];
+			ApplicationHelper.SaveConfiguration(config);
+
+			_filename = filename;
+		}
+
+
+		// view properties.
 		public double Zoom
 		{
 			get { return _zoom; }
@@ -158,6 +197,8 @@ namespace TeethInc.Chantry.ViewModels
 			Zoom = 4;
 
 			PngExporter = new PngExporterViewModel(_project.PngExporter, this);
+
+			_fileDialog = new FileDialog();
 		}
 
 		public void AddFilter(Filter filter)
