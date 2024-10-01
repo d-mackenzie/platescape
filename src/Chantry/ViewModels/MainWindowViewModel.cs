@@ -61,10 +61,6 @@ namespace TeethInc.Chantry.ViewModels
 			//	.ContinueWith(x => Open(x.Result));
 		}
 
-		public void CloseCommand()
-		{
-			Close();
-		}
 
 		private void SplashViewModel_OpenAProject(object? sender, EventArgs e)
 		{
@@ -92,11 +88,6 @@ namespace TeethInc.Chantry.ViewModels
 				Logger.Exception(ex);
 				ApplicationHelper.ShowToast("Cannot Open", ex.Message, NotificationType.Error);
 			}
-		}
-
-		private void Close()
-		{
-			ProjectViewModel = null;
 		}
 	}
 }

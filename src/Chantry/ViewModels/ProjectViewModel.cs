@@ -148,6 +148,20 @@ namespace TeethInc.Chantry.ViewModels
 			_filename = filename;
 		}
 
+		public void CloseProjectCommand()
+		{
+			// todo: check dirty.
+
+			// todo: save.
+
+			Close();
+		}
+
+		private void Close()
+		{
+			// ProjectViewModel = null;
+		}
+
 
 		// view properties.
 		public double Zoom
