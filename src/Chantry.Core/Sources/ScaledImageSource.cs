@@ -11,26 +11,25 @@ namespace TeethInc.Chantry.Core.Sources
 		private bool _disposedValue;
 		private SKSizeI _maximumSize;
 
-		public string Base64
+		public byte[] Bytes
 		{
 			get
 			{
 				using (var pixmap = Image.PeekPixels())
 				{
-					var filters = SKPngEncoderFilterFlags.NoFilters;
+					var filters = SKPngEncoderFilterFlags.AllFilters;
 					int compress = 9;
 					var encoderOptions = new SKPngEncoderOptions(filters, compress);
 
 					using (var data = pixmap.Encode(encoderOptions))
 					{
-						return Convert.ToBase64String(data.Span);
+						return data.Span.ToArray();
 					}
 				}
 			}
 			set
 			{
-				var data = Convert.FromBase64String(value);
-				_image = SKBitmap.Decode(data);
+				_image = SKBitmap.Decode(value);
 			}
 		}
 
