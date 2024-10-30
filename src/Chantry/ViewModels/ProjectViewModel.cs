@@ -21,6 +21,8 @@ using ReactiveUI;
 using TeethInc.Chantry.Exports.ViewModels;
 using TeethInc.Chantry.Core.Exporters;
 using TeethInc.Chantry.Helpers;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Models;
 
 namespace TeethInc.Chantry.ViewModels
 {
@@ -148,9 +150,22 @@ namespace TeethInc.Chantry.ViewModels
 			_filename = filename;
 		}
 
-		public void CloseProjectCommand()
+		public async void CloseProjectCommand()
 		{
 			// todo: check dirty.
+
+			var messageBox = MessageBoxManager.GetMessageBoxCustom(new MsBox.Avalonia.Dto.MessageBoxCustomParams()
+			{
+				ContentMessage = "There are unsaved changes.",
+				ButtonDefinitions = new List<ButtonDefinition>()
+				{
+					new ButtonDefinition() { Name = "Save Changes", IsDefault = true },
+					new ButtonDefinition() { Name = "Discard Changes" },
+					new ButtonDefinition() { Name = "Cancel", IsCancel = true }
+				}
+			});
+
+			await messageBox.ShowAsPopupAsync(ApplicationHelper.MainWindow);
 
 			// todo: save.
 
