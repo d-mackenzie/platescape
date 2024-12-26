@@ -348,3 +348,6 @@ healthchecksdb
 
 # LOG files
 *.log
+
+# Rider
+**/.idea/

@@ -8,8 +8,10 @@
     <AssemblyVersion>1.0.0</AssemblyVersion>
 	<AssemblyFileVersion>0.2</AssemblyFileVersion>
     <FileVersion>1.0.0</FileVersion>
-    <AssemblyName>Platescape</AssemblyName>
+    <AssemblyName>Brickscape</AssemblyName>
 	<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+	<Company>Teeth, Inc.</Company>
+	<Product>Brickscape</Product>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.1.3" />

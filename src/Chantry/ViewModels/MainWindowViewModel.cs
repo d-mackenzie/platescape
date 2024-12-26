@@ -1,11 +1,8 @@
 ﻿using System;
-using System.IO;
+using System.Reflection;
 using TeethInc.Chantry.Helpers;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Logging;
-using TeethInc.Chantry.Services;
-using System.Threading.Tasks;
-using System.Threading;
 using Avalonia.Controls.Notifications;
 
 namespace TeethInc.Chantry.ViewModels
@@ -27,6 +24,23 @@ namespace TeethInc.Chantry.ViewModels
 			get { return _isLoading; }
 			set { _isLoading = value; RaisePropertyChanged(); }
 		}
+		
+		public string WindowTitle
+		{
+			get
+			{
+				string title = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? "";
+				
+				if (ProjectViewModel != null)
+					title += $" - {ProjectViewModel.Name}";
+				
+				if (IsDirty)
+					title += " *";
+					
+				return title;
+			}
+		}
+
 
 		public SplashViewModel SplashViewModel { get; set; }
 
