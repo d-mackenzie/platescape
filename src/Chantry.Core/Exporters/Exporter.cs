@@ -78,7 +78,7 @@ namespace TeethInc.Chantry.Core.Exporters
 			{
 				ToFile(mosaic, Filename);
 				OnProgress(new ProgressEventArgs() { Done = 1, Total = 1 });
-				OnCompleted(new EventArgs());
+				OnCompleted(EventArgs.Empty);
 			}
 			else
 			{
@@ -93,7 +93,7 @@ namespace TeethInc.Chantry.Core.Exporters
 					OnProgress(new ProgressEventArgs() { Done = done, Total = mosaics.Count });
 				}
 
-				OnCompleted(new EventArgs());
+				OnCompleted(EventArgs.Empty);
 			}
 		}
 
@@ -113,7 +113,7 @@ namespace TeethInc.Chantry.Core.Exporters
 
 			for (int x = 0; x < mosaic.BaseplateExtent.Width; x++)
 			{
-				for (int y = 0; y < mosaic.BaseplateExtent.Width; y++)
+				for (int y = 0; y < mosaic.BaseplateExtent.Height; y++)
 				{
 					ret[(x, y)] = mosaic.GetBaseplateAsMosaic(x, y);
 				}
