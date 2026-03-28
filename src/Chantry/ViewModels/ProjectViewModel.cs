@@ -29,17 +29,17 @@ namespace TeethInc.Chantry.ViewModels
 	public class ProjectViewModel : BaseViewModel
 	{
 		private Project _project;
-		private ObservableCollection<IFilterViewModel> _filterViewModels = new ObservableCollection<IFilterViewModel>();
+		private ObservableCollection<IFilterViewModel> _filterViewModels = new();
 		private List<ColorChipViewModel> _allowedColors;
 		private string? _filename = null;
 		private IFileDialog _fileDialog;
 
-		private List<Algorithm> _mosaicAlgorithms = new List<Algorithm>()
-		{
+		private List<Algorithm> _mosaicAlgorithms =
+		[
 			new BayerMatrix(),
 			new FloydSteinberg(),
 			new NearestColor()
-		};
+		];
 
 		private Point _pan;
 		private double _zoom = 1d;
