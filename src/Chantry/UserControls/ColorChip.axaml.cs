@@ -9,22 +9,22 @@ namespace TeethInc.Chantry.UserControls
 {
 	public partial class ColorChip : UserControl
 	{
-		public static readonly StyledProperty<bool> IsSelectedProperty =
+		private static readonly StyledProperty<bool> IsSelectedProperty =
 			AvaloniaProperty.Register<ColorChip, bool>(nameof(IsSelected));
 
-		public static readonly StyledProperty<LdColor> LdColorProperty =
+		private static readonly StyledProperty<LdColor> LdColorProperty =
 			AvaloniaProperty.Register<ColorChip, LdColor>(nameof(LdColor));
 
 		public bool IsSelected
 		{
 			get => GetValue(IsSelectedProperty);
-			set { SetValue(IsSelectedProperty, value); }
+			set => SetValue(IsSelectedProperty, value);
 		}
 
 		public LdColor LdColor
 		{
 			get => GetValue(LdColorProperty);
-			set { SetValue(LdColorProperty, value); }
+			set => SetValue(LdColorProperty, value);
 		}
 
 		public ColorChip()

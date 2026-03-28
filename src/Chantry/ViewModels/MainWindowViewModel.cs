@@ -70,9 +70,9 @@ namespace TeethInc.Chantry.ViewModels
 
 		public void OpenAProjectCommand()
 		{
-			//_fileDialog
-			//	.ShowOpenDialog(FileFilters.Projects)
-			//	.ContinueWith(x => Open(x.Result));
+			_fileDialog
+				.ShowOpenDialog(FileFilters.Projects)
+				.ContinueWith(x => Open(x.Result));
 		}
 
 
