@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace TeethInc.Chantry.Core.Converters
 {
-    public class SizeJsonConverter : JsonConverter<SKSizeI>
+    public class SKSizeIJsonConverter : JsonConverter<SKSizeI>
     {
         public override SKSizeI Read(ref Utf8JsonReader reader, Type type, JsonSerializerOptions options)
         {
@@ -18,7 +18,7 @@ namespace TeethInc.Chantry.Core.Converters
 
         public override void Write(Utf8JsonWriter writer, SKSizeI value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue($"{value.Width}, {value.Height}");
+            writer.WriteStringValue($"{value.Width},{value.Height}");
         }
     }
 }
