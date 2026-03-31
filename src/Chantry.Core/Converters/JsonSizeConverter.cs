@@ -1,29 +1,24 @@
-﻿using Newtonsoft.Json;
-using SkiaSharp;
+﻿using SkiaSharp;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TeethInc.Chantry.Core.Filters;
-using TeethInc.Chantry.Core.Sources;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace TeethInc.Chantry.Core.Converters
 {
-    public class JsonSizeConverter : JsonConverter<SKSizeI>
+    public class SizeJsonConverter : JsonConverter<SKSizeI>
     {
-        public override SKSizeI ReadJson(JsonReader reader, Type objectType, SKSizeI existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override SKSizeI Read(ref Utf8JsonReader reader, Type type, JsonSerializerOptions options)
         {
-            string[] values = reader.Value.ToString().Split(',');
+            string[] values = reader.GetString()?.Split(',');
 
             return new SKSizeI(
                 Int32.Parse(values[0]),
                 Int32.Parse(values[1]));
         }
 
-        public override void WriteJson(JsonWriter writer, SKSizeI value, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, SKSizeI value, JsonSerializerOptions options)
         {
-            writer.WriteValue($"{value.Width}, {value.Height}");
+            writer.WriteStringValue($"{value.Width}, {value.Height}");
         }
     }
 }

@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using SkiaSharp;
-using System.Diagnostics;
+﻿using SkiaSharp;
+using System.Text.Json.Serialization;
 using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.Models;
-using TeethInc.Chantry.Core.Services;
 
 namespace TeethInc.Chantry.Core.Algorithms
 {
