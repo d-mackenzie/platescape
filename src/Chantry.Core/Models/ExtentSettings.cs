@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using SkiaSharp;
 
 namespace TeethInc.Chantry.Core.Models

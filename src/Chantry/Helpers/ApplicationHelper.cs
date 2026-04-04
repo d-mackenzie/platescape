@@ -1,7 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
-using Newtonsoft.Json;
 using System;
 using System.IO;
 
@@ -30,24 +29,24 @@ namespace TeethInc.Chantry.Helpers
 
 		private static WindowNotificationManager WindowNotificationManager => _windowNotificationManager.Value;
 
-		public static void SaveConfiguration(Configuration configuration)
-		{
-			string json = JsonConvert.SerializeObject(configuration, Formatting.Indented);
-			File.WriteAllText(ConfigurationFilename, json);
-		}
-
-		public static Configuration LoadConfiguration()
-		{
-			string json = "";
-
-			if (File.Exists(ConfigurationFilename))
-				json = File.ReadAllText(ConfigurationFilename);
-
-			if (JsonConvert.DeserializeObject<Configuration>(json) is Configuration configuration)
-				return configuration;
-
-			return new Configuration();
-		}
+		// public static void SaveConfiguration(Configuration configuration)
+		// {
+		// 	string json = JsonConvert.SerializeObject(configuration, Formatting.Indented);
+		// 	File.WriteAllText(ConfigurationFilename, json);
+		// }
+		//
+		// public static Configuration LoadConfiguration()
+		// {
+		// 	string json = "";
+		//
+		// 	if (File.Exists(ConfigurationFilename))
+		// 		json = File.ReadAllText(ConfigurationFilename);
+		//
+		// 	if (JsonConvert.DeserializeObject<Configuration>(json) is Configuration configuration)
+		// 		return configuration;
+		//
+		// 	return new Configuration();
+		// }
 
 		public static string ConfigurationFilename
 		{

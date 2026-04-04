@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text.Json.Serialization;
 using TeethInc.Chantry.Core.Helpers;
 using TeethInc.Chantry.Core.Logging;
 using TeethInc.Chantry.Core.Models;

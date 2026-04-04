@@ -1,14 +1,12 @@
-﻿using Newtonsoft.Json;
-using SkiaSharp;
-using System;
+﻿using SkiaSharp;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Xml.Linq;
-using TeethInc.Chantry.Core.Converters;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Xml;
 using TeethInc.Chantry.Core.Exporters;
 using TeethInc.Chantry.Core.Filters;
 using TeethInc.Chantry.Core.Algorithms;
+using TeethInc.Chantry.Core.Converters;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Sources;
 
@@ -31,10 +29,20 @@ namespace TeethInc.Chantry.Core.Models
 		private FilterService _filterService;
 		private MosaicService _mosaicService;
 
-		private static JsonSerializerSettings JsonSerializerSettings => new JsonSerializerSettings()
+		private static JsonSerializerOptions JsonSerializerOptions 
 		{
-			TypeNameHandling = TypeNameHandling.Auto
-		};
+			get
+			{
+				var options = new JsonSerializerOptions()
+				{
+					WriteIndented = true
+				};
+				
+				options.Converters.Add(new SKSizeIJsonConverter());
+				
+				return options;
+			}
+		}
 
 		public int Version => 1;
 
@@ -101,12 +109,12 @@ namespace TeethInc.Chantry.Core.Models
 
 		public string Serialize()
 		{
-			return JsonConvert.SerializeObject(this, Formatting.Indented, JsonSerializerSettings);
+			return JsonSerializer.Serialize(this, JsonSerializerOptions);
 		}
 
 		public static Project Deserialize(string json)
 		{
-			return JsonConvert.DeserializeObject<Project>(json, JsonSerializerSettings);
+			return JsonSerializer.Deserialize<Project>(json, JsonSerializerOptions);
 		}
 
 		// private properties.
@@ -115,8 +123,7 @@ namespace TeethInc.Chantry.Core.Models
 		{
 			get
 			{
-				if (_filterService is null)
-					_filterService = new FilterService(Source);
+				_filterService ??= new FilterService(Source);
 
 				return _filterService;
 			}

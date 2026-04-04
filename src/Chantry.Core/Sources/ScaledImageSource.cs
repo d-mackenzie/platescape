@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using SkiaSharp;
+﻿using SkiaSharp;
 using System;
+using System.Text.Json.Serialization;
 using TeethInc.Chantry.Core.Extensions;
 
 namespace TeethInc.Chantry.Core.Sources

@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Linq;
+﻿using System.Linq;
+using System.Text.Json.Serialization;
 using TeethInc.Chantry.Core.Algorithms;
 using TeethInc.Chantry.Core.Ldraw;
 using TeethInc.Chantry.Core.Services;

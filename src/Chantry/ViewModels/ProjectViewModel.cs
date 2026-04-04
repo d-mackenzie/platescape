@@ -143,9 +143,9 @@ namespace TeethInc.Chantry.ViewModels
 
 			SerializeProject(filename);
 
-			var config = ApplicationHelper.LoadConfiguration();
-			config.Mru = [filename];
-			ApplicationHelper.SaveConfiguration(config);
+			// var config = ApplicationHelper.LoadConfiguration();
+			// config.Mru = [filename];
+			// ApplicationHelper.SaveConfiguration(config);
 
 			_filename = filename;
 		}
