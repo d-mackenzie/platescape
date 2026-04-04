@@ -41,12 +41,7 @@
 							Margin="0 0 0 10"
 							HorizontalAlignment="Stretch"
 							Command="{Binding OpenAnImageCommand}"/>
-
-					<Button Content="Open an existing Project"
-							FontSize="24"
-							HorizontalAlignment="Stretch"
-							Command="{Binding OpenAProjectCommand}"/>
-
+					
 				</StackPanel>
 
 				<!--<ListBox Grid.Column="1"
@@ -64,7 +59,7 @@
 
 				<StackPanel>
 					<Label Content="{Binding Version}" Padding="0" HorizontalContentAlignment="Right"/>
-					<Label Content="Copyright 2024 David Mackenzie" Padding="0" HorizontalContentAlignment="Right"/>
+					<Label Content="Copyright 2026 David Mackenzie" Padding="0" HorizontalContentAlignment="Right"/>
 					<Label Content="https://github.com/d-mackenzie/chantry" Padding="0" HorizontalContentAlignment="Right"/>
 				</StackPanel>
 

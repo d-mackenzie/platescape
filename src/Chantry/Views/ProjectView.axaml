@@ -11,37 +11,6 @@
 
 	<DockPanel LastChildFill="True">
 		
-		<StackPanel DockPanel.Dock="Top"
-					Orientation="Horizontal">
-
-			<Button HorizontalAlignment="Stretch"
-					HorizontalContentAlignment="Center"
-				    Command="{Binding SaveProjectCommand}"
-					HotKey="Ctrl+S">
-				<StackPanel Orientation="Horizontal">
-					<Svg Path="/Assets/save_FILL0_wght300_GRAD0_opsz24.svg"
-						 Width="32"
-						 Height="32"/>
-					<Label Content="Save Project"
-						   VerticalContentAlignment="Center"/>
-				</StackPanel>
-			</Button>
-
-			<Button HorizontalAlignment="Stretch"
-					HorizontalContentAlignment="Center"
-					Command="{Binding CloseProjectCommand}"
-					HotKey="Ctrl+S">
-				<StackPanel Orientation="Horizontal">
-					<Svg Path="/Assets/close_FILL0_wght300_GRAD0_opsz24.svg"
-						 Width="32"
-						 Height="32"/>
-					<Label Content="Close Project"
-						   VerticalContentAlignment="Center"/>
-				</StackPanel>
-			</Button>
-
-		</StackPanel>
-		
 		<Grid>
 
 			<Grid.ColumnDefinitions>
