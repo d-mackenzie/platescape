@@ -59,8 +59,7 @@
 
 				<StackPanel>
 					<Label Content="{Binding Version}" Padding="0" HorizontalContentAlignment="Right"/>
-					<Label Content="Copyright 2026 David Mackenzie" Padding="0" HorizontalContentAlignment="Right"/>
-					<Label Content="https://github.com/d-mackenzie/chantry" Padding="0" HorizontalContentAlignment="Right"/>
+					<Label Content="https://github.com/d-mackenzie/platescape" Padding="0" HorizontalContentAlignment="Right"/>
 				</StackPanel>
 
 			</Grid>
