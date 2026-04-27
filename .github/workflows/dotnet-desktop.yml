@@ -1,4 +1,4 @@
-name: Publish Chantry
+name: Publish Platescape
 
 on:
   workflow_dispatch:
