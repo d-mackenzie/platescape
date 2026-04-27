@@ -31,3 +31,9 @@ Platescape is an application to help with creating a LEGO(R) mosaic from a given
 	- Turn on or off drawing a circles represening each stud.
 	- One file for the entire mosaic, or a file per baseplate.
 
+## Development Info
+
+- Platescape is written in C# (.NET 10) and uses the Avalonia UI framework.
+- Builds for Mac and Windows.
+	- Distributed as a self-contained portable executable.
+
