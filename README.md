@@ -1,42 +1,33 @@
 
-# About Chantry
+# About Platescape
 
-Chantry is an application to help with creating a LEGO(R) mosaic from a given image.
+Platescape is an application to help with creating a LEGO(R) mosaic from a given image.
 
 ## Features
 
-### Current Features
+- Basic image filtering.
+- Three dithering algorithms.
+- Specify the baseplate and element to use.
+- Supports up to 20x20 baseplate mosaics.
+- Select the element colours to use.
+- Export to PNG.
 
-- Load and save the current mosaic configuration as a "project"
-- Basic filtering:
-	- Brightness / Contrast
-	- Multiply
-	- Saturation
-- Add, remove, enable and disable filters
-- Dithering selection:
-	- Floyd-Steinberg
-	- Bayer Matrix
-	- Nearest Colour
-- Specify the baseplate and element to use
-- Supports up to 20x20 baseplate mosaics
-- Select the element colours to use
-- Very fast mosaic generation and rendering
-- Export to LDRAW format
+## How to Use
 
-### Planned Features
+- Run the program and open an image file.
+- Select a baseplate size and element to use.
+- Select the size of the mosaic you want.
+- Choose a dithering algorithm:
+	- Nearest Colour:
+		- Works well for images with solid colours.
+	- Bayer Matrix:
+		- Works well for greyscale images, or images with solid colours that don't exactly match LDRAW colours.
+	- Floyd Steinberg:
+		- Works well for photographs.
+- Add and remove filters and adjust the parameters.
+- Select the colours to use for the final mosaic.
+- Export to PNG:
+	- Select the number of pixels per stud to use.
+	- Turn on or off drawing a circles represening each stud.
+	- One file for the entire mosaic, or a file per baseplate.
 
-- Re-order filters
-- Filter grouping so they can be enabled and disabled in bulk
-- Save filter settings so you can toggle between different configurations to see which ones generate the best mosaic
-- Manually modify the generated mosaic
-- Custom palettes of colours to quickly limit to what you have
-- Configure the available colours
-- Export to other formats
-
-## Running the project
-
-Chantry is built as a single self-contained executable for Windows and MacOS - no installation required.
-
-## Technology
-
-Chantry is written in C# (.NET6) and uses AvaloniaUI as the GUI framework.
