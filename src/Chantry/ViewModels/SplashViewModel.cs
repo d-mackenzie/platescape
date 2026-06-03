@@ -14,6 +14,8 @@ namespace TeethInc.Chantry.ViewModels
 		public event EventHandler? OpenAnImage;
 		public event EventHandler? OpenAProject;
 
+		public override string Name => "Welcome";
+
 		public string ApplicationTitle
 		{
 			get

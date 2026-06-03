@@ -31,7 +31,9 @@ namespace TeethInc.Chantry.ViewModels
 				}
 			}
 		}
-
+		
+		public virtual string Name { get; set; }
+		
 		protected BaseViewModel()
 		{
 			// find dependent viewmodels.

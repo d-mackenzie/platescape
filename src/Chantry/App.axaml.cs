@@ -36,12 +36,12 @@ namespace TeethInc.Chantry
 
 				if (filename is not null)
 				{
-					projectViewModel = new ProjectViewModel(ProjectService.Load(filename));
+					// projectViewModel = new ProjectViewModel(ProjectService.Load(filename));
 				}
 
 				desktop.MainWindow = new MainWindow()
 				{
-					DataContext = new MainWindowViewModel(projectViewModel, new SplashViewModel())
+					DataContext = new MainWindowViewModel()
 				};
 
 			}
