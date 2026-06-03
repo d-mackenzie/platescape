@@ -14,9 +14,19 @@
 
 	<TabControl ItemsSource="{Binding Tabs}">
 	
+		<TabControl.ItemTemplate>
+			<DataTemplate>
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+					<TextBlock Text="{Binding Header}" />
+					<Button Content="X" />
+				</StackPanel>
+			</DataTemplate>
+		</TabControl.ItemTemplate>	
+		<TabControl.ContentTemplate>
+			<DataTemplate DataType="{x:Type viewmodels:SplashViewModel}">
+				<views:SplashView DataContext="{Binding}"/>
+			</DataTemplate>
+		</TabControl.ContentTemplate>
+	</TabControl>
 	
-	</TabControl>    
-    
-    
-    
 </Window>

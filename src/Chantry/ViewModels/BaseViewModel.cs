@@ -32,7 +32,7 @@ namespace TeethInc.Chantry.ViewModels
 			}
 		}
 		
-		public virtual string Name { get; set; }
+		public virtual string Header { get; set; }
 		
 		protected BaseViewModel()
 		{
