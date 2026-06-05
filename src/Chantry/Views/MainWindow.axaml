@@ -12,7 +12,7 @@
         MinWidth="800"
         MinHeight="600">
 
-	<TabControl ItemsSource="{Binding Tabs}">
+	<TabControl ItemsSource="{Binding Tabs}" SelectedIndex="{Binding SelectedTabIndex}">
 	
 		<TabControl.ItemTemplate>
 			<DataTemplate>
@@ -22,11 +22,14 @@
 				</StackPanel>
 			</DataTemplate>
 		</TabControl.ItemTemplate>	
-		<TabControl.ContentTemplate>
+		<TabControl.DataTemplates>
 			<DataTemplate DataType="{x:Type viewmodels:SplashViewModel}">
 				<views:SplashView DataContext="{Binding}"/>
 			</DataTemplate>
-		</TabControl.ContentTemplate>
+			<DataTemplate DataType="{x:Type viewmodels:ProjectViewModel}">
+				<views:ProjectView DataContext="{Binding}"/>
+			</DataTemplate>
+		</TabControl.DataTemplates>
 	</TabControl>
 	
 </Window>

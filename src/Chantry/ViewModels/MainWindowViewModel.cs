@@ -5,20 +5,33 @@ using TeethInc.Chantry.Helpers;
 using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Core.Logging;
 using Avalonia.Controls.Notifications;
+using TeethInc.Chantry.Core.Models;
 
 namespace TeethInc.Chantry.ViewModels
 {
 	public class MainWindowViewModel : BaseViewModel
 	{
-		public ObservableCollection<BaseViewModel> Tabs { get; set; } = new ObservableCollection<BaseViewModel>();
+		public ObservableCollection<BaseViewModel> Tabs { get; } = [];
+		
+		public int SelectedTabIndex { get; set; }
 
 		public string WindowTitle => Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? "";
 		
 		public MainWindowViewModel()
 		{
-			Tabs.Add(new SplashViewModel());
+			Tabs.CollectionChanged += (_, _) => SelectedTabIndex = Tabs.Count - 1;
 		}
 
+		public void AddSplashTab()
+		{
+			Tabs.Add(new SplashViewModel());
+		}
+		
+		public void AddProjectTab(Project project)
+		{
+			Tabs.Add(new ProjectViewModel(project));
+		}
+		
 		// public void OpenAnImageCommand()
 		// {
 		// 	string? result = null;

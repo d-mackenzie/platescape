@@ -46,8 +46,6 @@ namespace TeethInc.Chantry.ViewModels
 
 		// project properties.
 
-		public string Name => _project.Name;
-
 		public string? Filename
 		{
 			get { return _filename; }
@@ -127,7 +125,7 @@ namespace TeethInc.Chantry.ViewModels
 			if (_filename is null)
 			{
 				_fileDialog
-					.ShowSaveDialog($"{Name}.json", FileFilters.Projects)
+					.ShowSaveDialog($"{Header}.json", FileFilters.Projects)
 					.ContinueWith(x => SaveProject(x.Result));
 			}
 			else
@@ -228,6 +226,8 @@ namespace TeethInc.Chantry.ViewModels
 			PngExporter = new PngExporterViewModel(_project.PngExporter, this);
 
 			_fileDialog = new FileDialog();
+			
+			Header = project.Name;
 		}
 
 		public void AddFilter(Filter filter)

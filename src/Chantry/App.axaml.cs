@@ -30,20 +30,21 @@ namespace TeethInc.Chantry
 			if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
 			{
 				var args = Environment.GetCommandLineArgs();
-				ProjectViewModel? projectViewModel = null;
-
 				string? filename = GetSupportedFilenameArg(args);
+
+				var mwvm = new MainWindowViewModel();
+				
+				mwvm.AddSplashTab();
 
 				if (filename is not null)
 				{
-					// projectViewModel = new ProjectViewModel(ProjectService.Load(filename));
+					mwvm.AddProjectTab(ProjectService.Load(filename));
 				}
 
 				desktop.MainWindow = new MainWindow()
 				{
-					DataContext = new MainWindowViewModel()
+					DataContext = mwvm
 				};
-
 			}
 
 			base.OnFrameworkInitializationCompleted();
