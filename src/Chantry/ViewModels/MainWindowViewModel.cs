@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using TeethInc.Chantry.Helpers;
 using TeethInc.Chantry.Core.Services;
@@ -12,19 +13,27 @@ namespace TeethInc.Chantry.ViewModels
 	public class MainWindowViewModel : BaseViewModel
 	{
 		public ObservableCollection<BaseViewModel> Tabs { get; } = [];
-		
-		public int SelectedTabIndex { get; set; }
+
+		public BaseViewModel? SelectedTab
+		{
+			get;
+			set
+			{
+				field = value;
+				RaisePropertyChanged();
+			}
+		}
 
 		public string WindowTitle => Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? "";
 		
 		public MainWindowViewModel()
 		{
-			Tabs.CollectionChanged += (_, _) => SelectedTabIndex = Tabs.Count - 1;
+			Tabs.CollectionChanged += (_, _) => SelectedTab = Tabs.Last();
 		}
 
 		public void AddSplashTab()
 		{
-			Tabs.Add(new SplashViewModel());
+			Tabs.Add(new SplashViewModel(this));
 		}
 		
 		public void AddProjectTab(Project project)
@@ -32,19 +41,6 @@ namespace TeethInc.Chantry.ViewModels
 			Tabs.Add(new ProjectViewModel(project));
 		}
 		
-		// public void OpenAnImageCommand()
-		// {
-		// 	string? result = null;
-		//
-		// 	_fileDialog
-		// 		.ShowOpenDialog(FileFilters.Images)
-		// 		.ContinueWith(x => result = x?.Result)
-		// 		.GetAwaiter().OnCompleted(() =>
-		// 		{
-		// 			Open(result);
-		// 		});
-		// }
-
 		// public void OpenAProjectCommand()
 		// {
 		// 	_fileDialog

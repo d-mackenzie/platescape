@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TeethInc.Chantry.Core.Services;
 using TeethInc.Chantry.Helpers;
 
 namespace TeethInc.Chantry.ViewModels
@@ -10,9 +11,7 @@ namespace TeethInc.Chantry.ViewModels
 	{
 		private IFileDialog _fileDialog;
 		private List<string> _mru = new List<string>();
-
-		public event EventHandler? OpenAnImage;
-		public event EventHandler? OpenAProject;
+		private MainWindowViewModel _mwvm;
 
 		public override string Header => "Welcome";
 
@@ -36,28 +35,36 @@ namespace TeethInc.Chantry.ViewModels
 
 		public List<string> Mru => _mru;
 
-		public SplashViewModel()
+		public SplashViewModel(MainWindowViewModel mwvm)
 		{
 			_fileDialog = new FileDialog();
-			//_mru = ApplicationHelper.LoadConfiguration().Mru.ToList();
-		}
-
-		public SplashViewModel(IFileDialog fileDialog)
-		{
-			_fileDialog = fileDialog;
+			_mwvm = mwvm;
+			
 			//_mru = ApplicationHelper.LoadConfiguration().Mru.ToList();
 		}
 
 		public void OpenAnImageCommand()
-		{
-			if (OpenAnImage is not null)
-				OpenAnImage(this, EventArgs.Empty);
+		{			
+			string? result = null;
+		
+			_fileDialog
+				.ShowOpenDialog(FileFilters.Images)
+				.ContinueWith(x => result = x?.Result)
+				.GetAwaiter().OnCompleted(() =>
+				{
+					Open(result ?? "");
+				});
 		}
-
-		public void OpenAProjectCommand()
+		
+		
+		private void Open(string filename)
 		{
-			if (OpenAProject is not null)
-				OpenAProject(this, new EventArgs());
+			if (string.IsNullOrWhiteSpace(filename))
+				return;
+				
+			var project = ProjectService.Load(filename);
+			
+			_mwvm.AddProjectTab(project);
 		}
 	}
 }
