@@ -9,9 +9,9 @@ namespace TeethInc.Chantry.ViewModels
 {
 	public class SplashViewModel : BaseViewModel
 	{
-		private IFileDialog _fileDialog;
-		private List<string> _mru = new List<string>();
-		private MainWindowViewModel _mwvm;
+		private readonly IFileDialog _fileDialog;
+		private readonly List<string> _mru = new List<string>();
+		private readonly MainWindowViewModel _mwvm;
 
 		public override string Header => "Welcome";
 
@@ -24,12 +24,12 @@ namespace TeethInc.Chantry.ViewModels
 			}
 		}
 
-		public string Version
+		public int Version
 		{
 			get
 			{
 				var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-				return $"Version {assembly.GetName().Version?.Major}";
+				return assembly.GetName().Version?.Major ?? 0;
 			}
 		}
 
@@ -52,12 +52,12 @@ namespace TeethInc.Chantry.ViewModels
 				.ContinueWith(x => result = x?.Result)
 				.GetAwaiter().OnCompleted(() =>
 				{
-					Open(result ?? "");
+					Open(result);
 				});
 		}
 		
 		
-		private void Open(string filename)
+		private void Open(string? filename)
 		{
 			if (string.IsNullOrWhiteSpace(filename))
 				return;

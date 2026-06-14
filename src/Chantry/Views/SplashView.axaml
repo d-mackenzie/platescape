@@ -8,64 +8,53 @@
 			 x:Class="TeethInc.Chantry.Views.SplashView">
 
 	<UserControl.Background>
-		<ImageBrush Stretch="UniformToFill" Source="/Assets/splash.jpg" Opacity="0.66"/>
+		<ImageBrush Stretch="UniformToFill" Source="/Assets/splash.jpg" Opacity="0.25"/>
 	</UserControl.Background>
 
 	<Grid>
+	
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="2*"/>
+		</Grid.RowDefinitions>
 
-		<Grid Margin="50" Background="White" Opacity="0.75">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
 
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="*"/>
-				<RowDefinition Height="Auto"/>
-			</Grid.RowDefinitions>
+		<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Spacing="10">
 
-			<TextBlock Grid.Row="0"
-					   FontSize="36"
-					   Padding="20"
-					   Text="{Binding ApplicationTitle}"/>
+			<StackPanel Orientation="Horizontal">
 
-			<Grid Grid.Row="1">
-
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="*"/>
-				</Grid.ColumnDefinitions>
-
-				<StackPanel Grid.Column="0"
-							Margin="20 0 0 0">
-
-					<Button Content="Open an Image"
-							FontSize="24"
-							Margin="0 0 0 10"
-							HorizontalAlignment="Stretch"
-							Command="{Binding OpenAnImageCommand}"/>
-					
-				</StackPanel>
-
-				<!--<ListBox Grid.Column="1"
-						 Margin="0,10,10,10"
-						 ItemsSource="{Binding Mru}">
-					<ListBox.Background>
-						<SolidColorBrush Color="Transparent"/>
-					</ListBox.Background>
-				</ListBox>-->
-
-			</Grid>
+				<Border BorderBrush="Black" BorderThickness="0,0,0,1">
+					<Label FontSize="36"
+					       Padding="0,0,200,0"
+					       Content="{Binding ApplicationTitle}"/>
+				</Border>
+				
+				
+			</StackPanel>
 			
-			<Grid Margin="20"
-				  Grid.Row="2">
+			<Button Content="Open an Image"
+			        FontSize="24"
+			        Margin="0 0 0 10"
+			        HorizontalAlignment="Stretch"
+			        Command="{Binding OpenAnImageCommand}"/>
 
-				<StackPanel>
-					<Label Content="{Binding Version}" Padding="0" HorizontalContentAlignment="Right"/>
-					<Label Content="https://github.com/d-mackenzie/platescape" Padding="0" HorizontalContentAlignment="Right"/>
-				</StackPanel>
+			<Border BorderBrush="Black" BorderThickness="0,1,0,0">
+				<TextBlock VerticalAlignment="Bottom" TextAlignment="Right">
+					<Run Text="https://github.com/d-mackenzie/platescape"/>
+					<LineBreak/>
+					<Run Text="{Binding Version, StringFormat='Version {0}'}"/>
+				</TextBlock>
+			</Border>
 
-			</Grid>
-			
-		</Grid>
+		</StackPanel>
 		
 	</Grid>
+			
 	
 </UserControl>
