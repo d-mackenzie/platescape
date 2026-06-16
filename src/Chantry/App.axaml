@@ -45,6 +45,10 @@
 				</DataTemplate>
 			</Setter>
 		</Style>
+		
+		<Style Selector="Button:pressed">
+			<Setter Property="RenderTransform" Value="none"/>
+		</Style>
 
 	</Application.Styles>
 	

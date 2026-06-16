@@ -21,7 +21,7 @@
 
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*"/>
-			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="*"/>
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 
@@ -30,9 +30,8 @@
 			<StackPanel Orientation="Horizontal">
 
 				<Border BorderBrush="Black" BorderThickness="0,0,0,1">
-					<Label FontSize="36"
-					       Padding="0,0,200,0"
-					       Content="{Binding ApplicationTitle}"/>
+					<TextBlock FontSize="36"
+							   Text="{Binding ApplicationTitle}"/>
 				</Border>
 				
 				
@@ -40,7 +39,6 @@
 			
 			<Button Content="Open an Image"
 			        FontSize="24"
-			        Margin="0 0 0 10"
 			        HorizontalAlignment="Stretch"
 			        Command="{Binding OpenAnImageCommand}"/>
 
