@@ -27,20 +27,37 @@
 
 		<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Spacing="10">
 
-			<StackPanel Orientation="Horizontal">
-
-				<Border BorderBrush="Black" BorderThickness="0,0,0,1">
-					<TextBlock FontSize="36"
-							   Text="{Binding ApplicationTitle}"/>
-				</Border>
+			<Border BorderBrush="Black"
+			        BorderThickness="0,0,0,1">
+				<TextBlock FontSize="36"
+						   Text="{Binding ApplicationTitle}"/>
+			</Border>
 				
-				
-			</StackPanel>
-			
-			<Button Content="Open an Image"
-			        FontSize="24"
+			<Button FontSize="24"
 			        HorizontalAlignment="Stretch"
-			        Command="{Binding OpenAnImageCommand}"/>
+			        HorizontalContentAlignment="Center"
+			        Command="{Binding OpenAnImageCommand}">
+				<StackPanel Orientation="Horizontal">
+					<Svg Path="/Assets/image_FILL0_wght300_GRAD0_opsz24.svg"
+					     Width="32"
+					     Height="32"/>
+					<Label Content="Open an Image"
+					       VerticalContentAlignment="Center"/>
+				</StackPanel>
+			</Button>
+
+			<Button FontSize="24"
+			        HorizontalAlignment="Stretch"
+			        HorizontalContentAlignment="Center"
+			        Command="{Binding OpenAProjectCommand}">
+				<StackPanel Orientation="Horizontal">
+					<Svg Path="/Assets/contract_FILL0_wght300_GRAD0_opsz24.svg"
+					     Width="32"
+					     Height="32"/>
+					<Label Content="Open a Project"
+					       VerticalContentAlignment="Center"/>
+				</StackPanel>
+			</Button>
 
 			<Border BorderBrush="Black" BorderThickness="0,1,0,0">
 				<TextBlock VerticalAlignment="Bottom" TextAlignment="Right">

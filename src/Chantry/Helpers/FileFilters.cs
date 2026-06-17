@@ -21,7 +21,7 @@ namespace TeethInc.Chantry.Helpers
 		public static IReadOnlyList<FilePickerFileType> Projects =>
 			new List<FilePickerFileType>
 			{
-				new FilePickerFileType("Chantry Project") { Patterns = [ "*.json" ] },
+				new FilePickerFileType("Platescape Project") { Patterns = [ "*.json" ] },
 				AllFilesFilter()
 			};
 

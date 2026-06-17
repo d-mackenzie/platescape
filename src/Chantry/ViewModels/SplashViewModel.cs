@@ -55,7 +55,19 @@ namespace TeethInc.Chantry.ViewModels
 					Open(result);
 				});
 		}
+
+		public void OpenAProjectCommand()
+		{			
+			string? result = null;
 		
+			_fileDialog
+				.ShowOpenDialog(FileFilters.Projects)
+				.ContinueWith(x => result = x?.Result)
+				.GetAwaiter().OnCompleted(() =>
+				{
+					Open(result);
+				});
+		}
 		
 		private void Open(string? filename)
 		{
